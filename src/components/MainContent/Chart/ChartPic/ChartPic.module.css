@@ -1,6 +1,4 @@
 .chart {
-  width: 100%;
-  height: 100%;
   grid-column: 2/3;
 }
 
@@ -19,33 +17,40 @@
 @media screen and (max-width: 1300px) {
   .chart--circle {
     height: 65rem !important;
-    width: auto !important;
-    margin: 0 auto;
   }
 
   .chart--bar {
     width: 80rem !important;
-    height: auto !important;
-    margin: 15rem auto 0 auto;
   }
 }
 
 @media screen and (max-width: 1100px) {
   .chart--circle {
     height: 60rem !important;
-    width: auto !important;
-    margin: 0 auto;
   }
 
   .chart--bar {
     width: 75rem !important;
-    height: auto !important;
-    margin: 15rem auto 0 auto;
   }
 }
 
-/* @media screen and (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .chart {
-    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%);
   }
-} */
+}
+
+@media screen and (max-width: 700px) {
+  .chart--bar {
+    width: 65rem !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .chart--bar {
+    width: 55rem !important;
+  }
+}

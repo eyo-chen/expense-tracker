@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import ChartPic from "./ChartPic/ChartPic";
 import ChartOption from "./ChartOption/ChartOption";
 import Button from "../../UI/Button";
@@ -18,6 +18,7 @@ function Chart() {
       <div className={style["option__container"]}>
         <ChartOption setChartData={setChartData} />
       </div>
+
       {chartData === undefined ? (
         <div className={style["chart__description"]}>
           <p>please input data to create graph</p>
@@ -38,7 +39,12 @@ function Chart() {
           choose data
         </Button>
       )}
-      {showChartOptionModal && <ChartOptionModal />}
+      {showChartOptionModal && (
+        <ChartOptionModal
+          chartOptionModalToggler={chartOptionModalToggler}
+          setChartData={setChartData}
+        />
+      )}
     </div>
   );
 }

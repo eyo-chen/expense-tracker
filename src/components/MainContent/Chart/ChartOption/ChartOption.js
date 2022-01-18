@@ -127,6 +127,9 @@ function ChartOption(props) {
   function submitFormHandler(e) {
     e.preventDefault();
     props.setChartData(chartData);
+
+    // When chartOptionModal is open, we wanna close it after submitting
+    if (props.chartOptionModalToggler) props.chartOptionModalToggler();
   }
 
   return (

@@ -23,9 +23,6 @@ function useAddDataForm(props) {
     });
   }
 
-  console.log("from custom hook");
-  console.log("aa");
-
   return [
     addDataFromState,
     setAddDataFormState,

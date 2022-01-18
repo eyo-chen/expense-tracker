@@ -1,6 +1,6 @@
-import { Fragment } from "react";
 import { AiFillWarning } from "react-icons/ai";
 import SubTitle from "../../../../UI/SubTitle/SubTitle";
+import Warning from "../../../../UI/Warning/Warning";
 import style from "./OptionTime.module.css";
 
 function OptionTime(props) {
@@ -35,29 +35,34 @@ function OptionTime(props) {
   // 2. user choose the wrong order of the date
   if (props.optionMainData === "category")
     timeContent = (
-      <Fragment>
+      <>
         {startingDate}
-        <div className={style["time__container"]}>
+        <div
+          className={
+            props.timeValidIndex && !props.timeOrderValidIndex
+              ? `${style["time__container"]} ${style["time__container--ending"]}`
+              : `${style["time__container"]}`
+          }
+        >
           <label>ending date</label>
-          <div className={style["ending__container"]}>
-            <input
-              className={style["time__input"]}
-              onChange={endingDateChangeHandler}
-              type="date"
-              value={props.valueEnding}
-            />
-            {props.timeValidIndex && !props.timeOrderValidIndex && (
-              <div className={style.btn}>
-                <AiFillWarning title="warning" className={style.warning} />
-              </div>
-            )}
-          </div>
+          <input
+            className={style["time__input"]}
+            onChange={endingDateChangeHandler}
+            type="date"
+            value={props.valueEnding}
+          />
+          <Warning
+            className={style.warning}
+            index={props.timeValidIndex && !props.timeOrderValidIndex}
+          >
+            ending date should be greater than starting date
+          </Warning>
         </div>
-      </Fragment>
+      </>
     );
   else
     timeContent = (
-      <Fragment>
+      <>
         <div className={style["time__container"]}>
           <label>time duration</label>
           <select
@@ -73,7 +78,7 @@ function OptionTime(props) {
           </select>
         </div>
         {startingDate}
-      </Fragment>
+      </>
     );
 
   return (

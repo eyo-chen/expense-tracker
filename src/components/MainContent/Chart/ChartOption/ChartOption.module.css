@@ -55,12 +55,25 @@
 
 @media screen and (max-width: 1300px) {
   .card {
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
   }
 }
 
 @media screen and (max-width: 900px) {
-  /* .card {
-    display: none;
-  } */
+  .card {
+    overflow-y: unset;
+  }
 }
+
+/* .modal {
+  position: absolute;
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  height: 85%;
+  width: 35%;
+
+  display: block;
+} */

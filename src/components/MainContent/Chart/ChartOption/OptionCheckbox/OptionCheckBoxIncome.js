@@ -23,6 +23,7 @@ function OptionCheckboxIncome(props) {
             classInput={style.input}
             classLabel={style.label}
             id={income}
+            key={income}
             label={`${income.substr(0, 1).toUpperCase()}${income.substr(
               1,
               income.length - 1

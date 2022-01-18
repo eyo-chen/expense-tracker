@@ -7,7 +7,7 @@ import InputText from "../InputText/InputText";
 import Button from "../Button";
 import CategoryContext from "../../../store/category/category--context";
 import style from "./AddingSubCategoryModal.module.css";
-import { AiFillWarning } from "react-icons/ai";
+import Warning from "../Warning/Warning";
 
 function AddingSubCategoryModal(props) {
   const [name, setName] = useState("");
@@ -63,16 +63,9 @@ function AddingSubCategoryModal(props) {
               {<AiFillWarning />} duplicate category name
             </p>
           )} */}
-
-          <p
-            className={
-              duplicate
-                ? `${style.warning} ${style["warning--show"]}`
-                : `${style.warning}`
-            }
-          >
-            {<AiFillWarning />} duplicate category name is not allowed
-          </p>
+          <Warning className={style.warning} index={duplicate}>
+            duplicate category name is not allowed
+          </Warning>
         </div>
 
         <div className={style["btn__container"]}>

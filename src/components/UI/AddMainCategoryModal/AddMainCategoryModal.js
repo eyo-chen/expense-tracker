@@ -6,8 +6,8 @@ import InputText from "../InputText/InputText";
 import InputRadio from "../InputRadio/InputRadio";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import CategoryContext from "../../../store/category/category--context";
+import Warning from "../Warning/Warning";
 import style from "./AddMainCategoryModal.module.css";
-import { AiFillWarning } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
 
 function reducer(state, action) {
@@ -107,15 +107,9 @@ function AddMainCategoryModal(props) {
             onChange={inputTextChangeHandler}
           />
 
-          <p
-            className={
-              form.isDuplicate
-                ? `${style.warning} ${style["warning--show"]}`
-                : `${style.warning}`
-            }
-          >
-            {<AiFillWarning />} duplicate category name is not allowed
-          </p>
+          <Warning className={style.warning} index={form.isDuplicate}>
+            duplicate category name is not allowed
+          </Warning>
         </div>
         <div
           className={`${style["input__container"]} ${style["input__container--icon"]}`}

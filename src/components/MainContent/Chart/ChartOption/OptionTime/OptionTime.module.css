@@ -16,6 +16,11 @@
   margin-bottom: 1rem;
 }
 
+.time__container--ending {
+  margin-bottom: 5rem;
+  transition: all 0.5s ease-in-out;
+}
+
 .time__container label {
   font-size: 2rem;
   display: block;
@@ -27,7 +32,7 @@
 .time__input {
   font-size: 1.5rem;
   text-transform: capitalize;
-  /* margin-bottom: 1rem; */
+  margin-bottom: 1rem;
   border: none;
   border-radius: 5px;
   outline: none;
@@ -36,40 +41,7 @@
   color: var(--select-ft);
 }
 
-.ending__container {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-
-  position: relative;
-}
-
 .warning {
-  font-size: 2rem;
-  color: var(--red);
-}
-
-.btn:hover::after {
-  content: "ending date should be greater than starting date";
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  position: absolute;
-  right: -22rem;
-  top: -2.5rem;
   width: 20rem;
-  height: 10rem;
-  padding: 2rem;
-  font-size: 1.5rem;
-  background-color: var(--select-bg);
-  border-radius: 10px;
-  text-transform: capitalize;
-  color: var(--red);
-}
-
-.btn {
-  position: relative;
-  cursor: default;
+  font-size: 1.2rem;
 }

@@ -33,7 +33,7 @@ function ChartPic(props) {
   if (props.chartData.mainType === "category") charClassName = "chart--circle";
 
   return (
-    <div className={style.chartMain}>
+    <div className={style.chart}>
       <canvas className={style[charClassName]} ref={chartRef}></canvas>
     </div>
   );

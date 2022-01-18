@@ -8,13 +8,63 @@
   padding: 2rem;
 }
 
-.chart__noData {
+.chart__description {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.chart__noData p {
+.chart__description p {
   text-transform: capitalize;
   font-size: 3rem;
+  text-align: center;
+}
+
+.btn {
+  font-size: 2.5rem;
+  padding: 1rem;
+  background-color: var(--btn-main-bg);
+  text-transform: capitalize;
+
+  display: none;
+}
+
+.option__container {
+  height: 100%;
+}
+
+@media screen and (max-width: 900px) {
+  .chart {
+    display: block;
+
+    position: relative;
+  }
+
+  .chart__description {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: inline;
+  }
+
+  .btn {
+    display: inline-block;
+
+    position: absolute;
+    bottom: 35%;
+    left: 50%;
+
+    transform: translateX(-50%);
+  }
+
+  .btn--chart {
+    bottom: 10%;
+  }
+
+  .option__container {
+    display: none;
+  }
 }

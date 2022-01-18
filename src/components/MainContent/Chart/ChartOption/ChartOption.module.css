@@ -1,3 +1,7 @@
+.card {
+  height: 100%;
+}
+
 .chartOption {
   display: flex;
   flex-direction: column;
@@ -53,4 +57,10 @@
   .card {
     overflow-y: scroll;
   }
+}
+
+@media screen and (max-width: 900px) {
+  /* .card {
+    display: none;
+  } */
 }

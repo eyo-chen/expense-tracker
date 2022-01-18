@@ -1,0 +1,44 @@
+.container {
+  margin-top: 5rem;
+}
+
+.radio__container {
+  display: flex;
+  margin-bottom: 2rem;
+  transform: translateX(1rem);
+}
+
+.radio__container > div {
+  margin-right: 5rem;
+  font-size: 1.5rem;
+  color: var(--font-low);
+}
+
+.check {
+  background-color: var(--font-normal);
+  width: 0%;
+  height: 0.2rem;
+
+  position: absolute;
+  top: 100%;
+  left: 3%;
+}
+
+.label {
+  letter-spacing: 1.2px;
+  transition: all 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+}
+
+.input:checked ~ .label {
+  color: var(--font-normal);
+}
+
+.input:checked + .check {
+  width: 90%;
+}
+
+.chart {
+  height: 30rem;
+  width: 40rem;
+}

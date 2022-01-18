@@ -1,0 +1,38 @@
+.accountInfo__container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.accountInfo__first {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accountInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2.5rem;
+}
+
+.btn {
+  fill: var(--btn-eye);
+  font-size: 3rem;
+}
+
+@media screen and (max-width: 800px) {
+  .accountInfo__container {
+    /* margin-top: 3rem; */
+    padding: 4rem 5rem;
+  }
+
+  /* .sidebar__item {
+    flex-direction: row;
+  }
+
+  .logo {
+    visibility: hidden;
+  } */
+}

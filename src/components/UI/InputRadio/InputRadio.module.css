@@ -1,0 +1,31 @@
+.radio__container {
+  transition: all 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+
+  display: flex;
+  align-items: center;
+
+  position: relative;
+}
+
+.input {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.check {
+  transition: all 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+}
+
+.inside {
+  height: 70%;
+  width: 70%;
+  border-radius: 100%;
+
+  transition: all 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+}

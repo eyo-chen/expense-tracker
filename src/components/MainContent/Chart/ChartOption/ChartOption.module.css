@@ -1,0 +1,56 @@
+.chartOption {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.chartOption--scroll {
+  overflow-y: scroll;
+}
+
+.chartOption__title {
+  margin-bottom: 1.5rem;
+}
+
+.btn {
+  width: 100%;
+  color: var(--btn-disabled-ft);
+  border: var(--btn-disabled-border);
+  cursor: not-allowed;
+  font-size: 1.8rem;
+  margin-top: 1rem;
+
+  transition: all 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+}
+
+.btn--scroll {
+  margin: 2rem 0;
+}
+
+.btn--active {
+  color: var(--btn-ft);
+  border: var(--btn-active-border);
+  cursor: pointer;
+}
+
+.btn--active:hover {
+  color: var(--btn-hover-ft);
+  background-color: var(--btn-hover-bg);
+}
+
+.warning {
+  text-align: center;
+}
+
+.warning p {
+  font-size: 1.2rem;
+  line-height: 2rem;
+}
+
+@media screen and (max-width: 1300px) {
+  .card {
+    overflow-y: scroll;
+  }
+}

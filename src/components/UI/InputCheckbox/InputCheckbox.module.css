@@ -1,0 +1,15 @@
+.input__container {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.input {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}

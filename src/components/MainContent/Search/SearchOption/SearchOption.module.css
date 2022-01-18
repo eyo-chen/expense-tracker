@@ -1,0 +1,9 @@
+.searchOption {
+  grid-template-columns: 1/2;
+}
+
+.search__container {
+  overflow-y: scroll;
+  height: 65rem;
+  margin-top: 2rem;
+}

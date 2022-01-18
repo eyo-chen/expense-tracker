@@ -1,0 +1,26 @@
+.list {
+  flex: 1 1 75%;
+
+  position: relative;
+}
+
+.container {
+  width: 90%;
+  height: 90%;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.subTitle {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.line {
+  background-color: var(--line-low);
+  height: 2px;
+  border: none;
+}

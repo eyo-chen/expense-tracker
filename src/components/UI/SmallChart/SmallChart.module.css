@@ -1,0 +1,93 @@
+.chart__section {
+  margin-top: 8rem;
+  height: 40rem;
+}
+
+.title__section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.chart__container {
+  width: 100%;
+  min-width: 30rem;
+  min-height: 20rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart {
+  height: auto !important;
+  width: 30rem !important;
+}
+
+.chart--pie {
+  height: auto !important;
+  width: 27rem !important;
+}
+
+.explain--pie {
+  margin-bottom: 2.5rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .weekly {
+    grid-column: 2/3;
+  }
+
+  .chart__container {
+    min-width: 25rem;
+    min-height: 15rem;
+  }
+
+  .chart {
+    height: auto !important;
+    width: 27rem !important;
+  }
+
+  .chart--pie {
+    height: auto !important;
+    width: 24rem !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .chart__section {
+    margin-top: 4rem;
+  }
+
+  .title__section {
+    padding: 0 3rem;
+    margin: 0;
+  }
+
+  .chart {
+    height: auto !important;
+    width: 38rem !important;
+  }
+
+  .chart--pie {
+    margin-top: 2rem;
+    height: auto !important;
+    width: 33rem !important;
+  }
+
+  .title {
+    font-size: 3.5rem;
+  }
+
+  .select {
+    font-size: 2rem;
+  }
+}

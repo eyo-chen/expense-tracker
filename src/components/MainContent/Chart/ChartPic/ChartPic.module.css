@@ -1,0 +1,45 @@
+.chartMain {
+  width: 100%;
+  height: 100%;
+  grid-column: 2/3;
+}
+
+.chart--circle {
+  height: 75rem !important;
+  width: auto !important;
+  margin: 0 auto;
+}
+
+.chart--bar {
+  width: 90rem !important;
+  height: auto !important;
+  margin: 15rem auto 0 auto;
+}
+
+@media screen and (max-width: 1300px) {
+  .chart--circle {
+    height: 65rem !important;
+    width: auto !important;
+    margin: 0 auto;
+  }
+
+  .chart--bar {
+    width: 80rem !important;
+    height: auto !important;
+    margin: 15rem auto 0 auto;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .chart--circle {
+    height: 60rem !important;
+    width: auto !important;
+    margin: 0 auto;
+  }
+
+  .chart--bar {
+    width: 75rem !important;
+    height: auto !important;
+    margin: 15rem auto 0 auto;
+  }
+}

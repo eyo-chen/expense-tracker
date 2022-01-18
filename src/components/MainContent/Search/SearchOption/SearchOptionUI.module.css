@@ -1,0 +1,55 @@
+.icon {
+  width: 2rem;
+  height: 2rem;
+}
+.icon__container {
+  margin: 1rem 0 0 1rem;
+}
+
+.icon svg {
+  height: 100%;
+  width: 100%;
+}
+
+.check {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 5px;
+  border: 3px solid var(--checkbox-active);
+
+  transition: all 1s linear;
+  -webkit-transition: all 0.25s linear;
+}
+
+.input:checked ~ .check {
+  background-color: var(--checkbox-active);
+}
+
+.container > * {
+  margin-bottom: 1rem;
+  margin-left: 2rem;
+}
+
+.container > *:first-child {
+  margin-top: 1rem;
+}
+
+.container > *:last-child {
+  margin-bottom: 3rem;
+}
+
+.label {
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.labelItem {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none;
+}

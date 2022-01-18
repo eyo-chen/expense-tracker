@@ -1,0 +1,75 @@
+.time {
+  margin-top: 3rem;
+}
+
+.subTitle--blue {
+  color: var(--blue);
+  margin-bottom: 0.2rem;
+}
+
+.subTitle--green {
+  color: var(--green);
+  margin-bottom: 0.2rem;
+}
+
+.time__container {
+  margin-bottom: 1rem;
+}
+
+.time__container label {
+  font-size: 2rem;
+  display: block;
+
+  margin-bottom: 0.8rem;
+  text-transform: capitalize;
+}
+
+.time__input {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  /* margin-bottom: 1rem; */
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  padding: 0.8rem 1.2rem;
+  background-color: var(--select-bg);
+  color: var(--select-ft);
+}
+
+.ending__container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  position: relative;
+}
+
+.warning {
+  font-size: 2rem;
+  color: var(--red);
+}
+
+.btn:hover::after {
+  content: "ending date should be greater than starting date";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  position: absolute;
+  right: -22rem;
+  top: -2.5rem;
+  width: 20rem;
+  height: 10rem;
+  padding: 2rem;
+  font-size: 1.5rem;
+  background-color: var(--select-bg);
+  border-radius: 10px;
+  text-transform: capitalize;
+  color: var(--red);
+}
+
+.btn {
+  position: relative;
+  cursor: default;
+}

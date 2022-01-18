@@ -1,0 +1,10 @@
+.line {
+  height: 1px;
+  width: 95%;
+  border: none;
+  background-color: var(--line-low);
+  border-radius: 10px;
+  text-align: center;
+
+  margin: 0 auto;
+}

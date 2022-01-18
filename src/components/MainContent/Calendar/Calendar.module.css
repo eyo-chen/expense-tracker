@@ -1,0 +1,16 @@
+.calendar {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 3fr 1fr;
+
+  justify-content: stretch;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+@media screen and (max-width: 800px) {
+  .calendar {
+    display: block;
+    padding: 2rem 7rem 2rem 0.5rem;
+  }
+}

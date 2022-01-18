@@ -1,0 +1,299 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+:root {
+  /* //////////////////////////////////////////////// */
+  --blue: rgb(100, 141, 255);
+
+  /* //////////////////////////////////////////////// */
+  --pink: rgb(245, 103, 119);
+
+  /* //////////////////////////////////////////////// */
+  --green: rgba(39, 196, 152, 255);
+
+  /* //////////////////////////////////////////////// */
+  --purple--normal: rgb(140, 94, 248);
+
+  /* //////////////////////////////////////////////// */
+  --black: rgb(0, 0, 0);
+  --black-1: rgb(59, 59, 59);
+  --black-2: rgba(255, 255, 255, 0.3);
+  --black-3: rgb(32, 32, 32);
+  --black-4: #121212;
+  --black-5: #1a1a1a;
+  --black-6: #252525;
+  --black-7: #303030;
+  --black-8: rgba(0, 0, 0, 0.5);
+
+  /* //////////////////////////////////////////////// */
+  --white: rgba(252, 252, 252, 1);
+  --white-1: rgb(245, 245, 245);
+  --white-2: rgba(252, 252, 252, 0.5);
+  --white-3: rgb(225, 225, 225);
+  --white-4: rgb(240, 240, 240);
+
+  /* //////////////////////////////////////////////// */
+  --gray: rgb(85, 85, 85);
+  --gray-1: rgba(169, 169, 169, 0.822);
+  --gray-2: rgb(214, 214, 214);
+  --gray-3: rgb(187, 187, 187);
+  --gray-4: rgba(255, 255, 255, 0.192);
+  --gray-5: rgb(200, 200, 200);
+  --gray-6: rgb(75, 75, 75);
+  --gray-7: rgb(105, 105, 105);
+
+  /* //////////////////////////////////////////////// */
+  --red: rgb(255, 78, 78);
+}
+
+.light {
+  --bg: var(--white-3);
+
+  /* //////////////////////////////////////////////// */
+  --card-light-bg: var(--white-4);
+  --card-dark-bg: var(--white-1);
+
+  /* //////////////////////////////////////////////// */
+  --font-normal: var(--black-5);
+  --font-low-lighter: var(--black-8);
+  --font-low: var(--black-8);
+
+  /* //////////////////////////////////////////////// */
+  --calendar-current-bg: var(--gray-5);
+  --calendar-current-ft: var(--black);
+  --calendar-hover: var(--white);
+
+  --calendar-weekly-current-bg: var(--gray-1);
+  --calendar-weekly-border: 1.5px solid var(--black-4);
+  --calendar-weekly-hover-bg: var(--gray);
+
+  /* //////////////////////////////////////////////// */
+  --btn-ft: var(--black-4);
+  --btn-border: 1px solid var(--black-5);
+  --btn-hover-ft: var(--white);
+  --btn-hover-bg: var(--black-3);
+
+  --btn-active-border: 1px solid var(--black-3);
+
+  --btn-disabled-ft: var(--gray-1);
+  --btn-disabled-border: 1px solid var(--gray-1);
+
+  --btn-main-bg: var(--gray-1);
+
+  --btn-eye: var(--gray-3);
+
+  --btn-form-bg: var(--gray-3);
+  --btn-form-hover-bg: var(--gray);
+
+  --btn-more-edit-bg: var(--gray-3);
+
+  /* //////////////////////////////////////////////// */
+  --select-bg: var(--gray-2);
+  --select-ft: var(--black-1);
+
+  /* //////////////////////////////////////////////// */
+  --checkbox-active: var(--gray-6);
+  --checkbox-passive: rgba(112, 112, 112, 0.719);
+
+  /* //////////////////////////////////////////////// */
+  --line-list: var(--gray-1);
+  --line-low: var(--gray-2);
+
+  /* //////////////////////////////////////////////// */
+  --search-input-bg: var(--white-1);
+  --search-icon: var(--gray);
+
+  /* //////////////////////////////////////////////// */
+  --sidebar-bg: var(--white-1);
+  --sidebar-icon: var(--black-7);
+  --sidebar-active: var(--black);
+
+  /* //////////////////////////////////////////////// */
+  --logo: var(--black-4);
+
+  /* //////////////////////////////////////////////// */
+  --backdrop: var(--black-8);
+
+  /* //////////////////////////////////////////////// */
+  --setting-munu-hover-bg: var(--gray-5);
+  --setting-category-data-bg: rgb(255, 255, 255);
+}
+
+.dark {
+  --bg: var(--black-4);
+
+  /* //////////////////////////////////////////////// */
+  --card-light-bg: var(--black-1);
+  --card-dark-bg: var(--black-7);
+
+  /* //////////////////////////////////////////////// */
+  --font-normal: var(--white);
+  --font-low-lighter: var(--white-2);
+  --font-low: var(--black-2);
+
+  /* //////////////////////////////////////////////// */
+  --calendar-current-bg: var(--white-1);
+  --calendar-current-ft: var(--black);
+  --calendar-hover: var(--black-3);
+
+  --calendar-weekly-current-bg: var(--gray-1);
+  --calendar-weekly-border: 1.5px solid var(--white);
+  --calendar-weekly-hover-bg: var(--gray);
+
+  /* //////////////////////////////////////////////// */
+  --btn-ft: var(--white);
+  --btn-border: 1px solid var(--white-1);
+  --btn-hover-ft: var(--black-4);
+  --btn-hover-bg: var(--white);
+
+  --btn-active-border: 1px solid var(--white-1);
+
+  --btn-disabled-ft: var(--white-2);
+  --btn-disabled-border: 1px solid var(--white-2);
+
+  --btn-main-bg: var(--gray-2);
+
+  --btn-eye: var(--gray-3);
+
+  --btn-form-bg: var(--black-5);
+  --btn-form-hover-bg: var(--black);
+
+  --btn-more-edit-bg: var(--black-1);
+
+  /* //////////////////////////////////////////////// */
+  --select-bg: var(--black-5);
+  --select-ft: var(--white);
+
+  /* //////////////////////////////////////////////// */
+  --checkbox-active: var(--white-1);
+  --checkbox-passive: var(--white-2);
+
+  /* //////////////////////////////////////////////// */
+  --line-list: var(--white-2);
+  --line-low: var(--gray-4);
+
+  /* //////////////////////////////////////////////// */
+  --search-input-bg: var(--white-1);
+  --search-icon: var(--gray);
+
+  /* //////////////////////////////////////////////// */
+  --sidebar-bg: var(--black-6);
+  --sidebar-icon: var(--gray-3);
+  --sidebar-active: var(--white);
+
+  /* //////////////////////////////////////////////// */
+  --logo: var(--white);
+
+  /* //////////////////////////////////////////////// */
+  --backdrop: var(--black-8);
+
+  /* //////////////////////////////////////////////// */
+  --setting-munu-hover-bg: var(--gray);
+  --setting-category-data-bg: var(--gray-7);
+}
+
+html {
+  /* 
+  1rem = 10px 
+  because 1rem is 16px by default
+  */
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: var(--font-normal);
+
+  background-color: var(--bg);
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn {
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+/* /////////////////////////// */
+/* *** MEDIA QUERY *** */
+/* /////////////////////////// */
+
+/*
+0 - 600px:              Phone
+600 - 900px:            Tablet portrait
+900 - 1200px:           Tablet landscape
+1200 - 1800px:          what we were doing  
+the base state of our website is built for that value range; there is no need to adjust it with media queries for the screen width range that it is already built for.
+1800px + :              Big desktop
+*/
+
+@media screen and (min-width: 2500px) {
+  html {
+    font-size: 80%;
+  }
+}
+
+@media screen and (min-width: 1500px) {
+  html {
+    /* 
+    1rem = 10px 
+    because 1rem is 16px by default
+    */
+    font-size: 70%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  html {
+    font-size: 55%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+/* --white-normal: rgba(252, 252, 252, 1);
+  --white-light: rgb(241, 241, 241);
+  --white-light-mid: rgba(252, 252, 252, 0.5);
+  --white-dark: rgba(252, 252, 252, 0.1);
+  --white-dark-light: rgba(255, 255, 255, 0.363);
+
+
+  --black-normal: rgb(0, 0, 0);
+  --black-low: rgba(0, 0, 0, 0.5);
+  --black-light-mid: #1a1a1a;
+  --black-light: rgb(32, 32, 32);
+  --black-background: #121212;
+  --black-background-card-light: rgb(59, 59, 59);
+  --black-background-card-dark: #303030;
+  --black-boxShadow: #222222;
+  --black: #121212;
+
+
+  --gray: rgb(85, 85, 85);
+  --gray-light: rgba(169, 169, 169, 0.822);
+  --gray-lighter: rgb(187, 187, 187);
+  --gray-light-low: rgba(255, 255, 255, 0.192); */
+
+/* --shadow-light: 0 2rem 5rem rgba(60, 0, 0, 0.06); */

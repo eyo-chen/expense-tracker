@@ -1,0 +1,24 @@
+.app__container {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+}
+
+.icon {
+  position: absolute;
+  z-index: 20;
+  top: 2.5rem;
+  right: 3rem;
+  height: 4rem;
+  width: 4rem;
+
+  cursor: pointer;
+  display: none;
+}
+
+@media screen and (max-width: 1000px) {
+  .icon {
+    display: inline;
+  }
+}

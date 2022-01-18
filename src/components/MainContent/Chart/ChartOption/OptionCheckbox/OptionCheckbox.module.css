@@ -1,0 +1,36 @@
+.checkbox {
+  margin-top: 3rem;
+}
+
+.checkbox__container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.input__container {
+  flex: 1 1 40%;
+}
+
+.subTitle--blue {
+  color: var(--blue);
+  margin-bottom: 0.2rem;
+}
+
+.check {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 5px;
+  border: 3px solid var(--checkbox-active);
+
+  transition: all 1s linear;
+  -webkit-transition: all 0.25s linear;
+}
+
+.input:checked ~ .check {
+  background-color: var(--checkbox-active);
+}
+
+.label {
+  font-size: 1.6rem;
+}

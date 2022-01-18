@@ -1,0 +1,25 @@
+.mainContent {
+  flex: 15 1 90%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  z-index: -5;
+  filter: blur(10px);
+  background-color: var(--black);
+
+  opacity: 0;
+
+  transition: all 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 1000px) {
+  .overlay--show {
+    opacity: 0.8;
+    z-index: 10;
+  }
+}

@@ -1,0 +1,19 @@
+.item {
+  overflow-y: scroll;
+}
+
+.item__container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item__line {
+  height: 1px;
+  width: 95%;
+  border: none;
+  background-color: var(--line-list);
+  border-radius: 10px;
+
+  align-self: center;
+}

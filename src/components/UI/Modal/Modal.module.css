@@ -1,0 +1,18 @@
+.modal {
+  width: 40%;
+  height: 90%;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+
+  background-color: var(--card-dark-bg);
+
+  border-radius: 10px;
+}
+
+.modal--small {
+  height: 50%;
+}

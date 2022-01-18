@@ -1,0 +1,138 @@
+.modal {
+  /* height: 80%; */
+
+  text-align: center;
+}
+
+.title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.line {
+  background-color: var(--line-low);
+
+  text-align: center;
+}
+
+.form {
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+
+  width: 75%;
+  margin: 0 auto;
+}
+
+.big__container {
+  position: relative;
+}
+
+.input__container {
+  margin-top: 3rem;
+}
+
+.label {
+  text-align: left;
+}
+
+.label--icon {
+  font-size: 2rem;
+  text-transform: capitalize;
+  margin-bottom: 1.2rem;
+}
+
+.input {
+  width: 80%;
+}
+
+.input:focus,
+.input:active {
+  outline: 0.05rem solid var(--sidebar-active);
+}
+
+.input--invalid {
+  outline: 0.05rem solid var(--red);
+}
+
+.input--invalid:focus,
+.input--invalid:active {
+  outline: 0.05rem solid var(--red);
+}
+
+.warning {
+  position: absolute;
+  bottom: -2.5rem;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: var(--red);
+  font-size: 1.1rem;
+  cursor: default;
+  opacity: 0;
+  transform: translateY(-1rem);
+}
+
+.warning--show {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s ease-in-out;
+}
+
+.icon__container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+/* .radio__container:hover {
+  transform: scale(2);
+} */
+
+.icon {
+  font-size: 2rem;
+  padding: 1rem 1.5rem 0.5rem 1.5rem;
+  background-color: var(--bg);
+  border-radius: 8px;
+
+  transition: all 1s linear;
+  -webkit-transition: all 1s linear;
+}
+
+.input--icon:checked ~ .icon {
+  background-color: var(--btn-hover-bg);
+  color: var(--btn-hover-ft);
+}
+
+.btn__container {
+  display: flex;
+  justify-content: center;
+  gap: 10rem;
+  margin-top: 5rem;
+}
+
+.btn {
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 1rem 2.5rem;
+
+  transition: all 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+
+  border: var(--btn-disabled-border);
+  background-color: transparent;
+  color: var(--btn-disabled-ft);
+  cursor: not-allowed;
+}
+
+.btn--isValid:hover {
+  background-color: var(--btn-form-hover-bg);
+}
+
+.btn--isValid {
+  background-color: var(--btn-form-bg);
+  color: var(--btn-ft);
+  border: none;
+  cursor: pointer;
+}

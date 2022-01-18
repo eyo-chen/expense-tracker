@@ -1,0 +1,11 @@
+@media screen and (max-width: 1000px) {
+  .monthly {
+    grid-column: 2/3;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .monthly {
+    display: none;
+  }
+}

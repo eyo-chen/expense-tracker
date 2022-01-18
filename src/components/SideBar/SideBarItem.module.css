@@ -1,0 +1,30 @@
+.sidebar__item {
+  box-sizing: content-box;
+  width: 100%;
+  cursor: pointer;
+
+  position: relative;
+  /* z-index: 10; */
+}
+
+.sidebar__item--active::after {
+  content: "";
+  width: 0;
+  height: 3rem;
+
+  border: 2px solid var(--sidebar-active);
+
+  position: absolute;
+  right: 0;
+}
+
+.inner:hover + svg {
+  fill: var(--sidebar-active);
+}
+
+.inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}

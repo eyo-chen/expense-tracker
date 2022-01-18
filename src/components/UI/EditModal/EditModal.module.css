@@ -1,0 +1,39 @@
+.modal {
+  position: absolute;
+  bottom: 4rem;
+  right: 6rem;
+  width: 17%;
+  height: 8%;
+  z-index: 500000;
+  border-radius: 10px;
+  background-color: var(--green);
+
+  font-size: 2rem;
+  text-transform: capitalize;
+  font-weight: 500;
+  letter-spacing: 1px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  animation: edit 3s ease;
+  opacity: 0;
+}
+
+@keyframes edit {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+}

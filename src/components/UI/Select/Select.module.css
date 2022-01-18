@@ -1,0 +1,13 @@
+.select {
+  /* height: 80%; */
+  text-transform: capitalize;
+  padding: 0.5rem 0.8rem;
+  font-size: 1.5rem;
+  background-color: var(--select-bg);
+  color: var(--select-ft);
+  border: none;
+  outline: none;
+  border-radius: 5px;
+
+  /* margin-bottom: 3rem; */
+}

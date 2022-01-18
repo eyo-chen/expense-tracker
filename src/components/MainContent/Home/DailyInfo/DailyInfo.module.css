@@ -1,0 +1,193 @@
+.daily {
+  grid-column: 1/2;
+  height: 100%;
+
+  padding: 0 3rem;
+}
+
+.daily__first {
+  margin: 0 3rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5rem;
+}
+
+.daily__title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: 1.1px;
+}
+
+.btn__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+}
+
+.btn {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--btn-main-bg);
+  font-size: 1.8rem;
+}
+
+.btn__inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 100%;
+  height: 100%;
+}
+
+.btn--icon {
+  color: var(--font-normal);
+
+  position: relative;
+
+  display: none;
+
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+.btn--icon:hover .btn__text {
+  opacity: 0.8;
+}
+
+.btn__text {
+  position: absolute;
+  bottom: -4rem;
+  right: 0;
+
+  color: var(--white-1);
+  text-transform: capitalize;
+  font-weight: 500;
+
+  padding: 1rem;
+  background-color: var(--gray);
+  opacity: 0;
+
+  transition: all 0.3s ease;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  position: absolute;
+  z-index: -10;
+  top: 0;
+  right: 0;
+}
+
+.icon path {
+  position: absolute;
+  z-index: -10;
+  top: 0;
+  right: 0;
+}
+
+.calendar__container {
+  height: 10rem;
+
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn__calendar__list {
+  color: var(--btn-ft);
+  font-size: 2rem;
+}
+
+.today__account {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 3rem 4rem;
+
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.today__account__text {
+  font-size: 1.5rem;
+  font-weight: 100;
+  margin-bottom: 5px;
+}
+
+.today__account__number {
+  letter-spacing: 3px;
+}
+
+.item {
+  height: 53vh;
+  /* padding: 0 5rem; */
+
+  font-size: 1.5rem;
+  overflow-y: scroll;
+}
+
+.item__container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item__line {
+  height: 1px;
+  width: 95%;
+  border: none;
+  background-color: var(--line-list);
+  border-radius: 10px;
+
+  align-self: center;
+}
+
+.noData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+.noData p {
+  font-size: 3rem;
+  text-transform: capitalize;
+  letter-spacing: 1.2px;
+  margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 1500px) {
+  .item {
+    height: 55vh;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .daily {
+    grid-column: 1/2;
+    padding: 0 1rem 0 0;
+  }
+
+  .item {
+    height: 60vh;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .btn--icon {
+    display: inline-block;
+  }
+}

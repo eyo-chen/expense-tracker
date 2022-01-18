@@ -1,0 +1,47 @@
+.modal {
+  height: 50%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.description {
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 2rem;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.btn__container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.btn {
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--btn-ft);
+  border: var(--btn-border);
+
+  transition: all 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+}
+
+.btn--yes:hover {
+  background-color: var(--blue);
+  border: 1px solid var(--blue);
+}
+
+.btn--no:hover {
+  background-color: var(--pink);
+  border: 1px solid var(--pink);
+}

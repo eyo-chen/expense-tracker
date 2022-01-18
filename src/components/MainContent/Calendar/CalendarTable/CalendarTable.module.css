@@ -1,0 +1,116 @@
+.monthly__container {
+  width: 95%;
+  height: 100%;
+
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background-color: var(--card-light-bg);
+  border-radius: 10px;
+}
+
+.monthly__month {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+}
+
+.monthly__title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.monthly__title h6 {
+  font-size: 2.5rem;
+  letter-spacing: 1.5px;
+}
+
+.monthly__week {
+  display: flex;
+
+  font-size: 1.7rem;
+}
+
+.monthly__week div {
+  color: var(--font-low-lighter);
+  flex: 1 1 calc(100% / 7);
+  text-align: center;
+}
+
+.monthly__days {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.monthly__days > div {
+  flex: 1 1 calc(100% / 7);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 2.8rem;
+
+  cursor: pointer;
+
+  transform: scaleX(0.7) scaleY(0.7);
+
+  border-radius: 10px;
+
+  position: relative;
+}
+
+.monthly__days div:hover {
+  background-color: var(--calendar-hover);
+}
+
+.btn {
+  font-size: 2rem;
+  color: var(--btn-ft);
+
+  padding: 0 1.5rem;
+
+  height: 70%;
+  margin: auto 0;
+}
+
+.bump {
+  animation: bump 300ms ease-out;
+}
+
+.icon__container {
+  position: absolute;
+  z-index: 1;
+  top: 10rem;
+  right: 3rem;
+
+  /* display: none; */
+
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .monthly__container {
+  }
+}

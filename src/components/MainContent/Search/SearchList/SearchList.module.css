@@ -1,0 +1,17 @@
+.searchList__container {
+  margin-top: 2rem;
+}
+
+.item {
+  height: 75vh;
+  /* padding: 0 5rem; */
+
+  font-size: 2rem;
+}
+
+.noData {
+  text-align: center;
+  margin-top: 5rem;
+  font-size: 3rem;
+  letter-spacing: 1.2px;
+}

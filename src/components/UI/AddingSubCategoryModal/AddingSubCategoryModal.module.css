@@ -1,0 +1,134 @@
+.modal {
+  height: 60%;
+}
+
+.overflow {
+  overflow-y: scroll;
+}
+
+.title {
+  text-align: center;
+  margin: 3rem 0 1.5rem 0;
+}
+
+.subtitle__container {
+  margin: 3rem auto 5rem auto;
+  width: 70%;
+
+  text-align: center;
+}
+
+.subtitle {
+  margin-bottom: 1rem;
+}
+
+.big__container {
+  position: relative;
+}
+
+.input__container {
+  width: 70%;
+  margin: 3rem auto 0 auto;
+}
+
+.input:focus,
+.input:active {
+  outline: 0.05rem solid var(--sidebar-active);
+}
+
+.input--invalid {
+  outline: 0.05rem solid var(--red);
+}
+
+.input--invalid:focus,
+.input--invalid:active {
+  outline: 0.05rem solid var(--red);
+}
+
+.warning {
+  position: absolute;
+  margin-top: 1rem;
+  left: 15%;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: var(--red);
+  font-size: 1.5rem;
+  cursor: default;
+  opacity: 0;
+  transform: translateY(-1rem);
+}
+
+.warning--show {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s ease-in-out;
+}
+
+.btn__container {
+  text-align: center;
+
+  margin-top: 8rem;
+
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+}
+
+.btn {
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 1rem 2.5rem;
+
+  transition: all 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+
+  border: var(--btn-disabled-border);
+  background-color: transparent;
+  color: var(--btn-disabled-ft);
+  cursor: not-allowed;
+}
+
+.btn--isValid:hover {
+  background-color: var(--btn-form-hover-bg);
+}
+
+.btn--isValid {
+  background-color: var(--btn-form-bg);
+  color: var(--btn-ft);
+  border: none;
+  cursor: pointer;
+}
+
+/*
+.btn__container--small {
+  width: 70%;
+  margin: 3rem auto 3rem auto;
+}
+
+.btn--small {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  color: var(--btn-ft);
+  border: var(--btn-border);
+  margin-right: 3rem;
+
+  transition: all 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+}
+
+.btn--small:hover {
+  color: var(--btn-hover-ft);
+  background-color: var(--btn-hover-bg);
+}
+
+.btn--disabled--small {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  margin-right: 3rem;
+  border: var(--btn-disabled-border);
+  color: var(--btn-disabled-ft);
+  cursor: not-allowed;
+}
+*/

@@ -1,0 +1,86 @@
+import {
+  BsFillHeartFill,
+  BsExclamationOctagonFill,
+  BsTrophy,
+  BsFillAwardFill,
+  BsFillBriefcaseFill,
+  BsFillEnvelopeOpenFill,
+} from "react-icons/bs";
+
+import {
+  FaAlipay,
+  FaCcAmazonPay,
+  FaCcApplePay,
+  FaGooglePlusSquare,
+  FaLine,
+  FaSpotify,
+  FaAddressCard,
+  FaCameraRetro,
+  FaCat,
+  FaChild,
+  FaCut,
+  FaFlushed,
+  FaGlasses,
+  FaHandsHelping,
+  FaGuitar,
+  FaKey,
+  FaMapMarkedAlt,
+  FaPhone,
+  FaUserGraduate,
+} from "react-icons/fa";
+
+import {
+  RiVidicon2Fill,
+  RiPlaneLine,
+  RiPingPongFill,
+  RiMentalHealthFill,
+  RiCake2Fill,
+  RiCakeFill,
+  RiBilliardsFill,
+  RiUmbrellaFill,
+  RiHandHeartFill,
+} from "react-icons/ri";
+
+import { MdAudiotrack } from "react-icons/md";
+import { IoAmericanFootball } from "react-icons/io5";
+
+const iconArr = [
+  <BsFillHeartFill />,
+  <BsExclamationOctagonFill />,
+  <BsTrophy />,
+  <BsFillAwardFill />,
+  <BsFillBriefcaseFill />,
+  <BsFillEnvelopeOpenFill />,
+  <FaAlipay />,
+  <FaCcAmazonPay />,
+  <FaCcApplePay />,
+  <FaGooglePlusSquare />,
+  <FaLine />,
+  <FaSpotify />,
+  <FaAddressCard />,
+  <FaCameraRetro />,
+  <FaCat />,
+  <FaChild />,
+  <FaCut />,
+  <FaFlushed />,
+  <FaGlasses />,
+  <FaHandsHelping />,
+  <FaGuitar />,
+  <FaKey />,
+  <FaMapMarkedAlt />,
+  <FaPhone />,
+  <FaUserGraduate />,
+  <RiVidicon2Fill />,
+  <RiPlaneLine />,
+  <RiPingPongFill />,
+  <RiMentalHealthFill />,
+  <RiCake2Fill />,
+  <RiCakeFill />,
+  <RiBilliardsFill />,
+  <RiUmbrellaFill />,
+  <RiHandHeartFill />,
+  <MdAudiotrack />,
+  <IoAmericanFootball />,
+];
+
+export default iconArr;

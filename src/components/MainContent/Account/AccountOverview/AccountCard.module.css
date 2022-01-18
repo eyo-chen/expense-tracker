@@ -1,0 +1,25 @@
+.card__container {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 8rem;
+}
+
+.card {
+  padding: 1rem 2rem;
+  flex: 1 1 15rem;
+  background-color: var(--card-light-bg);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.card__text {
+  justify-self: start;
+  font-weight: 200;
+}
+
+.card__number {
+  text-align: end;
+  letter-spacing: 2px;
+}

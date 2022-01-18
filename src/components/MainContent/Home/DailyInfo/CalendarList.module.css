@@ -1,0 +1,54 @@
+.calendar__day--text {
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.calendar__day--number {
+  border: var(--calendar-weekly-border);
+  border-radius: 10px;
+  height: 4.5rem;
+  width: 4.5rem;
+  font-size: 1.5rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+  transition: all 0.25s linear;
+  -webkit-transition: all 0.25s linear;
+}
+
+.calendar__day--number:hover,
+.calendar__day--number:active {
+  background-color: var(--calendar-weekly-hover-bg);
+  border: 1.5px solid var(--calendar-weekly-hover-bg);
+}
+
+.selected {
+  background-color: var(--calendar-weekly-hover-bg);
+  border: 1.5px solid var(--calendar-weekly-hover-bg);
+}
+
+.active {
+  background-color: var(--calendar-weekly-current-bg);
+}
+
+.bump {
+  animation: bump 300ms ease-out;
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

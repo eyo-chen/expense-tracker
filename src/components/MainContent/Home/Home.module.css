@@ -1,0 +1,22 @@
+.home {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 3fr 1fr;
+
+  justify-content: stretch;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .home {
+    grid-template-columns: 5fr 1fr;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .home {
+    display: block;
+    padding: 2rem 6rem 2rem 2rem;
+  }
+}

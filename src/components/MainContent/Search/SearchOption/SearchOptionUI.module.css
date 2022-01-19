@@ -21,6 +21,9 @@
   -webkit-transition: all 0.25s linear;
 }
 
+.input {
+}
+
 .input:checked ~ .check {
   background-color: var(--checkbox-active);
 }

@@ -83,6 +83,12 @@ function SearchListInput(props) {
         >
           {<MdSort className={style["btn__icon"]} />}sort by catrgory
         </Button>
+        <Button
+          onClick={props.searchOptionModalToggler}
+          className={`${style.btn} ${style["btn--filter"]}`}
+        >
+          {<MdSort className={style["btn__icon"]} />}filter
+        </Button>
       </div>
     </div>
   );

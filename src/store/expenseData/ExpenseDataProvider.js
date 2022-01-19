@@ -372,7 +372,7 @@ const EXPENSE_DATA = [
     year: "2021",
     month: "09",
     day: "15",
-    description: "aaaeiwmdwioedmwoedmwodwedewdewdwmwemdw",
+    description: "aaaeiwmdwioedmwoemwemdw",
     price: "1000",
   },
   {
@@ -384,7 +384,7 @@ const EXPENSE_DATA = [
     year: "2021",
     month: "09",
     day: "15",
-    description: "aaaeiwmdwioedmwoedmwodwioedmwoedmwodwedewdedewdewdwmwemdw",
+    description: "aaaeiwmdwioedmwoedm",
     price: "500",
   },
   {

@@ -1,9 +1,63 @@
 .search {
   display: grid;
+  width: 100%;
   height: 100%;
   grid-template-columns: 1fr 3fr;
 
   justify-content: stretch;
   gap: 2rem;
   padding: 2rem;
+
+  position: relative;
+}
+
+.option__container {
+  grid-column: 1/2;
+}
+
+.backdrop {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .search {
+    display: block;
+  }
+
+  .option__container {
+    display: none;
+
+    /* make it wider when it's modal */
+    width: 40%;
+  }
+
+  .backdrop {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .option__container {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .option__container {
+    width: 55%;
+  }
+
+  .search {
+    padding: 2rem 0;
+  }
+}
+
+.option--show {
+  display: block;
+
+  position: absolute;
+  z-index: 500;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

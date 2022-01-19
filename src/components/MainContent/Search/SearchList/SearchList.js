@@ -4,7 +4,7 @@ import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
 import SearchListDataContext from "../../../../store/searchListData/searchListData--context";
 import style from "./SearchList.module.css";
 
-function SearchList() {
+function SearchList(props) {
   const { expenseData } = useContext(SearchListDataContext);
 
   let mainContent = <p className={style.noData}>No Data</p>;
@@ -13,7 +13,9 @@ function SearchList() {
 
   return (
     <div className={style.search}>
-      <SearchListInput />
+      <SearchListInput
+        searchOptionModalToggler={props.searchOptionModalToggler}
+      />
       {mainContent}
     </div>
   );

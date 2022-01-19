@@ -1,9 +1,27 @@
-.searchOption {
-  grid-template-columns: 1/2;
+.option__container {
+  overflow-y: scroll;
+  height: 85vh;
+  margin-top: 2rem;
 }
 
-.search__container {
-  overflow-y: scroll;
-  height: 65rem;
-  margin-top: 2rem;
+.close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  font-size: 2rem;
+  z-index: -100;
+  cursor: pointer;
+
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .option {
+    position: relative;
+  }
+
+  .close {
+    display: inline-block;
+    z-index: 50;
+  }
 }

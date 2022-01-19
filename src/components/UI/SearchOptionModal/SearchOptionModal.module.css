@@ -1,0 +1,19 @@
+.modal {
+  top: 48%;
+  display: none;
+}
+
+.backdrop {
+  display: none;
+}
+
+/* only show the modal when the size of window is less then 800px */
+@media screen and (max-width: 900px) {
+  .modal {
+    display: block;
+  }
+
+  .backdrop {
+    display: block;
+  }
+}

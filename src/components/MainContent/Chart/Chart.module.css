@@ -16,7 +16,6 @@
 }
 
 .chart__description p {
-  text-transform: capitalize;
   font-size: 3rem;
   text-align: center;
 }
@@ -25,7 +24,6 @@
   font-size: 2.5rem;
   padding: 1rem;
   background-color: var(--btn-main-bg);
-  text-transform: capitalize;
 
   display: none;
 }

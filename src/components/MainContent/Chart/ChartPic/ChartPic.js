@@ -18,7 +18,8 @@ function ChartPic(props) {
     expenseData,
     props.chartData.mainCategory,
     props.chartData.subCategory,
-    displayTheme
+    displayTheme,
+    true // show the label
   );
 
   useEffect(() => {

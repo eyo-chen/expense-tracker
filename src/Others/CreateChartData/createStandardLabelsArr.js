@@ -50,6 +50,7 @@ function createStandardLabelsArrHelper(
   let month;
   let year = today.getFullYear();
   let changeYear = false;
+  const curYear = year;
 
   /*
   note that it will immediately increment the number of day
@@ -90,13 +91,13 @@ function createStandardLabelsArrHelper(
     else month = tmpDay.getMonth() + 1;
 
     // increment by year
-    if (changeYear) {
+    if (tmpDay.getFullYear() > curYear) {
       year++;
-      changeYear = false;
+      // changeYear = false;
     }
 
     // next year(only change next year when it's 12-31)
-    if (tmpDay.getMonth() === 11 && tmpDay.getDate() === 31) changeYear = true;
+    // if (tmpDay.getMonth() === 11 && tmpDay.getDate() === 31) changeYear = true;
 
     labels.push(`${year}-${month}-${day}`);
   }

@@ -19,7 +19,7 @@ function Search() {
         <div
           className={
             searchOptionModal
-              ? `${style["option__container"]} ${style["option--show"]}`
+              ? `${style["option__container"]} ${style["option--show"]} center`
               : `${style["option__container"]}`
           }
         >

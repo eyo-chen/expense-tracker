@@ -21,7 +21,7 @@ function Chart() {
 
       {chartData === undefined ? (
         <div className={style["chart__description"]}>
-          <p>please input data to create graph</p>
+          <p className="capitalize">please input data to create graph</p>
         </div>
       ) : (
         <ChartPic className={style["chart__pic"]} chartData={chartData} />
@@ -32,8 +32,8 @@ function Chart() {
           onClick={chartOptionModalToggler}
           className={
             chartData === undefined
-              ? `${style.btn}`
-              : `${style.btn} ${style["btn--chart"]}`
+              ? `${style.btn} capitalize`
+              : `${style.btn} ${style["btn--chart"]} capitalize`
           }
         >
           choose data

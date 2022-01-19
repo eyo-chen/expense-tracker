@@ -39,6 +39,13 @@
 }
 
 .chart {
-  height: 30rem;
-  width: 40rem;
+  width: clamp(30rem, 63vw, 120rem) !important;
+  /* height: 20rem !important; */
+}
+
+@media screen and (max-width: 1400px) {
+  /* .chart {
+    width: 70rem !important;
+
+  } */
 }

@@ -1,9 +1,17 @@
 .account {
   display: grid;
-  height: 100%;
   grid-template-columns: 3fr 1fr;
-
-  justify-content: stretch;
   gap: 2rem;
   padding: 2rem;
+
+  /* justify-content: stretch; */
+  /* height: 100%; */
+
+  width: 100%;
+}
+
+@media screen and (max-width: 700px) {
+  .item {
+    padding: 0;
+  }
 }

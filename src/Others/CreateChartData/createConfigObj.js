@@ -11,7 +11,8 @@ function createConfigObj(
   expenseData,
   mainCategory,
   subCategory,
-  theme
+  theme,
+  showLabel
 ) {
   if (mainType === "time") {
     const standardLabels = createStandardLabelsArr(timeDuration, startingDate);
@@ -23,6 +24,37 @@ function createConfigObj(
       mainCategory,
       subCategory
     );
+
+    let legend = null;
+
+    if (showLabel) {
+      legend = {
+        onClick: (e, legendItem, legend) => {
+          const index = legend.chart.data.labels.indexOf(legendItem.text);
+          legend.chart.toggleDataVisibility(index);
+          legend.chart.update();
+        },
+        labels: {
+          generateLabels: (chart) => {
+            const colorLength = chart.data.datasets[0].borderColor.length;
+            const visibility = [];
+            for (let i = 0; i < chart.data.labels.length; i++) {
+              if (chart.getDataVisibility(i)) visibility.push(false);
+              else visibility.push(true);
+            }
+            return chart.data.labels.map((label, index) => {
+              const newIndex = index % colorLength;
+              return {
+                text: label,
+                strokeStyle: chart.data.datasets[0].borderColor[newIndex],
+                fillStyle: chart.data.datasets[0].backgroundColor[newIndex],
+                hidden: visibility[index],
+              };
+            });
+          },
+        },
+      };
+    }
 
     return {
       type: "bar",
@@ -55,6 +87,20 @@ function createConfigObj(
         ],
       },
       options: {
+        plugins: {
+          title: {
+            display: true,
+            text: "Custom Chart Title",
+          },
+          tooltip: {
+            yAlign: "bottom",
+            displayColors: false,
+            backgroundColor: (tooltipItem) => {
+              return tooltipItem.tooltip.labelColors[0].borderColor;
+            },
+          },
+          legend,
+        },
         scales: {
           y: {
             // title: {
@@ -159,6 +205,7 @@ function createConfigObj(
           },
         },
       },
+      plugins: [100],
     };
   }
 }

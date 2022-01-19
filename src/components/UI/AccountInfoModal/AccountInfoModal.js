@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
-import Modal from "../Modal/Modal";
 import AccountInfo from "../AccountInfo/AccountInfo";
 import createAccountCardPreData from "../../../Others/CreateAccountCardData/createAccountCardPreData";
 import createAccAmount from "../../../Others/CreateAccountCardData/createAccAmount";

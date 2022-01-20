@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import Button from "../../../UI/Button";
+import Button from "../../../UI/Button/Button";
 import CreateCalendar from "./CreateCalendarTable";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import ExpenseListModal from "../../../UI/ExpenseListModal/ExpenseListModal";
@@ -7,6 +7,7 @@ import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
 import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
 import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
 import AccountInfoModal from "../../../UI/AccountInfoModal/AccountInfoModal";
+import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import style from "./CalendarTable.module.css";
 
 const dateOptObj = { month: "long" };
@@ -118,20 +119,27 @@ function CalendarTable(prop) {
       </div>
       <div className={style["monthly__container"]}>
         <div className={style["monthly__month"]}>
-          <Button
-            className={style.btn}
+          <BtnIcon
+            text="last month"
             onClick={() => changeMonth("decrease")}
-            type="button"
-          >{`${"<"}`}</Button>
+            classBtn={style.btn}
+            classText={style["btn__text"]}
+          >
+            {"<"}
+          </BtnIcon>
+
           <div className={style["monthly__title"]}>
             <h6 className={animationMonth ? `${style.bump}` : ""}>{month}</h6>
             <h6 className={animationYear ? `${style.bump}` : ""}>{year}</h6>
           </div>
-          <Button
-            className={style.btn}
+          <BtnIcon
+            text="next month"
             onClick={() => changeMonth("increase")}
-            type="button"
-          >{`${">"}`}</Button>
+            classBtn={style.btn}
+            classText={style["btn__text"]}
+          >
+            {">"}
+          </BtnIcon>
         </div>
         <div className={style["monthly__week"]}>
           <div>Sun</div>

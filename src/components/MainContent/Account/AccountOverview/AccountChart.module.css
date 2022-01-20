@@ -38,14 +38,37 @@
   width: 90%;
 }
 
-.chart {
-  width: clamp(30rem, 63vw, 120rem) !important;
-  /* height: 20rem !important; */
+.chart__container {
+  /* width: clamp(30rem, 90rem, 120rem);
+  height: clamp(15rem, 45rem, 60rem); */
+  width: 62vw;
+  height: 31vw;
 }
 
-@media screen and (max-width: 1400px) {
-  /* .chart {
-    width: 70rem !important;
+/* .chart {
+  width: clamp(30rem, 63vw, 120rem) !important;
+  /* height: 20rem !important; */
 
-  } */
+@media screen and (max-width: 1400px) {
+  .container {
+    margin-top: 7rem;
+  }
+
+  .chart__container {
+    width: 58vw;
+    height: 29vw;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    margin-top: 12rem;
+  }
+
+  .chart__container {
+    width: 86vw;
+    height: 35vw;
+
+    position: relative;
+  }
 }

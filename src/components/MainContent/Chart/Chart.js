@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import ChartPic from "./ChartPic/ChartPic";
 import ChartOption from "./ChartOption/ChartOption";
-import Button from "../../UI/Button";
+import Button from "../../UI/Button/Button";
 import style from "./Chart.module.css";
 import ChartOptionModal from "../../UI/ChartOptionModal/ChartOptionModal";
 

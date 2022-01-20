@@ -4,7 +4,7 @@ import Title from "../Title/Title";
 import SubTitle from "../SubTitle/SubTitle";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import InputText from "../InputText/InputText";
-import Button from "../Button";
+import Button from "../Button/Button";
 import CategoryContext from "../../../store/category/category--context";
 import style from "./AddingSubCategoryModal.module.css";
 import Warning from "../Warning/Warning";
@@ -37,7 +37,7 @@ function AddingSubCategoryModal(props) {
   }
 
   return (
-    <Modal className={style.modal}>
+    <Modal classModal={style.modal}>
       <Title className={style.title}>add sub category</Title>
       <HorizontalLine />
       <div className={style["subtitle__container"]}>

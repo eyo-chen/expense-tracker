@@ -81,6 +81,13 @@
   margin: auto 0;
 }
 
+.btn__text {
+  font-size: 1.5rem;
+  padding: 0.5rem 0.8rem;
+  width: 10rem;
+  bottom: -2rem;
+}
+
 .bump {
   animation: bump 300ms ease-out;
 }

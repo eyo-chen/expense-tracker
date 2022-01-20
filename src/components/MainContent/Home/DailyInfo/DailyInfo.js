@@ -2,12 +2,13 @@ import { useState, useEffect, useContext } from "react";
 import useDailyExpenseList from "../../../../Others/Custom/useDailyExpenseList";
 import Title from "../../../UI/Title/Title";
 import CalendarList from "./CalendarList";
-import Button from "../../../UI/Button";
+import Button from "../../../UI/Button/Button";
 import createWeeklyData from "../../../../Others/createWeeklyData";
 import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
 import AccountInfoModal from "../../../UI/AccountInfoModal/AccountInfoModal";
 import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
+import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
 import { TiPlus } from "react-icons/ti";
 import style from "./DailyInfo.module.css";
@@ -131,6 +132,7 @@ function DailyInfo() {
 
   function showModalCard(e) {
     const id = e.target.dataset.id;
+
     if (id) {
       setModalCard(id);
     }
@@ -160,28 +162,35 @@ function DailyInfo() {
 
         <div className={style["btn__container"]}>
           <BtnIcons onClick={showModalCard} />
-          <Button type="button" onClick={showFormHandler} className={style.btn}>
+          <BtnIcon
+            text="add data"
+            onClick={showFormHandler}
+            classText={style["btn__text"]}
+            classBtn={style.btn}
+          >
             <TiPlus />
-          </Button>
+          </BtnIcon>
         </div>
       </div>
 
       <div className={style["calendar__container"]}>
-        <Button
-          type={"button"}
-          className={style["btn__calendar__list"]}
+        <BtnIcon
+          text="last week"
           onClick={decrementDateHandler}
+          classBtn={style["btn--arow"]}
+          classText={style["btn__text--arrow"]}
         >
           {"<"}
-        </Button>
+        </BtnIcon>
         {calendarList}
-        <Button
-          type={"button"}
-          className={style["btn__calendar__list"]}
+        <BtnIcon
+          text="next week"
           onClick={incrementDateHandler}
+          classBtn={style["btn--arow"]}
+          classText={style["btn__text--arrow"]}
         >
           {">"}
-        </Button>
+        </BtnIcon>
       </div>
 
       <div className={style["today__account"]}>

@@ -10,8 +10,14 @@
   width: 100%;
 }
 
-@media screen and (max-width: 700px) {
-  .item {
-    padding: 0;
+@media screen and (max-width: 1200px) {
+  .account {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 501px) {
+  .account {
+    padding: 2rem 0;
   }
 }

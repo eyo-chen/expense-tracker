@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "../../../UI/Card/Card";
 import Title from "../../../UI/Title/Title";
 import SubTitle from "../../../UI/SubTitle/SubTitle";
-import Button from "../../../UI/Button";
+import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import style from "./AccountNews.module.css";
 import { BiRefresh } from "react-icons/bi";
 
@@ -29,9 +29,14 @@ function AccountNews(props) {
 
       setNews({
         title: newsArr[0].title,
+        editedTitle:
+          newsArr[0].title.length >= 70 && window.innerWidth > 1200
+            ? newsArr[0].title.slice(0, 60) + "....."
+            : newsArr[0].title,
+
         img: newsArr[0].urlToImage,
         url: newsArr[0].url,
-        description: newsArr[0].description,
+        description: newsArr[0].description.length,
         source: newsArr[0].source.name,
       });
     }
@@ -45,6 +50,10 @@ function AccountNews(props) {
 
     setNews({
       title: newsArr[newsIndex].title,
+      editedTitle:
+        newsArr[newsIndex].title.length >= 70 && window.innerWidth > 1200
+          ? newsArr[newsIndex].title.slice(0, 60) + "....."
+          : newsArr[newsIndex].title,
       img: newsArr[newsIndex].urlToImage,
       url: newsArr[newsIndex].url,
       description: newsArr[newsIndex].description,
@@ -56,11 +65,17 @@ function AccountNews(props) {
     <Card className={style.card}>
       <div className={style["title__section"]}>
         <Title className={style.title}>latest news</Title>
-        <Button type="button" onClick={refreshClickHandler}>
+        <BtnIcon
+          classText={style["btn__text"]}
+          text="next"
+          onClick={refreshClickHandler}
+        >
           <BiRefresh className={style.refresh} />
-        </Button>
+        </BtnIcon>
       </div>
-      <SubTitle className={style.subTitle}>{news.title}</SubTitle>
+      <SubTitle title={news.title} className={style.subTitle}>
+        {news.editedTitle}
+      </SubTitle>
       <div className={style["img__container"]}>
         <a href={news.url} target="_blank">
           <img

@@ -35,61 +35,48 @@
   justify-content: center;
   align-items: center;
 
+  color: var(--bg);
   background-color: var(--btn-main-bg);
   font-size: 1.8rem;
 }
 
-.btn__inner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 50;
-  width: 100%;
-  height: 100%;
-}
+.btn--arow {
+  color: var(--btn-ft);
+  font-size: 2rem;
 
-.btn--icon {
-  color: var(--font-normal);
+  height: 35%;
 
-  position: relative;
+  align-self: center;
+  justify-self: center;
 
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  width: 3.6rem;
-  height: 3.6rem;
-}
-
-.btn--icon:hover .btn__text {
-  opacity: 0.8;
-}
-
-.btn__text {
-  position: absolute;
-  bottom: -4rem;
-  right: 0;
-
-  color: var(--white-1);
-  text-transform: capitalize;
-  font-weight: 500;
-
-  padding: 1rem;
-  background-color: var(--gray);
-  opacity: 0;
-
+  transform: translateY(-5px);
+  box-shadow: 3px 5px rgb(0, 0, 0);
+  border: 1px solid transparent;
+  background-color: transparent;
   transition: all 0.3s ease;
 }
 
-.icon {
-  width: 100%;
-  height: 100%;
+.btn--arow:active {
+  transform: translateY(0);
+  box-shadow: 0px 0px transparent;
+}
 
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
+.btn__text {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  width: 9rem;
+  bottom: -4rem;
+}
 
-  position: absolute;
-  z-index: -10;
-  top: 0;
-  right: 0;
+.btn__text--arrow {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  width: 10rem;
+  bottom: -4rem;
 }
 
 .icon path {
@@ -104,11 +91,6 @@
 
   display: flex;
   justify-content: space-around;
-}
-
-.btn__calendar__list {
-  color: var(--btn-ft);
-  font-size: 2rem;
 }
 
 .today__account {
@@ -189,5 +171,9 @@
 @media screen and (max-width: 800px) {
   .btn--icon {
     display: inline-block;
+  }
+
+  .btn__text {
+    font-size: 1.6rem;
   }
 }

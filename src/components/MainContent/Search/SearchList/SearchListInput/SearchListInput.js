@@ -3,7 +3,7 @@ import style from "./SearchListInput.module.css";
 import { FaSearch } from "react-icons/fa";
 import { MdSort } from "react-icons/md";
 import SearchListDataContext from "../../../../../store/searchListData/searchListData--context";
-import Button from "../../../../UI/Button";
+import Button from "../../../../UI/Button/Button";
 
 let sortTimeIndex = true;
 let sortPriceIndex = true;

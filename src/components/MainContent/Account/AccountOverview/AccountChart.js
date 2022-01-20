@@ -45,7 +45,7 @@ function AccountChart() {
       ],
     },
     options: {
-      height: "900px",
+      // height: "900px",
       maintainAspectRatio: false,
       elements: {
         line: {
@@ -102,7 +102,7 @@ function AccountChart() {
           />
         ))}
       </div>
-      <div>
+      <div className={style["chart__container"]}>
         <canvas className={style.chart} ref={chartRef}></canvas>
       </div>
     </div>

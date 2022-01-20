@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import Modal from "../Modal/Modal";
 import Title from "../Title/Title";
-import Button from "../Button";
+import Button from "../Button/Button";
 import style from "./DeleteModal.module.css";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import SearchListDataContext from "../../../store/searchListData/searchListData--context";
@@ -48,7 +48,7 @@ function DeleteModal(props) {
   }
 
   return (
-    <Modal className={style.modal}>
+    <Modal classModal={style.modal}>
       <Title className={style.title}>are you sure to delete?</Title>
       <p className={style.description}>
         there is no way getting back this data <br /> once you delete it

@@ -8,9 +8,36 @@
 
 .title {
   display: flex;
+
   gap: 3rem;
 }
 
 .subtitle {
   align-self: flex-end;
+}
+
+.btn__container {
+  display: flex;
+  gap: 3rem;
+  margin-left: 5rem;
+}
+
+@media screen and (max-width: 700px) {
+  .overview {
+    position: relative;
+  }
+
+  .title {
+    display: block;
+  }
+
+  .subtitle {
+    margin-top: 3rem;
+  }
+
+  .btn__container {
+    position: absolute;
+    right: 10rem;
+    top: 1rem;
+  }
 }

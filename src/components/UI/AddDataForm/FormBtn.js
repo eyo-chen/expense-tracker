@@ -1,4 +1,5 @@
-import Button from "../Button";
+import Button from "../Button/Button";
+
 function FormBtn(props) {
   return (
     <div className={props.classNameContainer}>

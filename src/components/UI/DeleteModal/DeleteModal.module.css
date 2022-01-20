@@ -45,3 +45,21 @@
   background-color: var(--pink);
   border: 1px solid var(--pink);
 }
+
+@media screen and (max-width: 1000px) {
+  .modal {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .modal {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .modal {
+    width: 65%;
+  }
+}

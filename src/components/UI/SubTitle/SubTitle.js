@@ -8,6 +8,7 @@ function SubTitle(props) {
           ? `${props.className} ${style.subTitle}`
           : `${style.subTitle}`
       }
+      title={props.title}
     >
       {props.children}
     </h2>

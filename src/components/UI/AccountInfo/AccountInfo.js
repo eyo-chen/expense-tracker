@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Title from "../Title/Title";
-import Button from "../Button";
 import Card from "../Card/Card";
 import style from "./AccountInfo.module.css";
+import BtnIcon from "../BtnIcon/BtnIcon";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import { AiFillEye } from "react-icons/ai";
 
@@ -17,13 +17,24 @@ function AccountInfo(props) {
     <Card className={style["accountInfo__container"]}>
       <div className={style["accountInfo__first"]}>
         <Title>{props.title}</Title>
-        <Button onClick={eyeClickHandler}>
+        <BtnIcon
+          classText={style["btn__text"]}
+          text={visible ? "hide" : "show"}
+          onClick={eyeClickHandler}
+        >
           {visible ? (
             <AiFillEye className={style.btn} />
           ) : (
             <AiFillEyeInvisible className={style.btn} />
           )}
-        </Button>
+        </BtnIcon>
+        {/* <Button onClick={eyeClickHandler}>
+          {visible ? (
+            <AiFillEye className={style.btn} />
+          ) : (
+            <AiFillEyeInvisible className={style.btn} />
+          )}
+        </Button> */}
       </div>
       <div className={style["accountInfo"]}>
         <p>Income</p>

@@ -1,4 +1,4 @@
-import Button from "../../../../UI/Button";
+import Button from "../../../../UI/Button/Button";
 import InputText from "../../../../UI/InputText/InputText";
 import style from "./SettingAccount.module.css";
 

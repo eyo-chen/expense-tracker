@@ -3,7 +3,7 @@ import Modal from "../Modal/Modal";
 import Title from "../Title/Title";
 import SubTitle from "../SubTitle/SubTitle";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
-import Button from "../Button";
+import Button from "../Button/Button";
 import ExpenseList from "../ExpenseList/ExpenseList";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import style from "./DeleteCategoryModal.module.css";
@@ -39,7 +39,7 @@ function DeleteCategoryModal(props) {
   }
 
   return (
-    <Modal>
+    <Modal classModal={style.modal}>
       <div className={style["title__container"]}>
         <Title className={style.title}>are you sure to delete</Title>
         <Title className={style.title}>

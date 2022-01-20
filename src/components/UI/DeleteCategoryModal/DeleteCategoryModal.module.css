@@ -61,3 +61,33 @@
 .btn:hover {
   background-color: var(--btn-form-hover-bg);
 }
+
+@media screen and (max-width: 1200px) {
+  .modal {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .modal {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .modal {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .modal {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .modal {
+    width: 80%;
+  }
+}

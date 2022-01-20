@@ -69,6 +69,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
+
+  height: 47vh;
+  overflow-y: scroll;
 }
 
 /* .radio__container:hover {
@@ -121,4 +124,22 @@
   color: var(--btn-ft);
   border: none;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1000px) {
+  .modal {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .modal {
+    width: 55%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .modal {
+    width: 65%;
+  }
 }

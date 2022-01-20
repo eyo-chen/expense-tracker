@@ -1,0 +1,36 @@
+.modal {
+  width: 70%;
+  height: 50%;
+
+  display: none;
+}
+
+.backdrop {
+  display: none;
+}
+
+@media screen and (max-width: 1200px) {
+  .modal {
+    display: block;
+
+    width: 60%;
+    height: 60%;
+  }
+
+  .backdrop {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 800px) {
+}
+
+@media screen and (max-width: 700px) {
+  .modal {
+    width: 80%;
+    height: 50%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+}

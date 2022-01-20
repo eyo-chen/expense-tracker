@@ -1,7 +1,7 @@
 import { useState, useReducer, useContext } from "react";
 import style from "./ChartOption.module.css";
 import Title from "../../../UI/Title/Title";
-import Button from "../../../UI/Button";
+import Button from "../../../UI/Button/Button";
 import Card from "../../../UI/Card/Card";
 import OptionRadioMain from "./OptionRadioMain/OptionRadioMain";
 import OptionTime from "./OptionTime/OptionTime";

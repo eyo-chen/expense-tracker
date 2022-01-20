@@ -30,3 +30,10 @@
 .active {
   background-color: var(--setting-munu-hover-bg);
 }
+
+@media screen and (max-width: 600px) {
+  .list {
+    font-size: 1.6rem;
+    padding: 1.5rem 0 1.5rem 1.2rem;
+  }
+}

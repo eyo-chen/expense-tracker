@@ -1,7 +1,7 @@
 import { useContext, useReducer, Fragment, useEffect } from "react";
 import CategoryContext from "../../../../../store/category/category--context";
 import InputRadio from "../../../../UI/InputRadio/InputRadio";
-import Button from "../../../../UI/Button";
+import Button from "../../../../UI/Button/Button";
 import AddMainCategoryModal from "../../../../UI/AddMainCategoryModal/AddMainCategoryModal";
 import AddingSubCategoryModal from "../../../../UI/AddingSubCategoryModal/AddingSubCategoryModal";
 import DeleteCategoryModal from "../../../../UI/DeleteCategoryModal/DeleteCategoryModal";

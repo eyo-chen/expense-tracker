@@ -88,10 +88,10 @@ function createConfigObj(
       },
       options: {
         plugins: {
-          title: {
-            display: true,
-            text: "Custom Chart Title",
-          },
+          // title: {
+          //   display: true,
+          //   text: "Custom Chart Title",
+          // },
           tooltip: {
             yAlign: "bottom",
             displayColors: false,
@@ -192,6 +192,9 @@ function createConfigObj(
       },
       options: {
         plugins: {
+          // labels: {
+          //   render: "percentage",
+          // },
           legend: {
             labels: {
               // This is more specific font property overrides the global property

@@ -5,7 +5,8 @@
 .title__section {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 2rem;
+  /* justify-content: space-between; */
 }
 
 .title {
@@ -27,6 +28,7 @@
 
 .img {
   width: 100%;
+  max-height: 22rem;
   object-fit: cover;
 }
 
@@ -36,7 +38,11 @@
 
 .refresh {
   font-size: 3rem;
-  fill: var(--white-normal);
+  fill: var(--btn-ft);
+}
+
+.btn__text {
+  bottom: -3rem;
 }
 
 .source {
@@ -45,4 +51,10 @@
   text-align: end;
   font-size: 1.3rem;
   font-weight: 500;
+}
+
+@media screen and (max-width: 1200px) {
+  .img {
+    max-height: 40rem;
+  }
 }

@@ -1,7 +1,7 @@
 import { useReducer, useContext } from "react";
 import Modal from "../Modal/Modal";
 import Title from "../Title/Title";
-import Button from "../Button";
+import Button from "../Button/Button";
 import InputText from "../InputText/InputText";
 import InputRadio from "../InputRadio/InputRadio";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
@@ -87,7 +87,7 @@ function AddMainCategoryModal(props) {
   }
 
   return (
-    <Modal className={style.modal}>
+    <Modal classModal={style.modal}>
       <Title className={style.title}>add main category</Title>
       <HorizontalLine />
       <form onSubmit={formSubmitHandler} className={style.form}>

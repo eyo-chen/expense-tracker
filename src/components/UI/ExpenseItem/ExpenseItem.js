@@ -4,7 +4,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import style from "./ExpenseItem.module.css";
-import Button from "../Button";
+import Button from "../Button/Button";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import AddDataForm from "../AddDataForm/AddDateForm";
 import CategoryContext from "../../../store/category/category--context";

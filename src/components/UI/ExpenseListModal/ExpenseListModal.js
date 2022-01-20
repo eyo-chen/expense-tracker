@@ -1,7 +1,7 @@
 import style from "./ExpenseListModal.module.css";
 import ExpenseList from "../ExpenseList/ExpenseList";
 import SubTitle from "../SubTitle/SubTitle";
-import Button from "../Button";
+import Button from "../Button/Button";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import Modal from "../Modal/Modal";
 

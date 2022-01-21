@@ -246,6 +246,9 @@ function AddDataForm(props) {
       time: formData.date,
       description: formData.description,
       price: formData.price,
+      year: formData.date.slice(0, 4),
+      month: formData.date.slice(5, 7),
+      day: formData.date.slice(8, 10),
     };
 
     //////////////////////////////////////////////////

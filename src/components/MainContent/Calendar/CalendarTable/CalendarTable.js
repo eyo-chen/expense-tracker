@@ -80,15 +80,15 @@ function CalendarTable(prop) {
     setAddDataFormModal({ show: false, date: "" });
   }
 
-  function showModalCard(e) {
-    const id = e.target.dataset.id;
-    if (id) {
-      setModalCard(id);
-    }
-  }
+  function modalCardToggler(e) {
+    if (modalCard) setModalCard(false);
+    else {
+      const id = e.target.dataset.id;
 
-  function closeModalCard() {
-    setModalCard(false);
+      if (id) {
+        setModalCard(id);
+      }
+    }
   }
 
   return (
@@ -108,14 +108,14 @@ function CalendarTable(prop) {
         />
       )}
       {modalCard === "chart" && (
-        <SmallChartModal type="month" closeModalCard={closeModalCard} />
+        <SmallChartModal type="month" modalCardToggler={modalCardToggler} />
       )}
       {modalCard === "info" && (
-        <AccountInfoModal type="month" closeModalCard={closeModalCard} />
+        <AccountInfoModal type="month" modalCardToggler={modalCardToggler} />
       )}
 
       <div className={style["icon__container"]}>
-        <BtnIcons onClick={showModalCard} />
+        <BtnIcons onClick={modalCardToggler} />
       </div>
       <div className={style["monthly__container"]}>
         <div className={style["monthly__month"]}>

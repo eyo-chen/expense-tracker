@@ -9,6 +9,8 @@
 }
 /* black 4 #181818 */
 
+/* --black-4: #121212; */
+
 :root {
   /* //////////////////////////////////////////////// */
   --blue: rgb(100, 141, 255);
@@ -27,7 +29,7 @@
   --black-1: rgb(59, 59, 59);
   --black-2: rgba(255, 255, 255, 0.3);
   --black-3: rgb(32, 32, 32);
-  --black-4: #121212;
+  --black-4: #161616;
   --black-5: #1a1a1a;
   --black-6: #252525;
   --black-7: #303030;
@@ -81,7 +83,7 @@
   --btn-hover-ft: var(--white);
   --btn-hover-bg: var(--black-3);
 
-  --btn-active-border: 1px solid var(--black-3);
+  --btn-active-border: 1px solid transparent;
 
   --btn-disabled-ft: var(--gray-1);
   --btn-disabled-border: 1px solid var(--gray-1);
@@ -94,6 +96,11 @@
   --btn-form-hover-bg: var(--gray);
 
   --btn-more-edit-bg: var(--gray-3);
+
+  --btn-arrow: var(--white);
+
+  --btn-bg: var(--gray-3);
+  --btn-hover-bg: var(--gray);
 
   /* //////////////////////////////////////////////// */
   --select-bg: var(--gray-2);
@@ -125,6 +132,8 @@
   /* //////////////////////////////////////////////// */
   --setting-munu-hover-bg: var(--gray-5);
   --setting-category-data-bg: rgb(255, 255, 255);
+
+  /* //////////////////////////////////////////////// */
 }
 
 .dark {
@@ -154,7 +163,7 @@
   --btn-hover-ft: var(--black-4);
   --btn-hover-bg: var(--white);
 
-  --btn-active-border: 1px solid var(--white-1);
+  --btn-active-border: 1px solid transparent;
 
   --btn-disabled-ft: var(--white-2);
   --btn-disabled-border: 1px solid var(--white-2);
@@ -167,6 +176,11 @@
   --btn-form-hover-bg: var(--black);
 
   --btn-more-edit-bg: var(--black-1);
+
+  --btn-arrow: var(--black);
+
+  --btn-bg: var(--black-5);
+  --btn-hover-bg: var(--black);
 
   /* //////////////////////////////////////////////// */
   --select-bg: var(--black-5);

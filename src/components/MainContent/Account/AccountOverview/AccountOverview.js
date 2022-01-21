@@ -4,7 +4,7 @@ import SubTitle from "../../../UI/SubTitle/SubTitle";
 import AccountCard from "./AccountCard";
 import AccountChart from "./AccountChart";
 import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
-import AccountSmallChartModal from "../../../UI/AccountSmallChartModal/AccountSmallChartModal";
+import AccountModal from "../../../UI/AccountModal/AccountModal";
 import style from "./AccountOverview.module.css";
 
 function AccountOverview() {
@@ -26,10 +26,7 @@ function AccountOverview() {
   return (
     <>
       {modalCard && (
-        <AccountSmallChartModal
-          modalCard={modalCard}
-          closeModalCard={modalCardToggler}
-        />
+        <AccountModal modalCard={modalCard} closeModalCard={modalCardToggler} />
       )}
       <div className={style.overview}>
         <div className={style.title}>

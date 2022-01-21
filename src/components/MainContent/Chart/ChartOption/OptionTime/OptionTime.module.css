@@ -41,6 +41,17 @@
   color: var(--select-ft);
 }
 
+.time__input:focus,
+.time__input:active {
+  outline: 0.05rem solid var(--sidebar-active);
+}
+
+.time__input--invalid,
+.time__input--invalid:focus,
+.time__input--invalid:active {
+  outline: 0.05rem solid var(--red);
+}
+
 .warning {
   width: 20rem;
   font-size: 1.2rem;

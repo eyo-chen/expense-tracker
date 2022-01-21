@@ -70,7 +70,7 @@ function SearchOptionUI(props) {
         classLabel={style.label}
         classContainer={style["icon__container"]}
         icon={
-          icon ? <IoIosArrowDroprightCircle /> : <IoIosArrowDropdownCircle />
+          icon ? <IoIosArrowDropdownCircle /> : <IoIosArrowDroprightCircle />
         }
         label={props.label}
         id={props.label}
@@ -79,7 +79,7 @@ function SearchOptionUI(props) {
       />
       <div
         className={
-          icon ? `${style.container}  ${style.hidden}` : `${style.container}`
+          icon ? `${style.container}` : `${style.container} ${style.hidden}`
         }
       >
         {checkboxContent}

@@ -33,28 +33,31 @@ function OptionTime(props) {
   // Note that only show the warning icon when
   // 1. user has already choose both starting date and ending date
   // 2. user choose the wrong order of the date
+  const invalidIndex = props.timeValidIndex && !props.timeOrderValidIndex;
+
   if (props.optionMainData === "category")
     timeContent = (
       <>
         {startingDate}
         <div
           className={
-            props.timeValidIndex && !props.timeOrderValidIndex
+            invalidIndex
               ? `${style["time__container"]} ${style["time__container--ending"]}`
               : `${style["time__container"]}`
           }
         >
           <label>ending date</label>
           <input
-            className={style["time__input"]}
+            className={
+              invalidIndex
+                ? `${style["time__input"]} ${style["time__input--invalid"]}`
+                : `${style["time__input"]}`
+            }
             onChange={endingDateChangeHandler}
             type="date"
             value={props.valueEnding}
           />
-          <Warning
-            className={style.warning}
-            index={props.timeValidIndex && !props.timeOrderValidIndex}
-          >
+          <Warning className={style.warning} index={invalidIndex}>
             ending date should be greater than starting date
           </Warning>
         </div>

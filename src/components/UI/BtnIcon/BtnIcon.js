@@ -6,9 +6,7 @@ function BtnIcon(props) {
     <Button
       type="button"
       className={
-        props.classBtn
-          ? `${style["btn--icon"]} ${props.classBtn}`
-          : `${style["btn--icon"]}`
+        props.classBtn ? `${style.btn} ${props.classBtn}` : `${style.btn}`
       }
     >
       <div

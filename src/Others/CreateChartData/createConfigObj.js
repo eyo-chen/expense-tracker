@@ -27,7 +27,16 @@ function createConfigObj(
 
     let legend = null;
 
-    if (showLabel) {
+    /*
+    Only show chart label above when 
+    1. In the big chart section
+    2. Chart is one week, six month or twelve month
+    Too many labels is messy
+    */
+    if (
+      showLabel &&
+      (timeDuration === "7" || timeDuration === "6" || timeDuration === "12")
+    ) {
       legend = {
         onClick: (e, legendItem, legend) => {
           const index = legend.chart.data.labels.indexOf(legendItem.text);

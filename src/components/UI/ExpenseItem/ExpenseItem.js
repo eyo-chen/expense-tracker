@@ -4,6 +4,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import style from "./ExpenseItem.module.css";
+import BtnIcon from "../BtnIcon/BtnIcon";
 import Button from "../Button/Button";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import AddDataForm from "../AddDataForm/AddDateForm";
@@ -18,6 +19,15 @@ function ExpenseItem(props) {
     initialObj: {},
   });
   const { iconObj } = useContext(CategoryContext);
+
+  // for DeleteModal
+  const dataInfo = {
+    mainCate: props.mainCate,
+    subCate: props.subCate,
+    price: props.price,
+    time: props.time,
+    description: props.description,
+  };
 
   const icon = iconObj[props.mainCate];
 
@@ -88,6 +98,7 @@ function ExpenseItem(props) {
           id={props.id}
           setDeleteModal={setDeleteModal}
           setExpenseListCalendar={props.setExpenseListCalendar}
+          dataInfo={dataInfo}
         />
       )}
       {addDataFrom.show && (
@@ -136,21 +147,21 @@ function ExpenseItem(props) {
           */}
           {!props.inDeleteSection && btnMore && (
             <div className={style["btn__group__container"]}>
-              <Button
+              <BtnIcon
                 onClick={showDeleteModalHandler}
-                type="button"
-                className={style["btn__group"]}
+                classBtn={style["btn__icon"]}
+                text="delete"
               >
-                <AiFillDelete className={style.icon} /> delete
-              </Button>
+                <AiFillDelete className={style.icon} />
+              </BtnIcon>
               <span className={style.vertical} />
-              <Button
+              <BtnIcon
                 onClick={showAddDataFormHandler}
-                type="button"
-                className={style["btn__group"]}
+                classBtn={style["btn__icon"]}
+                text="edit"
               >
-                <AiFillEdit className={style.icon} /> edit
-              </Button>
+                <AiFillEdit className={style.icon} />
+              </BtnIcon>
             </div>
           )}
           {!props.inDeleteSection && (

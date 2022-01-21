@@ -30,13 +30,13 @@ function AccountNews(props) {
       setNews({
         title: newsArr[0].title,
         editedTitle:
-          newsArr[0].title.length >= 70 && window.innerWidth > 1200
+          newsArr[0].title?.length >= 70 && window.innerWidth > 1200
             ? newsArr[0].title.slice(0, 60) + "....."
             : newsArr[0].title,
 
         img: newsArr[0].urlToImage,
         url: newsArr[0].url,
-        description: newsArr[0].description.length,
+        description: newsArr[0].description,
         source: newsArr[0].source.name,
       });
     }

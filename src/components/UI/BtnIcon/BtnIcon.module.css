@@ -1,7 +1,6 @@
-.btn--icon {
+.btn {
   color: var(--btn-ft);
   position: relative;
-  cursor: pointer;
 }
 
 .btn__inner {
@@ -17,7 +16,7 @@
   position: absolute;
   left: 50%;
   bottom: -5rem;
-  z-index: 50;
+  z-index: -50;
   transform: translateX(-50%);
 
   color: var(--white-1);
@@ -31,6 +30,7 @@
   transition: all 0.3s ease;
 }
 
-.btn--icon:hover .btn__text {
+.btn:hover .btn__text {
+  z-index: 50;
   opacity: 0.9;
 }

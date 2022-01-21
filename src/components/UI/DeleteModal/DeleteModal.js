@@ -2,10 +2,12 @@ import { useContext } from "react";
 import Modal from "../Modal/Modal";
 import Title from "../Title/Title";
 import Button from "../Button/Button";
-import style from "./DeleteModal.module.css";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import SearchListDataContext from "../../../store/searchListData/searchListData--context";
+import HorizontalLine from "../HorizontalLine/HorizontalLine";
+import { FaRegHandPointRight } from "react-icons/fa";
 
+import style from "./DeleteModal.module.css";
 /*
 There are three different places need DeleteModal component
 1. Home
@@ -18,6 +20,24 @@ Note that DeleteModal only from "DeleteModal" because there's only way to show t
 function DeleteModal(props) {
   const { removeExpenseData } = useContext(ExpenseDataContext);
   const { setFilteredData } = useContext(SearchListDataContext);
+  const dataInfoKey = Object.keys(props.dataInfo);
+  const dataInfoValue = Object.values(props.dataInfo);
+
+  const infoItem = dataInfoValue.map((data, index) => {
+    let dataItemName;
+    if (dataInfoKey[index] === "mainCate") dataItemName = "main category";
+    else if (dataInfoKey[index] === "subCate") dataItemName = "sub category";
+    else dataItemName = dataInfoKey[index];
+
+    return (
+      <div key={dataInfoKey[index]} className={style["info__item"]}>
+        <p className={style["info__category"]}>
+          <FaRegHandPointRight className={style.icon} /> {dataItemName}:
+        </p>
+        <p>{data}</p>
+      </div>
+    );
+  });
 
   function closeDeleteModal() {
     props.setDeleteModal(false);
@@ -49,20 +69,30 @@ function DeleteModal(props) {
 
   return (
     <Modal classModal={style.modal}>
-      <Title className={style.title}>are you sure to delete?</Title>
+      <div>
+        <Title className={style.title}>
+          are you sure <br /> to delete this data?
+        </Title>
+        <HorizontalLine />
+      </div>
+
+      <div className={style["info__container"]}>{infoItem}</div>
+
       <p className={style.description}>
         there is no way getting back this data <br /> once you delete it
       </p>
       <div className={style["btn__container"]}>
         <Button
+          type="button"
           onClick={closeDeleteModal}
-          className={`${style.btn} ${style["btn--no"]}`}
+          className={`${style.btn} uppercase`}
         >
           no
         </Button>
         <Button
+          type="button"
           onClick={removeExpenseItemHandler}
-          className={`${style.btn} ${style["btn--yes"]}`}
+          className={`${style.btn} uppercase`}
         >
           yes
         </Button>

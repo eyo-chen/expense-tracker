@@ -36,11 +36,11 @@
 .btn--active {
   color: var(--btn-ft);
   border: var(--btn-active-border);
+  background-color: var(--btn-bg);
   cursor: pointer;
 }
 
 .btn--active:hover {
-  color: var(--btn-hover-ft);
   background-color: var(--btn-hover-bg);
 }
 

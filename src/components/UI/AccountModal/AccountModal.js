@@ -1,9 +1,9 @@
 import ModalCloseIcon from "../ModalCloseIcon/ModalCloseIcon";
 import AccountSmallChart from "../../MainContent/Account/AccountSubSection/AccountSmallChart";
 import AccountNews from "../../MainContent/Account/AccountSubSection/AccountNews";
-import style from "./AccountSmallChartModal.module.css";
+import style from "./AccountModal.module.css";
 
-function AccountSmallChartModal(props) {
+function AccountModal(props) {
   return (
     <ModalCloseIcon
       classBackdrop={style.backdrop}
@@ -15,4 +15,4 @@ function AccountSmallChartModal(props) {
   );
 }
 
-export default AccountSmallChartModal;
+export default AccountModal;

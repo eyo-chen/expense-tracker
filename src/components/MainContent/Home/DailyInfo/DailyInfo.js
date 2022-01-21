@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import useDailyExpenseList from "../../../../Others/Custom/useDailyExpenseList";
 import Title from "../../../UI/Title/Title";
 import CalendarList from "./CalendarList";
-import Button from "../../../UI/Button/Button";
 import createWeeklyData from "../../../../Others/createWeeklyData";
 import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
@@ -130,16 +129,15 @@ function DailyInfo() {
     .filter((data) => data.category === "income")
     .reduce((acc, cur) => (acc += Number(cur.price)), 0);
 
-  function showModalCard(e) {
-    const id = e.target.dataset.id;
+  function modalCardToggler(e) {
+    if (modalCard) setModalCard(false);
+    else {
+      const id = e.target.dataset.id;
 
-    if (id) {
-      setModalCard(id);
+      if (id) {
+        setModalCard(id);
+      }
     }
-  }
-
-  function closeModalCard() {
-    setModalCard(false);
   }
 
   return (
@@ -151,17 +149,17 @@ function DailyInfo() {
         />
       )}
       {modalCard === "chart" && (
-        <SmallChartModal type="week" closeModalCard={closeModalCard} />
+        <SmallChartModal type="week" modalCardToggler={modalCardToggler} />
       )}
       {modalCard === "info" && (
-        <AccountInfoModal type="week" closeModalCard={closeModalCard} />
+        <AccountInfoModal type="week" modalCardToggler={modalCardToggler} />
       )}
 
       <div className={style["daily__first"]}>
         <Title>daily transection</Title>
 
         <div className={style["btn__container"]}>
-          <BtnIcons onClick={showModalCard} />
+          <BtnIcons onClick={modalCardToggler} />
           <BtnIcon
             text="add data"
             onClick={showFormHandler}

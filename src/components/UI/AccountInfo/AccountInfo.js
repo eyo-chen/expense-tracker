@@ -18,6 +18,7 @@ function AccountInfo(props) {
       <div className={style["accountInfo__first"]}>
         <Title>{props.title}</Title>
         <BtnIcon
+          classBtn={style["btn__icon"]}
           classText={style["btn__text"]}
           text={visible ? "hide" : "show"}
           onClick={eyeClickHandler}

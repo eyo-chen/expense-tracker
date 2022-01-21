@@ -3,6 +3,8 @@
   height: 100%;
 
   padding: 0 3rem;
+  /* background-color: var(--card-light-bg);
+  border-radius: 10px; */
 }
 
 .daily__first {
@@ -41,7 +43,6 @@
 }
 
 .btn--arow {
-  color: var(--btn-ft);
   font-size: 2rem;
 
   height: 35%;
@@ -54,10 +55,8 @@
   justify-content: center;
 
   transform: translateY(-5px);
-  box-shadow: 3px 5px rgb(0, 0, 0);
-  border: 1px solid transparent;
-  background-color: transparent;
-  transition: all 0.3s ease;
+  box-shadow: 6px 6px var(--btn-arrow);
+  transition: all 0.1s linear;
 }
 
 .btn--arow:active {

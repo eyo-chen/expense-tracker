@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import DisplayThemeContext from "../../../store/displayTheme/displayTheme--context";
-import Modal from "../Modal/Modal";
 import SmallChart from "../SmallChart/SmallChart";
 import createAccountCardPreData from "../../../Others/CreateAccountCardData/createAccountCardPreData";
 import createSmallChartData from "../../../Others/CreateAccountCardData/createSmallChartData";
@@ -32,7 +31,7 @@ function SmallChartModal(props) {
 
   return (
     <ModalCloseIcon
-      onClick={props.closeModalCard}
+      onClick={props.modalCardToggler}
       classBackdrop={style.backdrop}
       classModal={style.modal}
     >

@@ -24,7 +24,7 @@ function AccountInfoModal(props) {
 
   return (
     <ModalCloseIcon
-      onClick={props.closeModalCard}
+      onClick={props.modalCardToggler}
       classBackdrop={style.backdrop}
       classModal={style.modal}
     >

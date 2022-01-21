@@ -22,7 +22,8 @@
   font-size: 3rem;
 }
 
-.btn__text {
+/* more specific  */
+.btn__icon .btn__text {
   bottom: -3rem;
 }
 

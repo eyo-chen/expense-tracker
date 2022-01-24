@@ -2,11 +2,9 @@ import { Fragment } from "react";
 import style from "./ExpenseList.module.css";
 import ExpenseItem from "../ExpenseItem/ExpenseItem";
 
-import { v4 as uuidv4 } from "uuid";
-
 function ExpenseList(props) {
   const expenseItem = props.data.map((expense, i) => (
-    <Fragment key={uuidv4()}>
+    <Fragment key={expense.id}>
       <ExpenseItem
         category={expense.category}
         mainCate={expense.mainCate}
@@ -14,7 +12,7 @@ function ExpenseList(props) {
         time={expense.time}
         description={expense.description}
         price={expense.price}
-        newDescription={props.description || undefined}
+        newDescription={props.description || undefined} // ??
         modal={props.modal}
         id={expense.id}
         // expenseDataModal={props.expenseDataModal} (not sure what this is about)

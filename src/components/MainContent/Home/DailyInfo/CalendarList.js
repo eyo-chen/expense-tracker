@@ -2,22 +2,24 @@ import style from "./CalendarList.module.css";
 
 function CalendarList(props) {
   function clickDateHandler(e) {
-    props.setDailyExpenseListState(e.target.dataset.id);
+    const dateID = e.target.dataset.id;
 
-    props.setSelectDate(e.target.dataset.id);
+    props.setDailyExpenseData(dateID); // data list
+    props.setSelectedDate(dateID); // weekly calendar
   }
+
+  // need white space to seprate differnt className
+  let className = `${style.date} center--flex `;
+  className += props.active ? `${style.active} ` : `${style["date--others"]} `;
+  className += props.selected ? `${style.selected} ` : "";
 
   return (
     <div>
-      <p className={style["calendar__day--text"]}>{props.weekDay}</p>
+      <p className={style.day}>{props.weekDay}</p>
       <div
         onClick={clickDateHandler}
         data-id={props.dateObj}
-        className={`${style["calendar__day--number"]} ${
-          props.animation ? `${style.bump}` : ""
-        }  ${props.active ? `${style.active}` : ""} ${
-          props.selected ? `${style.selected}` : ""
-        }`}
+        className={className}
       >
         {props.monthDay}
       </div>

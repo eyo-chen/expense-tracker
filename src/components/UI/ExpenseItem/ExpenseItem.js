@@ -1,27 +1,27 @@
 import { Fragment, useState, useContext } from "react";
-import { MdMoreVert } from "react-icons/md";
-import { AiFillDelete } from "react-icons/ai";
-import { AiFillEdit } from "react-icons/ai";
-import { MdClose } from "react-icons/md";
-import style from "./ExpenseItem.module.css";
 import BtnIcon from "../BtnIcon/BtnIcon";
 import Button from "../Button/Button";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import AddDataForm from "../AddDataForm/AddDateForm";
+import DescriptionModal from "../DescriptionModal/DescriptionModal";
 import CategoryContext from "../../../store/category/category--context";
+import { MdMoreVert } from "react-icons/md";
+import { AiFillDelete } from "react-icons/ai";
+import { AiFillEdit } from "react-icons/ai";
+import style from "./ExpenseItem.module.css";
 
 function ExpenseItem(props) {
   const [btnMore, setBtnMore] = useState(false);
-  const [hideDescription, setHideDescription] = useState(false);
+  const [descriptionModal, setDescriptionModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [addDataFrom, setAddDataForm] = useState({
     show: false,
     initialObj: {},
   });
   const { iconObj } = useContext(CategoryContext);
+  const icon = iconObj[props.mainCate];
 
-  // for DeleteModal
-  const dataInfo = {
+  const deletedDataInfo = {
     mainCate: props.mainCate,
     subCate: props.subCate,
     price: props.price,
@@ -29,24 +29,8 @@ function ExpenseItem(props) {
     description: props.description,
   };
 
-  const icon = iconObj[props.mainCate];
-
-  const classMainCate =
-    props.category === "expense"
-      ? `${style["item__mainCate--blue"]}`
-      : `${style["item__mainCate--pink"]}`;
-
-  function btnMoreClickHandler() {
+  function btnMoreToggler() {
     setBtnMore((prev) => !prev);
-  }
-
-  function closeDescriptionClickHandler() {
-    setHideDescription(false);
-  }
-
-  function showDescriptionClickHandler() {
-    if (props.description && props.description.length > limitLength)
-      setHideDescription(true);
   }
 
   function showDeleteModalHandler() {
@@ -70,24 +54,50 @@ function ExpenseItem(props) {
     setAddDataForm({ show: true, initialObj });
   }
 
-  function closeAddDataFormHandlerExpenseItem(edit) {
+  function closeAddDataFormHandlerExpenseItem() {
     setAddDataForm({ show: false, initialObj: {} });
   }
 
-  let limitLength = props.modal ? 13 : 40;
-  let lengthLongClassName =
-    props.description?.length > limitLength ? "description--long" : "";
+  function descriptionModalToggler(e) {
+    /*
+    We put this function on every single description
+    but we don't wanna trigger for every description, we only want to show the description modal when the description is too long
 
-  let description =
-    props.description && props.description.length > limitLength
-      ? props.description.slice(0, limitLength).padEnd(limitLength + 3, ".")
+    The logic is we only want to trigger that useState set method when
+    1) descriptionModal is true, which means it's gonna close the modal
+    2) e.target.dataset.id is true
+       e.target.dataset.id is equal to variabe longIndex, which keep track if the description is too long (see below)
+       (Note e.target.dataset.id represenat as string)
+    */
+    if (descriptionModal) setDescriptionModal((prev) => !prev);
+    else if (e.target.dataset.id === "true")
+      setDescriptionModal((prev) => !prev);
+  }
+
+  const classMainCate =
+    props.category === "expense"
+      ? `${style["item__category--blue"]}`
+      : `${style["item__category--pink"]}`;
+
+  const limitedLength = props.modal ? 13 : 40;
+  const longLengthClassName =
+    props.description?.length > limitedLength ? "item__description--long" : "";
+  const longIndex = longLengthClassName.length > 0;
+
+  let editedDescription =
+    props.description && props.description.length > limitedLength
+      ? props.description.slice(0, limitedLength).padEnd(limitedLength + 3, ".")
       : props.description;
 
-  // shorten the description after user clicking the more btn
-  if (props.description?.length > limitLength - 10 && btnMore)
-    description = props.description
-      .slice(0, limitLength - 18)
-      .padEnd(limitLength - 14, ".");
+  // shorten the description after user clicking the btn(more)
+  if (
+    props.description &&
+    props.description?.length > limitedLength - 10 &&
+    btnMore
+  )
+    editedDescription = props.description
+      .slice(0, limitedLength - 18)
+      .padEnd(limitedLength - 14, ".");
 
   return (
     <Fragment>
@@ -98,7 +108,7 @@ function ExpenseItem(props) {
           id={props.id}
           setDeleteModal={setDeleteModal}
           setExpenseListCalendar={props.setExpenseListCalendar}
-          dataInfo={dataInfo}
+          dataInfo={deletedDataInfo}
         />
       )}
       {addDataFrom.show && (
@@ -109,44 +119,55 @@ function ExpenseItem(props) {
           }
         />
       )}
-      <li className={style["item__list"]}>
-        {hideDescription && (
-          <div className={style["description--show"]}>
-            <p>{props.description}</p>
-            <Button type="button" onClick={closeDescriptionClickHandler}>
-              <MdClose className={style.close} />
-            </Button>
-          </div>
-        )}
+      {descriptionModal && (
+        <DescriptionModal descriptionModalToggler={descriptionModalToggler}>
+          {props.description}
+        </DescriptionModal>
+      )}
+
+      <li className={style.item}>
         <div className={style["item__info"]}>
           <div
             title={props.mainCate}
-            className={`${style["item__mainCate"]} ${classMainCate}`}
+            className={`${style["item__category"]} ${classMainCate} center--flex`}
           >
             {icon}
           </div>
           <div>
-            <p className={style.sub}>{props.subCate}</p>
-            <p className={style.time}>{props.time}</p>
+            <p className="capitalize">{props.subCate}</p>
+            <p className={style["item__time"]}>{props.time}</p>
           </div>
           <p
-            onClick={showDescriptionClickHandler}
-            className={`${style.description} ${style[lengthLongClassName]}`}
+            data-id={longIndex}
+            onClick={descriptionModalToggler}
+            className={
+              longIndex
+                ? `${style["item__description"]} ${style[longLengthClassName]}`
+                : `${style["item__description"]}`
+            }
           >
-            {description}
+            {editedDescription}
           </p>
+          {longIndex && (
+            <p
+              data-id={longIndex}
+              onClick={descriptionModalToggler}
+              className={style["description__text"]}
+            >
+              click to show description
+            </p>
+          )}
         </div>
-        <div className={style.last}>
-          <p className={style.money}>${props.price}</p>
+
+        <div>
+          <p className={style["item__price"]}>${props.price}</p>
 
           {/* 
           Note that here and below
-
-          we only want to show "more" button and functionality when
-          the expense list item do NOT in the delete section 
+          we only want to show "more", "delete", "edit" button and functionality when the expense list item do NOT in the delete section 
           */}
           {!props.inDeleteSection && btnMore && (
-            <div className={style["btn__group__container"]}>
+            <div className={style["btn__container"]}>
               <BtnIcon
                 onClick={showDeleteModalHandler}
                 classBtn={style["btn__icon"]}
@@ -166,7 +187,7 @@ function ExpenseItem(props) {
           )}
           {!props.inDeleteSection && (
             <Button
-              onClick={btnMoreClickHandler}
+              onClick={btnMoreToggler}
               type="button"
               className={style["btn__more"]}
             >

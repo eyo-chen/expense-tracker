@@ -1,24 +1,15 @@
 .daily {
   grid-column: 1/2;
   height: 100%;
-
   padding: 0 3rem;
-  /* background-color: var(--card-light-bg);
-  border-radius: 10px; */
 }
 
-.daily__first {
+.title__container {
   margin: 0 3rem 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 5rem;
-}
-
-.daily__title {
-  font-size: 2.5rem;
-  font-weight: 600;
-  letter-spacing: 1.1px;
 }
 
 .btn__container {
@@ -28,34 +19,35 @@
   gap: 4rem;
 }
 
-.btn {
-  width: 4.5rem;
-  height: 4.5rem;
-  border-radius: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+.btn--main {
   color: var(--bg);
-  background-color: var(--btn-main-bg);
-  font-size: 1.8rem;
+  background-color: var(--btn-bg-main);
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn--main p {
+  font-size: 1.5rem;
+  position: relative;
 }
 
 .btn--arow {
   font-size: 2rem;
-
   height: 35%;
-
   align-self: center;
   justify-self: center;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--btn-arrow-bg);
 
   transform: translateY(-5px);
-  box-shadow: 6px 6px var(--btn-arrow);
+  box-shadow: var(--btn-arrow-box-shadow);
   transition: all 0.1s linear;
 }
 
@@ -67,22 +59,8 @@
 .btn__text {
   font-size: 1.5rem;
   padding: 0.5rem;
-  width: 9rem;
-  bottom: -4rem;
-}
-
-.btn__text--arrow {
-  font-size: 1.5rem;
-  padding: 0.5rem;
   width: 10rem;
   bottom: -4rem;
-}
-
-.icon path {
-  position: absolute;
-  z-index: -10;
-  top: 0;
-  right: 0;
 }
 
 .calendar__container {
@@ -92,23 +70,10 @@
   justify-content: space-around;
 }
 
-.today__account {
+.card {
   display: flex;
   justify-content: space-between;
   margin: 1rem 3rem 4rem;
-
-  font-size: 2.5rem;
-  font-weight: 600;
-}
-
-.today__account__text {
-  font-size: 1.5rem;
-  font-weight: 100;
-  margin-bottom: 5px;
-}
-
-.today__account__number {
-  letter-spacing: 3px;
 }
 
 .item {
@@ -174,5 +139,9 @@
 
   .btn__text {
     font-size: 1.6rem;
+  }
+
+  .btn--main p {
+    display: none;
   }
 }

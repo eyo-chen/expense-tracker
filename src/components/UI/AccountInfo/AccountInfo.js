@@ -29,13 +29,6 @@ function AccountInfo(props) {
             <AiFillEyeInvisible className={style.btn} />
           )}
         </BtnIcon>
-        {/* <Button onClick={eyeClickHandler}>
-          {visible ? (
-            <AiFillEye className={style.btn} />
-          ) : (
-            <AiFillEyeInvisible className={style.btn} />
-          )}
-        </Button> */}
       </div>
       <div className={style["accountInfo"]}>
         <p>Income</p>

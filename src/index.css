@@ -34,6 +34,7 @@
   --black-6: #252525;
   --black-7: #303030;
   --black-8: rgba(0, 0, 0, 0.5);
+  --black-9: rgb(37, 37, 37);
 
   /* //////////////////////////////////////////////// */
   --white: rgba(252, 252, 252, 1);
@@ -73,12 +74,16 @@
   --calendar-current-ft: var(--black);
   --calendar-hover: var(--white);
 
-  --calendar-weekly-current-bg: var(--gray-1);
   --calendar-weekly-border: 1.5px solid var(--black-4);
-  --calendar-weekly-hover-bg: var(--gray);
+  --calendar-weekly-border-hover: 1.5px solid var(--gray-1);
+  --calendar-weekly-border-active: 1.5px solid transparent;
+  --calendar-weekly-bg-active: var(--black-7);
+  --calendar-weekly-bg-hover: var(--gray-1);
+  --calendar-weekly-color-active: var(--white-3);
 
   /* //////////////////////////////////////////////// */
-  --btn-ft: var(--black-4);
+  /* --btn-ft: var(--black-4); */
+  --btn-color: var(--black-4);
   --btn-border: 1px solid var(--black-5);
   --btn-hover-ft: var(--white);
   --btn-hover-bg: var(--black-3);
@@ -88,19 +93,22 @@
   --btn-disabled-ft: var(--gray-1);
   --btn-disabled-border: 1px solid var(--gray-1);
 
-  --btn-main-bg: var(--gray-1);
+  --btn-bg-main: var(--black-9);
 
   --btn-eye: var(--gray-3);
 
   --btn-form-bg: var(--gray-3);
   --btn-form-hover-bg: var(--gray);
 
-  --btn-more-edit-bg: var(--gray-3);
+  --btn-delete-edit-bg: var(--gray-3);
 
-  --btn-arrow: var(--white);
+  /* --btn-arrow: var(--white); */
 
   --btn-bg: var(--gray-3);
   --btn-hover-bg: var(--gray);
+
+  --btn-arrow-bg: var(--gray-2);
+  --btn-arrow-box-shadow: 5px 5px 3px var(--gray-1);
 
   /* //////////////////////////////////////////////// */
   --select-bg: var(--gray-2);
@@ -153,12 +161,15 @@
   --calendar-current-ft: var(--black);
   --calendar-hover: var(--black-3);
 
-  --calendar-weekly-current-bg: var(--gray-1);
   --calendar-weekly-border: 1.5px solid var(--white);
-  --calendar-weekly-hover-bg: var(--gray);
-
+  --calendar-weekly-border-hover: 1.5px solid var(--gray);
+  --calendar-weekly-border-active: 1.5px solid transparent;
+  --calendar-weekly-bg-active: var(--gray-1);
+  --calendar-weekly-bg-hover: var(--gray);
+  --calendar-weekly-color-active: var(--black);
   /* //////////////////////////////////////////////// */
-  --btn-ft: var(--white);
+  /* --btn-ft: var(--white); */
+  --btn-color: var(--white);
   --btn-border: 1px solid var(--white-1);
   --btn-hover-ft: var(--black-4);
   --btn-hover-bg: var(--white);
@@ -168,19 +179,22 @@
   --btn-disabled-ft: var(--white-2);
   --btn-disabled-border: 1px solid var(--white-2);
 
-  --btn-main-bg: var(--gray-2);
+  --btn-bg-main: var(--gray-2);
 
   --btn-eye: var(--gray-3);
 
   --btn-form-bg: var(--black-5);
   --btn-form-hover-bg: var(--black);
 
-  --btn-more-edit-bg: var(--black-1);
+  --btn-delete-edit-bg: var(--black-1);
 
-  --btn-arrow: var(--black);
+  /* --btn-arrow: var(--black); */
 
   --btn-bg: var(--black-5);
   --btn-hover-bg: var(--black);
+
+  --btn-arrow-bg: var(--black-9);
+  --btn-arrow-box-shadow: 5px 5px var(--black);
 
   /* //////////////////////////////////////////////// */
   --select-bg: var(--black-5);
@@ -256,6 +270,19 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.center--position {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.center--flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn {

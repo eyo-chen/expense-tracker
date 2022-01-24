@@ -1,4 +1,4 @@
-.item__list {
+.item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -8,109 +8,81 @@
   position: relative;
 }
 
-.description--show {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  text-align: center;
-  backdrop-filter: blur(3px);
-  font-size: 1.6rem;
-  font-weight: 500;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.description--show p {
-  width: 100%;
-}
-
-.close {
-  color: var(--btn-ft);
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
-
-.description--long {
-  cursor: pointer;
-  overflow-y: hidden;
-}
-
 .item__info {
   display: flex;
   gap: 3rem;
   align-items: center;
+
+  /* inherit to children (subcategory), so that we don't need give another className */
+  font-size: 1.8rem;
 }
 
-.item__mainCate {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+.item__category {
   border-radius: 10px;
   height: 5rem;
   width: 5rem;
   padding: 1rem;
 }
 
-.item__mainCate--blue {
+.item__category--blue {
   border: 2px solid var(--blue);
 }
 
-.item__mainCate--pink {
+.item__category--pink {
   border: 2px solid var(--pink);
 }
 
-.sub {
-  font-size: 1.8rem;
-  text-transform: capitalize;
-}
-
-.description {
-  font-size: 1.6rem;
-}
-
-.time {
+.item__time {
   color: var(--font-low);
   font-size: 1.2rem;
 }
 
-.money {
-  font-size: 1.8rem;
-  letter-spacing: 1.5px;
+.item__description {
+  font-size: 1.6rem;
 }
 
-.last {
+.item__description--long {
+  cursor: pointer;
+  /* overflow-y: hidden; */
+}
+
+.description__text {
+  opacity: 0.3;
+  display: none;
+}
+
+/* price + more btn section
+use pseudo-class to avoid naming another className
+*/
+.item div:last-child {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-/* .icon {
-  font-size: 2rem;
-  cursor: pointer;
-  fill: var(--white-normal));
-} */
+.item__price {
+  font-size: 1.8rem;
+  letter-spacing: 1.5px;
+}
+
+.btn__container {
+  background-color: var(--btn-delete-edit-bg);
+  border-radius: 10px;
+}
+
+.btn__icon {
+  padding: 0.8rem 1rem;
+}
 
 .btn__more {
   font-size: 2rem;
-  fill: var(--btn-ft);
-  color: var(--btn-ft);
+  fill: var(--btn-color);
+  color: var(--btn-color);
 
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
-}
-
-.btn__group__container {
-  background-color: var(--btn-more-edit-bg);
-  border-radius: 10px;
 }
 
 .vertical {
@@ -119,10 +91,22 @@
 
 .icon {
   transform: translateY(2px);
-  margin-right: 5px;
+  margin: 0 1px;
   font-size: 1.5rem;
 }
 
-.btn__icon {
-  padding: 0.8rem 1rem;
+@media screen and (max-width: 1300px) {
+  .item__description--long {
+    display: none;
+  }
+
+  .description__text {
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.3s linear;
+  }
+
+  .description__text:hover {
+    opacity: 1;
+  }
 }

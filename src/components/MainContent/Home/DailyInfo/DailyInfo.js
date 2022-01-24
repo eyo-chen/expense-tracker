@@ -1,133 +1,58 @@
-import { useState, useEffect, useContext } from "react";
-import useDailyExpenseList from "../../../../Others/Custom/useDailyExpenseList";
-import Title from "../../../UI/Title/Title";
-import CalendarList from "./CalendarList";
-import createWeeklyData from "../../../../Others/createWeeklyData";
-import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
+import { useState } from "react";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
 import AccountInfoModal from "../../../UI/AccountInfoModal/AccountInfoModal";
-import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
+import Button from "../../../UI/Button/Button";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
-import { TiPlus } from "react-icons/ti";
+import CalendarList from "./CalendarList";
+import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
+import useDailyExpenseData from "../../../../Others/Custom/useDailyExpenseData";
+import Title from "../../../UI/Title/Title";
+import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
+import DailyDataCard from "./DailyDataCard";
 import style from "./DailyInfo.module.css";
-import { v4 as uuidv4 } from "uuid";
+import timeObj from "../../../assets/timeObj/timeObj";
+import createWeeklyData from "../../../../Others/createWeeklyData";
+import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
+import { TiPlus } from "react-icons/ti";
 
 const currentDate = new Date();
-const CURRENT_DATE = new Date();
+const { TODAY } = timeObj;
 
 let weekArr = createWeeklyData(currentDate);
 
-let index = 0;
-
 function DailyInfo() {
-  const [calendarDate, setCalendatDate] = useState(weekArr);
-  const [animation, setAnimation] = useState(false);
-  const [selectDate, setSelectDate] = useState();
+  const [weeklyData, setWeeklyData] = useState(weekArr);
+  const [selectedDate, setSelectedDate] = useState();
   const [addDataFormModal, setAddDataFormModal] = useState({
     show: false,
     date: undefined,
   });
   const [modalCard, setModalCard] = useState(false);
+  const [dailyExpenseData, setDailyExpenseData] = useDailyExpenseData(TODAY);
+  const [accIncome, accExpense] = createAccAmount(
+    dailyExpenseData,
+    ...Array(3), // skip three arguments
+    true
+  );
 
-  // custom hook1
-  // first returned value is the expense & income data of current date
-  const [dailyExpenseListState, setDailyExpenseListState] =
-    useDailyExpenseList(CURRENT_DATE);
-
-  // useEffect(() => {
-  //   if (index === 0) {
-  //     index++;
-  //     return;
-  //   }
-
-  //   setAnimation(true);
-
-  //   const time = setTimeout(() => {
-  //     setAnimation(false);
-  //   }, 300);
-
-  //   return function cleanUp() {
-  //     clearTimeout(time);
-  //   };
-  // }, [calendarDate]);
-
-  function incrementDateHandler() {
+  function nextWeekClickHandler() {
     currentDate.setDate(currentDate.getDate() + 7);
     weekArr = createWeeklyData(currentDate);
-    setCalendatDate(weekArr);
+    setWeeklyData(weekArr);
   }
 
-  function decrementDateHandler() {
+  function lastWeekClickHandler() {
     currentDate.setDate(currentDate.getDate() - 7);
     weekArr = createWeeklyData(currentDate);
-    setCalendatDate(weekArr);
+    setWeeklyData(weekArr);
   }
 
-  function showFormHandler() {
-    setAddDataFormModal({ show: true, date: selectDate });
+  function addDataFormToggler() {
+    if (addDataFormModal.show)
+      setAddDataFormModal({ show: false, date: undefined });
+    else setAddDataFormModal({ show: true, date: selectedDate });
   }
-
-  function closeFormHandler(edit) {
-    setAddDataFormModal({ show: false, date: undefined });
-  }
-
-  let active = false;
-  let selected = false;
-
-  const calendarList = calendarDate.map((time) => {
-    // check if it's "current" today
-    if (
-      time.month === CURRENT_DATE.getMonth() &&
-      time.monthDay === CURRENT_DATE.getDate() &&
-      time.year === CURRENT_DATE.getFullYear()
-    )
-      active = true;
-    else active = false;
-
-    // check if it's selected day
-    if (
-      time.monthDay === new Date(selectDate).getDate() &&
-      time.month === new Date(selectDate).getMonth() &&
-      time.year === new Date(selectDate).getFullYear() &&
-      !active
-    )
-      selected = true;
-    else selected = false;
-
-    return (
-      <CalendarList
-        key={uuidv4()}
-        weekDay={time.weekDay}
-        monthDay={time.monthDay}
-        dateObj={time.dateObj}
-        active={active}
-        selected={selected}
-        animation={animation}
-        setDailyExpenseListState={setDailyExpenseListState}
-        setSelectDate={setSelectDate}
-      />
-    );
-  });
-
-  let listContent = (
-    <div className={style.noData}>
-      <p>no data</p>
-      <p>click button to add data</p>
-    </div>
-  );
-  if (dailyExpenseListState.length > 0)
-    listContent = (
-      <ExpenseList data={dailyExpenseListState} classItem={style.item} />
-    );
-
-  const accExpense = dailyExpenseListState
-    .filter((data) => data.category === "expense")
-    .reduce((acc, cur) => (acc += Number(cur.price)), 0);
-
-  const accIncome = dailyExpenseListState
-    .filter((data) => data.category === "income")
-    .reduce((acc, cur) => (acc += Number(cur.price)), 0);
 
   function modalCardToggler(e) {
     if (modalCard) setModalCard(false);
@@ -140,11 +65,59 @@ function DailyInfo() {
     }
   }
 
+  let active = false;
+  let selected = false;
+  const weeklyCalendarList = weeklyData.map((time) => {
+    // check if it's "current" today
+    if (
+      time.year === TODAY.getFullYear() &&
+      time.month === TODAY.getMonth() &&
+      time.monthDay === TODAY.getDate()
+    )
+      active = true;
+    else active = false;
+
+    // check if it's selected day
+    if (
+      time.year === new Date(selectedDate).getFullYear() &&
+      time.month === new Date(selectedDate).getMonth() &&
+      time.monthDay === new Date(selectedDate).getDate() &&
+      !active
+    )
+      selected = true;
+    else selected = false;
+
+    return (
+      <CalendarList
+        key={time.weekDay}
+        weekDay={time.weekDay}
+        monthDay={time.monthDay}
+        dateObj={time.dateObj}
+        active={active}
+        selected={selected}
+        setDailyExpenseData={setDailyExpenseData}
+        setSelectedDate={setSelectedDate}
+      />
+    );
+  });
+
+  let listContent = (
+    <div className={style.noData}>
+      <p>no data</p>
+      <p>click button to add data</p>
+    </div>
+  );
+
+  if (dailyExpenseData.length > 0)
+    listContent = (
+      <ExpenseList data={dailyExpenseData} classItem={style.item} />
+    );
+
   return (
     <div className={style.daily}>
       {addDataFormModal.show && (
         <AddDataForm
-          closeFormHandlerFromHome={closeFormHandler}
+          closeFormHandlerFromHome={addDataFormToggler}
           date={addDataFormModal.date}
         />
       )}
@@ -155,57 +128,44 @@ function DailyInfo() {
         <AccountInfoModal type="week" modalCardToggler={modalCardToggler} />
       )}
 
-      <div className={style["daily__first"]}>
+      <div className={style["title__container"]}>
         <Title>daily transection</Title>
 
         <div className={style["btn__container"]}>
           <BtnIcons onClick={modalCardToggler} />
-          <BtnIcon
-            text="add data"
-            onClick={showFormHandler}
-            classText={style["btn__text"]}
-            classBtn={style.btn}
+          <Button
+            className={`${style["btn--main"]} uppercase`}
+            onClick={addDataFormToggler}
           >
-            <TiPlus />
-          </BtnIcon>
+            <TiPlus className={style["btn--icon"]} /> <p>add data</p>
+          </Button>
         </div>
       </div>
 
       <div className={style["calendar__container"]}>
         <BtnIcon
           text="last week"
-          onClick={decrementDateHandler}
+          onClick={lastWeekClickHandler}
           classBtn={style["btn--arow"]}
-          classText={style["btn__text--arrow"]}
+          classText={style["btn__text"]}
         >
           {"<"}
         </BtnIcon>
-        {calendarList}
+        {weeklyCalendarList}
         <BtnIcon
           text="next week"
-          onClick={incrementDateHandler}
+          onClick={nextWeekClickHandler}
           classBtn={style["btn--arow"]}
-          classText={style["btn__text--arrow"]}
+          classText={style["btn__text"]}
         >
           {">"}
         </BtnIcon>
       </div>
 
-      <div className={style["today__account"]}>
-        <div>
-          <p className={style["today__account__text"]}>Total Expense</p>
-          <p className={style["today__account__number"]}>{`$${accExpense}`}</p>
-        </div>
-        <div className={style.income}>
-          <p className={style["today__account__text"]}>Total Income</p>
-          <p className={style["today__account__number"]}>{`$${accIncome}`}</p>
-        </div>
-        <div>
-          <p className={style["today__account__text"]}>Total Net</p>
-          <p className={style["today__account__number"]}>{`$${
-            accIncome - accExpense
-          }`}</p>
-        </div>
+      <div className={`${style.card} capitalize`}>
+        <DailyDataCard text="expense" value={accExpense} />
+        <DailyDataCard text="income" value={accIncome} />
+        <DailyDataCard text="net income" value={accIncome - accExpense} />
       </div>
       {listContent}
     </div>

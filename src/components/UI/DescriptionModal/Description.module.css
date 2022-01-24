@@ -1,0 +1,26 @@
+.modal {
+  height: 60%;
+}
+
+.title {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.description {
+  width: 90%;
+  height: 80%;
+  font-size: 2rem;
+  padding: 0 2rem;
+  margin: 2rem auto;
+  word-wrap: break-word;
+  overflow-y: scroll;
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+
+@media screen and (max-width: 800px) {
+  .modal {
+    width: 70%;
+  }
+}

@@ -32,9 +32,9 @@ function createWeeklyData(currentDate) {
       )
     );
 
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const monthDay = date.getDate();
+    const year = date.getFullYear(),
+      month = date.getMonth(),
+      monthDay = date.getDate();
 
     dateArr.push({
       weekDay: new Intl.DateTimeFormat("en-US", dateOptions)

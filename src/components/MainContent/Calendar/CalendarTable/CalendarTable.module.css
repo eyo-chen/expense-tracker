@@ -84,8 +84,9 @@
   align-items: center;
   justify-content: center; */
 
+  background-color: var(--btn-arrow-bg);
+  box-shadow: var(--btn-arrow-box-shadow);
   transform: translateY(-5px);
-  box-shadow: 3px 5px var(--btn-arrow);
   transition: all 0.1s ease;
 }
 

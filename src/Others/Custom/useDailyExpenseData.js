@@ -1,23 +1,23 @@
 import { useState, useContext } from "react";
 import ExpenseDataContext from "../../store/expenseData/expenseData--context";
 
-function useDailyExpenseList(date) {
-  const [dayState, setDayState] = useState(date);
+function useDailyExpenseData(date) {
+  const [dailyExpenseList, setDailyExpenseList] = useState(date);
   const { expenseData } = useContext(ExpenseDataContext);
 
-  const dayData = new Date(dayState);
+  const dayData = new Date(dailyExpenseList);
   const day = dayData.getDate();
   const month = dayData.getMonth() + 1;
   const year = dayData.getFullYear();
 
   const newDayData = expenseData.filter(
     (element) =>
-      Number(element.time.slice(0, 4)) === year &&
-      Number(element.time.slice(5, 7)) === month &&
-      Number(element.time.slice(8)) === day
+      element.year - 0 === year &&
+      element.month - 0 === month &&
+      element.day - 0 === day
   );
 
-  return [newDayData, setDayState];
+  return [newDayData, setDailyExpenseList];
 }
 
-export default useDailyExpenseList;
+export default useDailyExpenseData;

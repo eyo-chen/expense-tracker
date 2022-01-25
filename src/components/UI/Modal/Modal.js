@@ -4,17 +4,13 @@ import Backdrop from "./Backdrop";
 import style from "./Modal.module.css";
 
 function PopupModal(props) {
+  const classNameModal = props.classModal
+    ? `${style.modal} ${props.classModal} center--position`
+    : `${style.modal} center--position`;
+
   return (
     <Backdrop classBackdrop={props.classBackdrop}>
-      <div
-        className={
-          props.classModal
-            ? `${style.modal} ${props.classModal}`
-            : `${style.modal}`
-        }
-      >
-        {props.children}
-      </div>
+      <div className={classNameModal}>{props.children}</div>
     </Backdrop>
   );
 }

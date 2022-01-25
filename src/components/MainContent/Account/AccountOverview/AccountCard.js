@@ -5,8 +5,9 @@ import style from "./AccountCard.module.css";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import timeObj from "../../../assets/timeObj/timeObj";
 import compareTime from "../../../../Others/compareTime";
+import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
 
-const { YEAR, MONTH, DAY } = timeObj;
+const { YEAR, MONTH, DAY, TODAY } = timeObj;
 
 function AccountCard() {
   const { expenseData } = useContext(ExpenseDataContext);
@@ -44,6 +45,10 @@ function AccountCard() {
         compareTime(expenseData, null, YEAR, MONTH, DAY)
     )
     .reduce((acc, cur) => acc + Number(cur.price), 0);
+
+  // const [test1, test2] = createAccAmount(expenseData, false, null, TODAY);
+  // console.log(test1 === accIncome);
+  // console.log(test2 === accExpense);
 
   return (
     <div className={style["card__container"]}>

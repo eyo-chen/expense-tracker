@@ -5,6 +5,7 @@ import DeleteModal from "../DeleteModal/DeleteModal";
 import AddDataForm from "../AddDataForm/AddDateForm";
 import DescriptionModal from "../DescriptionModal/DescriptionModal";
 import CategoryContext from "../../../store/category/category--context";
+import useAddDataForm from "../../../Others/Custom/useAddDataForm";
 import { MdMoreVert } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
@@ -14,12 +15,22 @@ function ExpenseItem(props) {
   const [btnMore, setBtnMore] = useState(false);
   const [descriptionModal, setDescriptionModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [addDataFrom, setAddDataForm] = useState({
-    show: false,
-    initialObj: {},
-  });
+  const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const { iconObj } = useContext(CategoryContext);
   const icon = iconObj[props.mainCate];
+
+  const oldExpenseData = {
+    id: props.id,
+    category: props.category,
+    mainCategoryArr: [],
+    mainCategory: props.mainCate,
+    subCategoryArr: [],
+    subCategory: props.subCate,
+    date: props.time,
+    description: props.description,
+    price: props.price,
+    isValid: true,
+  };
 
   const deletedDataInfo = {
     mainCate: props.mainCate,
@@ -35,27 +46,6 @@ function ExpenseItem(props) {
 
   function showDeleteModalHandler() {
     setDeleteModal(true);
-  }
-
-  function showAddDataFormHandler() {
-    const initialObj = {
-      id: props.id,
-      category: props.category,
-      mainCategoryArr: [],
-      mainCategory: props.mainCate,
-      subCategoryArr: [],
-      subCategory: props.subCate,
-      date: props.time,
-      description: props.description,
-      price: props.price,
-      isValid: true,
-    };
-
-    setAddDataForm({ show: true, initialObj });
-  }
-
-  function closeAddDataFormHandlerExpenseItem() {
-    setAddDataForm({ show: false, initialObj: {} });
   }
 
   function descriptionModalToggler(e) {
@@ -111,12 +101,11 @@ function ExpenseItem(props) {
           dataInfo={deletedDataInfo}
         />
       )}
-      {addDataFrom.show && (
+      {addDataFormModal && (
         <AddDataForm
-          initialObj={addDataFrom.initialObj}
-          closeAddDataFormHandlerExpenseItem={
-            closeAddDataFormHandlerExpenseItem
-          }
+          oldExpenseData={oldExpenseData}
+          addDataFormModalToggler={addDataFormModalToggler}
+          btnMoreToggler={btnMoreToggler}
         />
       )}
       {descriptionModal && (
@@ -177,7 +166,7 @@ function ExpenseItem(props) {
               </BtnIcon>
               <span className={style.vertical} />
               <BtnIcon
-                onClick={showAddDataFormHandler}
+                onClick={addDataFormModalToggler}
                 classBtn={style["btn__icon"]}
                 text="edit"
               >

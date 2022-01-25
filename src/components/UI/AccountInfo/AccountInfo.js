@@ -40,7 +40,7 @@ function AccountInfo(props) {
       </div>
       <div className={style["accountInfo"]}>
         <p>Net Income</p>
-        <p>{visible ? `$${props.net}` : "********"}</p>
+        <p>{visible ? `$${props.income - props.expense}` : "********"}</p>
       </div>
     </Card>
   );

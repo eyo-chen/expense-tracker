@@ -21,7 +21,7 @@ function createAccAmount(
       noDate ||
       (withRange
         ? compareTimeWithRange(expenseData, startDayObj, endDayObj)
-        : compareTime(expenseData, startDayObj));
+        : compareTime(expenseData, endDayObj));
 
     if (validTimeIndex) {
       if (expenseData.category === "expense")

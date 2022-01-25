@@ -6,7 +6,7 @@ function FormBtn(props) {
       <Button
         type="button"
         className={props.classNameCancel}
-        onClick={props.cancelClickHandler}
+        onClick={props.addDataFormModalToggler}
       >
         cancel
       </Button>
@@ -15,7 +15,7 @@ function FormBtn(props) {
         className={props.classNameAdd}
         disabled={props.isValid}
       >
-        {props.initialObj ? "edit" : "add"}
+        {props.oldExpenseData ? "edit" : "add"}
       </Button>
     </div>
   );

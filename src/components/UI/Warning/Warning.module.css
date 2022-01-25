@@ -1,6 +1,5 @@
 .warning {
   position: absolute;
-  text-transform: capitalize;
   letter-spacing: 1px;
   font-weight: 500;
   color: var(--red);
@@ -12,5 +11,4 @@
 .warning--show {
   opacity: 1;
   transform: translateY(0);
-  transition: all 0.5s ease-in-out;
 }

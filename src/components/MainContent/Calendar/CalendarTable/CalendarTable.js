@@ -8,6 +8,7 @@ import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
 import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
 import AccountInfoModal from "../../../UI/AccountInfoModal/AccountInfoModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
+import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
 import style from "./CalendarTable.module.css";
 
 const dateOptObj = { month: "long" };
@@ -24,14 +25,10 @@ function CalendarTable(prop) {
   );
   const [month, setMonth] = useState(MONTH);
   const [year, SetYear] = useState(date.getFullYear());
-  const [animationMonth, setAnimationMonth] = useState(false);
-  const [animationYear, setAnimationMonthYear] = useState(false);
   const [expenseListModal, setExpenseListModal] = useState(false);
   const [expenseListCalendar, setExpenseListCalendar] = useState([]);
-  const [addDataFormModal, setAddDataFormModal] = useState({
-    show: false,
-    date: "",
-  });
+  const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
+
   const [modalCard, setModalCard] = useState(false);
 
   useEffect(() => {
@@ -72,14 +69,6 @@ function CalendarTable(prop) {
     setExpenseListModal(false);
   }
 
-  function showAddDataFormHandler(time) {
-    setAddDataFormModal({ show: true, date: time });
-  }
-
-  function closeAddDataFormHandler() {
-    setAddDataFormModal({ show: false, date: "" });
-  }
-
   function modalCardToggler(e) {
     if (modalCard) setModalCard(false);
     else {
@@ -91,6 +80,13 @@ function CalendarTable(prop) {
     }
   }
 
+  // if expenseListCalendar is string, it means there's no data
+  // and expenseListCalendar will be the right time
+  const seletedTime =
+    typeof expenseListCalendar === "string"
+      ? expenseListCalendar
+      : expenseListCalendar[0]?.time;
+
   return (
     <>
       {expenseListModal && (
@@ -98,13 +94,13 @@ function CalendarTable(prop) {
           expenseListCalendar={expenseListCalendar}
           setExpenseListCalendar={setExpenseListCalendar}
           closeModalHandler={closeModalHandler}
-          showAddDataFormHandler={showAddDataFormHandler}
+          addDataFormModalToggler={addDataFormModalToggler}
         />
       )}
-      {addDataFormModal.show && (
+      {addDataFormModal && (
         <AddDataForm
-          date={addDataFormModal.date}
-          closeAddDataFormHandlerFromCalendar={closeAddDataFormHandler}
+          date={seletedTime}
+          addDataFormModalToggler={addDataFormModalToggler}
         />
       )}
       {modalCard === "chart" && (
@@ -129,8 +125,8 @@ function CalendarTable(prop) {
           </BtnIcon>
 
           <div className={style["monthly__title"]}>
-            <h6 className={animationMonth ? `${style.bump}` : ""}>{month}</h6>
-            <h6 className={animationYear ? `${style.bump}` : ""}>{year}</h6>
+            <h6>{month}</h6>
+            <h6>{year}</h6>
           </div>
           <BtnIcon
             text="next month"

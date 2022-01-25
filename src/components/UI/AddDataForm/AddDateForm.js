@@ -4,7 +4,7 @@ import Modal from "../Modal/Modal";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import CategoryContext from "../../../store/category/category--context";
-import createDateFormat from "../../../Others/createDateFormat";
+import createDateStringFormat from "../../../Others/CreateDateStringFormat/CreateDateStringFormat";
 import FormBtn from "./FormBtn";
 import FormPrice from "./FormPrice";
 import FormDate from "./FormDate";
@@ -21,11 +21,12 @@ function reducer(state, action) {
       let mainCategoryArr, subCategoryArr;
       const categoryExpenseKeyArr = Object.keys(state.categoryExpense);
       const categoryIncomeKeyArr = Object.keys(state.categoryIncome);
+      const firstCategoryExpense = Object.keys(state.categoryExpense)[0];
+      const firstCategoryIncome = Object.keys(state.categoryIncome)[0];
 
       /*
       Note that do NOT directly hard code "food" or "salary"
       because user may add, remove, edit main and sub category
-
       what we want is showing the first main category, and it's sub category
       */
       if (action.value === "expense") {
@@ -43,16 +44,16 @@ function reducer(state, action) {
         subCategoryArr,
         mainCategory:
           action.value === "expense"
-            ? Object.keys(state.categoryExpense)[0]
-            : Object.keys(state.categoryIncome)[0],
+            ? firstCategoryExpense
+            : firstCategoryIncome,
         subCategory:
           action.value === "expense"
             ? state.categoryExpense[categoryExpenseKeyArr[0]][0]
             : state.categoryIncome[categoryIncomeKeyArr[0]][0],
         icon: state.iconObj[
           action.value === "expense"
-            ? Object.keys(state.categoryExpense)[0]
-            : Object.keys(state.categoryIncome)[0]
+            ? firstCategoryExpense
+            : firstCategoryIncome
         ],
       };
     }
@@ -98,7 +99,7 @@ function reducer(state, action) {
     }
 
     case "PRICE--TOUCH": {
-      // it will always be true once user select or touch the price input
+      // it will always be true once user have selected or touched the price input
       return { ...state, priceTouch: true };
     }
 
@@ -113,7 +114,6 @@ function AddDataForm(props) {
   const [, setEditModal] = useContext(EditModalContext);
   const { categoryExpense, categoryIncome, iconObj } =
     useContext(CategoryContext);
-
   const mainCateExpenseArr = Object.keys(categoryExpense);
   const mainCateIncomeArr = Object.keys(categoryIncome);
 
@@ -123,17 +123,17 @@ function AddDataForm(props) {
   but we need this data in the form, so add them
   */
   let initialObj;
-  if (props.initialObj)
+  if (props.oldExpenseData)
     initialObj = {
-      ...props.initialObj,
+      ...props.oldExpenseData,
       mainCategoryArr:
-        props.initialObj.category === "expense"
+        props.oldExpenseData.category === "expense"
           ? mainCateExpenseArr
           : mainCateIncomeArr,
       subCategoryArr:
-        props.initialObj.category === "expense"
-          ? categoryExpense[props.initialObj.mainCategory]
-          : categoryIncome[props.initialObj.mainCategory],
+        props.oldExpenseData.category === "expense"
+          ? categoryExpense[props.oldExpenseData.mainCategory]
+          : categoryIncome[props.oldExpenseData.mainCategory],
       categoryExpense,
       categoryIncome,
       iconObj,
@@ -148,8 +148,8 @@ function AddDataForm(props) {
       subCategory: categoryExpense[mainCateExpenseArr[0]][0],
       date:
         props.date === undefined
-          ? createDateFormat(new Date())
-          : createDateFormat(new Date(props.date)),
+          ? createDateStringFormat(new Date())
+          : createDateStringFormat(new Date(props.date)),
       description: "",
       price: "",
       priceTouch: false,
@@ -161,20 +161,6 @@ function AddDataForm(props) {
     };
 
   const [formData, formDataDispatch] = useReducer(reducer, initialObj);
-
-  // get rid of animation, so that component won't re-render several times repeatedly
-  // const [animation, setAnimation] = useState(false);
-  // useEffect(() => {
-  //   setAnimation(formData.category);
-
-  //   const time = setTimeout(() => {
-  //     setAnimation(false);
-  //   }, 500);
-
-  //   return function cleanUp() {
-  //     clearTimeout(time);
-  //   };
-  // }, [formData.category]);
 
   function categoryChangeHandler(e) {
     formDataDispatch({ type: "CATEGORY", value: e.target.value });
@@ -222,24 +208,11 @@ function AddDataForm(props) {
     });
   }
 
-  function cancelClickHandler() {
-    // close the form from home
-    if (props.closeFormHandlerFromHome) props.closeFormHandlerFromHome();
-
-    // close from calendar
-    if (props.closeAddDataFormHandlerFromCalendar)
-      props.closeAddDataFormHandlerFromCalendar();
-
-    // close from expense item
-    if (props.closeAddDataFormHandlerExpenseItem)
-      props.closeAddDataFormHandlerExpenseItem();
-  }
-
   function formSubmitHandler(e) {
     e.preventDefault();
 
     const newFormData = {
-      id: props.initialObj ? props.initialObj.id : uuidv4(),
+      id: props.oldExpenseData ? props.oldExpenseData.id : uuidv4(),
       category: formData.category,
       mainCate: formData.mainCategory,
       subCate: formData.subCategory,
@@ -253,32 +226,17 @@ function AddDataForm(props) {
 
     //////////////////////////////////////////////////
     // add new data or edited old data
-    // if props.initialObj exist, it means it's editing the old data
-    if (props.initialObj) editExpenseData(newFormData);
-    else addExpenseData(newFormData);
-
-    //////////////////////////////////////////////////
-    // close the form from Home
-    if (props.closeFormHandlerFromHome) props.closeFormHandlerFromHome();
-
-    // close from Calendar
-    if (props.closeAddDataFormHandlerFromCalendar)
-      props.closeAddDataFormHandlerFromCalendar();
-
-    // close from expense item
-    if (props.closeAddDataFormHandlerExpenseItem) {
-      props.closeAddDataFormHandlerExpenseItem();
-
-      // edit successfully
+    // if props.oldExpenseData exist, it means it's editing the old data
+    if (props.oldExpenseData) {
+      editExpenseData(newFormData);
       setEditModal(true);
-    }
-  }
+    } else addExpenseData(newFormData);
 
-  // let classNameAnimation = !animation
-  //   ? ""
-  //   : animation === "expense"
-  //   ? "bump--blue"
-  //   : "bump--pink";
+    // hide the more functionality after user edit the data
+    if (props.btnMoreToggler) props.btnMoreToggler();
+
+    props.addDataFormModalToggler();
+  }
 
   return (
     <Modal classModal={style.modal}>
@@ -289,7 +247,7 @@ function AddDataForm(props) {
           classNameExpense={style.expense}
           classNameIncome={style.income}
           classNameCheck={style.check}
-          classNameTitle={style.title}
+          classNameTitle={`${style.title} uppercase transition--25`}
           category={formData.category}
           categoryChangeHandler={categoryChangeHandler}
         />
@@ -297,8 +255,8 @@ function AddDataForm(props) {
         <HorizontalLine />
         <div className={style["form__container"]}>
           <FormMainCategory
-            classNameLabel={style.label}
-            classNameIcon={style.icon}
+            classNameLabel={`${style.label} capitalize`}
+            classNameIcon="center--flex"
             classNameInput={style.input}
             mainCategory={formData.mainCategory}
             icon={formData.icon}
@@ -307,7 +265,7 @@ function AddDataForm(props) {
           />
 
           <FormSubCategory
-            classNameLabel={style.label}
+            classNameLabel={`${style.label} capitalize`}
             classNameInput={style.input}
             subCategoryChangeHandler={subCategoryChangeHandler}
             subCategory={formData.subCategory}
@@ -315,26 +273,25 @@ function AddDataForm(props) {
           />
 
           <FormDescription
-            classNameLabel={style.label}
+            classNameLabel={`${style.label} capitalize`}
             classNameInput={style.input}
             description={formData.description}
             descriptionChangeHandler={descriptionChangeHandler}
           />
 
           <FormDate
-            classNameLabel={style.label}
+            classNameLabel={`${style.label} capitalize`}
             classNameInput={style.input}
             date={formData.date}
             dateChangeHandler={dateChangeHandler}
           />
 
           <FormPrice
-            classNameContainer={style["container--last"]}
-            classNameLabel={style.label}
+            classNameContainer={style["price__container"]}
+            classNameLabel={`${style.label} capitalize`}
             classNameInput={style.input}
-            classNameInputNonValid={style["input--nonValid"]}
+            classNameInputInvalid={style["input--invalid"]}
             classNameWarn={style.warning}
-            classNameWarnShow={style["warning--show"]}
             price={formData.price}
             priceTouch={formData.priceTouch}
             isValid={!formData.isValid}
@@ -343,16 +300,16 @@ function AddDataForm(props) {
           />
 
           <FormBtn
-            classNameContainer={`${style["btn__container"]} `}
-            classNameCancel={`${style.btn} ${style["btn--isValid"]}`}
-            cancelClickHandler={cancelClickHandler}
+            classNameContainer={`${style["btn__container"]}`}
+            classNameCancel={`${style.btn} uppercase transition--25`}
+            addDataFormModalToggler={props.addDataFormModalToggler}
             classNameAdd={
-              formData.isValid
-                ? `${style["btn--isValid"]} ${style.btn}`
-                : `${style.btn}`
+              !formData.isValid
+                ? `${style["btn--invalid"]} ${style.btn} uppercase transition--25`
+                : `${style.btn} uppercase transition--25`
             }
             isValid={!formData.isValid}
-            initialObj={props.initialObj}
+            oldExpenseData={props.oldExpenseData}
           />
         </div>
       </form>
@@ -361,122 +318,3 @@ function AddDataForm(props) {
 }
 
 export default AddDataForm;
-/*
-  <div className={style["title__container"]}>
-          <InputRadio
-            classInput={style.input}
-            classCheck={`${style.expense} ${style.check}`}
-            classLabel={style.title}
-            label="expense"
-            name="title"
-            value="expense"
-            onChange={categoryChangeHandler}
-            checked={formData.category === "expense"}
-          />
-          <InputRadio
-            classInput={style.input}
-            classCheck={`${style.income} ${style.check}`}
-            classLabel={style.title}
-            label="income"
-            name="title"
-            value="income"
-            onChange={categoryChangeHandler}
-            checked={formData.category === "income"}
-          />
-        </div>
-
-
-          <div className={style["container"]}>
-            <label className={style.label}>
-              main category
-              <div className={style.icon}>{formData.icon}</div>
-            </label>
-            <select
-              value={formData.mainCategory}
-              onChange={mainCategoryChangeHandler}
-              className={style.input}
-              type="select"
-            >
-              {formData.mainCategoryArr.map((element) => (
-                <option value={element} key={element}>
-                  {element}
-                </option>
-              ))}
-            </select>
-          </div>
-*/
-
-{
-  /* <div className={style["container"]}>
-            <label className={style.label}>sub category</label>
-
-            <select
-              value={formData.subCategory}
-              onChange={subCategoryChangeHandler}
-              className={style.input}
-              type="select"
-            >
-              {formData.subCategoryArr.map((element) => (
-                <option value={element} key={element}>
-                  {element}
-                </option>
-              ))}
-            </select>
-          </div> */
-}
-{
-  /* <div className={style["container"]}>
-            <label className={style.label}>description (optional)</label>
-            <input
-              value={formData.description}
-              onChange={descriptionChangeHandler}
-              className={style.input}
-              type="text"
-            ></input>
-          </div> */
-}
-{
-  /* <div className={style["container"]}>
-            <label className={style.label}>date</label>
-            <input
-              value={formData.date}
-              className={style.input}
-              type="date"
-              onChange={dateChangeHandler}
-            ></input>
-          </div> */
-}
-
-{
-  /* <div className={`${style["container"]} ${style["container--last"]}`}>
-            <label className={style.label}>price *</label>
-            <input
-              onChange={priceChangeHandler}
-              className={style.input}
-              type="number"
-              value={formData.price}
-            ></input>
-          </div> */
-}
-{
-  /* <div className={`${style["btn__container"]} `}>
-            <Button
-              type="button"
-              className={`${style.btn} ${style["btn--isValid"]}`}
-              onClick={cancelClickHandler}
-            >
-              cancel
-            </Button>
-            <Button
-              type="submit"
-              className={
-                formData.isValid
-                  ? `${style["btn--isValid"]} ${style.btn}`
-                  : `${style.btn}`
-              }
-              disabled={formData.isValid}
-            >
-              {props.initialObj ? "edit" : "add"}
-            </Button>
-          </div> */
-}

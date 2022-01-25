@@ -25,7 +25,7 @@ function ExpenseListModal(props) {
 
   function addClickHandler() {
     props.closeModalHandler();
-    props.showAddDataFormHandler(time);
+    props.addDataFormModalToggler();
   }
 
   let mainContent = noData ? (

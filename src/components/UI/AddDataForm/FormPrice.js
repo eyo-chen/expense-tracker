@@ -1,5 +1,5 @@
 import FormContainer from "./FormContainer";
-import { AiFillWarning } from "react-icons/ai";
+import Warning from "../Warning/Warning";
 
 function FormPrice(props) {
   /*
@@ -14,29 +14,26 @@ function FormPrice(props) {
   */
   const priceValid = props.isValid && props.priceTouch;
 
+  const classNameInput = priceValid
+    ? `${props.classNameInputInvalid} ${props.classNameInput}`
+    : `${props.classNameInput}`;
+
   return (
     <FormContainer className={props.classNameContainer}>
-      <label className={props.classNameLabel}>price</label>
+      <label htmlFor="price" className={props.classNameLabel}>
+        price
+      </label>
       <input
         onChange={props.priceChangeHandler}
         onBlur={props.inputPriceTouchHandler}
         type="number"
-        className={
-          priceValid
-            ? `${props.classNameInputNonValid} ${props.classNameInput}`
-            : `${props.classNameInput}`
-        }
+        className={classNameInput}
         value={props.price}
+        id="price"
       ></input>
-      <p
-        className={
-          priceValid
-            ? `${props.classNameWarn} ${props.classNameWarnShow}`
-            : `${props.classNameWarn}`
-        }
-      >
-        {<AiFillWarning title="warning" />} price should be positive number
-      </p>
+      <Warning index={priceValid} className={props.classNameWarn}>
+        price should be positive number
+      </Warning>
     </FormContainer>
   );
 }

@@ -142,6 +142,8 @@
   --setting-category-data-bg: rgb(255, 255, 255);
 
   /* //////////////////////////////////////////////// */
+  --input-outline-focus-active: 0.5px solid var(--black);
+  --input-outline-invalid: 0.5px solid var(--red);
 }
 
 .dark {
@@ -176,7 +178,7 @@
 
   --btn-active-border: 1px solid transparent;
 
-  --btn-disabled-ft: var(--white-2);
+  --btn-disabled-color: var(--white-2);
   --btn-disabled-border: 1px solid var(--white-2);
 
   --btn-bg-main: var(--gray-2);
@@ -226,6 +228,10 @@
   /* //////////////////////////////////////////////// */
   --setting-munu-hover-bg: var(--gray);
   --setting-category-data-bg: var(--gray-7);
+
+  /* //////////////////////////////////////////////// */
+  --input-outline-focus-active: 0.5px solid var(--white-1);
+  --input-outline-invalid: 0.5px solid var(--red);
 }
 
 ::-webkit-scrollbar {
@@ -290,7 +296,6 @@ body {
   background-color: transparent;
   cursor: pointer;
   border: none;
-
   padding: 1rem;
   border-radius: 10px;
 }
@@ -301,6 +306,11 @@ body {
 
 .uppercase {
   text-transform: uppercase;
+}
+
+.transition--25 {
+  transition: all 0.25s linear;
+  -webkit-transition: all 0.25s linear;
 }
 
 /* /////////////////////////// */

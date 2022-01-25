@@ -14,6 +14,7 @@ import style from "./DailyInfo.module.css";
 import timeObj from "../../../assets/timeObj/timeObj";
 import createWeeklyData from "../../../../Others/createWeeklyData";
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
+import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
 import { TiPlus } from "react-icons/ti";
 
 const currentDate = new Date();
@@ -24,10 +25,7 @@ let weekArr = createWeeklyData(currentDate);
 function DailyInfo() {
   const [weeklyData, setWeeklyData] = useState(weekArr);
   const [selectedDate, setSelectedDate] = useState();
-  const [addDataFormModal, setAddDataFormModal] = useState({
-    show: false,
-    date: undefined,
-  });
+  const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const [modalCard, setModalCard] = useState(false);
   const [dailyExpenseData, setDailyExpenseData] = useDailyExpenseData(TODAY);
   const [accIncome, accExpense] = createAccAmount(
@@ -46,12 +44,6 @@ function DailyInfo() {
     currentDate.setDate(currentDate.getDate() - 7);
     weekArr = createWeeklyData(currentDate);
     setWeeklyData(weekArr);
-  }
-
-  function addDataFormToggler() {
-    if (addDataFormModal.show)
-      setAddDataFormModal({ show: false, date: undefined });
-    else setAddDataFormModal({ show: true, date: selectedDate });
   }
 
   function modalCardToggler(e) {
@@ -115,10 +107,10 @@ function DailyInfo() {
 
   return (
     <div className={style.daily}>
-      {addDataFormModal.show && (
+      {addDataFormModal && (
         <AddDataForm
-          closeFormHandlerFromHome={addDataFormToggler}
-          date={addDataFormModal.date}
+          addDataFormModalToggler={addDataFormModalToggler}
+          date={selectedDate}
         />
       )}
       {modalCard === "chart" && (
@@ -135,7 +127,7 @@ function DailyInfo() {
           <BtnIcons onClick={modalCardToggler} />
           <Button
             className={`${style["btn--main"]} uppercase`}
-            onClick={addDataFormToggler}
+            onClick={addDataFormModalToggler}
           >
             <TiPlus className={style["btn--icon"]} /> <p>add data</p>
           </Button>

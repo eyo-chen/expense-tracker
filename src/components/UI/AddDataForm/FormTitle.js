@@ -10,6 +10,7 @@ function FormTitle(props) {
         label="expense"
         name="title"
         value="expense"
+        id="expense"
         onChange={props.categoryChangeHandler}
         checked={props.category === "expense"}
       />
@@ -20,6 +21,7 @@ function FormTitle(props) {
         label="income"
         name="title"
         value="income"
+        id="income"
         onChange={props.categoryChangeHandler}
         checked={props.category === "income"}
       />

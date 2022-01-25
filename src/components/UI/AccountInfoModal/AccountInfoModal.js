@@ -8,17 +8,13 @@ import style from "./AccountInfoModal.module.css";
 
 function AccountInfoModal(props) {
   const { expenseData } = useContext(ExpenseDataContext);
-
   const [startingDateObj, endingDateObj] = createAccountCardPreData(props.type);
-
   const [accIncome, accExpense] = createAccAmount(
     expenseData,
     true,
     startingDateObj,
     endingDateObj
   );
-
-  const net = accIncome - accExpense;
 
   const title = props.type === "week" ? "weekly overview" : "monthly overview";
 
@@ -28,12 +24,7 @@ function AccountInfoModal(props) {
       classBackdrop={style.backdrop}
       classModal={style.modal}
     >
-      <AccountInfo
-        title={title}
-        income={accIncome}
-        expense={accExpense}
-        net={net}
-      />
+      <AccountInfo title={title} income={accIncome} expense={accExpense} />
     </ModalCloseIcon>
   );
 }

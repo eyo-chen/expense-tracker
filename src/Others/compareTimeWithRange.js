@@ -1,5 +1,8 @@
 function compareTimeWithRange(data, startDateObj, endDateObj) {
   const { year, month, day } = data;
+  const yearNum = year - 0;
+  const monthNum = month - 0;
+  const dayNum = day - 0;
 
   const startYear = startDateObj.getFullYear(),
     startMonth = startDateObj.getMonth() + 1,
@@ -10,12 +13,12 @@ function compareTimeWithRange(data, startDateObj, endDateObj) {
     endDay = endDateObj.getDate();
 
   const startingIndex =
-    (year - 0 === startYear && month - 0 > startMonth) ||
-    (year - 0 === startYear && month - 0 === startMonth && day - 0 >= startDay);
+    (yearNum === startYear && monthNum > startMonth) ||
+    (yearNum === startYear && monthNum === startMonth && dayNum >= startDay);
 
   const endingIndex =
-    (year - 0 === endYear && month - 0 < endMonth) ||
-    (year - 0 === endYear && month - 0 === endMonth && day - 0 <= endDay);
+    (yearNum === endYear && monthNum < endMonth) ||
+    (yearNum === endYear && monthNum === endMonth && dayNum <= endDay);
 
   return startingIndex && endingIndex;
 }

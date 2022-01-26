@@ -52,6 +52,7 @@
   --gray-5: rgb(200, 200, 200);
   --gray-6: rgb(75, 75, 75);
   --gray-7: rgb(105, 105, 105);
+  --gray-8: rgb(131, 131, 131);
 
   /* //////////////////////////////////////////////// */
   --red: rgb(255, 78, 78);
@@ -95,7 +96,7 @@
 
   --btn-bg-main: var(--black-9);
 
-  --btn-eye: var(--gray-3);
+  --btn-eye: var(--gray-8);
 
   --btn-form-bg: var(--gray-3);
   --btn-form-hover-bg: var(--gray);

@@ -6,6 +6,7 @@ import AddDataForm from "../AddDataForm/AddDateForm";
 import DescriptionModal from "../DescriptionModal/DescriptionModal";
 import CategoryContext from "../../../store/category/category--context";
 import useAddDataForm from "../../../Others/Custom/useAddDataForm";
+import formatMoney from "../../../Others/FormatMoney/formatMoney";
 import { MdMoreVert } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
@@ -149,7 +150,7 @@ function ExpenseItem(props) {
         </div>
 
         <div>
-          <p className={style["item__price"]}>${props.price}</p>
+          <p className={style["item__price"]}>${formatMoney(props.price)}</p>
 
           {/* 
           Note that here and below

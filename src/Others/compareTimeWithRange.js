@@ -1,24 +1,22 @@
+import createYearMonthDay from "./CreateYearMonthDay/createYearMonthDay";
+import coerceNumber from "./CoerceNumber/coerceNumber";
+
 function compareTimeWithRange(data, startDateObj, endDateObj) {
-  const { year, month, day } = data;
-  const yearNum = year - 0;
-  const monthNum = month - 0;
-  const dayNum = day - 0;
+  const { year: curYear, month: curMonth, day: curDay } = data;
+  const [year, month, day] = coerceNumber(curYear, curMonth, curDay);
 
-  const startYear = startDateObj.getFullYear(),
-    startMonth = startDateObj.getMonth() + 1,
-    startDay = startDateObj.getDate();
+  const [startingYear, startingMonth, startingDate] =
+    createYearMonthDay(startDateObj);
 
-  const endYear = endDateObj.getFullYear(),
-    endMonth = endDateObj.getMonth() + 1,
-    endDay = endDateObj.getDate();
+  const [endingYear, endingMonth, endingDate] = createYearMonthDay(endDateObj);
 
   const startingIndex =
-    (yearNum === startYear && monthNum > startMonth) ||
-    (yearNum === startYear && monthNum === startMonth && dayNum >= startDay);
+    (year === startingYear && month > startingMonth) ||
+    (year === startingYear && month === startingMonth && day >= startingDate);
 
   const endingIndex =
-    (yearNum === endYear && monthNum < endMonth) ||
-    (yearNum === endYear && monthNum === endMonth && dayNum <= endDay);
+    (year === endingYear && month < endingMonth) ||
+    (year === endingYear && month === endingMonth && day <= endingDate);
 
   return startingIndex && endingIndex;
 }

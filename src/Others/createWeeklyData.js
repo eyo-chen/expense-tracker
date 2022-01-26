@@ -1,3 +1,5 @@
+import createYearMonthDay from "./CreateYearMonthDay/createYearMonthDay";
+
 const dateOptions = {
   weekday: "short",
 };
@@ -20,11 +22,17 @@ function createWeeklyData(currentDate) {
 
   /*
   .setDate() will change the date object
-  In order to avoid change the input, so we copy the value of input
+  In order to avoid mutating the arguement date object, so we first copy the value of input
   (pure function)
   */
   const newCurrentDate = new Date(currentDate.getTime());
 
+  /*
+  newCurrentDate.getDate() - newCurrentDate.getDay() return the first day of the week
+  For example, it's 01/26 WED (newCurrentDate)
+  newCurrentDate.getDate() = 26, newCurrentDate.getDay() = 3
+  26 - 3 = 23 -> first day of the week
+  */
   for (let i = 0; i < 7; i++) {
     const date = new Date(
       newCurrentDate.setDate(
@@ -32,9 +40,7 @@ function createWeeklyData(currentDate) {
       )
     );
 
-    const year = date.getFullYear(),
-      month = date.getMonth(),
-      monthDay = date.getDate();
+    const [year, month, monthDay] = createYearMonthDay(date);
 
     dateArr.push({
       weekDay: new Intl.DateTimeFormat("en-US", dateOptions)

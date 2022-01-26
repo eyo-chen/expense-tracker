@@ -12,24 +12,6 @@ const { YEAR, MONTH, DAY, TODAY } = timeObj;
 function AccountCard() {
   const { expenseData } = useContext(ExpenseDataContext);
 
-  /*
-  const accIncome = expenseData
-    .filter(
-      (expenseData) =>
-        expenseData.category === "income" &&
-        Number(new Date(expenseData.time)) <= Number(TODAY)
-    )
-    .reduce((acc, cur) => acc + Number(cur.price), 0);
-
-  const accExpense = expenseData
-    .filter(
-      (expenseData) =>
-        expenseData.category === "expense" &&
-        Number(new Date(expenseData.time)) <= Number(TODAY)
-    )
-    .reduce((acc, cur) => acc + Number(cur.price), 0);
-  */
-
   const accIncome = expenseData
     .filter(
       (expenseData) =>

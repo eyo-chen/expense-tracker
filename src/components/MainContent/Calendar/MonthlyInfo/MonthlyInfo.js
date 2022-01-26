@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import AccountSection from "../../../UI/AccountSection/AccountSection";
+import CardChartSection from "../../../UI/CardChartSection/CardChartSection";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--context";
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
@@ -32,7 +32,7 @@ function CalendarInfo(props) {
 
   return (
     <div className={style.monthly}>
-      <AccountSection
+      <CardChartSection
         title="Monthly Overview"
         income={accIncome}
         expense={accExpense}

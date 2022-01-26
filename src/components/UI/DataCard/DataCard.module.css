@@ -1,0 +1,38 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 2.75rem;
+}
+
+.btn {
+  fill: var(--btn-eye);
+  font-size: 3rem;
+}
+
+/* more specific  */
+.btn__icon .btn__text {
+  bottom: -3rem;
+}
+
+.data__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2.5rem;
+}
+
+@media screen and (max-width: 800px) {
+  .card {
+    padding: 4rem 5rem;
+  }
+}

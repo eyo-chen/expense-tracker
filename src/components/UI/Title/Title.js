@@ -1,15 +1,11 @@
 import style from "./Title.module.css";
 
 function Title(props) {
-  return (
-    <h2
-      className={
-        props.className ? `${style.title} ${props.className}` : `${style.title}`
-      }
-    >
-      {props.children}
-    </h2>
-  );
+  const className = props.className
+    ? `${style.title} ${props.className} uppercase`
+    : `${style.title} uppercase`;
+
+  return <h1 className={className}>{props.children}</h1>;
 }
 
 export default Title;

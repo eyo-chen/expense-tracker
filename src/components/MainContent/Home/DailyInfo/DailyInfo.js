@@ -14,7 +14,10 @@ import style from "./DailyInfo.module.css";
 import timeObj from "../../../assets/timeObj/timeObj";
 import createWeeklyData from "../../../../Others/createWeeklyData";
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
+import createYearMonthDay from "../../../../Others/CreateYearMonthDay/createYearMonthDay";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
+import formatMoney from "../../../../Others/FormatMoney/formatMoney";
+import mutipleArgsHelper from "../../../../Others/MultipleArgsHelper/multipleArgsHelper";
 import { TiPlus } from "react-icons/ti";
 
 const currentDate = new Date();
@@ -32,6 +35,12 @@ function DailyInfo() {
     dailyExpenseData,
     ...Array(3), // skip three arguments
     true
+  );
+  const [income, expense, netIncome] = mutipleArgsHelper(
+    formatMoney,
+    accIncome,
+    accExpense,
+    accIncome - accExpense
   );
 
   function nextWeekClickHandler() {
@@ -59,39 +68,41 @@ function DailyInfo() {
 
   let active = false;
   let selected = false;
-  const weeklyCalendarList = weeklyData.map((time) => {
-    // check if it's "current" today
-    if (
-      time.year === TODAY.getFullYear() &&
-      time.month === TODAY.getMonth() &&
-      time.monthDay === TODAY.getDate()
-    )
-      active = true;
-    else active = false;
+  const weeklyCalendarList = weeklyData.map(
+    ({ year, month, monthDay, weekDay, dateObj }) => {
+      // check if it's "current" today
+      const [todayYear, todayMonth, todayDate] = createYearMonthDay(TODAY);
+      if (year === todayYear && month === todayMonth && monthDay === todayDate)
+        active = true;
+      else active = false;
 
-    // check if it's selected day
-    if (
-      time.year === new Date(selectedDate).getFullYear() &&
-      time.month === new Date(selectedDate).getMonth() &&
-      time.monthDay === new Date(selectedDate).getDate() &&
-      !active
-    )
-      selected = true;
-    else selected = false;
+      // check if it's selected day
+      const [selectedYear, selectedMonth, selectedDateNum] = createYearMonthDay(
+        new Date(selectedDate)
+      );
+      if (
+        year === selectedYear &&
+        month === selectedMonth &&
+        monthDay === selectedDateNum &&
+        !active
+      )
+        selected = true;
+      else selected = false;
 
-    return (
-      <CalendarList
-        key={time.weekDay}
-        weekDay={time.weekDay}
-        monthDay={time.monthDay}
-        dateObj={time.dateObj}
-        active={active}
-        selected={selected}
-        setDailyExpenseData={setDailyExpenseData}
-        setSelectedDate={setSelectedDate}
-      />
-    );
-  });
+      return (
+        <CalendarList
+          key={weekDay}
+          weekDay={weekDay}
+          monthDay={monthDay}
+          dateObj={dateObj}
+          active={active}
+          selected={selected}
+          setDailyExpenseData={setDailyExpenseData}
+          setSelectedDate={setSelectedDate}
+        />
+      );
+    }
+  );
 
   let listContent = (
     <div className={style.noData}>
@@ -155,9 +166,9 @@ function DailyInfo() {
       </div>
 
       <div className={`${style.card} capitalize`}>
-        <DailyDataCard text="expense" value={accExpense} />
-        <DailyDataCard text="income" value={accIncome} />
-        <DailyDataCard text="net income" value={accIncome - accExpense} />
+        <DailyDataCard text="expense" value={expense} />
+        <DailyDataCard text="income" value={income} />
+        <DailyDataCard text="net income" value={netIncome} />
       </div>
       {listContent}
     </div>

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import AccountSection from "../../../UI/AccountSection/AccountSection";
+import CardChartSection from "../../../UI/CardChartSection/CardChartSection";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--context";
 import createAccountCardPreData from "../../../../Others/CreateAccountCardData/createAccountCardPreData";
@@ -39,7 +39,7 @@ function WeeklyInfo() {
 
   return (
     <div className={style.weekly}>
-      <AccountSection
+      <CardChartSection
         title="Weekly Overview"
         income={accIncome}
         expense={accExpense}

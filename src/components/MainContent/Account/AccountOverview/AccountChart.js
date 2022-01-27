@@ -45,7 +45,6 @@ function AccountChart() {
       ],
     },
     options: {
-      // height: "900px",
       maintainAspectRatio: false,
       elements: {
         line: {

@@ -13,9 +13,6 @@
 }
 
 .btn__container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 4rem;
 }
 
@@ -27,7 +24,6 @@
   align-items: center;
   gap: 5px;
   padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
 }
 
 .btn--main p {
@@ -40,15 +36,11 @@
   height: 35%;
   align-self: center;
   justify-self: center;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: var(--btn-arrow-bg);
-
   transform: translateY(-5px);
   box-shadow: var(--btn-arrow-box-shadow);
   transition: all 0.1s linear;
+  -webkit-transition: all 0.1s linear;
 }
 
 .btn--arow:active {
@@ -63,9 +55,15 @@
   bottom: -4rem;
 }
 
+.btn__text--main {
+  font-size: 1.5rem;
+  width: 15rem;
+  bottom: -3.5rem;
+  padding: 0.5rem;
+}
+
 .calendar__container {
   height: 10rem;
-
   display: flex;
   justify-content: space-around;
 }
@@ -78,8 +76,6 @@
 
 .item {
   height: 53vh;
-  /* padding: 0 5rem; */
-
   font-size: 1.5rem;
   overflow-y: scroll;
 }
@@ -96,21 +92,16 @@
   border: none;
   background-color: var(--line-list);
   border-radius: 10px;
-
   align-self: center;
 }
 
 .noData {
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   margin-top: 5rem;
 }
 
 .noData p {
   font-size: 3rem;
-  text-transform: capitalize;
   letter-spacing: 1.2px;
   margin-bottom: 2rem;
 }

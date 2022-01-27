@@ -47,22 +47,21 @@ function AddingSubCategoryModal(props) {
       </div>
       <form onSubmit={submitHandler}>
         <div className={style["big__container"]}>
-          <InputText
-            label="name"
-            classInputContainer={style["input__container"]}
-            value={name}
-            onChange={inputTextChangeHandler}
-            classInput={
-              duplicate
-                ? `${style.input} ${style["input--invalid"]}`
-                : `${style.input}`
-            }
-          />
-          {/* {duplicate && (
-            <p className={style.warning}>
-              {<AiFillWarning />} duplicate category name
-            </p>
-          )} */}
+          <div className={style["input__container"]}>
+            <InputText
+              name="subcategory name"
+              label="subcategory name"
+              value={name}
+              onChange={inputTextChangeHandler}
+              classLabel={style.label}
+              classInput={
+                duplicate
+                  ? `${style.input} ${style["input--invalid"]}`
+                  : `${style.input}`
+              }
+            />
+          </div>
+
           <Warning className={style.warning} index={duplicate}>
             duplicate category name is not allowed
           </Warning>

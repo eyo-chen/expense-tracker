@@ -6,7 +6,7 @@ import ExpenseListModal from "../../../UI/ExpenseListModal/ExpenseListModal";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
 import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
 import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
-import AccountInfoModal from "../../../UI/AccountInfoModal/AccountInfoModal";
+import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
 import style from "./CalendarTable.module.css";
@@ -107,7 +107,7 @@ function CalendarTable(prop) {
         <SmallChartModal type="month" modalCardToggler={modalCardToggler} />
       )}
       {modalCard === "info" && (
-        <AccountInfoModal type="month" modalCardToggler={modalCardToggler} />
+        <DataCardModal type="month" modalCardToggler={modalCardToggler} />
       )}
 
       <div className={style["icon__container"]}>

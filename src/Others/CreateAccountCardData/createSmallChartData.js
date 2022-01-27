@@ -1,5 +1,3 @@
-import createWeeklyData from "../createWeeklyData";
-import createDateStringFormat from "../CreateDateStringFormat/CreateDateStringFormat";
 import createConfigObj from "../CreateChartData/createConfigObj";
 
 function createSmallChartData(

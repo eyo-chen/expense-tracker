@@ -1,16 +1,17 @@
 import FormContainer from "./FormContainer";
+import Select from "../Select/Select";
 
 function FormSubCategory(props) {
   return (
     <FormContainer>
-      <label htmlFor="subCategory" className={props.classNameLabel}>
+      <label htmlFor="subCategory" className={props.classLabel}>
         sub category
       </label>
-      <select
+      <Select
         value={props.subCategory}
         onChange={props.subCategoryChangeHandler}
-        className={props.classNameInput}
-        type="select"
+        className={props.classInput}
+        name="subCategory"
         id="subCategory"
       >
         {props.subCategoryArr.map((element) => (
@@ -18,7 +19,7 @@ function FormSubCategory(props) {
             {element}
           </option>
         ))}
-      </select>
+      </Select>
     </FormContainer>
   );
 }

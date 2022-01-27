@@ -6,14 +6,14 @@ import { AiFillMoneyCollect } from "react-icons/ai";
 import { BsNewspaper } from "react-icons/bs";
 
 function BtnIcons(props) {
+  const classBtn = props.news
+    ? `${style["btn--icon"]} ${style["btn--icon--news"]}`
+    : `${style["btn--icon"]}`;
+
   return (
     <>
       <BtnIcon
-        classBtn={
-          props.news
-            ? `${style["btn--icon"]} ${style["btn--icon--news"]}`
-            : `${style["btn--icon"]}`
-        }
+        classBtn={classBtn}
         onClick={props.onClick}
         dataID="chart"
         text="chart"
@@ -21,11 +21,7 @@ function BtnIcons(props) {
         <AiOutlineBarChart className={style.icon} />
       </BtnIcon>
       <BtnIcon
-        classBtn={
-          props.news
-            ? `${style["btn--icon"]} ${style["btn--icon--news"]}`
-            : `${style["btn--icon"]}`
-        }
+        classBtn={classBtn}
         onClick={props.onClick}
         dataID={props.news ? "news" : "info"}
         text={props.news ? "news" : "info"}

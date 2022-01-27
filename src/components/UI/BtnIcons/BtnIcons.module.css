@@ -15,6 +15,7 @@
   right: 0;
 }
 
+/* show the news & chart btn early */
 @media screen and (max-width: 1200px) {
   .btn--icon--news {
     display: inline-block;

@@ -1,16 +1,14 @@
 import { useState } from "react";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
-import AccountInfoModal from "../../../UI/AccountInfoModal/AccountInfoModal";
-import Button from "../../../UI/Button/Button";
+import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
-import CalendarList from "./CalendarList";
+import WeeklyCalendarList from "./WeeklyCalendarList";
 import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
 import useDailyExpenseData from "../../../../Others/Custom/useDailyExpenseData";
 import Title from "../../../UI/Title/Title";
 import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
 import DailyDataCard from "./DailyDataCard";
-import style from "./DailyInfo.module.css";
 import timeObj from "../../../assets/timeObj/timeObj";
 import createWeeklyData from "../../../../Others/createWeeklyData";
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
@@ -19,6 +17,7 @@ import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
 import formatMoney from "../../../../Others/FormatMoney/formatMoney";
 import mutipleArgsHelper from "../../../../Others/MultipleArgsHelper/multipleArgsHelper";
 import { TiPlus } from "react-icons/ti";
+import style from "./DailyInfo.module.css";
 
 const currentDate = new Date();
 const { TODAY } = timeObj;
@@ -43,14 +42,13 @@ function DailyInfo() {
     accIncome - accExpense
   );
 
-  function nextWeekClickHandler() {
-    currentDate.setDate(currentDate.getDate() + 7);
-    weekArr = createWeeklyData(currentDate);
-    setWeeklyData(weekArr);
-  }
+  function arrowBtnClickHandler(e) {
+    const id = e.target.dataset.id;
 
-  function lastWeekClickHandler() {
-    currentDate.setDate(currentDate.getDate() - 7);
+    if (id === "next") currentDate.setDate(currentDate.getDate() + 7);
+    else if (id === "last") currentDate.setDate(currentDate.getDate() - 7);
+    else return;
+
     weekArr = createWeeklyData(currentDate);
     setWeeklyData(weekArr);
   }
@@ -72,14 +70,15 @@ function DailyInfo() {
     ({ year, month, monthDay, weekDay, dateObj }) => {
       // check if it's "current" today
       const [todayYear, todayMonth, todayDate] = createYearMonthDay(TODAY);
-      if (year === todayYear && month === todayMonth && monthDay === todayDate)
-        active = true;
-      else active = false;
-
       // check if it's selected day
       const [selectedYear, selectedMonth, selectedDateNum] = createYearMonthDay(
         new Date(selectedDate)
       );
+
+      if (year === todayYear && month === todayMonth && monthDay === todayDate)
+        active = true;
+      else active = false;
+
       if (
         year === selectedYear &&
         month === selectedMonth &&
@@ -90,7 +89,7 @@ function DailyInfo() {
       else selected = false;
 
       return (
-        <CalendarList
+        <WeeklyCalendarList
           key={weekDay}
           weekDay={weekDay}
           monthDay={monthDay}
@@ -105,7 +104,7 @@ function DailyInfo() {
   );
 
   let listContent = (
-    <div className={style.noData}>
+    <div className={`${style.noData} center--flex capitalize`}>
       <p>no data</p>
       <p>click button to add data</p>
     </div>
@@ -128,28 +127,31 @@ function DailyInfo() {
         <SmallChartModal type="week" modalCardToggler={modalCardToggler} />
       )}
       {modalCard === "info" && (
-        <AccountInfoModal type="week" modalCardToggler={modalCardToggler} />
+        <DataCardModal type="week" modalCardToggler={modalCardToggler} />
       )}
 
       <div className={style["title__container"]}>
         <Title>daily transection</Title>
 
-        <div className={style["btn__container"]}>
+        <div className={`${style["btn__container"]} center--flex`}>
           <BtnIcons onClick={modalCardToggler} />
-          <Button
-            className={`${style["btn--main"]} uppercase`}
+          <BtnIcon
             onClick={addDataFormModalToggler}
+            text="click to add data"
+            classBtn={`${style["btn--main"]} uppercase`}
+            classText={style["btn__text--main"]}
           >
             <TiPlus className={style["btn--icon"]} /> <p>add data</p>
-          </Button>
+          </BtnIcon>
         </div>
       </div>
 
       <div className={style["calendar__container"]}>
         <BtnIcon
           text="last week"
-          onClick={lastWeekClickHandler}
-          classBtn={style["btn--arow"]}
+          dataID="last"
+          onClick={arrowBtnClickHandler}
+          classBtn={`${style["btn--arow"]} center--flex`}
           classText={style["btn__text"]}
         >
           {"<"}
@@ -157,8 +159,9 @@ function DailyInfo() {
         {weeklyCalendarList}
         <BtnIcon
           text="next week"
-          onClick={nextWeekClickHandler}
-          classBtn={style["btn--arow"]}
+          dataID="next"
+          onClick={arrowBtnClickHandler}
+          classBtn={`${style["btn--arow"]} center--flex`}
           classText={style["btn__text"]}
         >
           {">"}

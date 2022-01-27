@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Title from "../Title/Title";
 import SubTitle from "../SubTitle/SubTitle";
 import Card from "../Card/Card";
 import BtnIcon from "../BtnIcon/BtnIcon";

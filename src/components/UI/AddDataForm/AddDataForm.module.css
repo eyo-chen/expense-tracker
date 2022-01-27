@@ -18,16 +18,9 @@
 
 .input {
   width: 90%;
-  padding: 0.5rem 1rem;
-  font-weight: 400;
   font-size: 1.8rem;
   margin-top: 1rem;
-  background-color: var(--select-bg);
-  color: var(--select-ft);
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  letter-spacing: 1.2px;
+  letter-spacing: 1px;
 }
 
 .input:hover ~ .title {
@@ -67,11 +60,6 @@
 
 .form__container {
   margin-left: 2rem;
-}
-
-.input:focus,
-.input:active {
-  outline: var(--input-outline-focus-active);
 }
 
 .input--invalid,
@@ -114,6 +102,10 @@
   color: var(--btn-disabled-color);
   border: var(--btn-disabled-border);
   cursor: not-allowed;
+}
+
+.btn--invalid:hover {
+  background-color: transparent;
 }
 
 @media screen and (max-width: 1200px) {

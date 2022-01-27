@@ -9,7 +9,6 @@
   display: none;
 }
 
-/* only show the modal when the size of window is less then 800px */
 @media screen and (max-width: 800px) {
   .modal {
     display: block;

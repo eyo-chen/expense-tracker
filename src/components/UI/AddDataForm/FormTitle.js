@@ -2,11 +2,11 @@ import InputRadio from "../InputRadio/InputRadio";
 
 function FormTitle(props) {
   return (
-    <div className={props.classNameContainer}>
+    <div className={props.classContainer}>
       <InputRadio
-        classInput={props.classNameInput}
-        classCheck={`${props.classNameExpense} ${props.classNameCheck}`}
-        classLabel={props.classNameTitle}
+        classInput={props.classInput}
+        classCheck={`${props.classExpense} ${props.classCheck}`}
+        classLabel={props.classTitle}
         label="expense"
         name="title"
         value="expense"
@@ -15,9 +15,9 @@ function FormTitle(props) {
         checked={props.category === "expense"}
       />
       <InputRadio
-        classInput={props.classNameInput}
-        classCheck={`${props.classNameIncome} ${props.classNameCheck}`}
-        classLabel={props.classNameTitle}
+        classInput={props.classInput}
+        classCheck={`${props.classIncome} ${props.classCheck}`}
+        classLabel={props.classTitle}
         label="income"
         name="title"
         value="income"

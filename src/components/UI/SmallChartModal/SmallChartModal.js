@@ -11,15 +11,13 @@ function SmallChartModal(props) {
   const { expenseData, categoryExpense } = useContext(ExpenseDataContext);
   const { displayTheme } = useContext(DisplayThemeContext);
 
-  let configBar, configPie;
-
   const type = props.type === "week" ? "week" : "month";
   const duration = props.type === "week" ? "7" : "30";
 
   const [, , startingDateString, endingDateString, labels] =
     createAccountCardPreData(type);
 
-  [configBar, configPie] = createSmallChartData(
+  const [configBar, configPie] = createSmallChartData(
     expenseData,
     duration,
     startingDateString,

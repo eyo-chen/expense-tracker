@@ -156,6 +156,7 @@ function ChartOption(props) {
                 dispatchChartData={dispatchChartData}
                 valueStarting={chartData.startingDate}
                 valueEnding={chartData.endingDate}
+                mainType={chartData.mainType}
                 optionMainData={optionMainData}
                 timeValidIndex={timeValidIndex}
                 timeOrderValidIndex={timeOrderValidIndex}

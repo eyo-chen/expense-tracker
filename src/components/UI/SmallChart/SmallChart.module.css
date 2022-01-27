@@ -10,56 +10,20 @@
   margin-bottom: 2rem;
 }
 
-.chart {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 40px;
+.label {
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  font-size: 2.75rem;
 }
 
 .chart__container {
-  width: 100%;
-  min-width: 30rem;
-  min-height: 20rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.chart {
-  height: auto !important;
-  width: 30rem !important;
+  width: 30rem;
+  height: 20rem;
+  margin-top: 5rem;
 }
 
 .chart--pie {
-  height: auto !important;
-  width: 27rem !important;
-}
-
-.explain--pie {
-  margin-bottom: 2.5rem;
-}
-
-@media screen and (max-width: 1000px) {
-  .weekly {
-    grid-column: 2/3;
-  }
-
-  .chart__container {
-    min-width: 25rem;
-    min-height: 15rem;
-  }
-
-  .chart {
-    height: auto !important;
-    width: 27rem !important;
-  }
-
-  .chart--pie {
-    height: auto !important;
-    width: 24rem !important;
-  }
+  height: 25rem;
 }
 
 @media screen and (max-width: 800px) {
@@ -69,18 +33,17 @@
 
   .title__section {
     padding: 0 3rem;
-    margin: 0;
   }
 
-  .chart {
-    height: auto !important;
-    width: 38rem !important;
+  .chart__container {
+    width: 40rem;
+    height: auto;
+
+    margin: 4rem auto 0 auto;
   }
 
   .chart--pie {
-    margin-top: 2rem;
-    height: auto !important;
-    width: 33rem !important;
+    height: 30rem;
   }
 
   .title {

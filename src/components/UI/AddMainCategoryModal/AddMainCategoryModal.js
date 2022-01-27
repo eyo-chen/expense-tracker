@@ -92,21 +92,21 @@ function AddMainCategoryModal(props) {
       <HorizontalLine />
       <form onSubmit={formSubmitHandler} className={style.form}>
         <div className={style["big__container"]}>
-          <InputText
-            id="name"
-            type="text"
-            label="category name"
-            value={form.name}
-            classLabel={style.label}
-            classInput={
-              form.isDuplicate
-                ? `${style.input} ${style["input--invalid"]}`
-                : `${style.input}`
-            }
-            classInputContainer={style["input__container"]}
-            onChange={inputTextChangeHandler}
-          />
-
+          <div className={style["input__container"]}>
+            <InputText
+              name="maincategory name"
+              id="name"
+              label="maincategory name"
+              value={form.name}
+              classLabel={style.label}
+              classInput={
+                form.isDuplicate
+                  ? `${style.input} ${style["input--invalid"]}`
+                  : `${style.input}`
+              }
+              onChange={inputTextChangeHandler}
+            />
+          </div>
           <Warning className={style.warning} index={form.isDuplicate}>
             duplicate category name is not allowed
           </Warning>

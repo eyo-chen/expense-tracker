@@ -87,14 +87,13 @@ function ExpenseItem(props) {
     btnMore
   )
     editedDescription = props.description
-      .slice(0, limitedLength - 18)
-      .padEnd(limitedLength - 14, ".");
+      .slice(0, limitedLength - 10)
+      .padEnd(limitedLength - 6, ".");
 
   return (
     <Fragment>
       {deleteModal && (
         <DeleteModal
-          // expenseDataModal={props.expenseDataModal} (not sure what this is about)
           expenseListCalendar={props.expenseListCalendar}
           id={props.id}
           setDeleteModal={setDeleteModal}

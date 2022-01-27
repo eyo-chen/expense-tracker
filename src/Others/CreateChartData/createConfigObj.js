@@ -96,6 +96,7 @@ function createConfigObj(
         ],
       },
       options: {
+        maintainAspectRatio: false,
         plugins: {
           // title: {
           //   display: true,
@@ -200,6 +201,7 @@ function createConfigObj(
         ],
       },
       options: {
+        maintainAspectRatio: false,
         plugins: {
           // labels: {
           //   render: "percentage",

@@ -15,12 +15,12 @@ function FormPrice(props) {
   const priceValid = props.isValid && props.priceTouch;
 
   const classNameInput = priceValid
-    ? `${props.classNameInputInvalid} ${props.classNameInput}`
-    : `${props.classNameInput}`;
+    ? `${props.classInputInvalid} ${props.classInput} input`
+    : `${props.classInput} input`;
 
   return (
-    <FormContainer className={props.classNameContainer}>
-      <label htmlFor="price" className={props.classNameLabel}>
+    <FormContainer className={props.classContainer}>
+      <label htmlFor="price" className={props.classLabel}>
         price
       </label>
       <input
@@ -31,7 +31,7 @@ function FormPrice(props) {
         value={props.price}
         id="price"
       ></input>
-      <Warning index={priceValid} className={props.classNameWarn}>
+      <Warning index={priceValid} className={props.classWarn}>
         price should be positive number
       </Warning>
     </FormContainer>

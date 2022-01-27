@@ -2,7 +2,6 @@ import { useRef, useEffect, useState, useContext } from "react";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import EditModalContext from "../../../store/editModal/editModal--context";
 import Card from "../Card/Card";
-import Title from "../Title/Title";
 import Select from "../Select/Select";
 import style from "./SmallChart.module.css";
 import Chart from "chart.js/auto";
@@ -32,24 +31,30 @@ function SmallChart(props) {
     };
   }, [chartState, expenseData, editModal]);
 
+  // pie chart need more height
+  const classNameChart =
+    chartState === "1"
+      ? `${style["chart__container"]} ${style["chart--pie"]} `
+      : `${style["chart__container"]} `;
+
   return (
     <Card className={style["chart__section"]}>
       <div className={style["title__section"]}>
-        <Title className={style.title}>Chart</Title>
-        <Select onChange={selectChangeHandler} className={style.select}>
+        <label htmlFor="chart" className={style.label}>
+          Chart
+        </label>
+        <Select
+          name="chart"
+          id="chart"
+          onChange={selectChangeHandler}
+          className={style.select}
+        >
           <option value="0">bar chart</option>
           <option value="1">pie chart</option>
         </Select>
       </div>
-      <div className={style["chart__container"]}>
-        <canvas
-          ref={chartRef}
-          className={
-            chartState === "1" ? `${style["chart--pie"]}` : `${style["chart"]}`
-          }
-          height="200"
-          width="auto"
-        ></canvas>
+      <div className={classNameChart}>
+        <canvas ref={chartRef} height="200" width="auto"></canvas>
       </div>
     </Card>
   );

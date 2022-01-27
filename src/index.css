@@ -114,6 +114,8 @@
   /* //////////////////////////////////////////////// */
   --select-bg: var(--gray-2);
   --select-ft: var(--black-1);
+  --input-bg: var(--gray-2);
+  --input-ft: var(--black-1);
 
   /* //////////////////////////////////////////////// */
   --checkbox-active: var(--gray-6);
@@ -202,6 +204,9 @@
   /* //////////////////////////////////////////////// */
   --select-bg: var(--black-5);
   --select-ft: var(--white);
+
+  --input-bg: var(--black-5);
+  --input-ft: var(--white);
 
   /* //////////////////////////////////////////////// */
   --checkbox-active: var(--white-1);
@@ -312,6 +317,20 @@ body {
 .transition--25 {
   transition: all 0.25s linear;
   -webkit-transition: all 0.25s linear;
+}
+
+.input {
+  padding: 0.5rem 1rem;
+  background-color: var(--input-bg);
+  color: var(--input-ft);
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+
+.input:focus,
+.input:active {
+  outline: var(--input-outline-focus-active);
 }
 
 /* /////////////////////////// */

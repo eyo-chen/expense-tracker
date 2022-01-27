@@ -1,25 +1,26 @@
 import FormContainer from "./FormContainer";
+import Select from "../Select/Select";
 
 function FormMainCategory(props) {
   return (
     <FormContainer>
-      <label htmlFor="mainCategory" className={props.classNameLabel}>
+      <label htmlFor="mainCategory" className={props.classLabel}>
         main category
-        <div className={props.classNameIcon}>{props.icon}</div>
+        <div className={props.classIcon}>{props.icon}</div>
       </label>
-      <select
+      <Select
         value={props.mainCategory}
-        onChange={props.mainCategoryChangeHandler}
-        className={props.classNameInput}
-        type="select"
         id="mainCategory"
+        name="mainCategory"
+        className={props.classInput}
+        onChange={props.mainCategoryChangeHandler}
       >
         {props.mainCategoryArr.map((element) => (
           <option value={element} key={element}>
             {element}
           </option>
         ))}
-      </select>
+      </Select>
     </FormContainer>
   );
 }

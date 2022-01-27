@@ -1,18 +1,18 @@
 import FormContainer from "./FormContainer";
+import InputText from "../InputText/InputText";
 
 function FormDescription(props) {
   return (
     <FormContainer>
-      <label htmlFor="description" className={props.classNameLabel}>
-        description (optional)
-      </label>
-      <input
+      <InputText
         value={props.description}
-        onChange={props.descriptionChangeHandler}
-        className={props.classNameInput}
-        type="text"
+        name="description"
         id="description"
-      ></input>
+        label="description (optional)"
+        onChange={props.descriptionChangeHandler}
+        classInput={props.classInput}
+        classLabel={props.classLabel}
+      />
     </FormContainer>
   );
 }

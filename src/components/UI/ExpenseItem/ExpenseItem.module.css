@@ -2,9 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   margin: 0 3rem;
-
   position: relative;
 }
 
@@ -43,7 +41,6 @@
 
 .item__description--long {
   cursor: pointer;
-  /* overflow-y: hidden; */
 }
 
 .description__text {

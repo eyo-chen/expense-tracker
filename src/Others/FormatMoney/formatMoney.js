@@ -1,26 +1,19 @@
 function formatMoney(price) {
   const absPrice = Math.abs(price);
 
-  console.log(absPrice);
-
   if (absPrice >= 1000000000) {
     const newPrice = price / 1000000000;
     const formatedPrice = Number.isInteger(newPrice)
       ? newPrice
-      : newPrice.toFixed(2);
+      : roundTwo(newPrice);
 
     return `${formatedPrice}B`;
   } else if (absPrice >= 1000000 && absPrice < 1000000000) {
     const newPrice = price / 1000000;
-    console.log(newPrice);
+
     const formatedPrice = Number.isInteger(newPrice)
       ? newPrice
-      : newPrice < 0
-      ? (Math.floor(Math.abs(newPrice) * 100) * -1) / 100
-      : newPrice.toFixed(2);
-    newPrice.toFixed(2);
-
-    // https://stackoverflow.com/questions/39768502/round-negative-value-to-2-decimal-places
+      : roundTwo(newPrice);
 
     return `${formatedPrice}M`;
   } else if (absPrice >= 1000) {
@@ -50,5 +43,10 @@ function formatMoney(price) {
 export default formatMoney;
 
 /*
-1M = 1Million = 1,000,000 = 1百万. 1B = 1Billion = 1,000,000,000 = 10亿.
+1M = 1,000,000 = 1百万
+1B = 1,000,000,000 = 10亿.
 */
+
+function roundTwo(value) {
+  return Number(Math.round(value + "e" + 2) + "e-" + 2).toFixed(2);
+}

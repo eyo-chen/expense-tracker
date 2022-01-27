@@ -1,6 +1,8 @@
-import { AiFillWarning } from "react-icons/ai";
 import SubTitle from "../../../../UI/SubTitle/SubTitle";
 import Warning from "../../../../UI/Warning/Warning";
+import InputDate from "../../../../UI/InputDate/InputDate";
+import Select from "../../../../UI/Select/Select";
+import createDateStringFormat from "../../../../../Others/CreateDateStringFormat/CreateDateStringFormat";
 import style from "./OptionTime.module.css";
 
 function OptionTime(props) {
@@ -16,25 +18,36 @@ function OptionTime(props) {
     props.dispatchChartData({ type: "TIME_DURATION", value: e.target.value });
   }
 
-  let startingDate = (
+  const minDate =
+    props.mainType === "category" && props.valueStarting.length > 1
+      ? changeDate(props.valueStarting, "next")
+      : "";
+
+  const maxDate =
+    props.mainType === "category" && props.valueEnding.length > 1
+      ? changeDate(props.valueEnding, "last")
+      : "";
+
+  const startingDate = (
     <div className={style["time__container"]}>
-      <label>starting date</label>
-      <input
-        className={style["time__input"]}
-        onChange={startingDateChangeHandler}
-        type="date"
+      <InputDate
+        label="starting date"
+        name="starting date"
+        id="starting date"
+        max={maxDate}
         value={props.valueStarting}
+        onChange={startingDateChangeHandler}
+        classNameInput={style["time__input"]}
       />
     </div>
   );
-
-  let timeContent;
 
   // Note that only show the warning icon when
   // 1. user has already choose both starting date and ending date
   // 2. user choose the wrong order of the date
   const invalidIndex = props.timeValidIndex && !props.timeOrderValidIndex;
 
+  let timeContent;
   if (props.optionMainData === "category")
     timeContent = (
       <>
@@ -46,16 +59,18 @@ function OptionTime(props) {
               : `${style["time__container"]}`
           }
         >
-          <label>ending date</label>
-          <input
-            className={
+          <InputDate
+            label="ending date"
+            name="ending date"
+            id="ending date"
+            min={minDate}
+            value={props.valueEnding}
+            onChange={endingDateChangeHandler}
+            classInput={
               invalidIndex
                 ? `${style["time__input"]} ${style["time__input--invalid"]}`
                 : `${style["time__input"]}`
             }
-            onChange={endingDateChangeHandler}
-            type="date"
-            value={props.valueEnding}
           />
           <Warning className={style.warning} index={invalidIndex}>
             ending date should be greater than starting date
@@ -101,3 +116,12 @@ function OptionTime(props) {
 }
 
 export default OptionTime;
+
+function changeDate(dateStr, type) {
+  const date = new Date(dateStr);
+
+  if (type === "next") date.setDate(date.getDate() + 1);
+  else date.setDate(date.getDate() - 1);
+
+  return createDateStringFormat(date);
+}

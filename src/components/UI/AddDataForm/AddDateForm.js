@@ -242,12 +242,12 @@ function AddDataForm(props) {
     <Modal classModal={style.modal}>
       <form onSubmit={formSubmitHandler} className={style.form}>
         <FormTitle
-          classNameContainer={style["title__container"]}
-          classNameInput={style.input}
-          classNameExpense={style.expense}
-          classNameIncome={style.income}
-          classNameCheck={style.check}
-          classNameTitle={`${style.title} uppercase transition--25`}
+          classContainer={style["title__container"]}
+          classInput={style.input}
+          classExpense={style.expense}
+          classIncome={style.income}
+          classCheck={style.check}
+          classTitle={`${style.title} uppercase transition--25`}
           category={formData.category}
           categoryChangeHandler={categoryChangeHandler}
         />
@@ -255,9 +255,9 @@ function AddDataForm(props) {
         <HorizontalLine />
         <div className={style["form__container"]}>
           <FormMainCategory
-            classNameLabel={`${style.label} capitalize`}
-            classNameIcon="center--flex"
-            classNameInput={style.input}
+            classLabel={`${style.label} capitalize`}
+            classIcon="center--flex"
+            classInput={style.input}
             mainCategory={formData.mainCategory}
             icon={formData.icon}
             mainCategoryChangeHandler={mainCategoryChangeHandler}
@@ -265,33 +265,34 @@ function AddDataForm(props) {
           />
 
           <FormSubCategory
-            classNameLabel={`${style.label} capitalize`}
-            classNameInput={style.input}
+            classLabel={`${style.label} capitalize`}
+            classInput={style.input}
             subCategoryChangeHandler={subCategoryChangeHandler}
             subCategory={formData.subCategory}
             subCategoryArr={formData.subCategoryArr}
           />
 
           <FormDescription
-            classNameLabel={`${style.label} capitalize`}
-            classNameInput={style.input}
+            classTextContainer={style["text__container"]}
+            classLabel={`${style.label} capitalize`}
+            classInput={style.input}
             description={formData.description}
             descriptionChangeHandler={descriptionChangeHandler}
           />
 
           <FormDate
-            classNameLabel={`${style.label} capitalize`}
-            classNameInput={style.input}
+            classLabel={`${style.label} capitalize`}
+            classInput={style.input}
             date={formData.date}
             dateChangeHandler={dateChangeHandler}
           />
 
           <FormPrice
-            classNameContainer={style["price__container"]}
-            classNameLabel={`${style.label} capitalize`}
-            classNameInput={style.input}
-            classNameInputInvalid={style["input--invalid"]}
-            classNameWarn={style.warning}
+            classContainer={style["price__container"]}
+            classLabel={`${style.label} capitalize`}
+            classInput={style.input}
+            classInputInvalid={style["input--invalid"]}
+            classWarn={style.warning}
             price={formData.price}
             priceTouch={formData.priceTouch}
             isValid={!formData.isValid}
@@ -300,10 +301,10 @@ function AddDataForm(props) {
           />
 
           <FormBtn
-            classNameContainer={`${style["btn__container"]}`}
-            classNameCancel={`${style.btn} uppercase transition--25`}
+            classContainer={`${style["btn__container"]}`}
+            classCancel={`${style.btn} uppercase transition--25`}
             addDataFormModalToggler={props.addDataFormModalToggler}
-            classNameAdd={
+            classAdd={
               !formData.isValid
                 ? `${style["btn--invalid"]} ${style.btn} uppercase transition--25`
                 : `${style.btn} uppercase transition--25`

@@ -12,10 +12,8 @@ function ExpenseList(props) {
         time={expense.time}
         description={expense.description}
         price={expense.price}
-        newDescription={props.description || undefined} // ??
-        modal={props.modal}
         id={expense.id}
-        // expenseDataModal={props.expenseDataModal} (not sure what this is about)
+        modal={props.modal}
         expenseListCalendar={props.expenseListCalendar}
         setExpenseListCalendar={props.setExpenseListCalendar}
         inDeleteSection={props.inDeleteSection}

@@ -14,8 +14,6 @@ function ExpenseList(props) {
         price={expense.price}
         id={expense.id}
         modal={props.modal}
-        expenseListCalendar={props.expenseListCalendar}
-        setExpenseListCalendar={props.setExpenseListCalendar}
         inDeleteSection={props.inDeleteSection}
       />
       {i === props.data.length - 1 || <hr className={style["item__line"]} />}

@@ -5,7 +5,7 @@ import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
 import WeeklyCalendarList from "./WeeklyCalendarList";
 import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
-import useDailyExpenseData from "../../../../Others/Custom/useDailyExpenseData";
+import useExpenseDataList from "../../../../Others/Custom/useExpenseDataList";
 import Title from "../../../UI/Title/Title";
 import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
 import DailyDataCard from "./DailyDataCard";
@@ -29,7 +29,7 @@ function DailyInfo() {
   const [selectedDate, setSelectedDate] = useState();
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const [modalCard, setModalCard] = useState(false);
-  const [dailyExpenseData, setDailyExpenseData] = useDailyExpenseData(TODAY);
+  const [dailyExpenseData, setDailyExpenseData] = useExpenseDataList(TODAY);
   const [accIncome, accExpense] = createAccAmount(
     dailyExpenseData,
     ...Array(3), // skip three arguments

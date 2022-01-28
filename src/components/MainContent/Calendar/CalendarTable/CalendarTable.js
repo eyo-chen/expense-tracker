@@ -1,6 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import Button from "../../../UI/Button/Button";
-import CreateCalendar from "./CreateCalendarTable";
+import CreateCalendarTable from "./CreateCalendarTable";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import ExpenseListModal from "../../../UI/ExpenseListModal/ExpenseListModal";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
@@ -9,64 +9,65 @@ import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
 import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
+import timeObj from "../../../assets/timeObj/timeObj";
+import useExpenseDataList from "../../../../Others/Custom/useExpenseDataList";
 import style from "./CalendarTable.module.css";
 
 const dateOptObj = { month: "long" };
-
-const date = new Date();
-
-const DATE = new Date();
-const MONTH = new Intl.DateTimeFormat("en-US", dateOptObj).format(new Date());
+const { TODAY } = timeObj;
 
 function CalendarTable(prop) {
   const { expenseData } = useContext(ExpenseDataContext);
   const [calendarState, setcalendarState] = useState(
-    CreateCalendar(DATE, showModalHandler, expenseData)
+    CreateCalendarTable(TODAY, expenseListModalToggler, expenseData)
   );
-  const [month, setMonth] = useState(MONTH);
-  const [year, SetYear] = useState(date.getFullYear());
+  const [date, setDate] = useState(new Date());
   const [expenseListModal, setExpenseListModal] = useState(false);
-  const [expenseListCalendar, setExpenseListCalendar] = useState([]);
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
-
   const [modalCard, setModalCard] = useState(false);
+  const [expenseDataList, selectedDate, setExpenseDataList] =
+    useExpenseDataList(date, "monthly");
+  // useRef can be used to store data that should be persisted across re-renders
+  const skipInitialRender = useRef(false);
 
   useEffect(() => {
-    const calendar = CreateCalendar(date, showModalHandler, expenseData);
-
-    setcalendarState(calendar);
+    // skip first render
+    if (skipInitialRender.current) {
+      const calendar = CreateCalendarTable(
+        date,
+        expenseListModalToggler,
+        expenseData
+      );
+      setcalendarState(calendar);
+    } else skipInitialRender.current = true;
   }, [expenseData]);
 
-  function changeMonth(change) {
-    if (change === "increase") date.setMonth(date.getMonth() + 1);
-    else date.setMonth(date.getMonth() - 1);
-
-    const calendar = CreateCalendar(date, showModalHandler, expenseData);
-
+  function arrowBtnClickHandler(e) {
+    const newDate = new Date(date);
+    if (e.target.dataset.id === "increase") {
+      newDate.setMonth(newDate.getMonth() + 1);
+    } else {
+      newDate.setMonth(newDate.getMonth() - 1);
+    }
+    const calendar = CreateCalendarTable(
+      newDate,
+      expenseListModalToggler,
+      expenseData
+    );
     setcalendarState(calendar);
-    setMonth(new Intl.DateTimeFormat("en-US", dateOptObj).format(date));
-    SetYear(date.getFullYear());
+    setDate(newDate);
   }
 
-  function showModalHandler(e) {
-    const rawData = e.target.dataset.id;
+  function expenseListModalToggler(e) {
+    if (expenseListModal) {
+      setExpenseListModal(false);
+    } else {
+      const date = e.target.dataset.id;
 
-    if (!rawData) return;
-    const data = `${rawData.slice(0, 4)}-${rawData.slice(4, 6)}-${rawData.slice(
-      6
-    )}`;
-
-    const allDataArr = expenseData.filter((element) => {
-      return element.time === data;
-    });
-
-    setExpenseListModal(true);
-    if (allDataArr.length === 0) setExpenseListCalendar(data);
-    else setExpenseListCalendar(allDataArr);
-  }
-
-  function closeModalHandler() {
-    setExpenseListModal(false);
+      if (!date) return;
+      setExpenseDataList(date);
+      setExpenseListModal(true);
+    }
   }
 
   function modalCardToggler(e) {
@@ -80,26 +81,19 @@ function CalendarTable(prop) {
     }
   }
 
-  // if expenseListCalendar is string, it means there's no data
-  // and expenseListCalendar will be the right time
-  const seletedTime =
-    typeof expenseListCalendar === "string"
-      ? expenseListCalendar
-      : expenseListCalendar[0]?.time;
-
   return (
     <>
       {expenseListModal && (
         <ExpenseListModal
-          expenseListCalendar={expenseListCalendar}
-          setExpenseListCalendar={setExpenseListCalendar}
-          closeModalHandler={closeModalHandler}
+          selectedDate={selectedDate}
+          expenseDataList={expenseDataList}
+          expenseListModalToggler={expenseListModalToggler}
           addDataFormModalToggler={addDataFormModalToggler}
         />
       )}
       {addDataFormModal && (
         <AddDataForm
-          date={seletedTime}
+          date={selectedDate}
           addDataFormModalToggler={addDataFormModalToggler}
         />
       )}
@@ -117,22 +111,24 @@ function CalendarTable(prop) {
         <div className={style["monthly__month"]}>
           <BtnIcon
             text="last month"
-            onClick={() => changeMonth("decrease")}
+            onClick={arrowBtnClickHandler}
             classBtn={style.btn}
             classText={style["btn__text"]}
+            dataID="decrease"
           >
             {"<"}
           </BtnIcon>
 
           <div className={style["monthly__title"]}>
-            <h6>{month}</h6>
-            <h6>{year}</h6>
+            <h6>{new Intl.DateTimeFormat("en-US", dateOptObj).format(date)}</h6>
+            <h6>{date.getFullYear()}</h6>
           </div>
           <BtnIcon
             text="next month"
-            onClick={() => changeMonth("increase")}
+            onClick={arrowBtnClickHandler}
             classBtn={style.btn}
             classText={style["btn__text"]}
+            dataID="increase"
           >
             {">"}
           </BtnIcon>
@@ -201,7 +197,7 @@ export default CalendarTable;
 // console.log(test);
 
 // const initialObj = {
-//   calendar: createCalendar(date),
+//   calendar: createCalendarTable(date),
 //   month: new Intl.DateTimeFormat("en-US", dateOptObj).format(date),
 //   year: date.getFullYear(),
 // };
@@ -236,7 +232,7 @@ export default CalendarTable;
 //         date.setMonth(11);
 //       } else date.setMonth(date.getMonth() - 1);
 
-//       const calendar = createCalendar(date);
+//       const calendar = createCalendarTable(date);
 //       const month = new Intl.DateTimeFormat("en-US", dateOptObj).format(date);
 //       const year = date.getFullYear();
 

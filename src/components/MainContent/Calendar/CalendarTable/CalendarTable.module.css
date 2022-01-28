@@ -50,7 +50,7 @@
   flex-wrap: wrap;
 }
 
-.monthly__days > div {
+/* .monthly__days > div {
   flex: 1 1 calc(100% / 7);
 
   display: flex;
@@ -70,7 +70,7 @@
 
 .monthly__days div:hover {
   background-color: var(--calendar-hover);
-}
+} */
 
 .btn {
   font-size: 2rem;

@@ -6,47 +6,37 @@ import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import Modal from "../Modal/Modal";
 
 function ExpenseListModal(props) {
-  let time;
-  let noData = false;
-
-  // if expenseListCalendar is string, it means there's no data
-  // and expenseListCalendar will be the right time
-  if (typeof props.expenseListCalendar === "string") {
-    time = props.expenseListCalendar;
-    noData = true;
-  } else time = props.expenseListCalendar[0].time;
-
   let scrollClassName = null;
-  if (props.expenseListCalendar.length > 6) scrollClassName = "scroll";
+  if (props.expenseDataList.length > 6) scrollClassName = "scroll";
 
   function backClickHandler() {
-    props.closeModalHandler();
+    props.expenseListModalToggler();
   }
 
   function addClickHandler() {
-    props.closeModalHandler();
+    props.expenseListModalToggler();
     props.addDataFormModalToggler();
   }
 
-  let mainContent = noData ? (
-    <SubTitle className={style.noData}>no data</SubTitle>
-  ) : (
-    <ExpenseList
-      classItem={
-        scrollClassName
-          ? `${style.expenseList} ${style[scrollClassName]}`
-          : `${style.expenseList}`
-      }
-      data={props.expenseListCalendar}
-      modal={true}
-      expenseListCalendar={props.expenseListCalendar}
-      setExpenseListCalendar={props.setExpenseListCalendar}
-    />
-  );
+  let mainContent =
+    props.expenseDataList.length === 0 ? (
+      <SubTitle className={style.noData}>no data</SubTitle>
+    ) : (
+      <ExpenseList
+        classItem={
+          scrollClassName
+            ? `${style.expenseList} ${style[scrollClassName]}`
+            : `${style.expenseList}`
+        }
+        data={props.expenseDataList}
+        modal={true}
+        inDeleteSection={false}
+      />
+    );
 
   return (
     <Modal classModal={style.modal}>
-      <SubTitle className={style.title}>{time}</SubTitle>
+      <SubTitle className={style.title}>{props.selectedDate}</SubTitle>
       <HorizontalLine />
       <div className={style["expenseList__container"]}>{mainContent}</div>
 

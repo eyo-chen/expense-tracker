@@ -51,20 +51,6 @@ function DeleteModal(props) {
 
     // remove from Search List
     if (setFilteredData) setFilteredData({ type: "DELETE", id: props.id });
-
-    // remove from Calendar List Modal
-    if (props.expenseListCalendar) {
-      const newDataForCalendarModal = props.expenseListCalendar.filter(
-        (element) => element.id !== props.id
-      );
-
-      // If there's no data after deleting, only pass the time
-      props.setExpenseListCalendar(
-        newDataForCalendarModal.length === 0
-          ? props.expenseListCalendar[0].time
-          : newDataForCalendarModal
-      );
-    }
   }
 
   return (

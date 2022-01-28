@@ -13,6 +13,7 @@ import { AiFillEdit } from "react-icons/ai";
 import style from "./ExpenseItem.module.css";
 
 function ExpenseItem(props) {
+  console.log(props);
   const [btnMore, setBtnMore] = useState(false);
   const [descriptionModal, setDescriptionModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -94,11 +95,9 @@ function ExpenseItem(props) {
     <Fragment>
       {deleteModal && (
         <DeleteModal
-          expenseListCalendar={props.expenseListCalendar}
           id={props.id}
-          setDeleteModal={setDeleteModal}
-          setExpenseListCalendar={props.setExpenseListCalendar}
           dataInfo={deletedDataInfo}
+          setDeleteModal={setDeleteModal}
         />
       )}
       {addDataFormModal && (

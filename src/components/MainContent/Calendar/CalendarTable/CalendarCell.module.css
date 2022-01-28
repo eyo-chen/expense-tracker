@@ -1,5 +1,23 @@
+.cell {
+  flex: 1 1 calc(100% / 7);
+  font-size: 2.8rem;
+  cursor: pointer;
+  transform: scaleX(0.7) scaleY(0.7);
+  border-radius: 10px;
+  position: relative;
+}
+
+.cell:hover {
+  background-color: var(--calendar-hover);
+}
+
 .negative {
   color: var(--font-low);
+  cursor: not-allowed;
+}
+
+.negative:hover {
+  background-color: transparent;
 }
 
 .current {
@@ -7,13 +25,15 @@
   color: var(--calendar-current-ft);
 }
 
+.current:hover {
+  color: var(--font-normal);
+}
+
 .dot__container {
   position: absolute;
   bottom: 20%;
-
   width: 100%;
   height: 10px;
-
   display: flex;
   justify-content: center;
   gap: 1rem;

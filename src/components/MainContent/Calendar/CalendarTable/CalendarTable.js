@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import Button from "../../../UI/Button/Button";
+import Title from "../../../UI/Title/Title";
 import CreateCalendarTable from "./CreateCalendarTable";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import ExpenseListModal from "../../../UI/ExpenseListModal/ExpenseListModal";
@@ -18,7 +18,7 @@ const { TODAY } = timeObj;
 
 function CalendarTable(prop) {
   const { expenseData } = useContext(ExpenseDataContext);
-  const [calendarState, setcalendarState] = useState(
+  const [calendarTable, setcalendarTable] = useState(
     CreateCalendarTable(TODAY, expenseListModalToggler, expenseData)
   );
   const [date, setDate] = useState(new Date());
@@ -38,23 +38,25 @@ function CalendarTable(prop) {
         expenseListModalToggler,
         expenseData
       );
-      setcalendarState(calendar);
+      setcalendarTable(calendar);
     } else skipInitialRender.current = true;
   }, [expenseData]);
 
   function arrowBtnClickHandler(e) {
+    // Reference 1
     const newDate = new Date(date);
     if (e.target.dataset.id === "increase") {
       newDate.setMonth(newDate.getMonth() + 1);
     } else {
       newDate.setMonth(newDate.getMonth() - 1);
     }
+
     const calendar = CreateCalendarTable(
       newDate,
       expenseListModalToggler,
       expenseData
     );
-    setcalendarState(calendar);
+    setcalendarTable(calendar);
     setDate(newDate);
   }
 
@@ -107,6 +109,7 @@ function CalendarTable(prop) {
       <div className={style["icon__container"]}>
         <BtnIcons onClick={modalCardToggler} />
       </div>
+
       <div className={style["monthly__container"]}>
         <div className={style["monthly__month"]}>
           <BtnIcon
@@ -119,9 +122,11 @@ function CalendarTable(prop) {
             {"<"}
           </BtnIcon>
 
-          <div className={style["monthly__title"]}>
-            <h6>{new Intl.DateTimeFormat("en-US", dateOptObj).format(date)}</h6>
-            <h6>{date.getFullYear()}</h6>
+          <div className={`${style["monthly__title"]} center--flex`}>
+            <Title className={style.title}>
+              {new Intl.DateTimeFormat("en-US", dateOptObj).format(date)}
+            </Title>
+            <Title className={style.title}>{date.getFullYear()}</Title>
           </div>
           <BtnIcon
             text="next month"
@@ -142,12 +147,39 @@ function CalendarTable(prop) {
           <div>Fri</div>
           <div>Sat</div>
         </div>
-        <div className={style["monthly__days"]}>{calendarState}</div>
+        <div className={style["monthly__days"]}>{calendarTable}</div>
       </div>
     </>
   );
 }
 export default CalendarTable;
+
+/*
+  Reference 1
+
+  Copying the new date object is vary important
+  Imagine without this
+  We set a variable called date outside the component function
+  And user modify the value whenever click the arrow btn
+
+  The weird thing's gonna happen after user exit the calendar page and come back again
+  the value of variable won't change back to initial value because it's outside the componentfunction
+  For example, initial value is February, and user keep click next month arrow btn
+  So now the value is June
+  Once user click next month arrow btn again, 
+  User expect it should be March since that's the next month of initial value
+  But not the value is July (old mutated value + one month)
+
+  Now, whenever user come back this page, our initial value is always current month
+  because that's how we set in here const [date, setDate] = useState(new Date());
+  Then user click the arrow btn, we 
+  1. copy the value
+  2. mutate tha value
+  3. set this new mutated value to the new state value
+
+  So next time user clcik the btn again
+  the date in const newDate = new Date(date); is the value we mutated in the last state
+*/
 
 /*
   // animation for month
@@ -172,7 +204,7 @@ export default CalendarTable;
   useEffect(() => {
     // if (index1 === 0) {
     //   index1++;
-    //   return;
+    //   return;Ad
     // }
 
     setAnimationMonthYear(true);

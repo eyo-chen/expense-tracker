@@ -15,8 +15,17 @@ function ExpenseList(props) {
         id={expense.id}
         modal={props.modal}
         inDeleteSection={props.inDeleteSection}
+        classItem={props.classItemSearch}
       />
-      {i === props.data.length - 1 || <hr className={style["item__line"]} />}
+      {i === props.data.length - 1 || (
+        <hr
+          className={
+            props.classItemSearch
+              ? `${style["item__line"]} ${style["item__line--long"]}`
+              : `${style["item__line"]}`
+          }
+        />
+      )}
     </Fragment>
   ));
 

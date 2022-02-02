@@ -1,8 +1,8 @@
 import Card from "../../../UI/Card/Card";
 import Title from "../../../UI/Title/Title";
-import SearchOptionTime from "./SearchOptionTime/SearchOptionTime";
-import SearchOptionPrice from "./SearchOptionPrice/SearchOptionPrice";
-import SearchOptionCategory from "./SearchOptionCategory/SearchOptionCategory";
+import SearchOptionTime from "./SearchOptionTime";
+import SearchOptionPrice from "./SearchOptionPrice";
+import SearchOptionCategory from "./SearchOptionCategory";
 import { RiCloseCircleFill } from "react-icons/ri";
 import style from "./SearchOption.module.css";
 

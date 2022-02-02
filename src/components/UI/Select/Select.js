@@ -7,9 +7,8 @@ function Select(props) {
 
   return (
     <select
-      value={props.value}
-      name={props.name}
       id={props.id}
+      name={props.name}
       onChange={props.onChange}
       className={className}
     >

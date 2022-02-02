@@ -11,10 +11,12 @@ function compareTimeWithRange(data, startDateObj, endDateObj) {
   const [endingYear, endingMonth, endingDate] = createYearMonthDay(endDateObj);
 
   const startingIndex =
+    year > startingYear ||
     (year === startingYear && month > startingMonth) ||
     (year === startingYear && month === startingMonth && day >= startingDate);
 
   const endingIndex =
+    year < endingYear ||
     (year === endingYear && month < endingMonth) ||
     (year === endingYear && month === endingMonth && day <= endingDate);
 

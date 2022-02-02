@@ -20,13 +20,13 @@ function ExpenseListModal(props) {
 
   let mainContent =
     props.expenseDataList.length === 0 ? (
-      <SubTitle className={style.noData}>no data</SubTitle>
+      <SubTitle className={`${style.empty} uppercase`}>no data</SubTitle>
     ) : (
       <ExpenseList
         classItem={
           scrollClassName
-            ? `${style.expenseList} ${style[scrollClassName]}`
-            : `${style.expenseList}`
+            ? `${style.list} ${style[scrollClassName]}`
+            : `${style.list}`
         }
         data={props.expenseDataList}
         modal={true}
@@ -38,14 +38,22 @@ function ExpenseListModal(props) {
     <Modal classModal={style.modal}>
       <SubTitle className={style.title}>{props.selectedDate}</SubTitle>
       <HorizontalLine />
-      <div className={style["expenseList__container"]}>{mainContent}</div>
+      <div className={style["list__container"]}>{mainContent}</div>
 
       <div className={style["btn__container"]}>
-        <Button onClick={backClickHandler} type="button" className={style.btn}>
+        <Button
+          onClick={backClickHandler}
+          type="button"
+          className={`${style.btn} uppercase transition--25`}
+        >
           back
         </Button>
 
-        <Button onClick={addClickHandler} type="button" className={style.btn}>
+        <Button
+          onClick={addClickHandler}
+          type="button"
+          className={`${style.btn} uppercase transition--25`}
+        >
           add data
         </Button>
       </div>
@@ -54,5 +62,3 @@ function ExpenseListModal(props) {
 }
 
 export default ExpenseListModal;
-
-/* <ExpenseList data={expenseDataCtx.EXPENSE_DATA} /> */

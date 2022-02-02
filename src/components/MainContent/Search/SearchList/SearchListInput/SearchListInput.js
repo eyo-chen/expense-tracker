@@ -50,11 +50,11 @@ function SearchListInput(props) {
 
   return (
     <div>
-      <div className={style["input__container"]}>
+      <div className={`${style["input__container"]} center--flex`}>
         <input
           value={inputValue}
           type="text"
-          className={style.input}
+          className={`${style.input} transition--25`}
           onChange={inputChangeHandler}
           placeholder="Search For Description"
         />
@@ -65,27 +65,27 @@ function SearchListInput(props) {
         <Button
           onClick={sortTimeBtnClickHandler}
           type="button"
-          className={style.btn}
+          className={`${style.btn} capitalize center--flex`}
         >
           {<MdSort className={style["btn__icon"]} />}sort by time
         </Button>
         <Button
           onClick={sortPriceBtnClickHandler}
           type="button"
-          className={style.btn}
+          className={`${style.btn} capitalize center--flex`}
         >
           {<MdSort className={style["btn__icon"]} />}sort by price
         </Button>
         <Button
           onClick={sortCategoryBtnClickHandler}
           type="button"
-          className={style.btn}
+          className={`${style.btn} capitalize center--flex`}
         >
           {<MdSort className={style["btn__icon"]} />}sort by catrgory
         </Button>
         <Button
           onClick={props.searchOptionModalToggler}
-          className={`${style.btn} ${style["btn--filter"]}`}
+          className={`${style.btn} ${style["btn--filter"]} capitalize center--flex`}
         >
           {<MdSort className={style["btn__icon"]} />}filter
         </Button>

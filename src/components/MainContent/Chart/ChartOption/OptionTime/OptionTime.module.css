@@ -33,18 +33,7 @@
   font-size: 1.5rem;
   padding: 0.8rem 1.2rem;
   margin-bottom: 1rem;
-  width: 65%;
-  /* font-size: 1.5rem;
-  text-transform: capitalize;
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  background-color: var(--select-bg);
-  color: var(--select-ft);
-
-  padding: 0.8rem 1.2rem;
-
-  margin-bottom: 1rem; */
+  width: 75%;
 }
 
 .time__input:focus,

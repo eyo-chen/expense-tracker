@@ -37,7 +37,7 @@ function OptionTime(props) {
         max={maxDate}
         value={props.valueStarting}
         onChange={startingDateChangeHandler}
-        classNameInput={style["time__input"]}
+        classInput={style["time__input"]}
       />
     </div>
   );
@@ -82,8 +82,10 @@ function OptionTime(props) {
     timeContent = (
       <>
         <div className={style["time__container"]}>
-          <label>time duration</label>
-          <select
+          <label htmlFor="duration">time duration</label>
+          <Select
+            id="duration"
+            name="dutation"
             onChange={timeDurationChangeHandler}
             className={style["time__input"]}
           >
@@ -93,7 +95,7 @@ function OptionTime(props) {
             <option value="90">three months(90days)</option>
             <option value="6">six months(6months)</option>
             <option value="12">one year(12months)</option>
-          </select>
+          </Select>
         </div>
         {startingDate}
       </>

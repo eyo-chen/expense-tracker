@@ -2,6 +2,7 @@ import FormContainer from "./FormContainer";
 import Select from "../Select/Select";
 
 function FormMainCategory(props) {
+  console.log(props.mainCategory);
   return (
     <FormContainer>
       <label htmlFor="mainCategory" className={props.classLabel}>
@@ -9,7 +10,6 @@ function FormMainCategory(props) {
         <div className={props.classIcon}>{props.icon}</div>
       </label>
       <Select
-        value={props.mainCategory}
         id="mainCategory"
         name="mainCategory"
         className={props.classInput}

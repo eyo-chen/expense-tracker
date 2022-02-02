@@ -16,3 +16,7 @@
   border-radius: 10px;
   align-self: center;
 }
+
+.item__line--long {
+  width: 99%;
+}

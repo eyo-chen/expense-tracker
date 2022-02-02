@@ -6,8 +6,7 @@ function useExpenseDataList(date, type = "daily") {
   const [dailyExpenseList, setDailyExpenseList] = useState(date);
   const { expenseData } = useContext(ExpenseDataContext);
 
-  const dayData = new Date(dailyExpenseList);
-  const dateStr = createDateStringFormat(dayData);
+  const dateStr = createDateStringFormat(new Date(dailyExpenseList));
 
   const newDayData = expenseData.filter((element) => element.time === dateStr);
 

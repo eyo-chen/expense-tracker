@@ -7,7 +7,7 @@ import createAccountCardPreData from "../../../../Others/CreateAccountCardData/c
 import createSmallChartData from "../../../../Others/CreateAccountCardData/createSmallChartData";
 import style from "./MonthlyInfo.module.css";
 
-function CalendarInfo(props) {
+function CalendarInfo() {
   const { expenseData, categoryExpense } = useContext(ExpenseDataContext);
   const { displayTheme } = useContext(DisplayThemeContext);
 
@@ -44,29 +44,3 @@ function CalendarInfo(props) {
 }
 
 export default CalendarInfo;
-
-/*
-  const accIncome = expenseData
-    .filter((expenseData) => {
-      const timeNumber = Number(new Date(expenseData.time));
-
-      return (
-        timeNumber >= Number(firstDayStringFormat) &&
-        timeNumber <= Number(lastDayStringFormat) &&
-        expenseData.category === "income"
-      );
-    })
-    .reduce((acc, cur) => acc + Number(cur.price), 0);
-
-  const accExpense = expenseData
-    .filter((expenseData) => {
-      const timeNumber = Number(new Date(expenseData.time));
-
-      return (
-        timeNumber >= Number(firstDayStringFormat) &&
-        timeNumber <= Number(lastDayStringFormat) &&
-        expenseData.category === "expense"
-      );
-    })
-    .reduce((acc, cur) => acc + Number(cur.price), 0);
-*/

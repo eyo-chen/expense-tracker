@@ -3,19 +3,28 @@ import ChartPic from "./ChartPic/ChartPic";
 import ChartOption from "./ChartOption/ChartOption";
 import Button from "../../UI/Button/Button";
 import style from "./Chart.module.css";
+import Backdrop from "../../UI/Modal/Backdrop";
 import ChartOptionModal from "../../UI/ChartOptionModal/ChartOptionModal";
 
 function Chart() {
   const [chartData, setChartData] = useState();
-  const [showChartOptionModal, setShowChartOptionModal] = useState(false);
+  const [chartOptionModal, setChartOptionModal] = useState(false);
 
   function chartOptionModalToggler() {
-    setShowChartOptionModal((prev) => !prev);
+    setChartOptionModal((prev) => !prev);
   }
 
   return (
     <div className={style.chart}>
-      <div className={style["option__container"]}>
+      {chartOptionModal && <Backdrop classBackdrop={style.backdrop} />}
+
+      <div
+        className={
+          chartOptionModal
+            ? `${style["option__container"]} ${style["option__container--show"]} center`
+            : `${style["option__container"]}`
+        }
+      >
         <ChartOption setChartData={setChartData} />
       </div>
 
@@ -27,7 +36,7 @@ function Chart() {
         <ChartPic className={style["chart__pic"]} chartData={chartData} />
       )}
 
-      {showChartOptionModal || (
+      {chartOptionModal || (
         <Button
           onClick={chartOptionModalToggler}
           className={
@@ -39,12 +48,12 @@ function Chart() {
           choose data
         </Button>
       )}
-      {showChartOptionModal && (
+      {/* {showChartOptionModal && (
         <ChartOptionModal
           chartOptionModalToggler={chartOptionModalToggler}
           setChartData={setChartData}
         />
-      )}
+      )} */}
     </div>
   );
 }

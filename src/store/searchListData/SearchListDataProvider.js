@@ -1,5 +1,5 @@
 import { useReducer, useContext } from "react";
-
+import compareTimeWithRange from "../../Others/compareTimeWithRange";
 import ExpenseDataContext from "../expenseData/expenseData--context";
 import SearchListDataContext from "./searchListData--context";
 
@@ -8,7 +8,7 @@ let originalData;
 function reducer(state, action) {
   switch (action.type) {
     case "ADD": {
-      const newObj = { ...state.constraintObj };
+      const newConstraintObj = { ...state.constraintObj };
 
       /*
       the reason need id (time, category, price)
@@ -17,27 +17,27 @@ function reducer(state, action) {
       the reason need value
       => make each filtered option being unique, so that we won't cover old data, and also can remove easily
       */
-      newObj[`${action.id}-${action.value}`] = action.value;
+      newConstraintObj[`${action.id}-${action.value}`] = action.value;
 
       return {
-        expenseData: reducerHelperFunction(newObj, originalData),
-        constraintObj: newObj,
+        expenseData: reducerHelperFunction(newConstraintObj, originalData),
+        constraintObj: newConstraintObj,
       };
     }
 
     case "REMOVE": {
-      const newObj = { ...state.constraintObj };
+      const newConstraintObj = { ...state.constraintObj };
 
       // because id + value, it can be easily removed
-      delete newObj[`${action.id}-${action.value}`];
+      delete newConstraintObj[`${action.id}-${action.value}`];
 
       let newState;
-      if (Object.keys(newObj).length === 0) newState = originalData;
+      if (Object.keys(newConstraintObj).length === 0) newState = originalData;
       else {
-        newState = reducerHelperFunction(newObj, originalData);
+        newState = reducerHelperFunction(newConstraintObj, originalData);
       }
 
-      return { expenseData: newState, constraintObj: newObj };
+      return { expenseData: newState, constraintObj: newConstraintObj };
     }
 
     case "SEARCH": {
@@ -117,79 +117,6 @@ function reducer(state, action) {
   }
 }
 
-function filterTime(data, filterArr) {
-  if (filterArr.length === 0) return data;
-
-  /*
-  all we need is the first day and last day within the vaild date range(filterArr)
-  */
-  let firstDay = Infinity,
-    lastDay = -Infinity;
-
-  filterArr.forEach((data) => {
-    const [first, last] = data.split(",");
-
-    firstDay = Math.min(firstDay, Number(new Date(first)));
-    lastDay = Math.max(lastDay, Number(new Date(last)));
-  });
-
-  // then easily filter
-  const filteredData = data.filter(
-    (data) =>
-      Number(new Date(data.time)) >= firstDay &&
-      Number(new Date(data.time)) <= lastDay
-  );
-
-  return filteredData;
-}
-
-function filterCategory(data, filterArr) {
-  if (filterArr.length === 0) return data;
-
-  return data.filter((element) => filterArr.includes(element.mainCate));
-}
-
-function filterPrice(data, filterArr) {
-  if (filterArr.length === 0) return data;
-
-  let min = Infinity;
-  let max = 0;
-  let tmpMin;
-  let tmpMax;
-  const newFilterArr = filterArr.map((arr) => arr.split(","));
-  newFilterArr.forEach((element) => {
-    [tmpMin, tmpMax] = element;
-
-    if (Number(tmpMin) < min) min = Number(tmpMin);
-    if (Number(tmpMax) > max) max = Number(tmpMax);
-  });
-
-  return data.filter(
-    (element) =>
-      Number(element.price) >= Number(min) &&
-      Number(element.price) <= Number(max)
-  );
-}
-
-function reducerHelperFunction(newObj, expenseData) {
-  let timeArr = [];
-  let priceArr = [];
-  let categoryArr = [];
-
-  for (const [key, val] of Object.entries(newObj)) {
-    const [currentType] = key.split("-");
-
-    if (currentType === "category") categoryArr.push(val);
-    else if (currentType === "price") priceArr.push(val);
-    else timeArr.push(val);
-  }
-
-  return filterCategory(
-    filterPrice(filterTime(expenseData, timeArr), priceArr),
-    categoryArr
-  );
-}
-
 function SearchListDataProvider(props) {
   const expenseDataCtx = useContext(ExpenseDataContext);
   const [filteredData, setFilteredData] = useReducer(reducer, {
@@ -208,6 +135,73 @@ function SearchListDataProvider(props) {
     <SearchListDataContext.Provider value={SearchListDataContextInitialObject}>
       {props.children}
     </SearchListDataContext.Provider>
+  );
+}
+
+function filterTime(expenseData, filterArr) {
+  if (filterArr.length === 0) return expenseData;
+
+  // all we need is the first day and last day within the vaild date range(filterArr)
+  let firstDay = Infinity,
+    lastDay = -Infinity;
+
+  filterArr.forEach((filteredData) => {
+    const [first, last] = filteredData.split(",");
+
+    firstDay = new Date(Math.min(firstDay, Number(new Date(first))));
+    lastDay = new Date(Math.max(lastDay, Number(new Date(last))));
+  });
+
+  const filteredData = expenseData.filter((data) =>
+    compareTimeWithRange(data, firstDay, lastDay)
+  );
+
+  return filteredData;
+}
+
+function filterPrice(data, filterArr) {
+  if (filterArr.length === 0) return data;
+
+  let min = Infinity;
+  let max = 0;
+  let tmpMin;
+  let tmpMax;
+  const newFilterArr = filterArr.map((arr) => arr.split(","));
+
+  newFilterArr.forEach((element) => {
+    [tmpMin, tmpMax] = element;
+
+    min = Math.min(min, Number(tmpMin), Number(tmpMax));
+    max = Math.max(max, Number(tmpMin), Number(tmpMax));
+  });
+
+  return data.filter(
+    (element) => Number(element.price) >= min && Number(element.price) <= max
+  );
+}
+
+function filterCategory(data, filterArr) {
+  if (filterArr.length === 0) return data;
+
+  return data.filter((element) => filterArr.includes(element.mainCate));
+}
+
+function reducerHelperFunction(constraintObj, expenseData) {
+  let timeArr = [];
+  let priceArr = [];
+  let categoryArr = [];
+
+  for (const [key, val] of Object.entries(constraintObj)) {
+    const [type] = key.split("-");
+
+    if (type === "category") categoryArr.push(val);
+    else if (type === "price") priceArr.push(val);
+    else timeArr.push(val);
+  }
+
+  return filterCategory(
+    filterPrice(filterTime(expenseData, timeArr), priceArr),
+    categoryArr
   );
 }
 

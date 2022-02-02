@@ -7,9 +7,15 @@ import style from "./SearchList.module.css";
 function SearchList(props) {
   const { expenseData } = useContext(SearchListDataContext);
 
-  let mainContent = <p className={style.noData}>No Data</p>;
+  let mainContent = <p className={style.empty}>No Data</p>;
   if (expenseData.length !== 0)
-    mainContent = <ExpenseList data={expenseData} classItem={style.item} />;
+    mainContent = (
+      <ExpenseList
+        classItemSearch={style["item--inner"]}
+        data={expenseData}
+        classItem={style.item}
+      />
+    );
 
   return (
     <div className={style.search}>

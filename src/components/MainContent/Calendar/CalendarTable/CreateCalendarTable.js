@@ -3,24 +3,16 @@ import timeObj from "../../../assets/timeObj/timeObj";
 import createYearMonthDay from "../../../../Others/CreateYearMonthDay/createYearMonthDay";
 import coerceNumber from "../../../../Others/CoerceNumber/coerceNumber";
 import CalendarCell from "./CalendarCell";
-import createDateStringFormat from "../../../../Others/CreateDateStringFormat/CreateDateStringFormat";
 import { v4 as uuidv4 } from "uuid";
 
-const { TODAY: DATE } = timeObj;
-const YEAR = DATE.getFullYear();
-const MONTH = DATE.getMonth();
-const TODAY = DATE.getDate();
+const { YEAR: year, MONTH: month, DAY: today } = timeObj;
+const [YEAR, MONTH, TODAY] = coerceNumber(year, month, today);
 
 function CreateCalendarTable(date, showExpenseListModalHandler, expenseData) {
   const [dataYear, dataMonth] = createYearMonthDay(date);
   let key = String(dataYear);
   if (dataMonth >= 10) key += `-${String(dataMonth)}`;
   else key += `-0${String(dataMonth)}`;
-
-  // let key = date.getFullYear() + "" + (date.getMonth() + 1);
-  // if (key.length < 6) {
-  //   key = date.getFullYear() + "0" + (date.getMonth() + 1);
-  // }
 
   const [
     lastOfCurMonthDate,
@@ -42,11 +34,12 @@ function CreateCalendarTable(date, showExpenseListModalHandler, expenseData) {
     );
   }
 
+  // put this outside, so that don't need to keep calling the same method along with the iteration
+  const curretYearMonth =
+    date.getFullYear() === YEAR && date.getMonth() + 1 === MONTH;
   // day of current month
   for (let i = 1; i <= lastOfCurMonthDate; i++) {
-    const todayIndex =
-      date.getFullYear() === YEAR && date.getMonth() === MONTH && i === TODAY;
-
+    const todayIndex = curretYearMonth && i === TODAY;
     const indexID = i >= 10 ? i + "" : "0" + i;
 
     res.push(

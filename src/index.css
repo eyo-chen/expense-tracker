@@ -35,6 +35,7 @@
   --black-7: #303030;
   --black-8: rgba(0, 0, 0, 0.5);
   --black-9: rgb(37, 37, 37);
+  --black-10: #1a1a1ab2;
 
   /* //////////////////////////////////////////////// */
   --white: rgba(252, 252, 252, 1);
@@ -83,11 +84,14 @@
   --calendar-weekly-color-active: var(--white-3);
 
   /* //////////////////////////////////////////////// */
-  /* --btn-ft: var(--black-4); */
-  --btn-color: var(--black-4);
+  --btn-color: var(--black-9);
   --btn-border: 1px solid var(--black-5);
+  --btn-bg: var(--gray-8);
   --btn-hover-ft: var(--white);
-  --btn-hover-bg: var(--black-3);
+  --btn-hover-bg: var(--gray-3);
+
+  --btn-arrow-bg: var(--gray-2);
+  --btn-arrow-box-shadow: 5px 5px 3px var(--gray-1);
 
   --btn-active-border: 1px solid transparent;
 
@@ -104,12 +108,6 @@
   --btn-delete-edit-bg: var(--gray-3);
 
   /* --btn-arrow: var(--white); */
-
-  --btn-bg: var(--gray-3);
-  --btn-hover-bg: var(--gray);
-
-  --btn-arrow-bg: var(--gray-2);
-  --btn-arrow-box-shadow: 5px 5px 3px var(--gray-1);
 
   /* //////////////////////////////////////////////// */
   --select-bg: var(--gray-2);
@@ -195,7 +193,7 @@
 
   /* --btn-arrow: var(--black); */
 
-  --btn-bg: var(--black-5);
+  --btn-bg: var(--black-10);
   --btn-hover-bg: var(--black);
 
   --btn-arrow-bg: var(--black-9);

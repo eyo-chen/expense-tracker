@@ -8,7 +8,6 @@ function FormSubCategory(props) {
         sub category
       </label>
       <Select
-        value={props.subCategory}
         onChange={props.subCategoryChangeHandler}
         className={props.classInput}
         name="subCategory"

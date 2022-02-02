@@ -1,7 +1,4 @@
 .input__container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   margin-top: 1rem;
 }
@@ -11,11 +8,14 @@
   outline: none;
   padding: 0.5rem 1rem;
   border-radius: 10px;
-  font-size: 2rem;
+  font-size: 1.8rem;
   background-color: var(--search-input-bg);
+}
 
-  transition: all 1s linear;
-  -webkit-transition: all 0.25s linear;
+.input:focus,
+.input:active {
+  width: 70%;
+  outline: 1px solid var(--gray-3);
 }
 
 .icon {
@@ -23,14 +23,6 @@
   height: 2rem;
   margin-left: -3rem;
   fill: var(--search-icon);
-
-  transition: all 1s linear;
-  -webkit-transition: all 0.25s linear;
-}
-
-.input:focus,
-.input:active {
-  width: 70%;
 }
 
 .btn__container {
@@ -42,24 +34,15 @@
 }
 
 .btn {
-  text-transform: capitalize;
   font-size: 1.5rem;
-
-  /* border: var(--btn-border); */
-
   color: var(--font-low);
+  background-color: var(--btn-arrow-bg);
   transform: translateY(-5px);
-  box-shadow: 8px 8px var(--btn-arrow);
-
   padding: 0.8rem 2.2rem;
-  border-radius: 10px;
-
+  border-radius: 50px;
+  gap: 0.5rem;
   transition: all 0.1s linear;
   -webkit-transition: all 0.1s linear;
-
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 .btn:hover {

@@ -87,14 +87,14 @@
 .btn {
   width: 70%;
   font-size: 2rem;
-  background-color: var(--btn-form-bg);
+  background-color: var(--btn-bg);
   border: none;
   color: var(--btn-ft);
   cursor: pointer;
 }
 
 .btn:hover {
-  background-color: var(--btn-form-hover-bg);
+  background-color: var(--btn-hover-bg);
 }
 
 .btn--invalid {

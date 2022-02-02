@@ -2,6 +2,7 @@
   width: 2rem;
   height: 2rem;
 }
+
 .icon__container {
   margin: 1rem 0 0 1rem;
 }
@@ -16,12 +17,6 @@
   width: 2rem;
   border-radius: 5px;
   border: 3px solid var(--checkbox-active);
-
-  transition: all 1s linear;
-  -webkit-transition: all 0.25s linear;
-}
-
-.input {
 }
 
 .input:checked ~ .check {
@@ -43,13 +38,11 @@
 
 .label {
   font-size: 1.8rem;
-  text-transform: uppercase;
   letter-spacing: 1.2px;
 }
 
-.labelItem {
+.label--item {
   font-size: 1.5rem;
-  text-transform: capitalize;
   font-weight: 500;
 }
 

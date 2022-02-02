@@ -10,17 +10,19 @@ for each different type of search option
 we have different group of small check boxes
 */
 function SearchOptionUI(props) {
-  const [icon, setIcon] = useState(true); // arow icon
+  const [showBoxes, setShowBoxes] = useState(true);
 
-  // to keep tracking each small check boxes if it's checked or not
-  // initially, all of them is false which is no checked
+  /*
+  to keep tracking each small check boxes if it's checked or not
+  initially, all of them is false which is no checked
+  */
   const [checkState, setCheckState] = useState(
     new Array(props.checkboxItem.length).fill(false)
   );
   const searchExpenseDataCtx = useContext(SearchListDataContext);
 
-  function changeIconHandler() {
-    setIcon((prev) => !prev);
+  function arrowBtnClickHandler() {
+    setShowBoxes((prev) => !prev);
   }
 
   function changeChekboxHandler(index, e) {
@@ -55,31 +57,37 @@ function SearchOptionUI(props) {
       }
       value={checkbox.value}
       checked={checkState[i]}
-      onChange={(e) => changeChekboxHandler(i, e)}
+      dataID={props.dataID}
       classCheck={style.check}
       classInput={style.input}
-      classLabel={style.labelItem}
-      dataID={props.dataID}
+      classLabel={`${style["label--item"]} capitalize`}
+      onChange={(e) => changeChekboxHandler(i, e)}
     />
   ));
 
   return (
     <div>
       <InputCheckbox
-        classCheck={style.icon}
-        classLabel={style.label}
-        classContainer={style["icon__container"]}
-        icon={
-          icon ? <IoIosArrowDropdownCircle /> : <IoIosArrowDroprightCircle />
-        }
         label={props.label}
         id={props.label}
-        checked={icon}
-        onChange={changeIconHandler}
+        classCheck={style.icon}
+        classLabel={`${style.label} uppercase`}
+        classContainer={style["icon__container"]}
+        icon={
+          showBoxes ? (
+            <IoIosArrowDropdownCircle />
+          ) : (
+            <IoIosArrowDroprightCircle />
+          )
+        }
+        checked={showBoxes}
+        onChange={arrowBtnClickHandler}
       />
       <div
         className={
-          icon ? `${style.container}` : `${style.container} ${style.hidden}`
+          showBoxes
+            ? `${style.container}`
+            : `${style.container} ${style.hidden}`
         }
       >
         {checkboxContent}

@@ -6,11 +6,10 @@
 .item {
   height: 75vh;
   padding: 0 5rem;
-
   font-size: 2rem;
 }
 
-.noData {
+.empty {
   text-align: center;
   margin-top: 5rem;
   font-size: 3rem;
@@ -20,5 +19,9 @@
 @media screen and (max-width: 700px) {
   .item {
     padding: 0;
+  }
+
+  .item--inner {
+    margin: 0 0.5rem;
   }
 }

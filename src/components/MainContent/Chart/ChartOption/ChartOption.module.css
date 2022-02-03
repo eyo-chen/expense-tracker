@@ -2,39 +2,42 @@
   height: 100%;
 }
 
-.chartOption {
+.close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1rem;
+  font-size: 2.2rem;
+  cursor: pointer;
+  display: none;
+}
+
+.form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
 }
 
-.chartOption--scroll {
-  overflow-y: scroll;
+.form__title {
+  margin-bottom: 1.5rem;
 }
 
-.chartOption__title {
-  margin-bottom: 1.5rem;
+.scroll {
+  height: 70vh;
+  overflow-y: scroll;
 }
 
 .btn {
   width: 100%;
-  color: var(--btn-disabled-ft);
+  color: var(--btn-disabled-color);
   border: var(--btn-disabled-border);
   cursor: not-allowed;
   font-size: 1.8rem;
   margin-top: 1rem;
-
-  transition: all 0.25s linear;
-  -webkit-transition: all 0.25s linear;
-}
-
-.btn--scroll {
-  margin: 2rem 0;
 }
 
 .btn--active {
-  color: var(--btn-ft);
+  color: var(--btn-color);
   border: var(--btn-active-border);
   background-color: var(--btn-bg);
   cursor: pointer;
@@ -44,36 +47,8 @@
   background-color: var(--btn-hover-bg);
 }
 
-.warning {
-  text-align: center;
-}
-
-.warning p {
-  font-size: 1.2rem;
-  line-height: 2rem;
-}
-
-@media screen and (max-width: 1300px) {
-  .card {
-    /* overflow-y: scroll; */
-  }
-}
-
 @media screen and (max-width: 900px) {
-  .card {
-    overflow-y: unset;
+  .close {
+    display: inline-block;
   }
 }
-
-/* .modal {
-  position: absolute;
-  z-index: 200;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  height: 85%;
-  width: 35%;
-
-  display: block;
-} */

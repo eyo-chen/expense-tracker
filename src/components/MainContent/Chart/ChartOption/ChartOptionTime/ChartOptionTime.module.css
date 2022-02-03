@@ -1,0 +1,32 @@
+.subtitle--time {
+  color: var(--blue);
+  margin-bottom: 0.2rem;
+}
+
+.subtitle--category {
+  color: var(--green);
+  margin-bottom: 0.2rem;
+}
+
+.time__container {
+  margin-bottom: 1rem;
+}
+
+.time__container label {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.8rem;
+  text-transform: capitalize;
+}
+
+.time__input {
+  font-size: 1.5rem;
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 1rem;
+  margin-left: 3px;
+  width: 75%;
+}
+
+.duration {
+  padding: 0.95rem 1.2rem;
+}

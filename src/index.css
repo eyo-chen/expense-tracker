@@ -179,8 +179,8 @@
 
   --btn-active-border: 1px solid transparent;
 
-  --btn-disabled-color: var(--white-2);
-  --btn-disabled-border: 1px solid var(--white-2);
+  --btn-disabled-color: var(--gray-4);
+  --btn-disabled-border: 1px solid var(--gray-4);
 
   --btn-bg-main: var(--gray-2);
 

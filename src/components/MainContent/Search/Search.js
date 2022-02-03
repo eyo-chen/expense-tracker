@@ -3,32 +3,25 @@ import SearchList from "./SearchList/SearchList";
 import SearchOption from "./SearchOption/SearchOption";
 import SearchListDataProvider from "../../../store/searchListData/SearchListDataProvider";
 import Backdrop from "../../UI/Modal/Backdrop";
+import debounce from "../../../Others/Debounce/debounce";
 import style from "./Search.module.css";
 
 function Search() {
   const [searchOptionModal, setSearchOptionModal] = useState(false);
+  const [curWidth, setCurWidth] = useState(window.innerWidth);
 
   function searchOptionModalToggler() {
     setSearchOptionModal((prev) => !prev);
   }
 
-  const [curWidth, setCurWidth] = useState(window.innerWidth);
-
-  // console.log(curWidth);
-
-  // function detectWindowWidth() {
-  //   debounce(() => {
-  //     setCurWidth(window.innerWidth);
-  //   }, 500);
-  // }
-
   useEffect(() => {
-    const debouncedHandleResize = debounce(function handleResize() {
+    const detectWindowWidth = debounce(function handleResize() {
       setCurWidth(window.innerWidth);
     }, 500);
-    window.addEventListener("resize", debouncedHandleResize);
 
-    return () => window.removeEventListener("resize", debouncedHandleResize);
+    window.addEventListener("resize", detectWindowWidth);
+
+    return () => window.removeEventListener("resize", detectWindowWidth);
   }, []);
 
   return (
@@ -53,17 +46,3 @@ function Search() {
 }
 
 export default Search;
-
-function debounce(fn, ms) {
-  let timer;
-
-  return (_) => {
-    clearTimeout(timer);
-
-    timer = setTimeout((_) => {
-      timer = null;
-
-      fn.apply(this, arguments);
-    }, ms);
-  };
-}

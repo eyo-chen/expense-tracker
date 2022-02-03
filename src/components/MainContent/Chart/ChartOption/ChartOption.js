@@ -1,14 +1,14 @@
-import { useState, useReducer, useContext } from "react";
-import style from "./ChartOption.module.css";
+import { useReducer, useContext } from "react";
 import Title from "../../../UI/Title/Title";
 import Button from "../../../UI/Button/Button";
 import Card from "../../../UI/Card/Card";
-import OptionRadioMain from "./OptionRadioMain/OptionRadioMain";
-import OptionTime from "./OptionTime/OptionTime";
-import OptionRadioSub from "./OptionRadioSub/OptionRadioSub";
-import OptionCheckboxExpense from "./OptionCheckbox/OptionCheckboxExpense";
-import OptionCheckboxIncome from "./OptionCheckbox/OptionCheckBoxIncome";
+import ChartOptionType from "./ChartOptionType/ChartOptionType";
+import ChartOptionMainCategory from "./ChartOptionMainCategory/ChartOptionMainCategory";
+import ChartOptionSubCategory from "./ChartOptionSubCategory/ChartOptionSubCategory";
+import ChartOptionTime from "./ChartOptionTime/ChartOptionTime";
 import CategoryContext from "../../../../store/category/category--context";
+import { RiCloseCircleFill } from "react-icons/ri";
+import style from "./ChartOption.module.css";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -62,10 +62,6 @@ function reducer(state, action) {
       };
     }
 
-    case "ISVALID": {
-      return { ...state, isValid: true };
-    }
-
     default:
       return state;
   }
@@ -81,89 +77,75 @@ function ChartOption(props) {
     timeDuration: "7",
     mainCategory: "",
     subCategory: "",
-    isValid: false,
     categoryExpense: Object.keys(categoryExpense),
     categoryIncome: Object.keys(categoryIncome),
   };
 
-  const [optionMainData, setOptionMainData] = useState();
-  const [optionSubData, setOptionSubData] = useState();
   const [chartData, dispatchChartData] = useReducer(reducer, initialObj);
-
-  // it has to be three different indexes(helps to show the warning icon in ChartTime component)
-  // 1. for checking if user has chosen both starting and ending date
-  const timeValidIndex = chartData.startingDate && chartData.endingDate;
-
-  // 2. for checking if user did NOT select the wrong order
-  const timeOrderValidIndex =
-    Number(new Date(chartData.startingDate)) <
-    Number(new Date(chartData.endingDate));
-
-  // 3. for check all the data in the form (includes above two indexes)
-  let validIndex =
-    optionMainData && optionSubData && timeValidIndex && timeOrderValidIndex;
-
-  // check box content may vary because different kind of chart
-  let checkboxContent = "";
-  if (optionMainData === "time") {
-    if (optionSubData === "income")
-      checkboxContent = (
-        <OptionCheckboxIncome
-          categoryIncome={chartData.categoryIncome}
-          dispatchChartData={dispatchChartData}
-        />
-      );
-    if (optionSubData === "expense")
-      checkboxContent = (
-        <OptionCheckboxExpense
-          categoryExpense={chartData.categoryExpense}
-          dispatchChartData={dispatchChartData}
-        />
-      );
-
-    validIndex = optionMainData && optionSubData && chartData.startingDate;
-  }
 
   function submitFormHandler(e) {
     e.preventDefault();
     props.setChartData(chartData);
 
-    // When chartOptionModal is open, we wanna close it after submitting
+    // When chartOptionModal is opening, close it after submitting
     if (props.chartOptionModalToggler) props.chartOptionModalToggler();
   }
 
+  let validIndex =
+    chartData.mainType &&
+    chartData.mainCategory &&
+    chartData.startingDate &&
+    chartData.endingDate;
+
+  // check box content may vary because different type of chart
+  let checkboxContent = "";
+  if (chartData.mainType === "time") {
+    if (chartData.mainCategory === "income")
+      checkboxContent = (
+        <ChartOptionSubCategory
+          category={chartData.categoryIncome}
+          dispatchChartData={dispatchChartData}
+        />
+      );
+    if (chartData.mainCategory === "expense")
+      checkboxContent = (
+        <ChartOptionSubCategory
+          category={chartData.categoryExpense}
+          dispatchChartData={dispatchChartData}
+        />
+      );
+
+    validIndex =
+      chartData.mainType &&
+      chartData.startingDate &&
+      chartData.mainCategory &&
+      chartData.subCategory.length > 0;
+  }
+
   return (
-    <Card
-      className={
-        chartData.subCategory.length > 8
-          ? `${style["chartOption--scroll"]}`
-          : `${style.card}`
-      }
-    >
-      <form onSubmit={submitFormHandler} className={style.chartOption}>
+    <Card className={style.card}>
+      <RiCloseCircleFill
+        onClick={props.chartOptionModalToggler}
+        className={style.close}
+      />
+      <form onSubmit={submitFormHandler} className={style.form}>
         <div>
-          <Title className={style["chartOption__title"]}>Analyize By</Title>
+          <Title className={style["form__title"]}>Analyize By</Title>
 
-          <OptionRadioMain
-            dispatchChartData={dispatchChartData}
-            setOptionMainData={setOptionMainData}
-          />
+          <ChartOptionType dispatchChartData={dispatchChartData} />
 
-          {optionMainData && (
-            <div>
-              <OptionTime
-                classColor={optionMainData}
+          {chartData.mainType && (
+            <div className={style.scroll}>
+              <ChartOptionTime
+                classColor={chartData.mainType}
                 dispatchChartData={dispatchChartData}
                 valueStarting={chartData.startingDate}
                 valueEnding={chartData.endingDate}
                 mainType={chartData.mainType}
-                optionMainData={optionMainData}
-                timeValidIndex={timeValidIndex}
-                timeOrderValidIndex={timeOrderValidIndex}
+                optionMainType={chartData.mainType}
               />
-              <OptionRadioSub
-                classColor={optionMainData}
-                setOptionSubData={setOptionSubData}
+              <ChartOptionMainCategory
+                classColor={chartData.mainType}
                 dispatchChartData={dispatchChartData}
               />
               {checkboxContent}
@@ -175,8 +157,8 @@ function ChartOption(props) {
           disabled={!validIndex}
           className={
             !validIndex
-              ? `${style.btn}`
-              : `${style.btn} ${style["btn--active"]}`
+              ? `${style.btn} transition--25`
+              : `${style.btn} transition--25 ${style["btn--active"]}`
           }
         >
           Show Chart

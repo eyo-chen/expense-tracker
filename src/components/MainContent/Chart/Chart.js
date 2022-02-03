@@ -1,35 +1,55 @@
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import ChartPic from "./ChartPic/ChartPic";
 import ChartOption from "./ChartOption/ChartOption";
-import Button from "../../UI/Button/Button";
-import style from "./Chart.module.css";
 import Backdrop from "../../UI/Modal/Backdrop";
-import ChartOptionModal from "../../UI/ChartOptionModal/ChartOptionModal";
+import debounce from "../../../Others/Debounce/debounce";
+import BtnIcon from "../../UI/BtnIcon/BtnIcon";
+import style from "./Chart.module.css";
 
 function Chart() {
   const [chartData, setChartData] = useState();
   const [chartOptionModal, setChartOptionModal] = useState(false);
+  const [curWidth, setCurWidth] = useState(window.innerWidth);
 
   function chartOptionModalToggler() {
     setChartOptionModal((prev) => !prev);
   }
 
+  useEffect(() => {
+    const detectWindowWidth = debounce(function handleResize() {
+      setCurWidth(window.innerWidth);
+    }, 500);
+
+    window.addEventListener("resize", detectWindowWidth);
+
+    return () => window.removeEventListener("resize", detectWindowWidth);
+  }, []);
+
+  const classOptionContainer =
+    curWidth <= 900 && chartOptionModal
+      ? `${style["option__container"]} ${style["option__container--show"]} center`
+      : `${style["option__container"]}`;
+
+  const classBtn =
+    chartData === undefined
+      ? `${style.btn} capitalize`
+      : `${style.btn} capitalize ${style["btn--chart"]} `;
+
   return (
     <div className={style.chart}>
-      {chartOptionModal && <Backdrop classBackdrop={style.backdrop} />}
+      {curWidth <= 900 && chartOptionModal && (
+        <Backdrop classBackdrop={style.backdrop} />
+      )}
 
-      <div
-        className={
-          chartOptionModal
-            ? `${style["option__container"]} ${style["option__container--show"]} center`
-            : `${style["option__container"]}`
-        }
-      >
-        <ChartOption setChartData={setChartData} />
+      <div className={classOptionContainer}>
+        <ChartOption
+          chartOptionModalToggler={chartOptionModalToggler}
+          setChartData={setChartData}
+        />
       </div>
 
       {chartData === undefined ? (
-        <div className={style["chart__description"]}>
+        <div className={`${style["chart__description"]} center--flex`}>
           <p className="capitalize">please input data to create graph</p>
         </div>
       ) : (
@@ -37,23 +57,15 @@ function Chart() {
       )}
 
       {chartOptionModal || (
-        <Button
+        <BtnIcon
           onClick={chartOptionModalToggler}
-          className={
-            chartData === undefined
-              ? `${style.btn} capitalize`
-              : `${style.btn} ${style["btn--chart"]} capitalize`
-          }
+          text="click to choose data"
+          classBtn={classBtn}
+          classText={style["btn__text"]}
         >
           choose data
-        </Button>
+        </BtnIcon>
       )}
-      {/* {showChartOptionModal && (
-        <ChartOptionModal
-          chartOptionModalToggler={chartOptionModalToggler}
-          setChartData={setChartData}
-        />
-      )} */}
     </div>
   );
 }

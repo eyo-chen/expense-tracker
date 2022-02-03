@@ -2,37 +2,34 @@
   display: grid;
   height: 100vh;
   grid-template-columns: 1fr 3fr;
-
   justify-content: stretch;
   gap: 2rem;
   padding: 2rem;
 }
 
 .chart__description {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.chart__description p {
   font-size: 3rem;
   text-align: center;
-}
-
-.btn {
-  font-size: 2.5rem;
-  padding: 1rem 1.5rem;
-  background-color: var(--btn-bg-main);
-
-  display: none;
 }
 
 .option__container {
   height: 100%;
   background-color: var(--card-dark-bg);
   border-radius: 10px;
-  overflow-y: scroll;
+}
+
+.btn {
+  font-size: 2.5rem;
+  padding: 1rem 1.5rem;
+  background-color: var(--btn-bg-main);
+  color: var(--bg);
+  display: none;
+}
+
+.btn__text {
+  width: 130%;
+  bottom: -6rem;
+  font-size: 2rem;
 }
 
 .backdrop {
@@ -42,8 +39,8 @@
 @media screen and (max-width: 900px) {
   .chart {
     display: block;
-
     position: relative;
+    padding: 0;
   }
 
   .chart__description {
@@ -51,17 +48,14 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
     display: inline;
   }
 
   .btn {
     display: inline-block;
-
     position: absolute;
     bottom: 35%;
     left: 50%;
-
     transform: translateX(-50%);
   }
 
@@ -76,8 +70,6 @@
   .backdrop {
     display: block;
     z-index: 50;
-    /* width: 90vw; */
-    padding: 0;
   }
 }
 

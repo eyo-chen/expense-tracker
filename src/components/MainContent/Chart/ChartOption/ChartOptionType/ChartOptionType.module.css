@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+}
+
+.radio__container {
+  color: var(--font-low);
+}
+
+.radio__container:hover {
+  color: var(--font-normal);
+}
+
+.input:checked ~ .label--time {
+  background-color: var(--blue);
+  color: var(--font-normal);
+}
+
+.input:checked ~ .label--category {
+  background-color: var(--green);
+  color: var(--font-normal);
+}
+
+.label {
+  cursor: pointer;
+  font-size: 2rem;
+  margin-left: 1rem;
+  letter-spacing: 1.2px;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+}

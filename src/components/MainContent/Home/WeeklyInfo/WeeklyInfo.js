@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import CardChartSection from "../../../UI/CardChartSection/CardChartSection";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
+import CategoryContext from "../../../../store/category/category--context";
 import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--context";
 import createAccountCardPreData from "../../../../Others/CreateAccountCardData/createAccountCardPreData";
 import createSmallChartData from "../../../../Others/CreateAccountCardData/createSmallChartData";
@@ -8,7 +9,8 @@ import createAccAmount from "../../../../Others/CreateAccountCardData/createAccA
 import style from "./WeeklyInfo.module.css";
 
 function WeeklyInfo() {
-  const { expenseData, categoryExpense } = useContext(ExpenseDataContext);
+  const { expenseData } = useContext(ExpenseDataContext);
+  const { categoryExpense } = useContext(CategoryContext);
   const { displayTheme } = useContext(DisplayThemeContext);
 
   const [

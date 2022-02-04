@@ -1,6 +1,7 @@
 import createStandardLabelsArr from "./createStandardLabelsArr";
 import createLabelsArr from "./createLabelsArr";
-import createDataArr from "./createDataArr";
+import createBarDataArr from "./createBarDataArr";
+import createPieDataArr from "./createPieDataArr";
 import createFilteredData from "./createFilteredData";
 
 function createConfigObj(
@@ -12,17 +13,22 @@ function createConfigObj(
   mainCategory,
   subCategory,
   theme,
-  showLabel
+  showLabel = false,
+  mainCategoryData = [],
+  subCategoryData = []
 ) {
   if (mainType === "time") {
     const standardLabels = createStandardLabelsArr(timeDuration, startingDate);
     const labels = createLabelsArr(standardLabels, timeDuration);
-    const data = createDataArr(
+    const data = createBarDataArr(
       standardLabels,
       createFilteredData(standardLabels, expenseData),
       timeDuration,
       mainCategory,
-      subCategory
+      subCategory,
+      showLabel,
+      mainCategoryData,
+      subCategoryData
     );
 
     let legend = null;
@@ -98,10 +104,6 @@ function createConfigObj(
       options: {
         maintainAspectRatio: false,
         plugins: {
-          // title: {
-          //   display: true,
-          //   text: "Custom Chart Title",
-          // },
           tooltip: {
             yAlign: "bottom",
             displayColors: false,
@@ -113,12 +115,6 @@ function createConfigObj(
         },
         scales: {
           y: {
-            // title: {
-            //   display: true,
-            //   text: "Money",
-            //   color: "white",
-            //   padding: { top: 0, left: 0, right: 0, bottom: 20 },
-            // },
             beginAtZero: true,
             ticks: {
               color: `${
@@ -127,12 +123,6 @@ function createConfigObj(
             },
           },
           x: {
-            // title: {
-            //   display: true,
-            //   text: "Time",
-            //   color: "white",
-            //   padding: { top: 20, left: 0, right: 0, bottom: 0 },
-            // },
             ticks: {
               color: `${
                 theme === "dark" ? "rgb(190,190,190)" : "rgb(70,70,70)"
@@ -143,41 +133,12 @@ function createConfigObj(
       },
     };
   } else {
-    const filteredData = expenseData.filter(
-      (element) =>
-        Number(new Date(element.time)) >= Number(new Date(startingDate)) &&
-        Number(new Date(element.time)) <= Number(new Date(endingDate)) &&
-        element.category === mainCategory
+    const [labels, data] = createPieDataArr(
+      startingDate,
+      endingDate,
+      expenseData,
+      mainCategory
     );
-
-    // const labels = subCategory;
-    let labels = [];
-    filteredData.forEach((element) => {
-      if (!labels.includes(element.mainCate)) labels.push(element.mainCate);
-    });
-
-    let newFilteredData = [];
-    labels.forEach((label) => {
-      newFilteredData.push(
-        filteredData.filter((data) => data.mainCate === label)
-      );
-    });
-
-    // const totalAmount = newFilteredData
-    //   .flat()
-    //   .reduce((acc, cur) => (acc += Number(cur.price)), 0);
-
-    const dataArr = [];
-
-    newFilteredData.forEach((data) => {
-      let dataTmp;
-
-      if (data.length > 0) {
-        dataTmp = data.reduce((acc, cur) => (acc += Number(cur.price)), 0);
-      } else dataTmp = 0;
-
-      dataArr.push(dataTmp);
-    });
 
     return {
       type: "pie",
@@ -186,7 +147,7 @@ function createConfigObj(
         datasets: [
           {
             label: "My First Dataset",
-            data: dataArr,
+            data: data,
             backgroundColor: [
               "rgb(255, 99, 132)",
               "rgb(255, 159, 64)",
@@ -203,12 +164,8 @@ function createConfigObj(
       options: {
         maintainAspectRatio: false,
         plugins: {
-          // labels: {
-          //   render: "percentage",
-          // },
           legend: {
             labels: {
-              // This is more specific font property overrides the global property
               font: {
                 size: 14,
               },

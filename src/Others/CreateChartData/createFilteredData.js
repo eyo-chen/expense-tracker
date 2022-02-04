@@ -1,12 +1,12 @@
+import compareTimeWithRange from "../compareTimeWithRange";
+
 function createFilteredData(labels, expensData) {
-  const numStartingDate = Number(new Date(labels[0]));
-  const numEndingDate = Number(new Date(labels[labels.length - 1]));
+  const startingDate = new Date(labels[0]);
+  const endingDate = new Date(labels[labels.length - 1]);
 
   return expensData
-    .filter(
-      (element) =>
-        Number(new Date(element.time)) >= numStartingDate &&
-        Number(new Date(element.time)) <= numEndingDate
+    .filter((element) =>
+      compareTimeWithRange(element, startingDate, endingDate)
     )
     .sort(
       (elementA, elementB) =>

@@ -2,7 +2,6 @@ import FormContainer from "./FormContainer";
 import Select from "../Select/Select";
 
 function FormMainCategory(props) {
-  console.log(props.mainCategory);
   return (
     <FormContainer>
       <label htmlFor="mainCategory" className={props.classLabel}>

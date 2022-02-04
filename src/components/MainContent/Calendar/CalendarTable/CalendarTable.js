@@ -16,17 +16,16 @@ import style from "./CalendarTable.module.css";
 const dateOptObj = { month: "long" };
 const { TODAY } = timeObj;
 
-function CalendarTable(prop) {
+function CalendarTable(props) {
   const { expenseData } = useContext(ExpenseDataContext);
   const [calendarTable, setcalendarTable] = useState(
     CreateCalendarTable(TODAY, expenseListModalToggler, expenseData)
   );
-  const [date, setDate] = useState(new Date());
   const [expenseListModal, setExpenseListModal] = useState(false);
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const [modalCard, setModalCard] = useState(false);
   const [expenseDataList, selectedDate, setExpenseDataList] =
-    useExpenseDataList(date, "monthly");
+    useExpenseDataList(props.month, "monthly");
   // useRef can be used to store data that should be persisted across re-renders
   const skipInitialRender = useRef(false);
 
@@ -34,7 +33,7 @@ function CalendarTable(prop) {
     // skip first render
     if (skipInitialRender.current) {
       const calendar = CreateCalendarTable(
-        date,
+        props.month,
         expenseListModalToggler,
         expenseData
       );
@@ -44,7 +43,7 @@ function CalendarTable(prop) {
 
   function arrowBtnClickHandler(e) {
     // Reference 1
-    const newDate = new Date(date);
+    const newDate = new Date(props.month);
     if (e.target.dataset.id === "increase") {
       newDate.setMonth(newDate.getMonth() + 1);
     } else {
@@ -57,7 +56,7 @@ function CalendarTable(prop) {
       expenseData
     );
     setcalendarTable(calendar);
-    setDate(newDate);
+    props.setMonth(newDate);
   }
 
   function expenseListModalToggler(e) {
@@ -124,9 +123,9 @@ function CalendarTable(prop) {
 
           <div className={`${style["monthly__title"]} center--flex`}>
             <Title className={style.title}>
-              {new Intl.DateTimeFormat("en-US", dateOptObj).format(date)}
+              {new Intl.DateTimeFormat("en-US", dateOptObj).format(props.month)}
             </Title>
-            <Title className={style.title}>{date.getFullYear()}</Title>
+            <Title className={style.title}>{props.month.getFullYear()}</Title>
           </div>
           <BtnIcon
             text="next month"

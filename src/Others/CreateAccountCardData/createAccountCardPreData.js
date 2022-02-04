@@ -3,7 +3,7 @@ import createDateStringFormat from "../CreateDateStringFormat/CreateDateStringFo
 import timeObj from "../../components/assets/timeObj/timeObj";
 import createYearMonthDay from "../CreateYearMonthDay/createYearMonthDay";
 
-function createAccountCardPreData(type) {
+function createAccountCardPreData(type, date = new Date()) {
   const { TODAY } = timeObj;
 
   if (type === "week") {
@@ -28,7 +28,7 @@ function createAccountCardPreData(type) {
       labels,
     ];
   } else {
-    const [year, month] = createYearMonthDay(TODAY);
+    const [year, month] = createYearMonthDay(date);
     const startingDateOfMonth = new Date(year, month - 1, 1); // last 1 gives us the next month of first day, now it's give us the first day of current month
     const endingDateOfMonth = new Date(year, month, 0);
 

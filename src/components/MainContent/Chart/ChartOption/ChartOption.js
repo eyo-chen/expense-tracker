@@ -88,7 +88,8 @@ function ChartOption(props) {
     props.setChartData(chartData);
 
     // When chartOptionModal is opening, close it after submitting
-    if (props.chartOptionModalToggler) props.chartOptionModalToggler();
+    if (props.closeChartOptionModalHandler)
+      props.closeChartOptionModalHandler();
   }
 
   let validIndex =
@@ -125,7 +126,7 @@ function ChartOption(props) {
   return (
     <Card className={style.card}>
       <RiCloseCircleFill
-        onClick={props.chartOptionModalToggler}
+        onClick={props.closeChartOptionModalHandler}
         className={style.close}
       />
       <form onSubmit={submitFormHandler} className={style.form}>

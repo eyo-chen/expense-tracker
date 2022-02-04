@@ -11,8 +11,12 @@ function Chart() {
   const [chartOptionModal, setChartOptionModal] = useState(false);
   const [curWidth, setCurWidth] = useState(window.innerWidth);
 
-  function chartOptionModalToggler() {
-    setChartOptionModal((prev) => !prev);
+  // need two seperate function
+  function showChartOptionModalHandler() {
+    setChartOptionModal(true);
+  }
+  function closeChartOptionModalHandler() {
+    setChartOptionModal(false);
   }
 
   useEffect(() => {
@@ -43,7 +47,7 @@ function Chart() {
 
       <div className={classOptionContainer}>
         <ChartOption
-          chartOptionModalToggler={chartOptionModalToggler}
+          closeChartOptionModalHandler={closeChartOptionModalHandler}
           setChartData={setChartData}
         />
       </div>
@@ -58,7 +62,7 @@ function Chart() {
 
       {chartOptionModal || (
         <BtnIcon
-          onClick={chartOptionModalToggler}
+          onClick={showChartOptionModalHandler}
           text="click to choose data"
           classBtn={classBtn}
           classText={style["btn__text"]}

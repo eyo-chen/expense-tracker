@@ -2,9 +2,12 @@ const dateOptObj = { month: "short" };
 
 function createLabelsArr(standardLabels, duration) {
   if (duration === "6" || duration === "12") {
-    return standardLabels.map((label) =>
+    const res = standardLabels.map((label) =>
       new Intl.DateTimeFormat("en-US", dateOptObj).format(new Date(label))
     );
+    // when type is "month", it will have extra data in the end
+    res.pop();
+    return res;
   }
 
   return standardLabels.map(

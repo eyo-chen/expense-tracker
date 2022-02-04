@@ -60,7 +60,7 @@
   }
 
   .btn--chart {
-    bottom: 10%;
+    bottom: 8%;
   }
 
   .option__container {
@@ -71,11 +71,26 @@
     display: block;
     z-index: 50;
   }
+
+  .option__container--show {
+    width: 40vw;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .option__container--show {
+    width: 50vw;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .option__container--show {
+    width: 60vw;
+  }
 }
 
 .option__container--show {
   display: block;
   z-index: 100;
   height: 90%;
-  width: 40%;
 }

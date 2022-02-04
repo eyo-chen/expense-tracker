@@ -129,6 +129,7 @@ const EXPENSE_CATEGORY = {
 const INCOME_CATEGORY = {
   salary: ["salary", "bonus"],
   investment: ["stock"],
+  bonus: ["bonus"],
   others: ["others"],
 };
 

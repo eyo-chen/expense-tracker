@@ -1,6 +1,5 @@
 import createWeeklyData from "../createWeeklyData";
 import createDateStringFormat from "../CreateDateStringFormat/CreateDateStringFormat";
-import timeObj from "../../components/assets/timeObj/timeObj";
 import createYearMonthDay from "../CreateYearMonthDay/createYearMonthDay";
 
 function createAccountCardPreData(type, date) {

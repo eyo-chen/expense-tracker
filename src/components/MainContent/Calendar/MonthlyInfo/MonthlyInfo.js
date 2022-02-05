@@ -25,7 +25,7 @@ function MonthlyInfo(props) {
     displayTheme
   );
 
-  const [accIncome, accExpense] = createAccAmount(
+  const [accIncome, accExpense, accNetIncome] = createAccAmount(
     expenseData,
     true,
     startingDateObj,
@@ -38,6 +38,7 @@ function MonthlyInfo(props) {
         title="Monthly Overview"
         income={accIncome}
         expense={accExpense}
+        netIncome={accNetIncome}
         configBar={configBar}
         configPie={configPie}
         startingDateString={startingDateString}

@@ -3,13 +3,11 @@ import createDateStringFormat from "../CreateDateStringFormat/CreateDateStringFo
 import timeObj from "../../components/assets/timeObj/timeObj";
 import createYearMonthDay from "../CreateYearMonthDay/createYearMonthDay";
 
-function createAccountCardPreData(type, date = new Date()) {
-  const { TODAY } = timeObj;
-
+function createAccountCardPreData(type, date) {
   if (type === "week") {
     const labels = ["SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT"];
 
-    const weeklyDataArr = createWeeklyData(TODAY);
+    const weeklyDataArr = createWeeklyData(date);
     const startingDateOfWeek = weeklyDataArr[0];
     const endingDateOfWeek = weeklyDataArr[weeklyDataArr.length - 1];
 

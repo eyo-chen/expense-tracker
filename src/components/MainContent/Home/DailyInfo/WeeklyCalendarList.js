@@ -4,8 +4,7 @@ function WeeklyCalendarList(props) {
   function clickDateHandler(e) {
     const dateID = e.target.dataset.id;
 
-    props.setDailyExpenseData(dateID); // data list
-    props.setSelectedDate(dateID); // weekly calendar
+    props.setSelectedDate(dateID);
   }
 
   // NOTE: need white space to seprate differnt className

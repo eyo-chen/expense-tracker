@@ -8,7 +8,10 @@ import style from "./DataCardModal.module.css";
 
 function DataCardModal(props) {
   const { expenseData } = useContext(ExpenseDataContext);
-  const [startingDateObj, endingDateObj] = createAccountCardPreData(props.type);
+  const [startingDateObj, endingDateObj] = createAccountCardPreData(
+    props.type,
+    props.date
+  );
   const [accIncome, accExpense] = createAccAmount(
     expenseData,
     true,

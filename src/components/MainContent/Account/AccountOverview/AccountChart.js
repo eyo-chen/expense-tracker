@@ -12,7 +12,7 @@ const timeRangeArr = ["1wk", "1mo", "3mo", "6mo", "1yr"];
 
 const { TODAY } = timeObj;
 
-// first day of the week
+// seven days ago
 const initialDate = new Date(new Date().setDate(TODAY.getDate() - 7));
 
 // an array of labels(string)
@@ -95,7 +95,7 @@ function AccountChart() {
             value={element}
             name="chart__btn"
             defaultChecked={index === 0}
-            classLabel={style.label}
+            classLabel={`${style.label} transition--25`}
             classInput={style.input}
             classCheck={style.check}
           />

@@ -1,54 +1,35 @@
 import { useContext } from "react";
 import Card from "../../../UI/Card/Card";
 import SubTitle from "../../../UI/SubTitle/SubTitle";
-import style from "./AccountCard.module.css";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import timeObj from "../../../assets/timeObj/timeObj";
-import compareTime from "../../../../Others/compareTime";
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
+import mutipleArgsHelper from "../../../../Others/MultipleArgsHelper/multipleArgsHelper";
+import formatMoney from "../../../../Others/FormatMoney/formatMoney";
+import style from "./AccountCard.module.css";
 
-const { YEAR, MONTH, DAY, TODAY } = timeObj;
+const { TODAY } = timeObj;
 
 function AccountCard() {
   const { expenseData } = useContext(ExpenseDataContext);
-
-  const accIncome = expenseData
-    .filter(
-      (expenseData) =>
-        expenseData.category === "income" &&
-        compareTime(expenseData, null, YEAR, MONTH, DAY)
-    )
-    .reduce((acc, cur) => acc + Number(cur.price), 0);
-
-  const accExpense = expenseData
-    .filter(
-      (expenseData) =>
-        expenseData.category === "expense" &&
-        compareTime(expenseData, null, YEAR, MONTH, DAY)
-    )
-    .reduce((acc, cur) => acc + Number(cur.price), 0);
-
-  // const [test1, test2] = createAccAmount(expenseData, false, null, TODAY);
-  // console.log(test1 === accIncome);
-  // console.log(test2 === accExpense);
+  const [income, expense, netIncome] = mutipleArgsHelper(
+    formatMoney,
+    ...createAccAmount(expenseData, false, null, TODAY)
+  );
 
   return (
     <div className={style["card__container"]}>
       <Card className={style.card}>
         <SubTitle className={style["card__text"]}>income</SubTitle>
-        <SubTitle className={style["card__number"]}>{`$${accIncome}`}</SubTitle>
+        <SubTitle className={style["card__number"]}>{`$${income}`}</SubTitle>
       </Card>
       <Card className={style.card}>
         <SubTitle className={style["card__text"]}>expense</SubTitle>
-        <SubTitle
-          className={style["card__number"]}
-        >{`$${accExpense}`}</SubTitle>
+        <SubTitle className={style["card__number"]}>{`$${expense}`}</SubTitle>
       </Card>
       <Card className={style.card}>
-        <SubTitle className={style["card__text"]}>net</SubTitle>
-        <SubTitle className={style["card__number"]}>{`$${
-          accIncome - accExpense
-        }`}</SubTitle>
+        <SubTitle className={style["card__text"]}>net income</SubTitle>
+        <SubTitle className={style["card__number"]}>{`$${netIncome}`}</SubTitle>
       </Card>
     </div>
   );

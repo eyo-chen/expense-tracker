@@ -70,6 +70,7 @@
   --font-normal: var(--black-5);
   --font-low-lighter: var(--black-8);
   --font-low: var(--black-8);
+  --font-source: var(--gray-8);
 
   /* //////////////////////////////////////////////// */
   --calendar-current-bg: var(--gray-5);
@@ -158,6 +159,7 @@
   --font-normal: var(--white);
   --font-low-lighter: var(--white-2);
   --font-low: var(--black-2);
+  --font-source: var(--white-2);
 
   /* //////////////////////////////////////////////// */
   --calendar-current-bg: var(--white-1);

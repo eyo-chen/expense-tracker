@@ -1,7 +1,5 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState } from "react";
 import Title from "../../../UI/Title/Title";
-import CreateCalendarTable from "./CreateCalendarTable";
-import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import ExpenseListModal from "../../../UI/ExpenseListModal/ExpenseListModal";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
 import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
@@ -9,37 +7,22 @@ import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
 import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
-import timeObj from "../../../assets/timeObj/timeObj";
-import useExpenseDataList from "../../../../Others/Custom/useExpenseDataList";
+import useBundleData from "../../../../Others/Custom/useBundleData";
 import style from "./CalendarTable.module.css";
 
 const dateOptObj = { month: "long" };
-const { TODAY } = timeObj;
 
 function CalendarTable(props) {
-  const { expenseData } = useContext(ExpenseDataContext);
-  const [calendarTable, setcalendarTable] = useState(
-    CreateCalendarTable(TODAY, expenseListModalToggler, expenseData)
-  );
+  const [
+    calendarTable,
+    expenseDataList,
+    selectedDate,
+    setSelectedDate,
+    modalCard,
+    modalCardToggler,
+  ] = useBundleData("month", props.month, expenseListModalToggler);
   const [expenseListModal, setExpenseListModal] = useState(false);
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
-  const [modalCard, setModalCard] = useState(false);
-  const [expenseDataList, selectedDate, setExpenseDataList] =
-    useExpenseDataList(props.month, "monthly");
-  // useRef can be used to store data that should be persisted across re-renders
-  const skipInitialRender = useRef(false);
-
-  useEffect(() => {
-    // skip first render
-    if (skipInitialRender.current) {
-      const calendar = CreateCalendarTable(
-        props.month,
-        expenseListModalToggler,
-        expenseData
-      );
-      setcalendarTable(calendar);
-    } else skipInitialRender.current = true;
-  }, [expenseData]);
 
   function arrowBtnClickHandler(e) {
     // Reference 1
@@ -50,12 +33,6 @@ function CalendarTable(props) {
       newDate.setMonth(newDate.getMonth() - 1);
     }
 
-    const calendar = CreateCalendarTable(
-      newDate,
-      expenseListModalToggler,
-      expenseData
-    );
-    setcalendarTable(calendar);
     props.setMonth(newDate);
   }
 
@@ -66,19 +43,8 @@ function CalendarTable(props) {
       const date = e.target.dataset.id;
 
       if (!date) return;
-      setExpenseDataList(date);
+      setSelectedDate(date);
       setExpenseListModal(true);
-    }
-  }
-
-  function modalCardToggler(e) {
-    if (modalCard) setModalCard(false);
-    else {
-      const id = e.target.dataset.id;
-
-      if (id) {
-        setModalCard(id);
-      }
     }
   }
 
@@ -99,10 +65,18 @@ function CalendarTable(props) {
         />
       )}
       {modalCard === "chart" && (
-        <SmallChartModal type="month" modalCardToggler={modalCardToggler} />
+        <SmallChartModal
+          type="month"
+          modalCardToggler={modalCardToggler}
+          date={props.month}
+        />
       )}
       {modalCard === "info" && (
-        <DataCardModal type="month" modalCardToggler={modalCardToggler} />
+        <DataCardModal
+          type="month"
+          modalCardToggler={modalCardToggler}
+          date={props.month}
+        />
       )}
 
       <div className={style["icon__container"]}>

@@ -1,7 +1,6 @@
 .card__container {
   margin-top: 5rem;
   display: flex;
-  justify-content: space-between;
   gap: 8rem;
 }
 
@@ -9,9 +8,9 @@
   padding: 1rem 2rem;
   flex: 1 1 15rem;
   background-color: var(--card-light-bg);
-
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 }
 
 .card__text {
@@ -21,5 +20,15 @@
 
 .card__number {
   text-align: end;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+}
+
+@media screen and (max-width: 800px) {
+  .card {
+    padding: 1rem 1.3rem;
+  }
+
+  .card__container {
+    gap: 3rem;
+  }
 }

@@ -149,7 +149,7 @@ function AddDataForm(props) {
       date:
         props.date === undefined
           ? createDateStringFormat(new Date())
-          : props.date,
+          : createDateStringFormat(new Date(props.date)),
       description: "",
       price: "",
       priceTouch: false,

@@ -15,7 +15,7 @@ function SmallChartModal(props) {
   const duration = props.type === "week" ? "7" : "30";
 
   const [, , startingDateString, endingDateString, labels] =
-    createAccountCardPreData(type);
+    createAccountCardPreData(type, props.date);
 
   const [configBar, configPie] = createSmallChartData(
     expenseData,

@@ -1,72 +1,59 @@
-import { useState } from "react";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
 import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
 import WeeklyCalendarList from "./WeeklyCalendarList";
 import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
-import useExpenseDataList from "../../../../Others/Custom/useExpenseDataList";
 import Title from "../../../UI/Title/Title";
 import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
 import DailyDataCard from "./DailyDataCard";
 import timeObj from "../../../assets/timeObj/timeObj";
-import createWeeklyData from "../../../../Others/createWeeklyData";
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
 import createYearMonthDay from "../../../../Others/CreateYearMonthDay/createYearMonthDay";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
 import formatMoney from "../../../../Others/FormatMoney/formatMoney";
 import mutipleArgsHelper from "../../../../Others/MultipleArgsHelper/multipleArgsHelper";
+import useBundleData from "../../../../Others/Custom/useBundleData";
 import { TiPlus } from "react-icons/ti";
 import style from "./DailyInfo.module.css";
 
-const currentDate = new Date();
 const { TODAY } = timeObj;
 
-let weekArr = createWeeklyData(currentDate);
-
-function DailyInfo() {
-  const [weeklyData, setWeeklyData] = useState(weekArr);
-  const [selectedDate, setSelectedDate] = useState();
+function DailyInfo(props) {
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
-  const [modalCard, setModalCard] = useState(false);
-  const [dailyExpenseData, setDailyExpenseData] = useExpenseDataList(TODAY);
-  const [accIncome, accExpense] = createAccAmount(
-    dailyExpenseData,
-    ...Array(3), // skip three arguments
-    true
-  );
+  const [
+    weeklyCalendar,
+    expenseDataList,
+    selectedDate,
+    setSelectedDate,
+    modalCard,
+    modalCardToggler,
+  ] = useBundleData("daily", props.week);
+
   const [income, expense, netIncome] = mutipleArgsHelper(
     formatMoney,
-    accIncome,
-    accExpense,
-    accIncome - accExpense
+    ...createAccAmount(
+      expenseDataList,
+      ...Array(3), // skip three arguments
+      true
+    )
   );
 
   function arrowBtnClickHandler(e) {
+    const newDate = new Date(props.week);
     const id = e.target.dataset.id;
 
-    if (id === "next") currentDate.setDate(currentDate.getDate() + 7);
-    else if (id === "last") currentDate.setDate(currentDate.getDate() - 7);
+    if (id === "next") newDate.setDate(newDate.getDate() + 7);
+    else if (id === "last") newDate.setDate(newDate.getDate() - 7);
     else return;
 
-    weekArr = createWeeklyData(currentDate);
-    setWeeklyData(weekArr);
-  }
-
-  function modalCardToggler(e) {
-    if (modalCard) setModalCard(false);
-    else {
-      const id = e.target.dataset.id;
-
-      if (id) {
-        setModalCard(id);
-      }
-    }
+    props.setWeek(newDate);
+    setSelectedDate(newDate);
   }
 
   let active = false;
   let selected = false;
-  const weeklyCalendarList = weeklyData.map(
+  const weeklyCalendarList = weeklyCalendar.map(
     ({ year, month, monthDay, weekDay, dateObj }) => {
       // check if it's "current" today
       const [todayYear, todayMonth, todayDate] = createYearMonthDay(TODAY);
@@ -96,7 +83,6 @@ function DailyInfo() {
           dateObj={dateObj}
           active={active}
           selected={selected}
-          setDailyExpenseData={setDailyExpenseData}
           setSelectedDate={setSelectedDate}
         />
       );
@@ -110,10 +96,8 @@ function DailyInfo() {
     </div>
   );
 
-  if (dailyExpenseData.length > 0)
-    listContent = (
-      <ExpenseList data={dailyExpenseData} classItem={style.item} />
-    );
+  if (expenseDataList.length > 0)
+    listContent = <ExpenseList data={expenseDataList} classItem={style.item} />;
 
   return (
     <div className={style.daily}>
@@ -124,10 +108,18 @@ function DailyInfo() {
         />
       )}
       {modalCard === "chart" && (
-        <SmallChartModal type="week" modalCardToggler={modalCardToggler} />
+        <SmallChartModal
+          type="week"
+          modalCardToggler={modalCardToggler}
+          date={props.week}
+        />
       )}
       {modalCard === "info" && (
-        <DataCardModal type="week" modalCardToggler={modalCardToggler} />
+        <DataCardModal
+          type="week"
+          modalCardToggler={modalCardToggler}
+          date={props.week}
+        />
       )}
 
       <div className={style["title__container"]}>

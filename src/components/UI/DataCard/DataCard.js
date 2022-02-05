@@ -18,7 +18,7 @@ function DataCard(props) {
     formatMoney,
     props.income,
     props.expense,
-    props.income - props.expense
+    props.netIncome
   );
 
   return (

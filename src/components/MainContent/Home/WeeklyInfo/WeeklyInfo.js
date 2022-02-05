@@ -8,7 +8,7 @@ import createSmallChartData from "../../../../Others/CreateAccountCardData/creat
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
 import style from "./WeeklyInfo.module.css";
 
-function WeeklyInfo() {
+function WeeklyInfo(props) {
   const { expenseData } = useContext(ExpenseDataContext);
   const { categoryExpense } = useContext(CategoryContext);
   const { displayTheme } = useContext(DisplayThemeContext);
@@ -19,7 +19,7 @@ function WeeklyInfo() {
     startingDateString,
     endingDateString,
     labels,
-  ] = createAccountCardPreData("week");
+  ] = createAccountCardPreData("week", props.week);
 
   const [configBar, configPie] = createSmallChartData(
     expenseData,
@@ -30,7 +30,7 @@ function WeeklyInfo() {
     displayTheme
   );
 
-  const [accIncome, accExpense] = createAccAmount(
+  const [accIncome, accExpense, accNetIncome] = createAccAmount(
     expenseData,
     true,
     startingDateObj,
@@ -45,8 +45,10 @@ function WeeklyInfo() {
         title="Weekly Overview"
         income={accIncome}
         expense={accExpense}
+        netIncome={accNetIncome}
         configBar={configBar}
         configPie={configPie}
+        startingDateString={startingDateString}
       />
     </div>
   );

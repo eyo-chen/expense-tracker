@@ -8,10 +8,7 @@ function createLabelsAccount(startDate, endDate) {
     (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
   );
 
-  /*
-    there are always seven labels which means it can only have seven timestamp
-    so have to first know whether the difference can be divided by 7
-  */
+  // Reference 1
   let eachDiffAmount;
   let lastDiffAmount = 0;
   if (diff % 7 === 0) eachDiffAmount = diff / 7;
@@ -20,13 +17,8 @@ function createLabelsAccount(startDate, endDate) {
     lastDiffAmount = diff - eachDiffAmount * 6;
   }
 
+  // Referecne 2
   let tmpDate;
-  /*
-    loop through first six timestamp cuz it could possibly has last difference
-
-    note that .setDate() will return the number of milliseconds
-    so use tmpDate variable to wrap it back to new Date format
-  */
   for (let i = 0; i < 6; i++) {
     tmpDate = new Date(startDate.setDate(startDate.getDate() + eachDiffAmount));
     labels.push(createDateFormat(tmpDate));
@@ -43,3 +35,17 @@ function createLabelsAccount(startDate, endDate) {
 }
 
 export default createLabelsAccount;
+
+/*
+Reference 1
+there are always seven labels which means it can only have seven timestamp
+so have to first know whether the difference can be divided by 7
+*/
+
+/*
+Reference 2
+loop through first six timestamp cuz it could possibly has last difference
+
+note that .setDate() will return the number of milliseconds
+so use tmpDate variable to wrap it back to new Date format
+*/

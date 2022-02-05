@@ -4,12 +4,12 @@
 
 .radio__container {
   display: flex;
+  gap: 5rem;
   margin-bottom: 2rem;
   transform: translateX(1rem);
 }
 
 .radio__container > div {
-  margin-right: 5rem;
   font-size: 1.5rem;
   color: var(--font-low);
 }
@@ -18,7 +18,6 @@
   background-color: var(--font-normal);
   width: 0%;
   height: 0.2rem;
-
   position: absolute;
   top: 100%;
   left: 3%;
@@ -26,8 +25,6 @@
 
 .label {
   letter-spacing: 1.2px;
-  transition: all 0.25s linear;
-  -webkit-transition: all 0.25s linear;
 }
 
 .input:checked ~ .label {
@@ -39,15 +36,9 @@
 }
 
 .chart__container {
-  /* width: clamp(30rem, 90rem, 120rem);
-  height: clamp(15rem, 45rem, 60rem); */
-  width: 62vw;
+  width: 63vw;
   height: 31vw;
 }
-
-/* .chart {
-  width: clamp(30rem, 63vw, 120rem) !important;
-  /* height: 20rem !important; */
 
 @media screen and (max-width: 1400px) {
   .container {

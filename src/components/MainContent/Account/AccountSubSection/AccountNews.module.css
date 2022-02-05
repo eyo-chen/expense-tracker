@@ -6,22 +6,19 @@
   display: flex;
   align-items: center;
   gap: 2rem;
-  /* justify-content: space-between; */
 }
 
 .title {
-  /* margin-bottom: 2rem; */
   font-size: 2.8rem;
 }
 
 .subTitle {
   font-size: 1.6rem;
   margin-bottom: 1rem;
-  margin-top: 2rem;
+  font-weight: 500;
 }
 
 .img__container {
-  /* max-width: 30rem; */
   width: 100%;
   margin-bottom: 1rem;
 }
@@ -30,10 +27,6 @@
   width: 100%;
   max-height: 22rem;
   object-fit: cover;
-}
-
-.content {
-  font-size: 1.2rem;
 }
 
 .refresh {
@@ -46,7 +39,7 @@
 }
 
 .source {
-  color: rgba(255, 255, 255, 0.705);
+  color: var(--font-source);
   display: block;
   text-align: end;
   font-size: 1.3rem;
@@ -56,5 +49,9 @@
 @media screen and (max-width: 1200px) {
   .img {
     max-height: 40rem;
+  }
+
+  .subTitle {
+    font-size: 2rem;
   }
 }

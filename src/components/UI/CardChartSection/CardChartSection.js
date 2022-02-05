@@ -9,7 +9,7 @@ function CardChartSection(props) {
         title={props.title}
         income={props.income}
         expense={props.expense}
-        net={props.income - props.expense}
+        netIncome={props.netIncome}
         classSubTitle={props.classSubTitle}
       />
       <SmallChart

@@ -19,10 +19,6 @@ function AccountOverview() {
     } else setModalCard(false);
   }
 
-  function closeModalCard() {
-    setModalCard(false);
-  }
-
   return (
     <>
       {modalCard && (

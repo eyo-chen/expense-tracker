@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import Card from "../../../UI/Card/Card";
-import Title from "../../../UI/Title/Title";
 import SubTitle from "../../../UI/SubTitle/SubTitle";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import style from "./AccountNews.module.css";
 import { BiRefresh } from "react-icons/bi";
 
 const newsArr = [];
-
 let newsIndex = 0;
 
-function AccountNews(props) {
+function AccountNews() {
   const [news, setNews] = useState({
     title: "",
     img: "",
@@ -64,7 +62,7 @@ function AccountNews(props) {
   return (
     <Card className={style.card}>
       <div className={style["title__section"]}>
-        <Title className={style.title}>latest news</Title>
+        <SubTitle className={style.title}>latest news</SubTitle>
         <BtnIcon
           classText={style["btn__text"]}
           text="next"
@@ -73,9 +71,9 @@ function AccountNews(props) {
           <BiRefresh className={style.refresh} />
         </BtnIcon>
       </div>
-      <SubTitle title={news.title} className={style.subTitle}>
+      <p title={news.title} className={style.subTitle}>
         {news.editedTitle}
-      </SubTitle>
+      </p>
       <div className={style["img__container"]}>
         <a href={news.url} target="_blank">
           <img

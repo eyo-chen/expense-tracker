@@ -6,19 +6,19 @@ function createAccAmount(
   withRange,
   startDayObj,
   endDayObj,
-  noDate
+  noRange
 ) {
   let accIncome = 0,
     accExpense = 0;
 
   /*
-  If it's noDate, do NOT need to consider the range of date
+  If it's noRange, do NOT need to consider the range of date
   It it's withRange, need to consider starting data and ending date
   It's it's not withRange, only need to consider starting date
    */
   expenseData.forEach((expenseData) => {
     const validTimeIndex =
-      noDate ||
+      noRange ||
       (withRange
         ? compareTimeWithRange(expenseData, startDayObj, endDayObj)
         : compareTime(expenseData, endDayObj));
@@ -30,7 +30,7 @@ function createAccAmount(
     }
   });
 
-  return [accIncome, accExpense];
+  return [accIncome, accExpense, accIncome - accExpense];
 }
 
 export default createAccAmount;

@@ -70,7 +70,7 @@ function AddMainCategoryModal(props) {
 
     1) close the adding modal and add the category to the SettingCategory
        (for the sake of immediate showing at that state)
-       (this is accomplished by props.addMainCategoryAndModal)
+       (this is accomplished by props.addMainCategoryModalToggler)
     
     2) truly add the category inside the category provider
        (this is accomplished by addMainCategory)
@@ -81,7 +81,7 @@ function AddMainCategoryModal(props) {
     Second function is truly add the category where we storing all the category
     */
 
-    props.addMainCategoryAndModal(null, form.name);
+    props.addMainCategoryModalToggler(null, form.name);
 
     addMainCategory(form.name, form.iconIndex, props.category);
   }
@@ -133,7 +133,7 @@ function AddMainCategoryModal(props) {
         </div>
         <div className={style["btn__container"]}>
           <Button
-            onClick={props.addMainCategoryAndModal}
+            onClick={props.addMainCategoryModalToggler}
             className={`${style.btn} ${style["btn--isValid"]}`}
             type="button"
           >

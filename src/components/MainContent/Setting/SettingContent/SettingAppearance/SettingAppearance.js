@@ -1,11 +1,9 @@
 import { useContext } from "react";
 import InputRadio from "../../../../UI/InputRadio/InputRadio";
 import DisplayThemeContext from "../../../../../store/displayTheme/displayTheme--context";
-import { FaRegSun } from "react-icons/fa";
-import { BsMoon } from "react-icons/bs";
 import style from "./SettingAppearance.module.css";
 
-function SettingAppearance(props) {
+function SettingAppearance() {
   const { displayTheme, setDisplayTheme } = useContext(DisplayThemeContext);
 
   function displayThemeRadioChangeHandler(e) {
@@ -13,12 +11,13 @@ function SettingAppearance(props) {
   }
 
   return (
-    <form className={style.form}>
-      <p className={style.subtitle}>display theme</p>
+    <div className={style.container}>
+      <p className={`${style.subtitle} capitalize`}>display theme</p>
+
       <div className={style["radio__container"]}>
         <InputRadio
           classInput={style.input}
-          classLabel={`${style.label} ${style.light}`}
+          classLabel={`${style.label} ${style.light} uppercase`}
           id="light"
           label="light"
           name="theme"
@@ -28,7 +27,7 @@ function SettingAppearance(props) {
         />
         <InputRadio
           classInput={style.input}
-          classLabel={`${style.label} ${style.dark}`}
+          classLabel={`${style.label} ${style.dark} uppercase`}
           id="dark"
           label="dark"
           name="theme"
@@ -37,7 +36,7 @@ function SettingAppearance(props) {
           checked={displayTheme === "dark"}
         />
       </div>
-    </form>
+    </div>
   );
 }
 

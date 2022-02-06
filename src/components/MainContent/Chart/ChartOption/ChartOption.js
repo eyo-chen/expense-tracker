@@ -156,11 +156,9 @@ function ChartOption(props) {
 
         <Button
           disabled={!validIndex}
-          className={
-            !validIndex
-              ? `${style.btn} transition--25`
-              : `${style.btn} transition--25 ${style["btn--active"]}`
-          }
+          className={`${style.btn} transition--25 ${
+            !validIndex ? `btn--invalid` : `btn--valid`
+          }`}
         >
           Show Chart
         </Button>

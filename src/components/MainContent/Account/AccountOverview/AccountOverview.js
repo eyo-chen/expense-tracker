@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Title from "../../../UI/Title/Title";
 import SubTitle from "../../../UI/SubTitle/SubTitle";
 import AccountCard from "./AccountCard";
 import AccountChart from "./AccountChart";
 import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
 import AccountModal from "../../../UI/AccountModal/AccountModal";
+import AccountInfoContext from "../../../../store/accountInfo/accountInfo--context";
 import style from "./AccountOverview.module.css";
 
 function AccountOverview() {
   const [modalCard, setModalCard] = useState(false);
+  const { accountInfo } = useContext(AccountInfoContext);
 
   function modalCardToggler(e) {
     if (!modalCard) {
@@ -27,7 +29,7 @@ function AccountOverview() {
       <div className={style.overview}>
         <div className={style.title}>
           <Title>account overview</Title>
-          <SubTitle className={style.subtitle}>hi, username</SubTitle>
+          <SubTitle className={style.subtitle}>hi, {accountInfo.name}</SubTitle>
           <div className={style["btn__container"]}>
             <BtnIcons onClick={modalCardToggler} news={true} />
           </div>

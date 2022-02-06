@@ -1,31 +1,35 @@
-import { useContext, useReducer, Fragment, useEffect } from "react";
+import { useContext, useReducer, Fragment } from "react";
 import CategoryContext from "../../../../../store/category/category--context";
-import InputRadio from "../../../../UI/InputRadio/InputRadio";
-import Button from "../../../../UI/Button/Button";
 import AddMainCategoryModal from "../../../../UI/AddMainCategoryModal/AddMainCategoryModal";
 import AddingSubCategoryModal from "../../../../UI/AddingSubCategoryModal/AddingSubCategoryModal";
 import DeleteCategoryModal from "../../../../UI/DeleteCategoryModal/DeleteCategoryModal";
+import SettingType from "./SettingType";
+import SettingMainCategory from "./SettingMainCategory";
+import SettingSubCategory from "./SettingSubCategory";
 import style from "./SettingCategory.module.css";
 
 let expenseObj, incomeObj;
 
 function reducer(state, action) {
   switch (action.type) {
-    case "FIRST_CATEGORY": {
-      let mainCategoryArr, subCategoryArr, mainCategory;
+    case "TYPE": {
+      // update these four values when chaning type
+      let mainCategoryArr, subCategoryArr, mainCategory, subCategory;
 
       if (action.value === "expense") {
         const expenseKeyArr = Object.keys(expenseObj);
 
         mainCategoryArr = expenseKeyArr;
-        subCategoryArr = expenseObj[expenseKeyArr[0]];
         mainCategory = expenseKeyArr[0];
+        subCategoryArr = expenseObj[mainCategory];
+        subCategory = expenseObj[mainCategory][0];
       } else {
         const incomeKeyArr = Object.keys(incomeObj);
 
         mainCategoryArr = incomeKeyArr;
-        subCategoryArr = incomeObj[incomeKeyArr[0]];
         mainCategory = incomeKeyArr[0];
+        subCategoryArr = incomeObj[mainCategory];
+        subCategory = incomeObj[mainCategory][0];
       }
 
       return {
@@ -34,46 +38,61 @@ function reducer(state, action) {
         mainCategoryArr,
         subCategoryArr,
         mainCategory,
-
-        // whenever use change the category, the removing state should be canceled
-        removeMain: false,
-        removeSub: false,
+        subCategory,
+        // whenever use change the category, the editing state should be canceled
+        editMainCategory: false,
+        editSubCategory: false,
       };
     }
 
-    case "MAIN_CATEGORY": {
-      let subCategoryArr;
+    case "CLICK_MAIN_CATEGORY": {
+      let subCategoryArr, subCategory;
 
-      if (state.category === "expense")
+      if (state.category === "expense") {
         subCategoryArr = expenseObj[action.value];
-      else subCategoryArr = incomeObj[action.value];
+        subCategory = expenseObj[action.value][0];
+      } else {
+        subCategoryArr = incomeObj[action.value];
+        subCategory = incomeObj[action.value][0];
+      }
 
-      return { ...state, subCategoryArr, mainCategory: action.value };
+      return {
+        ...state,
+        mainCategory: action.value,
+        subCategoryArr,
+        subCategory,
+      };
     }
 
-    case "REMOVE_MAIN_CATEGORY_STATE": {
-      return { ...state, removeMain: !state.removeMain };
+    case "CLICK_SUB_CATEGORY": {
+      return { ...state, subCategory: action.value };
     }
 
-    case "REMOVE_SUB_CATEGORY_STATE": {
-      return { ...state, removeSub: !state.removeSub };
+    case "EDIT_MAIN_CATEGORY_STATE": {
+      return { ...state, editMainCategory: !state.editMainCategory };
     }
 
-    // case "REMOVE_MAIN_CATEGORY": {
-    //   const mainCategoryArr = state.mainCategoryArr.filter(
-    //     (element) => element !== action.value
-    //   );
+    case "EDIT_SUB_CATEGORY_STATE": {
+      return { ...state, editSubCategory: !state.editSubCategory };
+    }
 
-    //   return { ...state, mainCategoryArr };
-    // }
+    // Reference 1
+    case "DELETE_CATEGORY_MODAL_TOGGLER": {
+      if (state.deleteModal)
+        return { ...state, deleteModal: false, clickingCategoryForDelete: "" };
+      else {
+        let clickingCategoryForDelete = state.subCategory;
+        if (action.value === "main")
+          clickingCategoryForDelete = state.mainCategory;
 
-    // case "REMOVE_SUB_CATEGORY": {
-    //   const subCategoryArr = state.subCategoryArr.filter(
-    //     (element) => element !== action.value
-    //   );
-
-    //   return { ...state, subCategoryArr };
-    // }
+        return {
+          ...state,
+          deleteModal: true,
+          clickingCategoryForDelete,
+          deleteMainOrSub: action.value,
+        };
+      }
+    }
 
     case "ADD_MAIN_CATEGORY_STATE": {
       return { ...state, addMainCategoryModal: !state.addMainCategoryModal };
@@ -95,85 +114,40 @@ function reducer(state, action) {
       return { ...state, subCategoryArr };
     }
 
-    case "DELETE_CATEGORY_MODAL": {
-      return {
-        ...state,
-        deleteCategoryModal: !state.deleteCategoryModal,
-        clickingCategoryForDelete: action.value,
-      };
-    }
-
+    // have to update several variables after deleting(For UI purpose)
     case "DELETE_CATEGORY": {
       // main category
-      if (state.mainCategoryArr.includes(action.value)) {
+      if (action.value === "main") {
         const mainCategoryArr = state.mainCategoryArr.filter(
-          (element) => element !== action.value
+          (element) => element !== state.clickingCategoryForDelete
         );
-
-        /*
-        here is very important
-
-        isSame variable tracking
-        if the current chosen category is as same as the user's gonna delete
-
-        for example,
-        user now may choose food, and food category is now labeled blue
-        but once user click the "remove" button, then the remove state is showing
-        all the category now will have "x" button, which means we allow user to delete every category, not necessary the currently choosing category
-        so, the situation may be user choose the food category, and show it's subcategory
-        then remove clothing category
-        
-        */
-        const isSame = state.mainCategory === state.clickingCategoryForDelete;
-
-        /*
-        if the chossing category is as same as deleting category
-        then make main category to be whatever the first element in the main category array, so does sub category
-
-        if it's not, then we do nothing
-
-        it's very important we do this for the user
-        if the chossing category is as same as deleting category,
-        and we do nothing,
-        then there's no element labeling blue after deletion
-        and the sub category element would still be the old, deleted one
-
-        for example, food is deleted,
-        but subcategory may still show food's subcategory, which is very weird
-        */
 
         return {
           ...state,
           mainCategoryArr,
-          mainCategory: isSame ? mainCategoryArr[0] : state.mainCategory,
-
-          /*
-          if isSame variable is true,
-          then we want to dynamically change the sub category
-          based on if now it's expense or income
-          */
-          subCategoryArr: isSame
-            ? state.category === "expense"
+          mainCategory: mainCategoryArr[0],
+          subCategoryArr:
+            state.category === "expense"
               ? expenseObj[mainCategoryArr[0]]
-              : incomeObj[mainCategoryArr[0]]
-            : state.subCategoryArr,
+              : incomeObj[mainCategoryArr[0]],
+          subCategory:
+            state.category === "expense"
+              ? expenseObj[mainCategoryArr[0]][0]
+              : incomeObj[mainCategoryArr[0]][0],
         };
       }
       // sub category
-      else {
+      else if (action.value === "sub") {
         const subCategoryArr = state.subCategoryArr.filter(
-          (element) => element !== action.value
+          (element) => element !== state.clickingCategoryForDelete
         );
 
         return {
           ...state,
           subCategoryArr,
+          subCategory: subCategoryArr[0],
         };
-      }
-    }
-
-    case "CLOSE_DELETE_MODAL": {
-      return { ...state, deleteCategoryModal: !state.deleteCategoryModal };
+      } else return state;
     }
 
     default: {
@@ -195,145 +169,64 @@ function SettingCategory() {
     mainCategoryArr: Object.keys(categoryExpense),
     subCategory: categoryExpense[Object.keys(categoryExpense)[0]][0],
     subCategoryArr: categoryExpense[Object.keys(categoryExpense)[0]],
-    removeMain: false,
-    removeSub: false,
+    editMainCategory: false,
+    editSubCategory: false,
+    deleteModal: false,
     addMainCategoryModal: false,
     addSubCategoryModal: false,
     deleteCategoryModal: false,
     clickingCategoryForDelete: "",
+    deleteMainOrSub: "main",
   });
-
-  // let these variables connect with object because they are used in reducer function
+  // make these variables connect with object because they are used in reducer function
   expenseObj = categoryExpense;
   incomeObj = categoryIncome;
 
-  const mainDataContent = categoryState.mainCategoryArr.map((element) => (
-    <div
-      className={`${style.data}  ${
-        element === categoryState.mainCategory
-          ? categoryState.category === "expense"
-            ? style["data--active--expense"]
-            : style["data--active--income"]
-          : ""
-      } ${categoryState.removeMain && style["data--remove"]}`}
-      key={element}
-    >
-      <span onClick={mainCategoryClickHandler}>{element}</span>
-      {categoryState.removeMain && (
-        <span>
-          <Button
-            onClick={deleteIconClickHandler}
-            className={style["btn--remove"]}
-            type="button"
-            dataID={element}
-          >
-            x
-          </Button>
-        </span>
-      )}
-    </div>
-  ));
-
-  const subDataContent = categoryState.subCategoryArr.map((element) => (
-    <div
-      className={`${style.data}  ${
-        categoryState.removeSub && style["data--remove"]
-      } `}
-      key={element}
-    >
-      <span>{element}</span>
-      {categoryState.removeSub && (
-        <span>
-          <Button
-            onClick={deleteIconClickHandler}
-            className={style["btn--remove"]}
-            type="button"
-            dataID={element}
-          >
-            x
-          </Button>
-        </span>
-      )}
-    </div>
-  ));
-
-  // expense & income
-  function categoryChangeHandler(e) {
-    categoryStateDispatch({ type: "FIRST_CATEGORY", value: e.target.value });
+  function clickEditBtnHandler(e) {
+    const id = e.target.dataset.id;
+    if (id === "main")
+      categoryStateDispatch({ type: "EDIT_MAIN_CATEGORY_STATE" });
+    else if (id === "sub")
+      categoryStateDispatch({ type: "EDIT_SUB_CATEGORY_STATE" });
+    else return;
   }
 
-  // based on main categoey, show the corresponding sub category
-  function mainCategoryClickHandler(e) {
+  function deleteModalToggler(e) {
     categoryStateDispatch({
-      type: "MAIN_CATEGORY",
-      value: e.target.textContent,
-    });
-  }
-
-  function removeBtnMainCategoryStateClickHandler() {
-    categoryStateDispatch({
-      type: "REMOVE_MAIN_CATEGORY_STATE",
-    });
-  }
-
-  function removeBtnSubCategoryStateClickHandler() {
-    categoryStateDispatch({
-      type: "REMOVE_SUB_CATEGORY_STATE",
-    });
-  }
-
-  function deleteIconClickHandler(e) {
-    categoryStateDispatch({
-      type: "DELETE_CATEGORY_MODAL",
+      type: "DELETE_CATEGORY_MODAL_TOGGLER",
       value: e.target.dataset.id,
     });
   }
 
-  function deleteCategory() {
-    categoryStateDispatch({
-      type: "DELETE_CATEGORY",
-      value: categoryState.clickingCategoryForDelete,
-    });
+  function clickDeleteBtnHandler(e) {
+    const id = e.target.dataset.id;
 
-    // main category
-    if (
-      categoryState.mainCategoryArr.includes(
-        categoryState.clickingCategoryForDelete
-      )
-    )
+    if (id === "main") {
       removeMainCategory(
         categoryState.clickingCategoryForDelete,
         categoryState.category
       );
-    // sub category
-    else
+    } else if (id === "sub") {
       removeSubCategory(
         categoryState.clickingCategoryForDelete,
         categoryState.category,
         categoryState.mainCategory
       );
+    }
+
+    categoryStateDispatch({ type: "DELETE_CATEGORY", value: id });
+
+    return;
   }
 
-  function closeDeleteModal() {
-    categoryStateDispatch({
-      type: "CLOSE_DELETE_MODAL",
-    });
-  }
-
-  /*
-  These two functions do two things respectively
-  1) toggle the adding main or sub categeory modal state
-     (show and close the modal)
-  2) add the category 
-     (this will only invoke when there's value which is the name of new category)
-  */
-  function addMainCategoryAndModal(e, value) {
+  // Referecne 2
+  function addMainCategoryModalToggler(e, value) {
     categoryStateDispatch({ type: "ADD_MAIN_CATEGORY_STATE" });
 
     if (value) categoryStateDispatch({ type: "ADD_MAIN_CATEGORY", value });
   }
 
-  function addSubCategoryAndModal(e, value) {
+  function addSubCategoryModalToggler(e, value) {
     categoryStateDispatch({ type: "ADD_SUB_CATEGORY_STATE" });
 
     if (value) categoryStateDispatch({ type: "ADD_SUB_CATEGORY", value });
@@ -344,98 +237,44 @@ function SettingCategory() {
       {categoryState.addMainCategoryModal && (
         <AddMainCategoryModal
           category={categoryState.category}
-          addMainCategoryAndModal={addMainCategoryAndModal}
+          addMainCategoryModalToggler={addMainCategoryModalToggler}
         />
       )}
       {categoryState.addSubCategoryModal && (
         <AddingSubCategoryModal
           category={categoryState.category}
           mainCategory={categoryState.mainCategory}
-          addSubCategoryAndModal={addSubCategoryAndModal}
+          addSubCategoryModalToggler={addSubCategoryModalToggler}
         />
       )}
-      {categoryState.deleteCategoryModal && (
+      {categoryState.deleteModal && (
         <DeleteCategoryModal
-          category={categoryState.category}
+          deleteMainOrSub={categoryState.deleteMainOrSub}
           clickingCategoryForDelete={categoryState.clickingCategoryForDelete}
-          mainCategoryArr={categoryState.mainCategoryArr}
-          subCategoryArr={categoryState.subCategoryArr}
-          deleteCategory={deleteCategory}
-          closeDeleteModal={closeDeleteModal}
+          deleteModalToggler={deleteModalToggler}
+          clickDeleteBtnHandler={clickDeleteBtnHandler}
         />
       )}
       <form className={style.form}>
         <div className={style["form__list"]}>
-          <div className={style.category}>
-            <InputRadio
-              classContainer={style["radio__container"]}
-              classInput={style.input}
-              classLabel={`${style.labelBlue} ${style.label}`}
-              classCheck={style.check}
-              id="expense"
-              name="category"
-              value="expense"
-              label="expense"
-              checked={categoryState.category === "expense"}
-              onChange={categoryChangeHandler}
-            />
-            <InputRadio
-              classContainer={style["radio__container"]}
-              classInput={style.input}
-              classLabel={`${style.labelPink} ${style.label}`}
-              classCheck={style.check}
-              id="income"
-              name="category"
-              value="income"
-              label="income"
-              checked={categoryState.category === "income"}
-              onChange={categoryChangeHandler}
-            />
-          </div>
-          <div className={style.container}>
-            <div className={style["subtitle__container"]}>
-              <p className={style.subtitle}>main category</p>
-            </div>
-            <div className={style["data__container"]}>{mainDataContent}</div>
-            <div className={style["btn__container"]}>
-              <Button
-                onClick={removeBtnMainCategoryStateClickHandler}
-                type="button"
-                className={style.btn}
-              >
-                remove
-              </Button>
-              <Button
-                onClick={addMainCategoryAndModal}
-                type="button"
-                className={style.btn}
-              >
-                add
-              </Button>
-            </div>
-          </div>
-          <div className={style.container}>
-            <div className={style["subtitle__container"]}>
-              <p className={style.subtitle}>sub category</p>
-            </div>
-            <div className={style["data__container"]}>{subDataContent}</div>
-            <div className={style["btn__container"]}>
-              <Button
-                onClick={removeBtnSubCategoryStateClickHandler}
-                type="button"
-                className={style.btn}
-              >
-                remove
-              </Button>
-              <Button
-                onClick={addSubCategoryAndModal}
-                type="button"
-                className={style.btn}
-              >
-                add
-              </Button>
-            </div>
-          </div>
+          <SettingType
+            category={categoryState.category}
+            categoryStateDispatch={categoryStateDispatch}
+          />
+          <SettingMainCategory
+            categoryState={categoryState}
+            categoryStateDispatch={categoryStateDispatch}
+            clickEditBtnHandler={clickEditBtnHandler}
+            deleteModalToggler={deleteModalToggler}
+            addMainCategoryModalToggler={addMainCategoryModalToggler}
+          />
+          <SettingSubCategory
+            categoryState={categoryState}
+            categoryStateDispatch={categoryStateDispatch}
+            clickEditBtnHandler={clickEditBtnHandler}
+            deleteModalToggler={deleteModalToggler}
+            addSubCategoryModalToggler={addSubCategoryModalToggler}
+          />
         </div>
       </form>
     </Fragment>
@@ -443,3 +282,35 @@ function SettingCategory() {
 }
 
 export default SettingCategory;
+
+/*
+Reference 1
+This part of code does three things
+1. toggle the delete category modal
+=> that's why first check if state.removeModal it's true or false
+
+2. set clickingCategoryForDelete
+=> note that both main and sub category share one delete modal
+=> first add data-id on both delete btn, respectively "main" and "sub"
+=> so that we can know which btn is user clicking
+=> and know that what category does user wanna delete
+=> if the data-id of btn is "main", then user wanna delete current selected main category
+=> so does sub category
+
+3. set deleteMainOrSub
+=> to keep tracking what does user wanna delete ("main" or "sub")
+=> note that both main and sub category share one delete modal
+=> we need the variable to pass into the DeleteCategoryModal
+=> to have further operation
+    (1) to know that expenseData list should show in the modal
+    (2) to know what category is about to delete when user clicking the delete btn in the modal
+*/
+
+/*
+Referecne 2
+These two functions do two things respectively
+1) toggle the adding main or sub categeory modal state
+   (show and close the modal)
+2) add the category 
+   (this will only invoke when there's value which is the name of new category)
+*/

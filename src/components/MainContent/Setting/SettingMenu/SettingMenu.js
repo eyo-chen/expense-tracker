@@ -1,19 +1,21 @@
 import style from "./SettingMenu.module.css";
 
-const SETTING_MENU_TEXT = ["account", "appearance", "category", "others"];
+const SETTING_MENU = ["account", "appearance", "category", "others"];
 
 function SettingMenu(props) {
-  function settingListClick(e) {
+  function settingMenuClickHandler(e) {
     props.setSettingContent(e.target.dataset.id);
   }
 
-  const menu = SETTING_MENU_TEXT.map((element, index) => (
+  const menu = SETTING_MENU.map((element, index) => (
     <li
       key={element}
-      onClick={settingListClick}
+      onClick={settingMenuClickHandler}
       data-id={index}
-      className={`${style.list} ${
-        props.settingContent === index + "" ? `${style.active}` : ""
+      className={` ${
+        props.settingContent === String(index)
+          ? `${style.list} uppercase transition--25 ${style.active}`
+          : `${style.list} uppercase transition--25 `
       }`}
     >
       {element}
@@ -22,7 +24,7 @@ function SettingMenu(props) {
 
   return (
     <div className={style.menu}>
-      <ul className={style.unorder}>{menu}</ul>
+      <ul className={style.ul}>{menu}</ul>
     </div>
   );
 }

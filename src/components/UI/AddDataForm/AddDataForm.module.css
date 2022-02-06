@@ -87,25 +87,6 @@
 .btn {
   width: 70%;
   font-size: 2rem;
-  background-color: var(--btn-bg);
-  border: none;
-  color: var(--btn-ft);
-  cursor: pointer;
-}
-
-.btn:hover {
-  background-color: var(--btn-hover-bg);
-}
-
-.btn--invalid {
-  background-color: transparent;
-  color: var(--btn-disabled-color);
-  border: var(--btn-disabled-border);
-  cursor: not-allowed;
-}
-
-.btn--invalid:hover {
-  background-color: transparent;
 }
 
 @media screen and (max-width: 1200px) {

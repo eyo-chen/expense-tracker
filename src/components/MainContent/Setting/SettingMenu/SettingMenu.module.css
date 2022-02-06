@@ -1,10 +1,9 @@
 .menu {
   flex: 1 1 25%;
   border-right: 1px solid var(--line-low);
-  /* padding-right: 2rem; */
 }
 
-.unorder {
+.ul {
   display: flex;
   flex-direction: column;
   gap: 3rem;
@@ -14,13 +13,9 @@
 .list {
   list-style: none;
   font-size: 2rem;
-  text-transform: uppercase;
   padding: 1.5rem 0 1.5rem 2rem;
   width: 100%;
   cursor: pointer;
-
-  transition: all 0.15s linear;
-  -webkit-transition: all 0.15s linear;
 }
 
 .list:hover {

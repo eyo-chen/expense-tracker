@@ -146,6 +146,9 @@
   /* //////////////////////////////////////////////// */
   --input-outline-focus-active: 0.5px solid var(--black);
   --input-outline-invalid: 0.5px solid var(--red);
+
+  /* //////////////////////////////////////////////// */
+  --color-input-bg: var(--gray-5);
 }
 
 .dark {
@@ -238,6 +241,9 @@
   /* //////////////////////////////////////////////// */
   --input-outline-focus-active: 0.5px solid var(--white-1);
   --input-outline-invalid: 0.5px solid var(--red);
+
+  /* //////////////////////////////////////////////// */
+  --color-input-bg: var(--white-3);
 }
 
 ::-webkit-scrollbar {
@@ -331,6 +337,37 @@ body {
 .input:focus,
 .input:active {
   outline: var(--input-outline-focus-active);
+}
+
+.input--invalid {
+  outline: var(--input-outline-invalid);
+}
+
+.input--invalid:focus,
+.input--invalid:active {
+  outline: var(--input-outline-invalid);
+}
+
+.btn--valid {
+  color: var(--btn-color);
+  background-color: var(--btn-bg);
+  border: var(--btn-active-border);
+  cursor: pointer;
+}
+
+.btn--valid:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+.btn--invalid {
+  background-color: transparent;
+  border: var(--btn-disabled-border);
+  color: var(--btn-disabled-color);
+  cursor: not-allowed;
+}
+
+.btn--invalid:hover {
+  background-color: transparent;
 }
 
 /* /////////////////////////// */

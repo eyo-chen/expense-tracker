@@ -2,6 +2,7 @@ import SubTitle from "../../../UI/SubTitle/SubTitle";
 import SettingAccount from "./SettingAccount/SettingAccount";
 import SettingAppearance from "./SettingAppearance/SettingAppearance";
 import SettingCategory from "./SettingCategory/SettingCategory";
+import HorizontalLine from "../../../UI/HorizontalLine/HorizontalLine";
 import style from "./SettingContent.module.css";
 
 const SETTING_CONTENT = [
@@ -14,11 +15,11 @@ const SETTING_TITLE = ["account", "appearance", "category"];
 function SettingContent(props) {
   return (
     <div className={style.list}>
-      <div className={style.container}>
-        <SubTitle className={style.subTitle}>
+      <div className={`${style.container} center`}>
+        <SubTitle className={style.subtitle}>
           {SETTING_TITLE[props.settingContent]}
         </SubTitle>
-        <hr className={style.line}></hr>
+        <HorizontalLine className={style.line} />
         {SETTING_CONTENT[props.settingContent]}
       </div>
     </div>

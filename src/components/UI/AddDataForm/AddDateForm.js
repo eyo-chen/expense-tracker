@@ -302,13 +302,11 @@ function AddDataForm(props) {
 
           <FormBtn
             classContainer={`${style["btn__container"]}`}
-            classCancel={`${style.btn} uppercase transition--25`}
+            classCancel={`${style.btn} uppercase transition--25 btn--valid`}
             addDataFormModalToggler={props.addDataFormModalToggler}
-            classAdd={
-              !formData.isValid
-                ? `${style["btn--invalid"]} ${style.btn} uppercase transition--25`
-                : `${style.btn} uppercase transition--25`
-            }
+            classAdd={`${style.btn} uppercase transition--25 ${
+              !formData.isValid ? `btn--invalid` : `btn--valid`
+            }`}
             isValid={!formData.isValid}
             oldExpenseData={props.oldExpenseData}
           />

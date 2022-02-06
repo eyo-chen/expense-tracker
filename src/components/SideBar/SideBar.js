@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { AiOutlineBarChart } from "react-icons/ai";
@@ -6,6 +7,7 @@ import { AiFillSetting } from "react-icons/ai";
 import { MdAccountCircle } from "react-icons/md";
 import { SiCashapp } from "react-icons/si";
 import SideBarItem from "./SideBarItem";
+import AccountInfoContext from "../../store/accountInfo/accountInfo--context";
 import style from "./SideBar.module.css";
 
 const SIDEBAR__ICON = [
@@ -30,6 +32,8 @@ const dateOptObj = { month: "short" };
 const dateOptObj1 = { year: "numeric" };
 
 function SideBar(props) {
+  const { accountInfo } = useContext(AccountInfoContext);
+
   // SIDEBAR__ICON is 2D array
   const sidebarItem = SIDEBAR__ICON.map(([title, icon], index) => {
     let activePage = false;
@@ -48,6 +52,8 @@ function SideBar(props) {
       </SideBarItem>
     );
   });
+
+  const backgroundColorClass = { backgroundColor: accountInfo.background };
 
   return (
     <div
@@ -70,7 +76,12 @@ function SideBar(props) {
             {new Intl.DateTimeFormat("en-US", dateOptObj1).format(props.today)}
           </p>
         </div>
-        <div className={style["sidebar__user"]}>G</div>
+        <div
+          style={backgroundColorClass}
+          className={`${style["sidebar__user"]}`}
+        >
+          G
+        </div>
       </div>
     </div>
   );

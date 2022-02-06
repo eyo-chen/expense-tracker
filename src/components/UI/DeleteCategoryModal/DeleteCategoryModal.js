@@ -13,13 +13,13 @@ function DeleteCategoryModal(props) {
 
   let expenseItem;
   // main category
-  if (props.mainCategoryArr.includes(props.clickingCategoryForDelete)) {
+  if (props.deleteMainOrSub === "main") {
     expenseItem = expenseData.filter(
       (element) => element.mainCate === props.clickingCategoryForDelete
     );
   }
   // sub category
-  else {
+  else if (props.deleteMainOrSub === "sub") {
     expenseItem = expenseData.filter(
       (element) => element.subCate === props.clickingCategoryForDelete
     );
@@ -33,9 +33,9 @@ function DeleteCategoryModal(props) {
   else
     subtitleContent = `there's no data of ${props.clickingCategoryForDelete} in your expense history`;
 
-  function btnDeleteClickHandler() {
-    props.deleteCategory();
-    props.closeDeleteModal();
+  function btnDeleteClickHandler(e) {
+    props.clickDeleteBtnHandler(e);
+    props.deleteModalToggler(e);
   }
 
   return (
@@ -67,13 +67,17 @@ function DeleteCategoryModal(props) {
       <div className={style["btn__container"]}>
         <Button
           type="button"
-          onClick={props.closeDeleteModal}
+          onClick={props.deleteModalToggler}
           className={style.btn}
         >
           cancel
         </Button>
-        <Button onClick={btnDeleteClickHandler} className={style.btn}>
-          remove
+        <Button
+          dataID={props.deleteMainOrSub}
+          onClick={btnDeleteClickHandler}
+          className={style.btn}
+        >
+          delete
         </Button>
       </div>
     </Modal>

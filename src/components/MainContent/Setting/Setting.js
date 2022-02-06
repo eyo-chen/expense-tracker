@@ -8,7 +8,7 @@ function Setting() {
 
   return (
     <div className={style.setting}>
-      <div className={style.container}>
+      <div className={`${style.container} center`}>
         <SettingMenu
           settingContent={settingContent}
           setSettingContent={setSettingContent}

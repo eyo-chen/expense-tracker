@@ -29,22 +29,8 @@
 
 .btn {
   width: 100%;
-  color: var(--btn-disabled-color);
-  border: var(--btn-disabled-border);
-  cursor: not-allowed;
   font-size: 1.8rem;
   margin-top: 1rem;
-}
-
-.btn--active {
-  color: var(--btn-color);
-  border: var(--btn-active-border);
-  background-color: var(--btn-bg);
-  cursor: pointer;
-}
-
-.btn--active:hover {
-  background-color: var(--btn-hover-bg);
 }
 
 @media screen and (max-width: 900px) {

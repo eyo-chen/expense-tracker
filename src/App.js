@@ -4,6 +4,7 @@ import SideBar from "./components/SideBar/SideBar";
 import ExpenseDataProvider from "./store/expenseData/ExpenseDataProvider";
 import EditModalProvider from "./store/editModal/EditModalProvider";
 import CategoryProvider from "./store/category/CategoryProvider";
+import AccountInfoProvider from "./store/accountInfo/AccountInfoProvider";
 import DisplayThemeContext from "./store/displayTheme/displayTheme--context";
 import { FiChevronsLeft } from "react-icons/fi";
 import { FiMenu } from "react-icons/fi";
@@ -35,30 +36,32 @@ function App() {
     <ExpenseDataProvider>
       <EditModalProvider>
         <CategoryProvider>
-          <div className={`${style["app__container"]} center`}>
-            {showSidebar ? (
-              <FiChevronsLeft
-                onClick={menuClickHandler}
-                className={style.icon}
-              />
-            ) : (
-              <FiMenu onClick={menuClickHandler} className={style.icon} />
-            )}
+          <AccountInfoProvider>
+            <div className={`${style["app__container"]} center`}>
+              {showSidebar ? (
+                <FiChevronsLeft
+                  onClick={menuClickHandler}
+                  className={style.icon}
+                />
+              ) : (
+                <FiMenu onClick={menuClickHandler} className={style.icon} />
+              )}
 
-            <SideBar
-              today={TODAY}
-              setPage={setPage}
-              page={page}
-              showSidebar={showSidebar}
-              setShowSidebar={setShowSidebar}
-            />
-            <MainContent
-              today={TODAY}
-              page={page}
-              showSidebar={showSidebar}
-              setShowSidebar={setShowSidebar}
-            />
-          </div>
+              <SideBar
+                today={TODAY}
+                setPage={setPage}
+                page={page}
+                showSidebar={showSidebar}
+                setShowSidebar={setShowSidebar}
+              />
+              <MainContent
+                today={TODAY}
+                page={page}
+                showSidebar={showSidebar}
+                setShowSidebar={setShowSidebar}
+              />
+            </div>
+          </AccountInfoProvider>
         </CategoryProvider>
       </EditModalProvider>
     </ExpenseDataProvider>

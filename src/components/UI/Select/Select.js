@@ -1,5 +1,3 @@
-import style from "./Select.module.css";
-
 function Select(props) {
   return (
     <select

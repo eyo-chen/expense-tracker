@@ -1,4 +1,0 @@
-.select:focus,
-.select:active {
-  outline: var(--input-outline-focus-active);
-}

@@ -134,15 +134,3 @@ function SettingAccount() {
 }
 
 export default SettingAccount;
-/*
-      <div>
-        <InputText
-          id="password"
-          label="password"
-          name="password"
-          type="password"
-          classInput={style.input}
-          classLabel={`${style.label} capitalize`}
-        />
-      </div>
-*/

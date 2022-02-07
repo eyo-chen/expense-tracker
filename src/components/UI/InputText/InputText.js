@@ -17,6 +17,7 @@ function InputText(props) {
         value={props.value}
         type={props.type ? props.type : "text"}
         id={props.id}
+        onBlur={props.onBlur}
         onChange={props.onChange}
         className={classNameInput}
         data-id={props.dataID}

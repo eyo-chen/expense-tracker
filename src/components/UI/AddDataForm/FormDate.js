@@ -1,5 +1,6 @@
 import FormContainer from "./FormContainer";
 import InputDate from "../InputDate/InputDate";
+import style from "./AddDataForm.module.css";
 
 function FormDate(props) {
   return (
@@ -10,8 +11,8 @@ function FormDate(props) {
         label="date"
         value={props.date}
         onChange={props.dateChangeHandler}
-        classInput={props.classInput}
-        classLabel={props.classLabel}
+        classInput={style.input}
+        classLabel={`${style.label} capitalize`}
       />
     </FormContainer>
   );

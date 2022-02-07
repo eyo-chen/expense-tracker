@@ -1,36 +1,50 @@
+import { useContext } from "react";
+import CategoryContext from "../../../../../store/category/category--context";
 import { AiFillEdit } from "react-icons/ai";
 import BtnIcon from "../../../../UI/BtnIcon/BtnIcon";
 import Button from "../../../../UI/Button/Button";
 import style from "./SettingCategory.module.css";
 
 function SettingMainCategory(props) {
+  const { iconObj } = useContext(CategoryContext);
+
   const categoryList = props.categoryState.mainCategoryArr.map((element) => (
     <div
+      onClick={clickMainCategoryHandler}
       className={`${style.data}  ${
         element === props.categoryState.mainCategory
-          ? props.categoryState.category === "expense"
+          ? props.categoryState.type === "expense"
             ? style["data--active--expense"]
             : style["data--active--income"]
           : ""
       } `}
       key={element}
     >
-      <span onClick={clickMainCategoryHandler}>{element}</span>
+      {/* Reference 1  */}
+      <div className={style["data__cover"]} data-id={element}></div>
+      <span className={style["data__icon"]}>{iconObj[element]}</span>
+      <span>{element}</span>
     </div>
   ));
 
   function clickMainCategoryHandler(e) {
     props.categoryStateDispatch({
       type: "CLICK_MAIN_CATEGORY",
-      value: e.target.textContent,
+      value: e.target.dataset.id,
     });
   }
 
   return (
     <div className={style.container}>
       <div className={style["subtitle__container"]}>
-        <p className={style.subtitle}>main category</p>
-        <BtnIcon onClick={props.clickEditBtnHandler} dataID="main">
+        <p className={`${style.subtitle} capitalize`}>main category</p>
+        <BtnIcon
+          dataID="main"
+          text="edit"
+          classBtn={style["btn--edit"]}
+          classText={style["btn__text"]}
+          onClick={props.clickEditBtnHandler}
+        >
           <AiFillEdit />
         </BtnIcon>
       </div>
@@ -40,7 +54,7 @@ function SettingMainCategory(props) {
           <Button
             onClick={props.deleteModalToggler}
             type="button"
-            className={style.btn}
+            className={`${style.btn} transition--25 uppercase`}
             dataID="main"
           >
             delete
@@ -48,7 +62,7 @@ function SettingMainCategory(props) {
           <Button
             onClick={props.addMainCategoryModalToggler}
             type="button"
-            className={style.btn}
+            className={`${style.btn} transition--25 uppercase`}
             dataID="main"
           >
             add
@@ -60,3 +74,17 @@ function SettingMainCategory(props) {
 }
 
 export default SettingMainCategory;
+
+/*
+Reference 1
+This is the same logic as BtnIcon
+When user click on icon, we'll lose to catch the dataset.id
+because we did NOT put data-id on icon, also we can't
+So we additionally add a non-content <div></div>, and make this
+cover at the top of both text and icon
+text and icon can both show normally
+but
+when user click on the text or icon, user always click on this <div></div>
+so we put data-id on the <div></div>
+now we can catch the dataset.id normally
+*/

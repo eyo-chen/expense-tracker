@@ -13,7 +13,7 @@ let expenseObj, incomeObj;
 function reducer(state, action) {
   switch (action.type) {
     case "TYPE": {
-      // update these four values when chaning type
+      // update these four values when changing type
       let mainCategoryArr, subCategoryArr, mainCategory, subCategory;
 
       if (action.value === "expense") {
@@ -34,12 +34,12 @@ function reducer(state, action) {
 
       return {
         ...state,
-        category: action.value,
+        type: action.value,
         mainCategoryArr,
         subCategoryArr,
         mainCategory,
         subCategory,
-        // whenever use change the category, the editing state should be canceled
+        // when user change the type, the editing state should be canceled
         editMainCategory: false,
         editSubCategory: false,
       };
@@ -48,7 +48,7 @@ function reducer(state, action) {
     case "CLICK_MAIN_CATEGORY": {
       let subCategoryArr, subCategory;
 
-      if (state.category === "expense") {
+      if (state.type === "expense") {
         subCategoryArr = expenseObj[action.value];
         subCategory = expenseObj[action.value][0];
       } else {
@@ -68,16 +68,16 @@ function reducer(state, action) {
       return { ...state, subCategory: action.value };
     }
 
-    case "EDIT_MAIN_CATEGORY_STATE": {
+    case "EDIT_MAIN_CATEGORY": {
       return { ...state, editMainCategory: !state.editMainCategory };
     }
 
-    case "EDIT_SUB_CATEGORY_STATE": {
+    case "EDIT_SUB_CATEGORY": {
       return { ...state, editSubCategory: !state.editSubCategory };
     }
 
     // Reference 1
-    case "DELETE_CATEGORY_MODAL_TOGGLER": {
+    case "DELETE_CATEGORY_MODAL": {
       if (state.deleteModal)
         return { ...state, deleteModal: false, clickingCategoryForDelete: "" };
       else {
@@ -94,11 +94,11 @@ function reducer(state, action) {
       }
     }
 
-    case "ADD_MAIN_CATEGORY_STATE": {
+    case "ADD_MAIN_CATEGORY_MODAL": {
       return { ...state, addMainCategoryModal: !state.addMainCategoryModal };
     }
 
-    case "ADD_SUB_CATEGORY_STATE": {
+    case "ADD_SUB_CATEGORY_MODAL": {
       return { ...state, addSubCategoryModal: !state.addSubCategoryModal };
     }
 
@@ -127,11 +127,11 @@ function reducer(state, action) {
           mainCategoryArr,
           mainCategory: mainCategoryArr[0],
           subCategoryArr:
-            state.category === "expense"
+            state.type === "expense"
               ? expenseObj[mainCategoryArr[0]]
               : incomeObj[mainCategoryArr[0]],
           subCategory:
-            state.category === "expense"
+            state.type === "expense"
               ? expenseObj[mainCategoryArr[0]][0]
               : incomeObj[mainCategoryArr[0]][0],
         };
@@ -164,7 +164,7 @@ function SettingCategory() {
     removeSubCategory,
   } = useContext(CategoryContext);
   const [categoryState, categoryStateDispatch] = useReducer(reducer, {
-    category: "expense",
+    type: "expense",
     mainCategory: Object.keys(categoryExpense)[0],
     mainCategoryArr: Object.keys(categoryExpense),
     subCategory: categoryExpense[Object.keys(categoryExpense)[0]][0],
@@ -184,16 +184,14 @@ function SettingCategory() {
 
   function clickEditBtnHandler(e) {
     const id = e.target.dataset.id;
-    if (id === "main")
-      categoryStateDispatch({ type: "EDIT_MAIN_CATEGORY_STATE" });
-    else if (id === "sub")
-      categoryStateDispatch({ type: "EDIT_SUB_CATEGORY_STATE" });
+    if (id === "main") categoryStateDispatch({ type: "EDIT_MAIN_CATEGORY" });
+    else if (id === "sub") categoryStateDispatch({ type: "EDIT_SUB_CATEGORY" });
     else return;
   }
 
   function deleteModalToggler(e) {
     categoryStateDispatch({
-      type: "DELETE_CATEGORY_MODAL_TOGGLER",
+      type: "DELETE_CATEGORY_MODAL",
       value: e.target.dataset.id,
     });
   }
@@ -204,12 +202,12 @@ function SettingCategory() {
     if (id === "main") {
       removeMainCategory(
         categoryState.clickingCategoryForDelete,
-        categoryState.category
+        categoryState.type
       );
     } else if (id === "sub") {
       removeSubCategory(
         categoryState.clickingCategoryForDelete,
-        categoryState.category,
+        categoryState.type,
         categoryState.mainCategory
       );
     }
@@ -221,13 +219,13 @@ function SettingCategory() {
 
   // Referecne 2
   function addMainCategoryModalToggler(e, value) {
-    categoryStateDispatch({ type: "ADD_MAIN_CATEGORY_STATE" });
+    categoryStateDispatch({ type: "ADD_MAIN_CATEGORY_MODAL" });
 
     if (value) categoryStateDispatch({ type: "ADD_MAIN_CATEGORY", value });
   }
 
   function addSubCategoryModalToggler(e, value) {
-    categoryStateDispatch({ type: "ADD_SUB_CATEGORY_STATE" });
+    categoryStateDispatch({ type: "ADD_SUB_CATEGORY_MODAL" });
 
     if (value) categoryStateDispatch({ type: "ADD_SUB_CATEGORY", value });
   }
@@ -236,13 +234,13 @@ function SettingCategory() {
     <Fragment>
       {categoryState.addMainCategoryModal && (
         <AddMainCategoryModal
-          category={categoryState.category}
+          type={categoryState.type}
           addMainCategoryModalToggler={addMainCategoryModalToggler}
         />
       )}
       {categoryState.addSubCategoryModal && (
         <AddingSubCategoryModal
-          category={categoryState.category}
+          type={categoryState.type}
           mainCategory={categoryState.mainCategory}
           addSubCategoryModalToggler={addSubCategoryModalToggler}
         />
@@ -255,28 +253,26 @@ function SettingCategory() {
           clickDeleteBtnHandler={clickDeleteBtnHandler}
         />
       )}
-      <form className={style.form}>
-        <div className={style["form__list"]}>
-          <SettingType
-            category={categoryState.category}
-            categoryStateDispatch={categoryStateDispatch}
-          />
-          <SettingMainCategory
-            categoryState={categoryState}
-            categoryStateDispatch={categoryStateDispatch}
-            clickEditBtnHandler={clickEditBtnHandler}
-            deleteModalToggler={deleteModalToggler}
-            addMainCategoryModalToggler={addMainCategoryModalToggler}
-          />
-          <SettingSubCategory
-            categoryState={categoryState}
-            categoryStateDispatch={categoryStateDispatch}
-            clickEditBtnHandler={clickEditBtnHandler}
-            deleteModalToggler={deleteModalToggler}
-            addSubCategoryModalToggler={addSubCategoryModalToggler}
-          />
-        </div>
-      </form>
+      <div className={style.form}>
+        <SettingType
+          type={categoryState.type}
+          categoryStateDispatch={categoryStateDispatch}
+        />
+        <SettingMainCategory
+          categoryState={categoryState}
+          categoryStateDispatch={categoryStateDispatch}
+          clickEditBtnHandler={clickEditBtnHandler}
+          deleteModalToggler={deleteModalToggler}
+          addMainCategoryModalToggler={addMainCategoryModalToggler}
+        />
+        <SettingSubCategory
+          categoryState={categoryState}
+          categoryStateDispatch={categoryStateDispatch}
+          clickEditBtnHandler={clickEditBtnHandler}
+          deleteModalToggler={deleteModalToggler}
+          addSubCategoryModalToggler={addSubCategoryModalToggler}
+        />
+      </div>
     </Fragment>
   );
 }

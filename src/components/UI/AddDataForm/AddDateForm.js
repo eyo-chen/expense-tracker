@@ -242,12 +242,6 @@ function AddDataForm(props) {
     <Modal classModal={style.modal}>
       <form onSubmit={formSubmitHandler} className={style.form}>
         <FormTitle
-          classContainer={style["title__container"]}
-          classInput={style.input}
-          classExpense={style.expense}
-          classIncome={style.income}
-          classCheck={style.check}
-          classTitle={`${style.title} uppercase transition--25`}
           category={formData.category}
           categoryChangeHandler={categoryChangeHandler}
         />
@@ -255,59 +249,40 @@ function AddDataForm(props) {
         <HorizontalLine />
         <div className={style["form__container"]}>
           <FormMainCategory
-            classLabel={`${style.label} capitalize`}
-            classIcon="center--flex"
-            classInput={style.input}
             mainCategory={formData.mainCategory}
+            category={formData.category}
             icon={formData.icon}
             mainCategoryChangeHandler={mainCategoryChangeHandler}
             mainCategoryArr={formData.mainCategoryArr}
           />
 
           <FormSubCategory
-            classLabel={`${style.label} capitalize`}
-            classInput={style.input}
             subCategoryChangeHandler={subCategoryChangeHandler}
             subCategory={formData.subCategory}
             subCategoryArr={formData.subCategoryArr}
           />
 
           <FormDescription
-            classTextContainer={style["text__container"]}
-            classLabel={`${style.label} capitalize`}
-            classInput={style.input}
             description={formData.description}
             descriptionChangeHandler={descriptionChangeHandler}
           />
 
           <FormDate
-            classLabel={`${style.label} capitalize`}
-            classInput={style.input}
             date={formData.date}
             dateChangeHandler={dateChangeHandler}
           />
 
           <FormPrice
-            classContainer={style["price__container"]}
-            classLabel={`${style.label} capitalize`}
-            classInput={style.input}
-            classInputInvalid={style["input--invalid"]}
-            classWarn={style.warning}
             price={formData.price}
             priceTouch={formData.priceTouch}
-            isValid={!formData.isValid}
+            invalid={!formData.isValid}
             priceChangeHandler={priceChangeHandler}
             inputPriceTouchHandler={inputPriceTouchHandler}
           />
 
           <FormBtn
-            classContainer={`${style["btn__container"]}`}
-            classCancel={`${style.btn} uppercase transition--25 btn--valid`}
             addDataFormModalToggler={props.addDataFormModalToggler}
-            classAdd={`${style.btn} uppercase transition--25 ${
-              !formData.isValid ? `btn--invalid` : `btn--valid`
-            }`}
-            isValid={!formData.isValid}
+            invalid={!formData.isValid}
             oldExpenseData={props.oldExpenseData}
           />
         </div>

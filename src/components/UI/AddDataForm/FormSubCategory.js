@@ -1,15 +1,16 @@
 import FormContainer from "./FormContainer";
 import Select from "../Select/Select";
+import style from "./AddDataForm.module.css";
 
 function FormSubCategory(props) {
   return (
     <FormContainer>
-      <label htmlFor="subCategory" className={props.classLabel}>
+      <label htmlFor="subCategory" className={`${style.label} capitalize`}>
         sub category
       </label>
       <Select
         onChange={props.subCategoryChangeHandler}
-        className={props.classInput}
+        className={style.input}
         name="subCategory"
         id="subCategory"
       >

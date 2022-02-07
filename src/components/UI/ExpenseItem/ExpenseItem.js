@@ -70,7 +70,7 @@ function ExpenseItem(props) {
       ? `${style["item__category--blue"]}`
       : `${style["item__category--pink"]}`;
 
-  const limitedLength = props.modal ? 13 : 40;
+  const limitedLength = props.modal ? 13 : 20;
   const longLengthClassName =
     props.description?.length > limitedLength ? "item__description--long" : "";
   const longIndex = longLengthClassName.length > 0;

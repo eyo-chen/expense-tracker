@@ -15,7 +15,7 @@ function BtnIcon(props) {
       <div
         onClick={props.onClick}
         data-id={props.dataID}
-        className={style["btn__inner"]}
+        className={style.cover}
       ></div>
       {props.children}
       <span className={classNameText}>{props.text}</span>

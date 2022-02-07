@@ -104,6 +104,7 @@ const iconObj = {
   education: <ImBook className={style.icon} />,
   entertainment: <IoLogoGameControllerB className={style.icon} />,
   salary: <RiMoneyDollarCircleFill className={style.icon} />,
+  investment: <BsTrophy className={style.icon} />,
   bonus: <RiHandCoinFill className={style.icon} />,
   stock: <AiOutlineStock className={style.icon} />,
   others: <FiAlignCenter className={style.icon} />,
@@ -123,20 +124,20 @@ const EXPENSE_CATEGORY = {
   transportation: ["gasoline", "parking", "maintenance"],
   education: ["books", "course"],
   entertainment: ["video games", "computer games", "party"],
-  others: ["others"],
+  // others: [],
 };
 
 const INCOME_CATEGORY = {
   salary: ["salary", "bonus"],
   investment: ["stock"],
   bonus: ["bonus"],
-  others: ["others"],
+  // others: [],
 };
 
 function reducer(state, action) {
   switch (action.type) {
     case "REMOVE_MAIN_CATEGORY": {
-      if (action.category === "expense") {
+      if (action.type === "expense") {
         const categoryExpense = { ...state.categoryExpense };
 
         delete categoryExpense[action.value];

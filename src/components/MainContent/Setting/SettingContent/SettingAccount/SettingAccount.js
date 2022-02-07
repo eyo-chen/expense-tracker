@@ -121,11 +121,11 @@ function SettingAccount() {
       <Button
         type="submit"
         disabled={!(infoValidation.validText && infoValidation.validEmail)}
-        className={
+        className={`${style.btn} uppercase transition--25 ${
           infoValidation.validText && infoValidation.validEmail
-            ? `${style.btn} uppercase transition--25 btn--valid`
-            : `${style.btn} uppercase transition--25 btn--invalid`
-        }
+            ? `btn--valid`
+            : `btn--invalid`
+        }`}
       >
         change
       </Button>

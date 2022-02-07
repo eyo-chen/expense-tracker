@@ -8,7 +8,7 @@ function SettingSubCategory(props) {
     <div
       className={`${style.data}  ${
         element === props.categoryState.subCategory
-          ? props.categoryState.category === "expense"
+          ? props.categoryState.type === "expense"
             ? style["data--active--expense"]
             : style["data--active--income"]
           : ""
@@ -29,8 +29,14 @@ function SettingSubCategory(props) {
   return (
     <div className={style.container}>
       <div className={style["subtitle__container"]}>
-        <p className={style.subtitle}>sub category</p>
-        <BtnIcon onClick={props.clickEditBtnHandler} dataID="sub">
+        <p className={`${style.subtitle} capitalize`}>sub category</p>
+        <BtnIcon
+          dataID="sub"
+          text="edit"
+          classBtn={style["btn--edit"]}
+          classText={style["btn__text"]}
+          onClick={props.clickEditBtnHandler}
+        >
           <AiFillEdit />
         </BtnIcon>
       </div>
@@ -40,7 +46,7 @@ function SettingSubCategory(props) {
           <Button
             onClick={props.deleteModalToggler}
             type="button"
-            className={style.btn}
+            className={`${style.btn} transition--25 uppercase`}
             dataID="sub"
           >
             delete
@@ -48,7 +54,7 @@ function SettingSubCategory(props) {
           <Button
             onClick={props.addSubCategoryModalToggler}
             type="button"
-            className={style.btn}
+            className={`${style.btn} transition--25 uppercase`}
             dataID="sub"
           >
             add

@@ -244,6 +244,11 @@
 
   /* //////////////////////////////////////////////// */
   --color-input-bg: var(--white-3);
+
+  /* //////////////////////////////////////////////// */
+  --add-main-category-icon-bg: var(--black-4);
+  --add-main-category-icon-color: var(--gray);
+  --add-main-category-icon-hover-color: var(--white);
 }
 
 ::-webkit-scrollbar {
@@ -339,10 +344,7 @@ body {
   outline: var(--input-outline-focus-active);
 }
 
-.input--invalid {
-  outline: var(--input-outline-invalid);
-}
-
+.input--invalid,
 .input--invalid:focus,
 .input--invalid:active {
   outline: var(--input-outline-invalid);

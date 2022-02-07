@@ -1,12 +1,13 @@
 import InputRadio from "../InputRadio/InputRadio";
+import style from "./AddDataForm.module.css";
 
 function FormTitle(props) {
   return (
-    <div className={props.classContainer}>
+    <div className={style["title__container"]}>
       <InputRadio
-        classInput={props.classInput}
-        classCheck={`${props.classExpense} ${props.classCheck}`}
-        classLabel={props.classTitle}
+        classInput={style.input}
+        classCheck={`${style.expense} ${style.check}`}
+        classLabel={`${style.title} uppercase transition--25`}
         label="expense"
         name="title"
         value="expense"
@@ -15,9 +16,9 @@ function FormTitle(props) {
         checked={props.category === "expense"}
       />
       <InputRadio
-        classInput={props.classInput}
-        classCheck={`${props.classIncome} ${props.classCheck}`}
-        classLabel={props.classTitle}
+        classInput={style.input}
+        classCheck={`${style.income} ${style.check}`}
+        classLabel={`${style.title} uppercase transition--25`}
         label="income"
         name="title"
         value="income"

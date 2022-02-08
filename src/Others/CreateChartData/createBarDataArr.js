@@ -1,5 +1,5 @@
-import compareTime from "../compareTime";
-import compareTimeWithRange from "../compareTimeWithRange";
+import compareTimeWithRange from "../CompareTime/compareTimeWithRange";
+import compareTime from "../CompareTime/compareTime";
 
 /*
 main logic

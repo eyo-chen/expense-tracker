@@ -1,9 +1,8 @@
 import BtnIcon from "../BtnIcon/BtnIcon";
-import style from "./BtnIcons.module.css";
-
 import { AiOutlineBarChart } from "react-icons/ai";
 import { AiFillMoneyCollect } from "react-icons/ai";
 import { BsNewspaper } from "react-icons/bs";
+import style from "./BtnIcons.module.css";
 
 function BtnIcons(props) {
   const classBtn = props.news

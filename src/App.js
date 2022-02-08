@@ -52,13 +52,13 @@ function App() {
                 setPage={setPage}
                 page={page}
                 showSidebar={showSidebar}
-                setShowSidebar={setShowSidebar}
+                menuClickHandler={menuClickHandler}
               />
               <MainContent
                 today={TODAY}
                 page={page}
                 showSidebar={showSidebar}
-                setShowSidebar={setShowSidebar}
+                menuClickHandler={menuClickHandler}
               />
             </div>
           </AccountInfoProvider>

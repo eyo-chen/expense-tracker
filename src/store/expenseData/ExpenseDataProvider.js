@@ -25,7 +25,7 @@ const INCOME_CATEGORY = {
   others: ["others"],
 };
 
-let originalObj;
+// let originalObj;
 const EXPENSE_DATA = [
   {
     id: uuidv4(),
@@ -2115,16 +2115,16 @@ const reducerInitialObj = {
 function reducer(state, action) {
   switch (action.type) {
     case "DELETE": {
-      const newState = state.expenseData.filter(
+      const expenseData = state.expenseData.filter(
         (element) => element.id !== action.id
       );
 
-      return { ...state, expenseData: newState };
+      return { ...state, expenseData };
     }
 
     case "ADD": {
-      const newState = state.expenseData.concat(action.value);
-      return { ...state, expenseData: newState };
+      const expenseData = state.expenseData.concat(action.value);
+      return { ...state, expenseData };
     }
 
     case "EDIT": {
@@ -2154,7 +2154,7 @@ function ExpenseDataProvider(props) {
     reducer,
     reducerInitialObj
   );
-  originalObj = expenseDataState.expenseDataSearchList;
+  // originalObj = expenseDataState.expenseDataSearchList;
 
   function removeExpenseData(id) {
     expenseDataDispatch({ type: "DELETE", id });

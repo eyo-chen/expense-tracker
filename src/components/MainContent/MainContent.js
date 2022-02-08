@@ -7,6 +7,7 @@ import Chart from "../MainContent/Chart/Chart";
 import Search from "../MainContent/Search/Search";
 import Account from "./Account/Account";
 import Setting from "../MainContent/Setting/Setting";
+import Backdrop from "../UI/Modal/Backdrop";
 import style from "./MainContent.module.css";
 
 const MAIN_CONTENT = [
@@ -21,10 +22,6 @@ const MAIN_CONTENT = [
 function MainContent(props) {
   const [editModal] = useContext(EditModalContext);
 
-  function overlayClickHandler() {
-    props.setShowSidebar((prev) => !prev);
-  }
-
   return (
     <>
       <div className={style.mainContent}>
@@ -32,12 +29,12 @@ function MainContent(props) {
         {editModal && <EditModal />}
       </div>
 
-      <div
-        className={`${style.overlay} ${
-          props.showSidebar && style["overlay--show"]
+      <Backdrop
+        classBackdrop={`${style.overlay} ${
+          props.showSidebar ? style["overlay--show"] : ""
         }`}
-        onClick={overlayClickHandler}
-      ></div>
+        onClick={props.menuClickHandler}
+      />
     </>
   );
 }

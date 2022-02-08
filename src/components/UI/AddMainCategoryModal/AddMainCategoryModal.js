@@ -7,8 +7,8 @@ import InputRadio from "../InputRadio/InputRadio";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import CategoryContext from "../../../store/category/category--context";
 import Warning from "../Warning/Warning";
-import style from "./AddMainCategoryModal.module.css";
 import { v4 as uuidv4 } from "uuid";
+import style from "./AddMainCategoryModal.module.css";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -47,9 +47,9 @@ function AddMainCategoryModal(props) {
   const { addMainCategory, iconArr, categoryExpense, categoryIncome } =
     useContext(CategoryContext);
 
-  const categoryNameArr = Object.keys(categoryExpense).concat(
-    Object.keys(categoryIncome)
-  );
+  // Reference 4
+  let categoryNameArr = Object.keys(categoryExpense);
+  if (props.type === "income") categoryNameArr = Object.keys(categoryIncome);
 
   const [form, formDispatch] = useReducer(reducer, {
     name: "",
@@ -124,7 +124,11 @@ function AddMainCategoryModal(props) {
                 name="icon"
                 label={element}
                 value={index}
-                classLabel={`${style.icon} transition--25`}
+                classLabel={`${style.icon} transition--25 ${
+                  props.type === "expense"
+                    ? `${style["icon--expense"]}`
+                    : `${style["icon--income"]}`
+                }`}
                 classContainer={style["radio__container"]}
                 classInput={style["input--icon"]}
                 onChange={radioIconChangeHandler}
@@ -228,4 +232,16 @@ then we know it must be the situation of length is 0
 note that here cannont put inputValid
 because inputValid is mixed length and duplicate
 here we need the index to seperate both different factors for invalid 
+*/
+
+/* 
+Reference 4
+categoryNameArr is for the purpose of checking
+if the new category name user is about to add is duplicate
+In other words,
+we not allow user to have duplicate name
+BUT
+it's okay to have same name in different type
+For example,
+we can have "others" in both "expense" and "income"
 */

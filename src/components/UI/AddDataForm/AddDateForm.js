@@ -90,8 +90,10 @@ function reducer(state, action) {
       let valid = false;
       if (
         action.value.trim().length > 0 &&
+        action.value[0] !== "0" &&
         !Object.is(-0, Number(action.value)) &&
-        Number(action.value) >= 0
+        Number(action.value) >= 0 &&
+        Number.isInteger(Number(action.value))
       )
         valid = true;
 

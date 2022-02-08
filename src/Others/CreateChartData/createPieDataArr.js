@@ -1,4 +1,4 @@
-import compareTimeWithRange from "../compareTimeWithRange";
+import compareTimeWithRange from "../CompareTime/compareTimeWithRange";
 
 function createPieDataArr(startingDate, endingDate, expenseData, mainCategory) {
   const filteredData = expenseData.filter(
@@ -10,12 +10,7 @@ function createPieDataArr(startingDate, endingDate, expenseData, mainCategory) {
       ) && element.category === mainCategory
   );
 
-  /*
-  Key Part
-  Along with the process iterating the filteredData
-  1. add the new label as key if the label hasn't been added before
-  2. accumulate the price to corresponding label if the label has been added
-  */
+  // Reference 1
   const dataObj = {};
   for (let data of filteredData) {
     if (dataObj[data.mainCate] !== undefined)
@@ -27,3 +22,11 @@ function createPieDataArr(startingDate, endingDate, expenseData, mainCategory) {
 }
 
 export default createPieDataArr;
+
+/*
+Reference 1
+Key Part
+Along with the process iterating the filteredData
+1. add the new label as key if the label hasn't been added before
+2. accumulate the price to corresponding label if the label has been added
+*/

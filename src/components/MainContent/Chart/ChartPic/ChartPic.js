@@ -5,6 +5,7 @@ import CategoryContext from "../../../../store/category/category--context";
 import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--context";
 import Chart from "chart.js/auto";
 import createConfigObj from "../../../../Others/CreateChartData/createConfigObj";
+import createChartDataArr from "../../../../Others/CreateChartData/createChartDataArr";
 import style from "./ChartPic.module.css";
 
 function ChartPic(props) {
@@ -13,18 +14,21 @@ function ChartPic(props) {
   const { categoryExpense, categoryIncome } = useContext(CategoryContext);
   const { displayTheme } = useContext(DisplayThemeContext);
 
+  // note that createChartDataArr will return an array
   const config = createConfigObj(
-    props.chartData.mainType,
-    props.chartData.timeDuration,
-    props.chartData.startingDate,
-    props.chartData.endingDate,
-    expenseData,
-    props.chartData.mainCategory,
-    props.chartData.subCategory,
-    displayTheme,
-    true, // show the label
-    Object.keys(categoryExpense),
-    Object.keys(categoryIncome)
+    ...createChartDataArr(
+      props.chartData.mainType,
+      props.chartData.timeDuration,
+      props.chartData.startingDate,
+      props.chartData.endingDate,
+      expenseData,
+      props.chartData.mainCategory,
+      props.chartData.subCategory,
+      true, // show the label
+      Object.keys(categoryExpense),
+      Object.keys(categoryIncome),
+      displayTheme
+    )
   );
 
   useEffect(() => {
@@ -50,6 +54,7 @@ function ChartPic(props) {
 export default React.memo(ChartPic);
 
 /*
+Reference 1
 In the parent function (Chart)
 The component will re-render when the size is changing
 Avoid multiple and meaningless re-render, use React.memo()

@@ -19,6 +19,7 @@ function ChartOptionType(props) {
         name="chart"
         value="time"
         label="time"
+        checked={props.mainType === "time"}
       />
       <InputRadio
         classContainer={style["radio__container"]}
@@ -30,6 +31,7 @@ function ChartOptionType(props) {
         name="chart"
         value="category"
         label="category"
+        checked={props.mainType === "category"}
       />
     </div>
   );

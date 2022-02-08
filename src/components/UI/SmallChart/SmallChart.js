@@ -17,6 +17,7 @@ function SmallChart(props) {
     setChartState(e.target.value);
   }
 
+  // Reference 1
   useEffect(() => {
     const chart = new Chart(chartRef.current, configArr[chartState]);
 
@@ -56,6 +57,7 @@ function SmallChart(props) {
 
 export default SmallChart;
 /*
+Reference 1
 we want to re-create the chart when
 1. user choose different kind of chart (bar or pie)
 2. user add or remove the (new) data

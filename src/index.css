@@ -96,7 +96,7 @@
 
   --btn-active-border: 1px solid transparent;
 
-  --btn-disabled-ft: var(--gray-1);
+  --btn-disabled-color: var(--gray-1);
   --btn-disabled-border: 1px solid var(--gray-1);
 
   --btn-bg-main: var(--black-9);
@@ -130,7 +130,7 @@
 
   /* //////////////////////////////////////////////// */
   --sidebar-bg: var(--white-1);
-  --sidebar-icon: var(--black-7);
+  --sidebar-icon: var(--gray-1);
   --sidebar-active: var(--black);
 
   /* //////////////////////////////////////////////// */
@@ -149,6 +149,11 @@
 
   /* //////////////////////////////////////////////// */
   --color-input-bg: var(--gray-5);
+
+  /* //////////////////////////////////////////////// */
+  --add-main-category-icon-bg: var(--gray-2);
+  --add-main-category-icon-color: var(--gray-8);
+  --add-main-category-icon-hover-color: var(--black);
 }
 
 .dark {
@@ -225,7 +230,7 @@
 
   /* //////////////////////////////////////////////// */
   --sidebar-bg: var(--black-6);
-  --sidebar-icon: var(--gray-3);
+  --sidebar-icon: var(--gray);
   --sidebar-active: var(--white);
 
   /* //////////////////////////////////////////////// */

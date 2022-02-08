@@ -1,4 +1,4 @@
-import compareTimeWithRange from "../compareTimeWithRange";
+import compareTimeWithRange from "../CompareTime/compareTimeWithRange";
 
 function createFilteredData(labels, expensData) {
   const startingDate = new Date(labels[0]);

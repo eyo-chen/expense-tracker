@@ -23,7 +23,7 @@ function FormPrice(props) {
         id="price"
       ></input>
       <Warning index={invalid} className={style.warning}>
-        price should be positive number
+        price should be positive integer
       </Warning>
     </FormContainer>
   );

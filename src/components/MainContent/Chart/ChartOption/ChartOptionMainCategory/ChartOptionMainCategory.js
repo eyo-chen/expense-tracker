@@ -29,6 +29,7 @@ function ChartOptionMainCategory(props) {
           id="income"
           name="data"
           label="income"
+          checked={props.mainCategory === "income"}
           onChange={changeRadioHandler}
         />
         <InputRadio
@@ -41,23 +42,33 @@ function ChartOptionMainCategory(props) {
           id="expense"
           name="data"
           label="expense"
+          checked={props.mainCategory === "expense"}
           onChange={changeRadioHandler}
         />
-        <InputRadio
-          classContainer={style["radio__container"]}
-          classCheck={`${style.check} center--flex`}
-          classLabel={`${style.label} capitalize`}
-          classInput={style.input}
-          classInside={style.inside}
-          value="net"
-          id="net"
-          name="data"
-          label="net"
-          onChange={changeRadioHandler}
-        />
+        {/* Reference 1 */}
+        {props.mainType !== "category" && (
+          <InputRadio
+            classContainer={style["radio__container"]}
+            classCheck={`${style.check} center--flex`}
+            classLabel={`${style.label} capitalize`}
+            classInput={style.input}
+            classInside={style.inside}
+            value="net"
+            id="net"
+            name="data"
+            label="net income"
+            checked={props.mainCategory === "net"}
+            onChange={changeRadioHandler}
+          />
+        )}
       </div>
     </div>
   );
 }
 
 export default ChartOptionMainCategory;
+/*
+Referecne 1
+When user choose use pie chart to analyze,
+don't need to show net income
+*/

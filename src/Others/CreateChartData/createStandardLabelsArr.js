@@ -20,6 +20,8 @@ function createStandardLabelsArr(duration, startingDate) {
       return createStandardLabelsArrHelper(6, 1, "month", startingDateLocal);
     case "12":
       return createStandardLabelsArrHelper(12, 1, "month", startingDateLocal);
+    default:
+      return;
   }
 }
 

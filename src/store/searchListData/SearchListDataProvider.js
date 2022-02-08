@@ -1,5 +1,5 @@
 import { useReducer, useContext } from "react";
-import compareTimeWithRange from "../../Others/compareTimeWithRange";
+import compareTimeWithRange from "../../Others/CompareTime/compareTimeWithRange";
 import ExpenseDataContext from "../expenseData/expenseData--context";
 import SearchListDataContext from "./searchListData--context";
 

@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { AiOutlineBarChart } from "react-icons/ai";
@@ -7,58 +6,64 @@ import { AiFillSetting } from "react-icons/ai";
 import { MdAccountCircle } from "react-icons/md";
 import { SiCashapp } from "react-icons/si";
 import SideBarItem from "./SideBarItem";
-import AccountInfoContext from "../../store/accountInfo/accountInfo--context";
 import style from "./SideBar.module.css";
 
 const SIDEBAR__ICON = [
-  ["Home", <AiFillHome className={style["sidebar__icon"]} data-id={0} />],
+  [
+    "Home",
+    <AiFillHome className={`${style["sidebar__icon"]} transition--25`} />,
+  ],
   [
     "Calendar",
-    <FaRegCalendarAlt className={style["sidebar__icon"]} data-id={1} />,
+    <FaRegCalendarAlt className={`${style["sidebar__icon"]} transition--25`} />,
   ],
   [
     "Chart",
-    <AiOutlineBarChart className={style["sidebar__icon"]} data-id={2} />,
+    <AiOutlineBarChart
+      className={`${style["sidebar__icon"]} transition--25`}
+    />,
   ],
-  ["Search", <FaSearch className={style["sidebar__icon"]} data-id={3} />],
+  [
+    "Search",
+    <FaSearch className={`${style["sidebar__icon"]} transition--25`} />,
+  ],
   [
     "Account",
-    <MdAccountCircle className={style["sidebar__icon"]} date-id={5} />,
+    <MdAccountCircle className={`${style["sidebar__icon"]} transition--25`} />,
   ],
-  ["Setting", <AiFillSetting className={style["sidebar__icon"]} data-id={4} />],
+  [
+    "Setting",
+    <AiFillSetting className={`${style["sidebar__icon"]} transition--25`} />,
+  ],
 ];
 
 const dateOptObj = { month: "short" };
 const dateOptObj1 = { year: "numeric" };
 
 function SideBar(props) {
-  const { accountInfo } = useContext(AccountInfoContext);
-
   // SIDEBAR__ICON is 2D array
   const sidebarItem = SIDEBAR__ICON.map(([title, icon], index) => {
     let activePage = false;
-    if (+props.page === index) activePage = true;
+    if (props.page - 0 === index) activePage = true;
 
     return (
       <SideBarItem
-        setPage={props.setPage}
-        pageIndex={index}
-        key={title}
-        activePage={activePage}
-        setShowSidebar={props.setShowSidebar}
         title={title}
+        key={title}
+        pageIndex={index}
+        activePage={activePage}
+        menuClickHandler={props.menuClickHandler}
+        setPage={props.setPage}
       >
         {icon}
       </SideBarItem>
     );
   });
 
-  const backgroundColorClass = { backgroundColor: accountInfo.background };
-
   return (
     <div
       className={`${style.sidebar} ${
-        props.showSidebar && `${style["sidebar--show"]}`
+        props.showSidebar ? `${style["sidebar--show"]}` : ""
       }`}
     >
       <div>
@@ -67,24 +72,29 @@ function SideBar(props) {
       </div>
 
       <div className={style["sidebar__info"]}>
-        <div className={style["sidebar__time"]}>
-          <p>{props.today.getDate() + " " + "th"}</p>
-          <p>
-            {new Intl.DateTimeFormat("en-US", dateOptObj).format(props.today)}
-          </p>
-          <p>
-            {new Intl.DateTimeFormat("en-US", dateOptObj1).format(props.today)}
-          </p>
-        </div>
-        <div
-          style={backgroundColorClass}
-          className={`${style["sidebar__user"]}`}
-        >
-          G
-        </div>
+        <p>{`${props.today.getDate()} th`}</p>
+        <p>
+          {new Intl.DateTimeFormat("en-US", dateOptObj).format(props.today)}
+        </p>
+        <p>
+          {new Intl.DateTimeFormat("en-US", dateOptObj1).format(props.today)}
+        </p>
       </div>
     </div>
   );
 }
 
 export default SideBar;
+
+/*
+  user first name and background color
+  const backgroundColorClass = { backgroundColor: accountInfo.background };
+  const userInfoName = accountInfo.name.slice(0, 1);
+
+          <div
+          style={backgroundColorClass}
+          className={`${style["sidebar__user"]} center--flex`}
+        >
+          {userInfoName}
+        </div>
+*/

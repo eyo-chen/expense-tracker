@@ -58,9 +58,9 @@ function AccountSmallChart() {
   }
 
   return (
-    <Card className={style["chart__section"]}>
+    <Card>
       <Title className={style.title}>Chart</Title>
-      <Select onChange={selectChangeHandler}>
+      <Select className={style.select} onChange={selectChangeHandler}>
         <option value="category">which category expense the most</option>
         <option value="day">which day expense the most</option>
         <option value="month">which month expense the most</option>
@@ -76,14 +76,11 @@ export default AccountSmallChart;
 
 // return labels and data according to diff type of chart
 function createLabelData(type, expensData) {
-  let labels, data;
-  if (type === "category") [labels, data] = createDataCategory(expensData);
+  if (type === "category") return createDataCategory(expensData);
 
-  if (type === "day") [labels, data] = createDataDay(expensData);
+  if (type === "day") return createDataDay(expensData);
 
-  if (type === "month") [labels, data] = createDataMonth(expensData);
-
-  return [labels, data];
+  if (type === "month") return createDataMonth(expensData);
 }
 
 function createCacheTable(expensData) {

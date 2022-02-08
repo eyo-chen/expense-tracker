@@ -124,14 +124,14 @@ const EXPENSE_CATEGORY = {
   transportation: ["gasoline", "parking", "maintenance"],
   education: ["books", "course"],
   entertainment: ["video games", "computer games", "party"],
-  // others: [],
+  others: ["others"],
 };
 
 const INCOME_CATEGORY = {
   salary: ["salary", "bonus"],
   investment: ["stock"],
   bonus: ["bonus"],
-  // others: [],
+  others: ["others"],
 };
 
 function reducer(state, action) {

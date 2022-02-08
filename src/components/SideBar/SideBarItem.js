@@ -7,11 +7,12 @@ function SideBarItem(props) {
 
     if (page) props.setPage(page);
 
-    if (window.innerWidth <= 1000) props.setShowSidebar((prev) => !prev);
+    // close sidebar after clicking icon page
+    if (window.innerWidth <= 1000) props.menuClickHandler();
   }
 
   let className = `${style["sidebar__item"]} ${
-    props.activePage && style["sidebar__item--active"]
+    props.activePage ? `${style["sidebar__item--active"]}` : ""
   }`;
 
   return (
@@ -19,7 +20,7 @@ function SideBarItem(props) {
       <div
         data-id={props.pageIndex}
         onClick={pageIconHandler}
-        className={style.inner}
+        className={style.cover}
       ></div>
       {props.children}
     </li>
@@ -28,7 +29,7 @@ function SideBarItem(props) {
 
 export default SideBarItem;
 /*
-Why use <div className={style.inner}></div>?
+Why use <div className={style.cover}></div>?
 It seems useless at first
 But we use it here for the sake of better user experience
 

@@ -1,6 +1,6 @@
 import style from "./SettingMenu.module.css";
 
-const SETTING_MENU = ["account", "appearance", "category", "others"];
+const SETTING_MENU = ["account", "appearance", "category"];
 
 function SettingMenu(props) {
   function settingMenuClickHandler(e) {

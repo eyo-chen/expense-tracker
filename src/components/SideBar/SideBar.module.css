@@ -1,17 +1,13 @@
 .sidebar {
   background-color: var(--sidebar-bg);
-
   flex: 1 1 6.25%;
   min-width: 8rem;
   height: 100%;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
   text-align: center;
-
-  transition: all 0.5s ease-in-out;
 }
 
 .logo {
@@ -35,28 +31,12 @@
 
 .sidebar__info {
   justify-self: flex-end;
-  margin-bottom: 1.8rem;
-
   font-size: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.sidebar__time {
-  transform: translateY(-30px);
-}
-
-.sidebar__time p {
+.sidebar__info p {
   margin-bottom: 0.5rem;
-}
-
-.sidebar__user {
-  height: 4rem;
-  width: 4rem;
-  margin: 0 auto;
-  border-radius: 50px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 @media screen and (max-width: 1000px) {

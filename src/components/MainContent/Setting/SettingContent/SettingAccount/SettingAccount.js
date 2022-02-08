@@ -14,10 +14,6 @@ function reducer(state, action) {
       return { ...state, name: action.value, validText };
     }
 
-    case "background": {
-      return { ...state, background: action.value };
-    }
-
     case "email": {
       let validEmail = true;
       if (action.value.length === 0 || !action.value.includes("@"))
@@ -35,7 +31,6 @@ function SettingAccount() {
 
   const [infoValidation, setInfoValidation] = useReducer(reducer, {
     name: accountInfo.name,
-    background: accountInfo.background,
     email: accountInfo.email,
     validText: true,
     validEmail: true,
@@ -49,16 +44,11 @@ function SettingAccount() {
     setInfoValidation({ type: "email", value: e.target.value });
   }
 
-  function backgroundChangeHandler(e) {
-    setInfoValidation({ type: "background", value: e.target.value });
-  }
-
   function submitHandler(e) {
     e.preventDefault();
 
     setAccountInfo({
       name: infoValidation.name,
-      background: infoValidation.background,
       email: infoValidation.email,
     });
   }
@@ -103,19 +93,6 @@ function SettingAccount() {
         <Warning className={style.warnning} index={!infoValidation.validEmail}>
           invalid email format
         </Warning>
-      </div>
-
-      <div>
-        <InputText
-          id="background"
-          label="background"
-          name="background"
-          type="color"
-          value={infoValidation.background}
-          classInput={`${style.input} ${style.color}`}
-          classLabel={`${style.label} capitalize`}
-          onChange={backgroundChangeHandler}
-        />
       </div>
 
       <Button

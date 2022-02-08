@@ -29,9 +29,3 @@
   margin-top: 8px;
   font-size: 1.3rem;
 }
-
-.color {
-  width: 10%;
-  padding: 0.5px 3px;
-  background-color: var(--color-input-bg);
-}

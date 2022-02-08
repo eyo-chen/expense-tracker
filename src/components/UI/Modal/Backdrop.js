@@ -5,7 +5,11 @@ function Backdrop(props) {
     ? `${style.backdrop} ${props.classBackdrop}`
     : `${style.backdrop}`;
 
-  return <div className={classNameBackdrop}>{props.children}</div>;
+  return (
+    <div onClick={props.onClick} className={classNameBackdrop}>
+      {props.children}
+    </div>
+  );
 }
 
 export default Backdrop;

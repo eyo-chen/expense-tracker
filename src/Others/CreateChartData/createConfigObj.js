@@ -1,36 +1,48 @@
-import createStandardLabelsArr from "./createStandardLabelsArr";
-import createLabelsArr from "./createLabelsArr";
-import createBarDataArr from "./createBarDataArr";
-import createPieDataArr from "./createPieDataArr";
-import createFilteredData from "./createFilteredData";
-
 function createConfigObj(
+  labels,
+  data,
+  displayTheme,
   mainType,
-  timeDuration,
-  startingDate,
-  endingDate,
-  expenseData,
   mainCategory,
-  subCategory,
-  theme,
-  showLabel = false,
-  mainCategoryData = [],
-  subCategoryData = []
+  timeDuration,
+  showLabel
 ) {
-  if (mainType === "time") {
-    const standardLabels = createStandardLabelsArr(timeDuration, startingDate);
-    const labels = createLabelsArr(standardLabels, timeDuration);
-    const data = createBarDataArr(
-      standardLabels,
-      createFilteredData(standardLabels, expenseData),
-      timeDuration,
-      mainCategory,
-      subCategory,
-      showLabel,
-      mainCategoryData,
-      subCategoryData
-    );
-
+  // show the line-chart when 1) in Account section 2) in Chart section but it's netIncome
+  if (mainType === "account" || (mainType === "time" && mainCategory === "net"))
+    return {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            fill: {
+              target: "origin",
+            },
+            label: "",
+            data: data,
+            backgroundColor: ["rgba(54, 162, 235, 0.2)"],
+            borderColor: ["rgb(54, 162, 235)"],
+            borderWidth: 1,
+            pointBackgroundColor: ["rgb(54, 162, 235)"],
+          },
+        ],
+      },
+      options: {
+        maintainAspectRatio: false,
+        elements: {
+          line: {
+            tension: 0.5,
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    };
+  // bar chart
+  else if (mainType === "time") {
     let legend = null;
 
     /*
@@ -118,28 +130,23 @@ function createConfigObj(
             beginAtZero: true,
             ticks: {
               color: `${
-                theme === "dark" ? "rgb(190,190,190)" : "rgb(70,70,70)"
+                displayTheme === "dark" ? "rgb(190,190,190)" : "rgb(70,70,70)"
               }`,
             },
           },
           x: {
             ticks: {
               color: `${
-                theme === "dark" ? "rgb(190,190,190)" : "rgb(70,70,70)"
+                displayTheme === "dark" ? "rgb(190,190,190)" : "rgb(70,70,70)"
               }`,
             },
           },
         },
       },
     };
-  } else {
-    const [labels, data] = createPieDataArr(
-      startingDate,
-      endingDate,
-      expenseData,
-      mainCategory
-    );
-
+  }
+  // pie chart
+  else
     return {
       type: "pie",
       data: {
@@ -170,7 +177,7 @@ function createConfigObj(
                 size: 14,
               },
               color: `${
-                theme === "dark" ? "rgb(190,190,190)" : "rgb(70,70,70)"
+                displayTheme === "dark" ? "rgb(190,190,190)" : "rgb(70,70,70)"
               }`,
             },
           },
@@ -178,7 +185,6 @@ function createConfigObj(
       },
       plugins: [100],
     };
-  }
 }
 
 export default createConfigObj;

@@ -1,4 +1,5 @@
 import createConfigObj from "../CreateChartData/createConfigObj";
+import createChartDataArr from "../CreateChartData/createChartDataArr";
 
 function createSmallChartData(
   expenseData,
@@ -9,25 +10,31 @@ function createSmallChartData(
   displayTheme
 ) {
   const configBar = createConfigObj(
-    "time",
-    duration,
-    startingDate,
-    endingDate,
-    expenseData,
-    "expense",
-    Object.keys(categoryExpense),
-    displayTheme
+    ...createChartDataArr(
+      "time",
+      duration,
+      startingDate,
+      endingDate,
+      expenseData,
+      "expense",
+      Object.keys(categoryExpense),
+      ...new Array(3).fill(undefined), // skip three arguments
+      displayTheme
+    )
   );
 
   const configPie = createConfigObj(
-    "",
-    duration,
-    startingDate,
-    endingDate,
-    expenseData,
-    "expense",
-    Object.keys(categoryExpense),
-    displayTheme
+    ...createChartDataArr(
+      "category",
+      duration,
+      startingDate,
+      endingDate,
+      expenseData,
+      "expense",
+      Object.keys(categoryExpense),
+      ...new Array(3).fill(undefined),
+      displayTheme
+    )
   );
 
   return [configBar, configPie];

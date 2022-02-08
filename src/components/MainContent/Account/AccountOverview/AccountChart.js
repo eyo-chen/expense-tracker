@@ -1,10 +1,11 @@
 import { useRef, useEffect, useState, useContext } from "react";
 import InputRadio from "../../../UI/InputRadio/InputRadio";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
-import createLabelsAccount from "../../../../Others/CreateAccountData/createLabelsAccount";
-import createChartDataArr from "../../../../Others/CreateAccountData/CreateChartDataArr";
+import createLineDataArr from "../../../../Others/CreateChartData/createLineDataArr";
+import createLineLabels from "../../../../Others/CreateChartData/createLineLabels";
 import style from "./AccountChart.module.css";
 import Chart from "chart.js/auto";
+import createConfigObj from "../../../../Others/CreateChartData/createConfigObj";
 import timeObj from "../../../assets/timeObj/timeObj";
 
 // for choosing diff time range (input radio)
@@ -16,48 +17,17 @@ const { TODAY } = timeObj;
 const initialDate = new Date(new Date().setDate(TODAY.getDate() - 7));
 
 // an array of labels(string)
-const initialLabels = createLabelsAccount(initialDate, TODAY);
+const initialLabels = createLineLabels(initialDate, TODAY);
 
 function AccountChart() {
   const { expenseData } = useContext(ExpenseDataContext);
-  const [chartData, setChartData] = useState({
-    data: createChartDataArr(initialLabels, expenseData),
-    labels: initialLabels,
-  });
+  const [chartData, setChartData] = useState([
+    initialLabels,
+    createLineDataArr(initialLabels, expenseData),
+  ]);
   const chartRef = useRef(null);
 
-  const config = {
-    type: "line",
-    data: {
-      labels: chartData.labels,
-      datasets: [
-        {
-          fill: {
-            target: "origin",
-          },
-          label: "",
-          data: chartData.data,
-          backgroundColor: ["rgba(54, 162, 235, 0.2)"],
-          borderColor: ["rgb(54, 162, 235)"],
-          borderWidth: 1,
-          pointBackgroundColor: ["rgb(54, 162, 235)"],
-        },
-      ],
-    },
-    options: {
-      maintainAspectRatio: false,
-      elements: {
-        line: {
-          tension: 0.5,
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    },
-  };
+  const config = createConfigObj(...chartData, null, "account");
 
   useEffect(() => {
     const chart = new Chart(chartRef.current, config);
@@ -65,7 +35,7 @@ function AccountChart() {
     return function cleanUp() {
       chart.destroy();
     };
-  }, [chartData]);
+  }, [config]);
 
   // helper function for changing time range
   function chartRadioChangeHandler(e) {
@@ -76,9 +46,9 @@ function AccountChart() {
     if (value === "3mo") today.setMonth(today.getMonth() - 3);
     if (value === "6mo") today.setMonth(today.getMonth() - 6);
     if (value === "1yr") today.setFullYear(today.getFullYear() - 1);
-    const labels = createLabelsAccount(today, TODAY);
-    const chartData = createChartDataArr(labels, expenseData);
-    setChartData({ data: chartData, labels });
+    const labels = createLineLabels(today, TODAY);
+    const data = createLineDataArr(labels, expenseData);
+    setChartData([labels, data]);
   }
 
   return (
@@ -109,3 +79,22 @@ function AccountChart() {
 }
 
 export default AccountChart;
+/*
+Reference 1
+const [chartData, setChartData] = useState([
+    initialLabels,
+    createLineDataArr(initialLabels, expenseData),
+  ]);
+the reason I choose to use array, instead of object
+is because this
+const config = createConfigObj(...chartData, null, "account");
+I can use ... to spread out the element, and pass in as argument
+(null -> skip displayTheme)
+
+Note
+Initially, i put line-config-object inside the this component
+but we later decide use line chart for net income
+So now it's not reasonable to have two exact same line-config-object in two diff components
+that's the one of main reason to seperate createChartDataArr and createConfigArr
+
+*/

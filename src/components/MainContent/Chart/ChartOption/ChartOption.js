@@ -94,9 +94,10 @@ function ChartOption(props) {
 
   let validIndex =
     chartData.mainType &&
-    chartData.mainCategory &&
     chartData.startingDate &&
-    chartData.endingDate;
+    chartData.endingDate &&
+    chartData.mainCategory &&
+    chartData.mainCategory !== "net";
 
   // check box content may vary because different type of chart
   let checkboxContent = "";
@@ -120,7 +121,7 @@ function ChartOption(props) {
       chartData.mainType &&
       chartData.startingDate &&
       chartData.mainCategory &&
-      chartData.subCategory.length > 0;
+      (chartData.mainCategory === "net" || chartData.subCategory.length > 0);
   }
 
   return (
@@ -133,7 +134,10 @@ function ChartOption(props) {
         <div>
           <Title className={style["form__title"]}>Analyize By</Title>
 
-          <ChartOptionType dispatchChartData={dispatchChartData} />
+          <ChartOptionType
+            mainType={chartData.mainType}
+            dispatchChartData={dispatchChartData}
+          />
 
           {chartData.mainType && (
             <div className={style.scroll}>
@@ -146,6 +150,8 @@ function ChartOption(props) {
                 optionMainType={chartData.mainType}
               />
               <ChartOptionMainCategory
+                mainCategory={chartData.mainCategory}
+                mainType={chartData.mainType}
                 classColor={chartData.mainType}
                 dispatchChartData={dispatchChartData}
               />

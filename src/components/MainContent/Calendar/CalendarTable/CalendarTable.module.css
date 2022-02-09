@@ -71,7 +71,8 @@
   z-index: 1;
   top: 10rem;
   right: 3rem;
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
+  display: grid; /* fix flex gap */
   gap: 3rem;
 }

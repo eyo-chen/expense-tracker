@@ -7,18 +7,20 @@
   z-index: 500000;
   border-radius: 10px;
   background-color: var(--green);
-
   font-size: 2rem;
-  text-transform: capitalize;
   font-weight: 500;
   letter-spacing: 1px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  animation: edit 3s ease;
+  animation: edit 2s ease;
   opacity: 0;
+  color: var(--white);
+}
+
+.modal--blue {
+  background-color: var(--blue);
+}
+
+.modal--pink {
+  background-color: var(--pink);
 }
 
 @keyframes edit {
@@ -35,5 +37,24 @@
   100% {
     opacity: 0;
     transform: translateY(3rem);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .modal {
+    width: 22%;
+    height: 6%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .modal {
+    width: 30%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .modal {
+    width: 38%;
   }
 }

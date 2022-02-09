@@ -8,7 +8,7 @@
 
 .item__info {
   display: flex;
-  gap: 3rem;
+  /* gap: 3rem; */
   align-items: center;
 
   /* inherit to children (subcategory), so that we don't need give another className */
@@ -20,6 +20,7 @@
   height: 5rem;
   width: 5rem;
   padding: 1rem;
+  margin-right: 3rem; /* fix flex gap */
 }
 
 .item__category--blue {
@@ -37,6 +38,7 @@
 
 .item__description {
   font-size: 1.6rem;
+  margin-left: 3rem; /* fix flex gap */
 }
 
 .item__description--long {
@@ -54,12 +56,13 @@ use pseudo-class to avoid naming another className
 .item div:last-child {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  /* gap: 1rem; */
 }
 
 .item__price {
   font-size: 1.8rem;
   letter-spacing: 1.5px;
+  margin-right: 1rem; /* fix flex gap */
 }
 
 .btn__container {

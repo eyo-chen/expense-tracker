@@ -5,15 +5,25 @@ function useEditModal(value) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setEditModal(false);
-    }, 3000);
+      setEditModal({
+        show: false,
+        type: "",
+        value: "",
+      });
+    }, 2000);
 
     return function cleanUp() {
       clearTimeout(timer);
     };
-  }, [editModal]);
+  }, [editModal.show]);
+  // Reference 1
 
   return [editModal, setEditModal];
 }
 
 export default useEditModal;
+
+/*
+editModal is an object
+If put this in dependency, it will cause infinite-loop
+*/

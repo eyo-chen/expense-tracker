@@ -12,7 +12,7 @@ function DataCardModal(props) {
     props.type,
     props.date
   );
-  const [accIncome, accExpense] = createAccAmount(
+  const [accIncome, accExpense, accNetIncome] = createAccAmount(
     expenseData,
     true,
     startingDateObj,
@@ -27,7 +27,12 @@ function DataCardModal(props) {
       classBackdrop={style.backdrop}
       classModal={style.modal}
     >
-      <DataCard title={title} income={accIncome} expense={accExpense} />
+      <DataCard
+        title={title}
+        income={accIncome}
+        expense={accExpense}
+        netIncome={accNetIncome}
+      />
     </ModalCloseIcon>
   );
 }

@@ -18,6 +18,7 @@ function InputDate(props) {
         max={props.max}
         min={props.min}
         required={true}
+        placeholder="mm/dd/yyyy"
       ></input>
     </>
   );

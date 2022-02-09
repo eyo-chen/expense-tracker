@@ -13,7 +13,12 @@
 }
 
 .btn__container {
-  gap: 4rem;
+  /* gap: 4rem; */
+}
+
+/* fix flex gap */
+.btn__container button + button {
+  margin-left: 4rem;
 }
 
 .btn--main {

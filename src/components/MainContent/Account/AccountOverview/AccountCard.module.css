@@ -1,7 +1,21 @@
 .card__container {
   margin-top: 5rem;
   display: flex;
-  gap: 8rem;
+  /* gap: 8rem; */
+}
+
+/* 
++ means finding adjacent element 
+It first ask first div, do you have adjacent element come before you?
+No
+It then ask second div, do you have adjacent element come before you?
+Yes, first div comes before second div
+So does third div
+So now we can only select last two div element
+*/
+/* fix flex gap */
+.card__container div + div {
+  margin-left: 8rem;
 }
 
 .card {
@@ -29,6 +43,11 @@
   }
 
   .card__container {
-    gap: 3rem;
+    /* gap: 3rem; */
+  }
+
+  /* fix flex gap */
+  .card__container div + div {
+    margin-left: 3rem;
   }
 }

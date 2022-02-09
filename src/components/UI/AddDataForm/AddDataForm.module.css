@@ -55,7 +55,11 @@
   font-weight: 300;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  /* gap: 1rem; */
+}
+
+.icon {
+  margin-left: 1rem; /* fix flex gap */
 }
 
 .form__container {
@@ -80,8 +84,13 @@
 .btn__container {
   display: flex;
   justify-content: space-around;
-  gap: 3rem;
-  margin-left: -2rem;
+  /* gap: 3rem; */
+  margin-left: -1rem; /* fix flex gap */
+}
+
+/* fix flex gap */
+.btn__container button {
+  margin-right: 3rem;
 }
 
 .btn {

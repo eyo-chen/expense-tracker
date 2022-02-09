@@ -137,7 +137,7 @@ const INCOME_CATEGORY = {
 function reducer(state, action) {
   switch (action.type) {
     case "REMOVE_MAIN_CATEGORY": {
-      if (action.type === "expense") {
+      if (action.category === "expense") {
         const categoryExpense = { ...state.categoryExpense };
 
         delete categoryExpense[action.value];

@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  /* gap: 1rem; */
 }
 
 .input {
@@ -11,4 +11,9 @@
   width: 100%;
   opacity: 0;
   cursor: pointer;
+}
+
+/* fix flex gap */
+.label {
+  margin-left: 1rem;
 }

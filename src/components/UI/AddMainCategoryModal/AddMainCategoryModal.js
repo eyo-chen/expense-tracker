@@ -6,6 +6,7 @@ import InputText from "../InputText/InputText";
 import InputRadio from "../InputRadio/InputRadio";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import CategoryContext from "../../../store/category/category--context";
+import EditModalContext from "../../../store/editModal/editModal--context";
 import Warning from "../Warning/Warning";
 import { v4 as uuidv4 } from "uuid";
 import style from "./AddMainCategoryModal.module.css";
@@ -46,6 +47,7 @@ function reducer(state, action) {
 function AddMainCategoryModal(props) {
   const { addMainCategory, iconArr, categoryExpense, categoryIncome } =
     useContext(CategoryContext);
+  const [, setEditModal] = useContext(EditModalContext);
 
   // Reference 4
   let categoryNameArr = Object.keys(categoryExpense);
@@ -79,6 +81,11 @@ function AddMainCategoryModal(props) {
 
     props.addMainCategoryModalToggler(null, form.name);
     addMainCategory(form.name, form.iconIndex, props.type);
+    setEditModal({
+      show: true,
+      type: props.type,
+      value: "add",
+    });
   }
 
   // Reference 2

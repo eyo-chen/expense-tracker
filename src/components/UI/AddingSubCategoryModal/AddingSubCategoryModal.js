@@ -6,8 +6,9 @@ import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
 import CategoryContext from "../../../store/category/category--context";
-import style from "./AddingSubCategoryModal.module.css";
 import Warning from "../Warning/Warning";
+import EditModalContext from "../../../store/editModal/editModal--context";
+import style from "./AddingSubCategoryModal.module.css";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -31,6 +32,7 @@ function reducer(state, action) {
 function AddingSubCategoryModal(props) {
   const { categoryExpense, categoryIncome, addSubCategory } =
     useContext(CategoryContext);
+  const [, setEditModal] = useContext(EditModalContext);
 
   const categoryNameArr =
     props.type === "expense"
@@ -59,6 +61,11 @@ function AddingSubCategoryModal(props) {
     // the logic here is exactly as same as adding main category
     addSubCategory(form.name, props.type, props.mainCategory);
     props.addSubCategoryModalToggler(null, form.name);
+    setEditModal({
+      show: true,
+      type: props.type,
+      value: "add",
+    });
   }
 
   const warnningIndex = form.isDuplicate || (form.isTouch && !form.isValid);

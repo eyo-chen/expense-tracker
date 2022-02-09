@@ -4,7 +4,7 @@
 
 .radio__container {
   display: flex;
-  gap: 5rem;
+  /* gap: 5rem; */
   margin-bottom: 2rem;
   transform: translateX(1rem);
 }
@@ -12,6 +12,10 @@
 .radio__container > div {
   font-size: 1.5rem;
   color: var(--font-low);
+}
+
+.radio__container > div + div {
+  margin-left: 5rem;
 }
 
 .check {

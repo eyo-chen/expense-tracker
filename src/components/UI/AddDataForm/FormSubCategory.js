@@ -1,8 +1,13 @@
 import FormContainer from "./FormContainer";
 import Select from "../Select/Select";
+import createNewSelectArr from "../../../Others/CreateNewSelectArr/createNewSelectArr";
 import style from "./AddDataForm.module.css";
 
 function FormSubCategory(props) {
+  let newSelectArr = props.subCategoryArr;
+  if (props.edit)
+    newSelectArr = createNewSelectArr(props.subCategoryArr, props.subCategory);
+
   return (
     <FormContainer>
       <label htmlFor="subCategory" className={`${style.label} capitalize`}>
@@ -14,7 +19,7 @@ function FormSubCategory(props) {
         name="subCategory"
         id="subCategory"
       >
-        {props.subCategoryArr.map((element) => (
+        {newSelectArr.map((element) => (
           <option value={element} key={element}>
             {element}
           </option>

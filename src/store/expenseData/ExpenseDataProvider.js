@@ -2127,6 +2127,21 @@ function reducer(state, action) {
       return { ...state, expenseData };
     }
 
+    // delete all data in the target category
+    case "DELETE_CATEGORY": {
+      let expenseData;
+      if (action.deleteMainOrSub === "main")
+        expenseData = state.expenseData.filter(
+          (element) => element.mainCate !== action.value
+        );
+      else
+        expenseData = state.expenseData.filter(
+          (element) => element.subCate !== action.value
+        );
+
+      return { ...state, expenseData };
+    }
+
     case "EDIT": {
       /*
       actione.value is new edited object
@@ -2168,6 +2183,10 @@ function ExpenseDataProvider(props) {
     expenseDataDispatch({ type: "EDIT", value });
   }
 
+  function removeExpenseDataByCategory(deleteMainOrSub, value) {
+    expenseDataDispatch({ type: "DELETE_CATEGORY", deleteMainOrSub, value });
+  }
+
   const contextInitialObj = {
     expenseData: expenseDataState.expenseData,
     categoryExpense: EXPENSE_CATEGORY,
@@ -2175,6 +2194,7 @@ function ExpenseDataProvider(props) {
     removeExpenseData,
     addExpenseData,
     editExpenseData,
+    removeExpenseDataByCategory,
   };
 
   return (

@@ -163,6 +163,7 @@ function SettingCategory() {
     removeMainCategory,
     removeSubCategory,
   } = useContext(CategoryContext);
+
   const [categoryState, categoryStateDispatch] = useReducer(reducer, {
     type: "expense",
     mainCategory: Object.keys(categoryExpense)[0],
@@ -247,6 +248,7 @@ function SettingCategory() {
       )}
       {categoryState.deleteModal && (
         <DeleteCategoryModal
+          type={categoryState.type}
           deleteMainOrSub={categoryState.deleteMainOrSub}
           clickingCategoryForDelete={categoryState.clickingCategoryForDelete}
           deleteModalToggler={deleteModalToggler}

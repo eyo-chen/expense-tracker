@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState, useContext } from "react";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
-import EditModalContext from "../../../store/editModal/editModal--context";
 import Card from "../Card/Card";
 import Select from "../Select/Select";
 import style from "./SmallChart.module.css";
@@ -8,7 +7,6 @@ import Chart from "chart.js/auto";
 
 function SmallChart(props) {
   const { expenseData } = useContext(ExpenseDataContext);
-  const [editModal] = useContext(EditModalContext);
   const [chartState, setChartState] = useState(0);
   const chartRef = useRef(null);
   const configArr = [props.configBar, props.configPie];
@@ -24,7 +22,13 @@ function SmallChart(props) {
     return function cleanUp() {
       chart.destroy();
     };
-  }, [chartState, expenseData, editModal, props.startingDateString]);
+  }, [
+    chartState,
+    expenseData,
+    props.startingDateString,
+    props.configBar,
+    props.configPie,
+  ]);
 
   // pie chart need more height
   const classNameChart =
@@ -61,9 +65,10 @@ Reference 1
 we want to re-create the chart when
 1. user choose different kind of chart (bar or pie)
 2. user add or remove the (new) data
-3. user edit the existing data
-4. user click the next or last month arrow button in Calendar Section
+3. user click the next or last month arrow button in Calendar Section
 => we use props.startingDateString as index
 => because startingDateString change if month change
 => aka, user click next or last month arrow button
+4. user edit the existing data
+=> the config object will change if the data is edited
 */

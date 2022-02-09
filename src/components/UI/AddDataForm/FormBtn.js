@@ -15,7 +15,7 @@ function FormBtn(props) {
       >
         cancel
       </Button>
-      <Button type="submit" className={classAddBtn} disabled={props.isValid}>
+      <Button type="submit" className={classAddBtn} disabled={props.invalid}>
         {props.oldExpenseData ? "edit" : "add"}
       </Button>
     </div>

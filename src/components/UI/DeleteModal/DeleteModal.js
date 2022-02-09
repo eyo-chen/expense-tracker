@@ -5,6 +5,7 @@ import Button from "../Button/Button";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import SearchListDataContext from "../../../store/searchListData/searchListData--context";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
+import EditModalContext from "../../../store/editModal/editModal--context";
 import { FaRegHandPointRight } from "react-icons/fa";
 
 import style from "./DeleteModal.module.css";
@@ -20,6 +21,7 @@ Note that DeleteModal only from "DeleteModal" because there's only way to show t
 function DeleteModal(props) {
   const { removeExpenseData } = useContext(ExpenseDataContext);
   const { setFilteredData } = useContext(SearchListDataContext);
+  const [, setEditModal] = useContext(EditModalContext);
   const dataInfoKey = Object.keys(props.dataInfo);
   const dataInfoValue = Object.values(props.dataInfo);
 
@@ -51,6 +53,12 @@ function DeleteModal(props) {
 
     // remove from Search List
     if (setFilteredData) setFilteredData({ type: "DELETE", id: props.id });
+
+    setEditModal({
+      show: true,
+      type: "data",
+      value: "delete",
+    });
   }
 
   return (

@@ -6,10 +6,13 @@ import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import Button from "../Button/Button";
 import ExpenseList from "../ExpenseList/ExpenseList";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
+import EditModalContext from "../../../store/editModal/editModal--context";
 import style from "./DeleteCategoryModal.module.css";
 
 function DeleteCategoryModal(props) {
-  const { expenseData } = useContext(ExpenseDataContext);
+  const { expenseData, removeExpenseDataByCategory } =
+    useContext(ExpenseDataContext);
+  const [, setEditModal] = useContext(EditModalContext);
 
   let expenseItem;
   // main category
@@ -36,6 +39,15 @@ function DeleteCategoryModal(props) {
   function btnDeleteClickHandler(e) {
     props.clickDeleteBtnHandler(e);
     props.deleteModalToggler(e);
+    removeExpenseDataByCategory(
+      props.deleteMainOrSub,
+      props.clickingCategoryForDelete
+    );
+    setEditModal({
+      show: true,
+      type: props.type,
+      value: "delete",
+    });
   }
 
   return (
@@ -49,8 +61,8 @@ function DeleteCategoryModal(props) {
       <HorizontalLine />
       <SubTitle className={style.subtitle}>{subtitleContent}</SubTitle>
       {expenseItem.length > 0 && (
-        <p className={style.description}>
-          These data won't be deleted if the category is deleted
+        <p className={`${style.description} capitalize`}>
+          all of these data will be deleted if the category is deleted
         </p>
       )}
       {

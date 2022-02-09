@@ -26,7 +26,9 @@ function MainContent(props) {
     <>
       <div className={style.mainContent}>
         {MAIN_CONTENT[props.page]}
-        {editModal && <EditModal />}
+        {editModal.show && (
+          <EditModal type={editModal.type} value={editModal.value} />
+        )}
       </div>
 
       <Backdrop

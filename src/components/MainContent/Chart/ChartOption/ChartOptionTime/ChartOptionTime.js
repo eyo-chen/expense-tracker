@@ -67,7 +67,7 @@ function ChartOptionTime(props) {
           <label htmlFor="duration">time duration</label>
           <Select
             id="duration"
-            name="dutation"
+            name="duration"
             onChange={timeDurationChangeHandler}
             className={`${style["time__input"]} ${style.duration}`}
           >

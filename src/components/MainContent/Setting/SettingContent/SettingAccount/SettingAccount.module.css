@@ -1,6 +1,7 @@
 .form {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
+  display: grid; /* fix flex gap */
   gap: 5rem;
   margin-top: 3rem;
 }
@@ -19,7 +20,8 @@
 }
 
 .btn {
-  align-self: flex-start;
+  /* align-self: flex-start; */
+  width: 12rem; /* fix flex gap */
   letter-spacing: 1.2px;
   font-size: 1.5rem;
   padding: 1.2rem 2rem;
@@ -28,4 +30,11 @@
 .warnning {
   margin-top: 8px;
   font-size: 1.3rem;
+}
+
+/* fix flex gap */
+@media screen and (max-width: 700px) {
+  .btn {
+    padding: 1rem 1.8rem;
+  }
 }

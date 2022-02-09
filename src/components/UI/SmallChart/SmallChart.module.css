@@ -26,6 +26,10 @@
   height: 25rem;
 }
 
+.select {
+  font-size: 1.7rem;
+}
+
 @media screen and (max-width: 800px) {
   .chart__section {
     margin-top: 4rem;

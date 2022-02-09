@@ -6,17 +6,22 @@
 
 .title {
   display: flex;
-  gap: 3rem;
+  /* gap: 3rem; */
 }
 
 .subtitle {
   align-self: flex-end;
+  margin-left: 3rem; /* fix flex gap */
 }
 
 .btn__container {
   display: flex;
-  gap: 3rem;
+  /* gap: 3rem; */
   margin-left: 5rem;
+}
+
+.btn__container button {
+  margin-left: 3rem;
 }
 
 @media screen and (max-width: 700px) {

@@ -9,6 +9,10 @@ function InputCheckbox(props) {
     ? `${props.classInput} ${style.input}`
     : style.input;
 
+  const classLabel = props.classLabel
+    ? `${props.classLabel} ${style.label}`
+    : `${style.label}`;
+
   return (
     <div className={classContainer}>
       <input
@@ -25,7 +29,7 @@ function InputCheckbox(props) {
       <span className={`${props.classCheck} transition--25`}>
         {props.icon || ""}
       </span>
-      <label className={props.classLabel} htmlFor={props.id}>
+      <label className={classLabel} htmlFor={props.id}>
         {props.label}
       </label>
     </div>

@@ -4,8 +4,9 @@
 }
 
 .ul {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
+  display: grid; /* fix flex gap */
   gap: 3rem;
   margin-top: 5rem;
 }

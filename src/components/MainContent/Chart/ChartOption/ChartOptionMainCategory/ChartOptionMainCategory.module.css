@@ -37,8 +37,9 @@
 }
 
 .input__container {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
+  display: grid; /* fix flex gap */
   gap: 1rem;
 }
 

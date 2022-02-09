@@ -90,10 +90,8 @@ function reducer(state, action) {
       let valid = false;
       if (
         action.value.trim().length > 0 &&
-        action.value[0] !== "0" &&
         !Object.is(-0, Number(action.value)) &&
-        Number(action.value) >= 0 &&
-        Number.isInteger(Number(action.value))
+        Number(action.value) >= 0
       )
         valid = true;
 
@@ -220,19 +218,30 @@ function AddDataForm(props) {
       subCate: formData.subCategory,
       time: formData.date,
       description: formData.description,
-      price: formData.price,
+      price: Number(formData.price),
       year: formData.date.slice(0, 4),
       month: formData.date.slice(5, 7),
       day: formData.date.slice(8, 10),
     };
 
-    //////////////////////////////////////////////////
-    // add new data or edited old data
     // if props.oldExpenseData exist, it means it's editing the old data
     if (props.oldExpenseData) {
       editExpenseData(newFormData);
-      setEditModal(true);
-    } else addExpenseData(newFormData);
+      setEditModal({
+        show: true,
+        type: "data",
+        value: "edit",
+      });
+    }
+    // add new data
+    else {
+      addExpenseData(newFormData);
+      setEditModal({
+        show: true,
+        type: "data",
+        value: "add",
+      });
+    }
 
     // hide the more functionality after user edit the data
     if (props.btnMoreToggler) props.btnMoreToggler();
@@ -252,16 +261,18 @@ function AddDataForm(props) {
         <div className={style["form__container"]}>
           <FormMainCategory
             mainCategory={formData.mainCategory}
-            category={formData.category}
+            type={formData.category}
             icon={formData.icon}
             mainCategoryChangeHandler={mainCategoryChangeHandler}
             mainCategoryArr={formData.mainCategoryArr}
+            edit={!(props.oldExpenseData === undefined)}
           />
 
           <FormSubCategory
             subCategoryChangeHandler={subCategoryChangeHandler}
             subCategory={formData.subCategory}
             subCategoryArr={formData.subCategoryArr}
+            edit={!(props.oldExpenseData === undefined)}
           />
 
           <FormDescription

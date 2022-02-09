@@ -18,8 +18,9 @@
 
 .sidebar__item {
   list-style: none;
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
+  display: grid;
   gap: 3rem;
 }
 
@@ -52,5 +53,11 @@
     opacity: 1;
     transform: translateX(0);
     z-index: 50;
+  }
+}
+
+@supports (gap: 3rem;) {
+  .sidebar {
+    background-color: red;
   }
 }

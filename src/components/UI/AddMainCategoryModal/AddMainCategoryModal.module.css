@@ -21,7 +21,7 @@
 .input__container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  /* gap: 1rem; */
   margin-top: 2rem;
 }
 
@@ -33,6 +33,7 @@
 .label {
   text-align: left;
   font-size: 2rem;
+  margin-bottom: 1rem; /* fix flex gap */
 }
 
 .warning {
@@ -45,7 +46,7 @@
 .icon__container {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  /* gap: 2rem; */
   height: 47vh;
   overflow-y: scroll;
 }
@@ -57,6 +58,8 @@
   color: var(--add-main-category-icon-color);
   border: 3px solid var(--add-main-category-icon-bg);
   border-radius: 8px;
+  margin-right: 2rem; /* fix flex gap */
+  margin-bottom: 2rem; /* fix flex gap */
 }
 
 .radio__container:hover .icon {
@@ -83,7 +86,7 @@
 .btn__container {
   display: flex;
   justify-content: center;
-  gap: 10rem;
+  /* gap: 10rem; */
   margin-top: 5rem;
 }
 
@@ -91,6 +94,7 @@
   font-size: 2rem;
   letter-spacing: 1.5px;
   padding: 1rem 2.5rem;
+  margin-right: 6rem; /* fix flex gap */
 }
 
 @media screen and (max-width: 1000px) {

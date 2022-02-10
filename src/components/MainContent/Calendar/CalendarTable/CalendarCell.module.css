@@ -8,7 +8,7 @@
 }
 
 .cell:hover {
-  background-color: var(--calendar-hover);
+  background-color: var(--calendar-hover-bg);
 }
 
 .negative {

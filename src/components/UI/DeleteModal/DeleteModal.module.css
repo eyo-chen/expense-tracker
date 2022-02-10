@@ -44,6 +44,10 @@
   margin-right: 1rem; /* fix flex gap */
 }
 
+.long {
+  cursor: pointer;
+}
+
 .icon {
   margin-right: 1rem;
 }
@@ -67,11 +71,8 @@
 .btn {
   font-size: 2rem;
   padding: 1rem 1.5rem;
-  color: var(--btn-ft);
+  color: var(--btn-color);
   background-color: var(--btn-bg);
-
-  transition: all 0.25s linear;
-  -webkit-transition: all 0.25s linear;
 }
 
 .btn:hover {

@@ -155,8 +155,8 @@ function AddMainCategoryModal(props) {
           <Button
             disabled={!form.isValid}
             className={`${style.btn} uppercase transition--25 ${
-              form.isValid ? `btn--valid` : "btn--invalid"
-            }`}
+              style["btn--right"]
+            } ${form.isValid ? `btn--valid` : "btn--invalid"}`}
             type="submit"
           >
             add

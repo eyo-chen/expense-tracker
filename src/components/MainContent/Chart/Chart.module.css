@@ -21,7 +21,7 @@
 .btn {
   font-size: 2.5rem;
   padding: 1rem 1.5rem;
-  background-color: var(--btn-bg-main);
+  background-color: var(--btn-main-bg);
   color: var(--bg);
   display: none;
 }

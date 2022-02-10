@@ -16,7 +16,6 @@
   font-size: 1.8rem;
   letter-spacing: 1.5px;
   border: var(--btn-disabled-border);
-  color: var(--btn-disabled-ft);
   border-radius: 10px;
   padding: 1rem 2rem;
   margin-right: 6rem; /* fix flex gap */

@@ -31,7 +31,7 @@
 
 .refresh {
   font-size: 3rem;
-  fill: var(--btn-ft);
+  fill: var(--btn-color);
 }
 
 .btn__text {

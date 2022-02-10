@@ -43,11 +43,33 @@
 
 .item__description--long {
   cursor: pointer;
+  position: relative;
+}
+
+.description__text--hover {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -45px;
+  width: 23rem;
+  color: var(--white-1);
+  font-weight: 500;
+  padding: 0.7rem;
+  background-color: var(--gray);
+  border-radius: 3px;
+  opacity: 0.7;
+  text-align: center;
+}
+
+.item__description--long:hover .description__text--hover {
+  display: inline-block;
 }
 
 .description__text {
   opacity: 0.3;
   display: none;
+  margin-left: 3rem; /* fix flex gap */
 }
 
 /* price + more btn section

@@ -17,12 +17,12 @@
 .date--others:hover,
 .date--others:active,
 .selected {
-  background-color: var(--calendar-weekly-bg-hover);
-  border: var(--calendar-weekly-border-hover);
+  background-color: var(--calendar-weekly-active-bg);
+  border: var(--calendar-weekly-hover-border);
 }
 
 .active {
-  background-color: var(--calendar-weekly-bg-active);
-  color: var(--calendar-weekly-color-active);
-  border: var(--calendar-weekly-border-active);
+  background-color: var(--calendar-weekly-active-bg);
+  color: var(--calendar-weekly-active-color);
+  border: var(--calendar-weekly-active-border);
 }

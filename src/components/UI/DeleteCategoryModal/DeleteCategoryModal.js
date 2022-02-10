@@ -7,6 +7,7 @@ import Button from "../Button/Button";
 import ExpenseList from "../ExpenseList/ExpenseList";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import EditModalContext from "../../../store/editModal/editModal--context";
+import { AiFillWarning } from "react-icons/ai";
 import style from "./DeleteCategoryModal.module.css";
 
 function DeleteCategoryModal(props) {
@@ -62,7 +63,9 @@ function DeleteCategoryModal(props) {
       <SubTitle className={style.subtitle}>{subtitleContent}</SubTitle>
       {expenseItem.length > 0 && (
         <p className={`${style.description} capitalize`}>
+          <AiFillWarning className={style.warning} />
           all of these data will be deleted if the category is deleted
+          <AiFillWarning className={style.warning} />
         </p>
       )}
       {
@@ -71,7 +74,7 @@ function DeleteCategoryModal(props) {
         */
         <ExpenseList
           modal={true}
-          classItem={style.expenseList}
+          classItem={style.list}
           data={expenseItem}
           inDeleteSection={true}
         />
@@ -80,14 +83,14 @@ function DeleteCategoryModal(props) {
         <Button
           type="button"
           onClick={props.deleteModalToggler}
-          className={style.btn}
+          className={`${style.btn} transition--25 uppercase`}
         >
           cancel
         </Button>
         <Button
           dataID={props.deleteMainOrSub}
           onClick={btnDeleteClickHandler}
-          className={style.btn}
+          className={`${style.btn} ${style["btn--right"]} transition--25 uppercase`}
         >
           delete
         </Button>

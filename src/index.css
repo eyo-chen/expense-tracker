@@ -54,6 +54,7 @@
   --gray-6: rgb(75, 75, 75);
   --gray-7: rgb(105, 105, 105);
   --gray-8: rgb(131, 131, 131);
+  --gray-9: rgba(112, 112, 112, 0.719);
 
   /* //////////////////////////////////////////////// */
   --red: rgb(255, 78, 78);
@@ -86,39 +87,28 @@
 
   /* //////////////////////////////////////////////// */
   --btn-color: var(--black-9);
-  --btn-border: 1px solid var(--black-5);
+  /* --btn-border: 1px solid var(--black-5); */
   --btn-bg: var(--gray-8);
-  --btn-hover-ft: var(--white);
+  /* --btn-hover-ft: var(--white); */
   --btn-hover-bg: var(--gray-3);
-
   --btn-arrow-bg: var(--gray-2);
   --btn-arrow-box-shadow: 5px 5px 3px var(--gray-1);
-
   --btn-active-border: 1px solid transparent;
-
   --btn-disabled-color: var(--gray-1);
   --btn-disabled-border: 1px solid var(--gray-1);
-
   --btn-bg-main: var(--black-9);
-
   --btn-eye: var(--gray-8);
-
   --btn-form-bg: var(--gray-3);
   --btn-form-hover-bg: var(--gray);
-
   --btn-delete-edit-bg: var(--gray-3);
 
-  /* --btn-arrow: var(--white); */
-
   /* //////////////////////////////////////////////// */
-  --select-bg: var(--gray-2);
-  --select-ft: var(--black-1);
   --input-bg: var(--gray-2);
   --input-ft: var(--black-1);
 
   /* //////////////////////////////////////////////// */
   --checkbox-active: var(--gray-6);
-  --checkbox-passive: rgba(112, 112, 112, 0.719);
+  --checkbox-passive: var(--gray-9);
 
   /* //////////////////////////////////////////////// */
   --line-list: var(--gray-1);
@@ -141,7 +131,7 @@
 
   /* //////////////////////////////////////////////// */
   --setting-munu-hover-bg: var(--gray-5);
-  --setting-category-data-bg: rgb(255, 255, 255);
+  --setting-category-data-bg: var(--white);
 
   /* //////////////////////////////////////////////// */
   --input-outline-focus-active: 0.5px solid var(--black);
@@ -172,49 +162,37 @@
   /* //////////////////////////////////////////////// */
   --calendar-current-bg: var(--white-1);
   --calendar-current-ft: var(--black);
-  --calendar-hover: var(--black-3);
+  --calendar-hover-bg: var(--black-3);
 
   --calendar-weekly-border: 1.5px solid var(--white);
-  --calendar-weekly-border-hover: 1.5px solid var(--gray);
-  --calendar-weekly-border-active: 1.5px solid transparent;
-  --calendar-weekly-bg-active: var(--gray-1);
-  --calendar-weekly-bg-hover: var(--gray);
-  --calendar-weekly-color-active: var(--black);
+  --calendar-weekly-hover-border: 1.5px solid var(--gray);
+  --calendar-weekly-active-border: 1.5px solid transparent;
+  --calendar-weekly-active-bg: var(--gray-1);
+  --calendar-weekly-active-color: var(--black);
+
   /* //////////////////////////////////////////////// */
-  /* --btn-ft: var(--white); */
   --btn-color: var(--white);
-  --btn-border: 1px solid var(--white-1);
-  --btn-hover-ft: var(--black-4);
+  --btn-bg: var(--black-10);
+  /* --btn-border: 1px solid var(--white-1); */
+  /* --btn-hover-ft: var(--black-4); */
   --btn-hover-bg: var(--white);
-
   --btn-active-border: 1px solid transparent;
-
   --btn-disabled-color: var(--gray-4);
   --btn-disabled-border: 1px solid var(--gray-4);
-
-  --btn-bg-main: var(--gray-2);
-
+  --btn-main-bg: var(--gray-2);
   --btn-eye: var(--gray-3);
-
   --btn-form-bg: var(--black-5);
   --btn-form-hover-bg: var(--black);
-
   --btn-delete-edit-bg: var(--black-1);
-
-  /* --btn-arrow: var(--black); */
-
-  --btn-bg: var(--black-10);
   --btn-hover-bg: var(--black);
-
   --btn-arrow-bg: var(--black-9);
   --btn-arrow-box-shadow: 5px 5px var(--black);
 
   /* //////////////////////////////////////////////// */
-  --select-bg: var(--black-5);
-  --select-ft: var(--white);
-
   --input-bg: var(--black-5);
   --input-ft: var(--white);
+  --input-outline-focus-active: 0.5px solid var(--white-1);
+  --input-outline-invalid: 0.5px solid var(--red);
 
   /* //////////////////////////////////////////////// */
   --checkbox-active: var(--white-1);
@@ -244,13 +222,6 @@
   --setting-category-data-bg: var(--gray-7);
 
   /* //////////////////////////////////////////////// */
-  --input-outline-focus-active: 0.5px solid var(--white-1);
-  --input-outline-invalid: 0.5px solid var(--red);
-
-  /* //////////////////////////////////////////////// */
-  --color-input-bg: var(--white-3);
-
-  /* //////////////////////////////////////////////// */
   --add-main-category-icon-bg: var(--black-4);
   --add-main-category-icon-color: var(--gray);
   --add-main-category-icon-hover-color: var(--white);
@@ -262,7 +233,6 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  /* box-shadow: inset 0 0 5px grey; */
   border-radius: 10px;
 }
 

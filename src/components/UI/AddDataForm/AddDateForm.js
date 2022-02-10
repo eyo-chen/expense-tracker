@@ -87,15 +87,18 @@ function reducer(state, action) {
     }
 
     case "PRICE": {
-      let valid = false;
+      let isValid = false,
+        isTooLarge = false;
       if (
         action.value.trim().length > 0 &&
         !Object.is(-0, Number(action.value)) &&
         Number(action.value) >= 0
       )
-        valid = true;
+        isValid = true;
 
-      return { ...state, isValid: valid, price: action.value };
+      if (Number(action.value) > 1000000000000000) isTooLarge = true;
+
+      return { ...state, isValid, isTooLarge, price: action.value };
     }
 
     case "PRICE--TOUCH": {
@@ -155,6 +158,7 @@ function AddDataForm(props) {
       priceTouch: false,
       icon: iconObj[Object.keys(categoryExpense)[0]],
       isValid: false,
+      isTooLarge: false,
       iconObj,
       categoryExpense,
       categoryIncome,
@@ -288,14 +292,16 @@ function AddDataForm(props) {
           <FormPrice
             price={formData.price}
             priceTouch={formData.priceTouch}
-            invalid={!formData.isValid}
+            isValid={formData.isValid}
+            isTooLarge={formData.isTooLarge}
             priceChangeHandler={priceChangeHandler}
             inputPriceTouchHandler={inputPriceTouchHandler}
           />
 
           <FormBtn
             addDataFormModalToggler={props.addDataFormModalToggler}
-            invalid={!formData.isValid}
+            isValid={formData.isValid}
+            isTooLarge={formData.isTooLarge}
             oldExpenseData={props.oldExpenseData}
           />
         </div>

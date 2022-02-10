@@ -66,12 +66,6 @@
   margin-left: 2rem;
 }
 
-.input--invalid,
-.input--invalid:focus,
-.input--invalid:active {
-  outline: var(--input-outline-invalid);
-}
-
 .warning {
   margin-top: 0.5rem;
   font-size: 1.4rem;

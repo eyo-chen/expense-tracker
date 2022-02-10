@@ -3,7 +3,7 @@ import style from "./AddDataForm.module.css";
 
 function FormBtn(props) {
   const classAddBtn = `${style.btn} uppercase transition--25 ${
-    props.invalid ? `btn--invalid` : `btn--valid`
+    !props.isValid || props.isTooLarge ? `btn--invalid` : `btn--valid`
   }`;
 
   return (
@@ -15,7 +15,11 @@ function FormBtn(props) {
       >
         cancel
       </Button>
-      <Button type="submit" className={classAddBtn} disabled={props.invalid}>
+      <Button
+        type="submit"
+        className={classAddBtn}
+        disabled={!props.isValid || props.isTooLarge}
+      >
         {props.oldExpenseData ? "edit" : "add"}
       </Button>
     </div>

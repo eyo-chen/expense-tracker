@@ -94,7 +94,11 @@
   font-size: 2rem;
   letter-spacing: 1.5px;
   padding: 1rem 2.5rem;
-  margin-right: 6rem; /* fix flex gap */
+  margin-right: 10rem; /* fix flex gap */
+}
+
+.btn--right {
+  margin-right: -0.1rem;
 }
 
 @media screen and (max-width: 1000px) {

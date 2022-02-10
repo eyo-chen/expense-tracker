@@ -7,6 +7,7 @@ import DescriptionModal from "../DescriptionModal/DescriptionModal";
 import CategoryContext from "../../../store/category/category--context";
 import useAddDataForm from "../../../Others/Custom/useAddDataForm";
 import formatMoney from "../../../Others/FormatMoney/formatMoney";
+import createEditedDescription from "../../../Others/CreateEditedDescription/createEditedDescription";
 import { MdMoreVert } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
@@ -50,34 +51,24 @@ function ExpenseItem(props) {
   }
 
   function descriptionModalToggler(e) {
-    /*
-    We put this function on every single description
-    but we don't wanna trigger for every description, we only want to show the description modal when the description is too long
-
-    The logic is we only want to trigger that useState set method when
-    1) descriptionModal is true, which means it's gonna close the modal
-    2) e.target.dataset.id is true
-       e.target.dataset.id is equal to variabe longIndex, which keep track if the description is too long (see below)
-       (Note e.target.dataset.id represenat as string)
-    */
+    // Reference 1
     if (descriptionModal) setDescriptionModal((prev) => !prev);
     else if (e.target.dataset.id === "true")
       setDescriptionModal((prev) => !prev);
   }
 
-  const classMainCate =
+  const classMainCategory =
     props.category === "expense"
       ? `${style["item__category--blue"]}`
       : `${style["item__category--pink"]}`;
 
-  const limitedLength = props.modal ? 13 : 20;
-  const longLengthClassName =
+  const limitedLength = props.modal ? 20 : 25;
+  const classLongDescription =
     props.description?.length > limitedLength ? "item__description--long" : "";
-  const longIndex = longLengthClassName.length > 0;
-
+  const longIndex = classLongDescription.length > 0;
   let editedDescription =
     props.description && props.description.length > limitedLength
-      ? props.description.slice(0, limitedLength).padEnd(limitedLength + 3, ".")
+      ? createEditedDescription(props.description, limitedLength)
       : props.description;
 
   // shorten the description after user clicking the btn(more)
@@ -86,9 +77,10 @@ function ExpenseItem(props) {
     props.description?.length > limitedLength - 10 &&
     btnMore
   )
-    editedDescription = props.description
-      .slice(0, limitedLength - 10)
-      .padEnd(limitedLength - 6, ".");
+    editedDescription = createEditedDescription(
+      props.description,
+      limitedLength - 10
+    );
 
   return (
     <Fragment>
@@ -120,7 +112,7 @@ function ExpenseItem(props) {
         <div className={style["item__info"]}>
           <div
             title={props.mainCate}
-            className={`${style["item__category"]} ${classMainCate} center--flex`}
+            className={`${style["item__category"]} ${classMainCategory} center--flex`}
           >
             {icon}
           </div>
@@ -133,11 +125,14 @@ function ExpenseItem(props) {
             onClick={descriptionModalToggler}
             className={
               longIndex
-                ? `${style["item__description"]} ${style[longLengthClassName]}`
+                ? `${style["item__description"]} ${style[classLongDescription]}`
                 : `${style["item__description"]}`
             }
           >
             {editedDescription}
+            <span className={style["description__text--hover"]}>
+              click to show description
+            </span>
           </p>
           {longIndex && (
             <p
@@ -192,3 +187,15 @@ function ExpenseItem(props) {
 }
 
 export default ExpenseItem;
+
+/*
+Reference 1
+We put this function on every single description
+but we don't wanna trigger for every description, we only want to show the description modal when the description is too long
+
+The logic is we only want to trigger that useState set method when
+1) descriptionModal is true, which means it's gonna close the modal
+2) e.target.dataset.id is true
+   (e.target.dataset.id is equal to variabe longIndex, which keep track if the description is too lo (see below)
+   (Note e.target.dataset.id represenat as string)
+*/

@@ -4,10 +4,13 @@ import style from "./AddDataForm.module.css";
 
 function FormPrice(props) {
   // Reference 1
-  const invalid = props.invalid && props.priceTouch;
+  const invalid = !props.isValid && props.priceTouch;
 
   let classInput = `${style.input} input`;
-  if (invalid) classInput += " input--invalid";
+  if (invalid || props.isTooLarge) classInput += " input--invalid";
+
+  let warningText = "price must be positive integer";
+  if (props.isTooLarge) warningText = "sorry! price should be less than 1000T";
 
   return (
     <FormContainer className={style["price__container"]}>
@@ -22,8 +25,8 @@ function FormPrice(props) {
         value={props.price}
         id="price"
       ></input>
-      <Warning index={invalid} className={style.warning}>
-        price should be positive integer
+      <Warning index={invalid || props.isTooLarge} className={style.warning}>
+        {warningText}
       </Warning>
     </FormContainer>
   );

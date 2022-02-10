@@ -1,8 +1,17 @@
 function formatMoney(price) {
   const absPrice = Math.abs(price);
 
+  // 1 T = 1,000,000,000,000
+  if (absPrice >= 1000000000000) {
+    const newPrice = price / 1000000000000;
+    const formatedPrice = Number.isInteger(newPrice)
+      ? newPrice
+      : roundTwo(newPrice);
+
+    return `${formatedPrice}T`;
+  }
   // 1B = 1,000,000,000
-  if (absPrice >= 1000000000) {
+  else if (absPrice >= 1000000000 && absPrice < 1000000000000) {
     const newPrice = price / 1000000000;
     const formatedPrice = Number.isInteger(newPrice)
       ? newPrice

@@ -15,7 +15,7 @@
   border: none;
   background-color: var(--line-list);
   border-radius: 10px;
-  align-self: center;
+  justify-self: center;
 }
 
 .item__line--long {

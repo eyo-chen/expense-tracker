@@ -7,6 +7,8 @@ function CalendarCell(props) {
 
   return (
     <div
+      aria-label={props.children}
+      tabIndex="0"
       onClick={props.onClick}
       className={classNameContainer}
       data-id={props.dataID}

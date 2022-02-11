@@ -50,6 +50,7 @@ function SearchOptionUI(props) {
 
   const checkboxContent = props.checkboxItem.map((checkbox, i) => (
     <InputCheckbox
+      ariaLabel={checkbox.text}
       label={checkbox.text}
       id={checkbox.text}
       key={
@@ -75,9 +76,9 @@ function SearchOptionUI(props) {
         classContainer={style["icon__container"]}
         icon={
           showBoxes ? (
-            <IoIosArrowDropdownCircle />
+            <IoIosArrowDropdownCircle aria-label="hide" />
           ) : (
-            <IoIosArrowDroprightCircle />
+            <IoIosArrowDroprightCircle aria-label="show" />
           )
         }
         checked={showBoxes}

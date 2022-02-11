@@ -225,6 +225,9 @@
   --add-main-category-icon-bg: var(--black-4);
   --add-main-category-icon-color: var(--gray);
   --add-main-category-icon-hover-color: var(--white);
+
+  /* //////////////////////////////////////////////// */
+  --focus-outline: 1px dotted var(--gray);
 }
 
 ::-webkit-scrollbar {

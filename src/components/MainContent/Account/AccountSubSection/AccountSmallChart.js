@@ -59,14 +59,26 @@ function AccountSmallChart() {
 
   return (
     <Card>
-      <Title className={style.title}>Chart</Title>
-      <Select className={style.select} onChange={selectChangeHandler}>
+      <label htmlFor="chart" className={style.label}>
+        Chart
+      </label>
+      <Select
+        id="chart"
+        className={style.select}
+        onChange={selectChangeHandler}
+      >
         <option value="category">which category expense the most</option>
         <option value="day">which day expense the most</option>
         <option value="month">which month expense the most</option>
       </Select>
       <div>
-        <canvas ref={chartRef} height="200" width="auto"></canvas>
+        <canvas
+          aria-label="chart"
+          tabIndex="0"
+          ref={chartRef}
+          height="200"
+          width="auto"
+        ></canvas>
       </div>
     </Card>
   );

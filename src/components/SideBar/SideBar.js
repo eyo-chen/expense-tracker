@@ -11,29 +11,45 @@ import style from "./SideBar.module.css";
 const SIDEBAR__ICON = [
   [
     "Home",
-    <AiFillHome className={`${style["sidebar__icon"]} transition--25`} />,
+    <AiFillHome
+      aria-label="home"
+      className={`${style["sidebar__icon"]} transition--25`}
+    />,
   ],
   [
     "Calendar",
-    <FaRegCalendarAlt className={`${style["sidebar__icon"]} transition--25`} />,
+    <FaRegCalendarAlt
+      aria-label="calendar"
+      className={`${style["sidebar__icon"]} transition--25`}
+    />,
   ],
   [
     "Chart",
     <AiOutlineBarChart
+      aria-label="chart"
       className={`${style["sidebar__icon"]} transition--25`}
     />,
   ],
   [
     "Search",
-    <FaSearch className={`${style["sidebar__icon"]} transition--25`} />,
+    <FaSearch
+      aria-label="search"
+      className={`${style["sidebar__icon"]} transition--25`}
+    />,
   ],
   [
     "Account",
-    <MdAccountCircle className={`${style["sidebar__icon"]} transition--25`} />,
+    <MdAccountCircle
+      aria-label="account"
+      className={`${style["sidebar__icon"]} transition--25`}
+    />,
   ],
   [
     "Setting",
-    <AiFillSetting className={`${style["sidebar__icon"]} transition--25`} />,
+    <AiFillSetting
+      aria-label="setting"
+      className={`${style["sidebar__icon"]} transition--25`}
+    />,
   ],
 ];
 
@@ -61,14 +77,19 @@ function SideBar(props) {
   });
 
   return (
-    <div
+    <aside
       className={`${style.sidebar} ${
         props.showSidebar ? `${style["sidebar--show"]}` : ""
       }`}
     >
       <div>
-        <SiCashapp className={style.logo} />
-        <ul className={style["sidebar__item"]}>{sidebarItem}</ul>
+        <a href="." aria-label="reload the page">
+          <SiCashapp aria-label="reload the page" className={style.logo} />
+        </a>
+
+        <nav>
+          <ul className={style["sidebar__item"]}>{sidebarItem}</ul>
+        </nav>
       </div>
 
       <div className={style["sidebar__info"]}>
@@ -80,7 +101,7 @@ function SideBar(props) {
           {new Intl.DateTimeFormat("en-US", dateOptObj1).format(props.today)}
         </p>
       </div>
-    </div>
+    </aside>
   );
 }
 

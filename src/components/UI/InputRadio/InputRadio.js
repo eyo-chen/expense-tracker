@@ -28,6 +28,7 @@ function InputRadio(props) {
         name={props.name}
         value={props.value}
         className={classNameInput}
+        aria-label={props.ariaLabel}
       />
       <div className={classNameCheck}>
         <div className={classNameInside}></div>

@@ -12,6 +12,10 @@
   background-color: var(--search-input-bg);
 }
 
+.label {
+  display: none;
+}
+
 .input:focus,
 .input:active {
   width: 70%;

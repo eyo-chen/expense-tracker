@@ -129,6 +129,7 @@ function AddMainCategoryModal(props) {
               <InputRadio
                 key={uuidv4()}
                 name="icon"
+                ariaLabel={element}
                 label={element}
                 value={index}
                 classLabel={`${style.icon} transition--25 ${

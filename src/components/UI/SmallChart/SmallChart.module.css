@@ -19,7 +19,7 @@
 .chart__container {
   width: 30rem;
   height: 20rem;
-  margin-top: 5rem;
+  margin: 5rem auto 0 auto;
 }
 
 .chart--pie {

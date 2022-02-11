@@ -21,6 +21,7 @@ function InputText(props) {
         onChange={props.onChange}
         className={classNameInput}
         data-id={props.dataID}
+        aira-label="text"
       />
     </>
   );

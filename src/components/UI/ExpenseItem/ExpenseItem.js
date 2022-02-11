@@ -176,6 +176,7 @@ function ExpenseItem(props) {
               onClick={btnMoreToggler}
               type="button"
               className={style["btn__more"]}
+              ariaLabel="more"
             >
               <MdMoreVert />
             </Button>

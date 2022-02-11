@@ -18,6 +18,8 @@ function SideBarItem(props) {
   return (
     <li title={props.title} className={className}>
       <div
+        aria-label={props.title}
+        tabIndex="0"
         data-id={props.pageIndex}
         onClick={pageIconHandler}
         className={style.cover}

@@ -9,6 +9,7 @@ function SettingMenu(props) {
 
   const menu = SETTING_MENU.map((element, index) => (
     <li
+      tabIndex="0"
       key={element}
       onClick={settingMenuClickHandler}
       data-id={index}

@@ -7,9 +7,9 @@ function Warning(props) {
     : `${style.warning} ${props.className} capitalize transition--25`;
 
   return (
-    <p className={classNameWarning}>
-      {<AiFillWarning />} {props.children}
-    </p>
+    <strong className={classNameWarning}>
+      {<AiFillWarning aria-label="warning" />} {props.children}
+    </strong>
   );
 }
 

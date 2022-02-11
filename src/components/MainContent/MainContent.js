@@ -24,12 +24,12 @@ function MainContent(props) {
 
   return (
     <>
-      <div className={style.mainContent}>
+      <main className={style.mainContent}>
         {MAIN_CONTENT[props.page]}
         {editModal.show && (
           <EditModal type={editModal.type} value={editModal.value} />
         )}
-      </div>
+      </main>
 
       <Backdrop
         classBackdrop={`${style.overlay} ${

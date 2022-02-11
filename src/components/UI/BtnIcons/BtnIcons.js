@@ -17,7 +17,7 @@ function BtnIcons(props) {
         dataID="chart"
         text="chart"
       >
-        <AiOutlineBarChart className={style.icon} />
+        <AiOutlineBarChart aria-label="chart" className={style.icon} />
       </BtnIcon>
       <BtnIcon
         classBtn={classBtn}
@@ -26,9 +26,12 @@ function BtnIcons(props) {
         text={props.news ? "news" : "info"}
       >
         {props.news ? (
-          <BsNewspaper className={style.icon} />
+          <BsNewspaper aria-label="news" className={style.icon} />
         ) : (
-          <AiFillMoneyCollect className={style.icon} />
+          <AiFillMoneyCollect
+            aria-label="account info"
+            className={style.icon}
+          />
         )}
       </BtnIcon>
     </>

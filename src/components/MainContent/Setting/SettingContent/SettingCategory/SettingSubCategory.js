@@ -15,7 +15,9 @@ function SettingSubCategory(props) {
       }  `}
       key={element}
     >
-      <span onClick={clickSubCategoryHandler}>{element}</span>
+      <span aria-label={element} tabIndex="0" onClick={clickSubCategoryHandler}>
+        {element}
+      </span>
     </div>
   ));
 

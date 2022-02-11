@@ -6,6 +6,8 @@ function Button(props) {
       onClick={props.onClick}
       disabled={props.disabled}
       data-id={props.dataID}
+      aria-label={props.ariaLabel}
+      tabIndex="0"
     >
       {props.children}
     </button>

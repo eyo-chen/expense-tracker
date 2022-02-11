@@ -25,6 +25,7 @@ function InputCheckbox(props) {
         checked={props.checked}
         onChange={props.onChange}
         data-id={props.dataID}
+        aria-label={props.ariaLabel}
       />
       <span className={`${props.classCheck} transition--25`}>
         {props.icon || ""}

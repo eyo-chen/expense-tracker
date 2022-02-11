@@ -10,6 +10,8 @@ function SettingMainCategory(props) {
 
   const categoryList = props.categoryState.mainCategoryArr.map((element) => (
     <div
+      tabIndex="0"
+      aria-label={element}
       onClick={clickMainCategoryHandler}
       className={`${style.data}  ${
         element === props.categoryState.mainCategory

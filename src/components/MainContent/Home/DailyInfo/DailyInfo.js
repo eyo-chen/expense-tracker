@@ -133,7 +133,8 @@ function DailyInfo(props) {
             classBtn={`${style["btn--main"]} uppercase`}
             classText={style["btn__text--main"]}
           >
-            <TiPlus className={style["btn--icon"]} /> <p>add data</p>
+            <TiPlus aria-label="add data" className={style["btn--icon"]} />
+            <p>add data</p>
           </BtnIcon>
         </div>
       </div>

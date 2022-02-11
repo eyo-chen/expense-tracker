@@ -53,7 +53,13 @@ function SmallChart(props) {
         </Select>
       </div>
       <div className={classNameChart}>
-        <canvas ref={chartRef} height="200" width="auto"></canvas>
+        <canvas
+          tabIndex="0"
+          aria-label="chart"
+          ref={chartRef}
+          height="200"
+          width="auto"
+        ></canvas>
       </div>
     </Card>
   );

@@ -1,5 +1,7 @@
-.title {
+.label {
   margin-bottom: 1rem;
+  font-size: 2.5rem;
+  font-weight: 500;
 }
 
 .select {

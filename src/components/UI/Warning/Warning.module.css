@@ -1,7 +1,7 @@
 .warning {
+  display: block;
   position: absolute;
   letter-spacing: 1px;
-  font-weight: 500;
   color: var(--red);
   cursor: default;
   opacity: 0;

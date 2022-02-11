@@ -16,6 +16,8 @@ function WeeklyCalendarList(props) {
     <div>
       <p className={style.day}>{props.weekDay}</p>
       <div
+        tabIndex="0"
+        aria-label="change day"
         onClick={clickDateHandler}
         data-id={props.dateObj}
         className={className}

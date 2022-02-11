@@ -40,11 +40,18 @@ function App() {
             <div className={`${style["app__container"]} center`}>
               {showSidebar ? (
                 <FiChevronsLeft
+                  tabIndex="0"
+                  aria-label="show sidebar"
                   onClick={menuClickHandler}
                   className={style.icon}
                 />
               ) : (
-                <FiMenu onClick={menuClickHandler} className={style.icon} />
+                <FiMenu
+                  tabIndex="0"
+                  aria-label="close sidebar"
+                  onClick={menuClickHandler}
+                  className={style.icon}
+                />
               )}
 
               <SideBar

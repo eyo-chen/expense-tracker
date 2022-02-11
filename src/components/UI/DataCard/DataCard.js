@@ -32,9 +32,9 @@ function DataCard(props) {
           onClick={eyeBtnClickToggler}
         >
           {visible ? (
-            <AiFillEye className={style.btn} />
+            <AiFillEye aria-label="show" className={style.btn} />
           ) : (
-            <AiFillEyeInvisible className={style.btn} />
+            <AiFillEyeInvisible aria-label="close" className={style.btn} />
           )}
         </BtnIcon>
       </div>

@@ -27,3 +27,7 @@
   height: 100%;
   z-index: 100;
 }
+
+.cover:focus svg {
+  fill: var(--sidebar-active);
+}

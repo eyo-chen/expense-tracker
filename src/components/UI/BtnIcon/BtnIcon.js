@@ -11,8 +11,9 @@ function BtnIcon(props) {
     : `${style["btn__text"]} capitalize transition--25`;
 
   return (
-    <Button type="button" className={classNameBtn}>
+    <Button tabIndex={props.tabIndex} type="button" className={classNameBtn}>
       <div
+        tabIndex="0"
         onClick={props.onClick}
         data-id={props.dataID}
         className={style.cover}

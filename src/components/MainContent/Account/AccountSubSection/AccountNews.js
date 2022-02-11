@@ -75,7 +75,11 @@ function AccountNews() {
         {news.editedTitle}
       </p>
       <div className={style["img__container"]}>
-        <a href={news.url} target="_blank">
+        <a
+          href={news.url}
+          target="_blank"
+          aria-label="click to go to news page"
+        >
           <img
             className={style.img}
             src={news.img}

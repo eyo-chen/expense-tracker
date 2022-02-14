@@ -9,7 +9,7 @@ function PopupModal(props) {
     : `${style.modal} center--position`;
 
   return (
-    <Backdrop classBackdrop={props.classBackdrop}>
+    <Backdrop onClick={props.onClick} classBackdrop={props.classBackdrop}>
       <div className={classNameModal}>{props.children}</div>
     </Backdrop>
   );
@@ -23,6 +23,7 @@ function Modal(props) {
           classBackdrop={props.classBackdrop}
           classModal={props.classModal}
           children={props.children}
+          onClick={props.onClick}
         />,
         document.querySelector("#modal")
       )}

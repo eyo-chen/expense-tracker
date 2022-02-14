@@ -5,8 +5,16 @@ function Backdrop(props) {
     ? `${style.backdrop} ${props.classBackdrop}`
     : `${style.backdrop}`;
 
+  function backdropClickHandler(e) {
+    if (e.target.dataset.id === "backdrop" && props.onClick) props.onClick();
+  }
+
   return (
-    <div onClick={props.onClick} className={classNameBackdrop}>
+    <div
+      data-id="backdrop"
+      onClick={backdropClickHandler}
+      className={classNameBackdrop}
+    >
       {props.children}
     </div>
   );

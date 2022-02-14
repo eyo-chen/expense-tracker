@@ -7,6 +7,7 @@ import ChartOptionMainCategory from "./ChartOptionMainCategory/ChartOptionMainCa
 import ChartOptionSubCategory from "./ChartOptionSubCategory/ChartOptionSubCategory";
 import ChartOptionTime from "./ChartOptionTime/ChartOptionTime";
 import CategoryContext from "../../../../store/category/category--context";
+import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import { RiCloseCircleFill } from "react-icons/ri";
 import style from "./ChartOption.module.css";
 
@@ -126,10 +127,15 @@ function ChartOption(props) {
 
   return (
     <Card className={style.card}>
-      <RiCloseCircleFill
+      <BtnIcon
+        classText={style["btn__text"]}
+        classBtn={style.close}
         onClick={props.closeChartOptionModalHandler}
-        className={style.close}
-      />
+        text="close"
+      >
+        <RiCloseCircleFill />
+      </BtnIcon>
+
       <form onSubmit={submitFormHandler} className={style.form}>
         <div>
           <Title className={style["form__title"]}>Analyize By</Title>

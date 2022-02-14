@@ -8,6 +8,7 @@ import CategoryContext from "../../../store/category/category--context";
 import useAddDataForm from "../../../Others/Custom/useAddDataForm";
 import formatMoney from "../../../Others/FormatMoney/formatMoney";
 import createEditedDescription from "../../../Others/CreateEditedDescription/createEditedDescription";
+import useCurWidth from "../../../Others/Custom/useCurWidth";
 import { MdMoreVert } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
@@ -18,6 +19,7 @@ function ExpenseItem(props) {
   const [descriptionModal, setDescriptionModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
+  const curWidth = useCurWidth();
   const { iconObj } = useContext(CategoryContext);
   const icon = iconObj[props.mainCate];
 
@@ -62,7 +64,11 @@ function ExpenseItem(props) {
       ? `${style["item__category--blue"]}`
       : `${style["item__category--pink"]}`;
 
-  const limitedLength = props.modal ? 20 : 25;
+  // Reference 4
+  let limitedLength = props.modal ? 20 : 40;
+  if (curWidth <= 1100) limitedLength = 20;
+  if (curWidth <= 600) limitedLength = 15;
+
   const classLongDescription =
     props.description?.length > limitedLength ? "item__description--long" : "";
   const longIndex = classLongDescription.length > 0;
@@ -134,7 +140,8 @@ function ExpenseItem(props) {
               click to show description
             </span>
           </p>
-          {longIndex && (
+
+          {longIndex && !btnMore && (
             <p
               data-id={longIndex}
               onClick={descriptionModalToggler}
@@ -148,10 +155,6 @@ function ExpenseItem(props) {
         <div>
           <p className={style["item__price"]}>${formatMoney(props.price)}</p>
 
-          {/* 
-          Note that here and below
-          we only want to show "more", "delete", "edit" button and functionality when the expense list item do NOT in the delete section 
-          */}
           {!props.inDeleteSection && btnMore && (
             <div className={style["btn__container"]}>
               <BtnIcon
@@ -199,4 +202,28 @@ The logic is we only want to trigger that useState set method when
 2) e.target.dataset.id is true
    (e.target.dataset.id is equal to variabe longIndex, which keep track if the description is too lo (see below)
    (Note e.target.dataset.id represenat as string)
+*/
+
+/*
+Reference 2
+ Note that here and below
+we only want to show "more", "delete", "edit" button and functionality when the expense list item do NOT in the delete section 
+*/
+
+/*
+Reference 3
+What does this mean longIndex && !btnMore && <content></content>
+If longIndex is false
+=> it means the description is not too long
+=> we don't need to show the content at all
+
+** !btnMore
+=> If btnMore is true, it means showing the more content
+=> If !btnMore is false, it means showing the more content
+=> So now we don't want to show the content
+*/
+
+/*
+Reference 4
+Dynamically change the limited length
 */

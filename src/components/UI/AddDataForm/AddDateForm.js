@@ -254,7 +254,7 @@ function AddDataForm(props) {
   }
 
   return (
-    <Modal classModal={style.modal}>
+    <Modal onClick={props.addDataFormModalToggler} classModal={style.modal}>
       <form onSubmit={formSubmitHandler} className={style.form}>
         <FormTitle
           category={formData.category}

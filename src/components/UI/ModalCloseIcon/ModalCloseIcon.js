@@ -5,7 +5,11 @@ import style from "./ModalCloseIcon.module.css";
 
 function ModalCloseIcon(props) {
   return (
-    <Modal classBackdrop={props.classBackdrop} classModal={props.classModal}>
+    <Modal
+      onClick={props.onClick}
+      classBackdrop={props.classBackdrop}
+      classModal={props.classModal}
+    >
       <BtnIcon
         classText={style.text}
         classBtn={style.btn}

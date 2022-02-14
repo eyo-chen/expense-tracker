@@ -88,7 +88,11 @@ function DeleteModal(props) {
           {props.dataInfo.description}
         </DescriptionModal>
       )}
-      <Modal classModal={style.modal}>
+      <Modal
+        onClick={closeDeleteModal}
+        classBackdrop={style.backdrop}
+        classModal={style.modal}
+      >
         <div>
           <Title className={style.title}>
             are you sure <br /> to delete this data?

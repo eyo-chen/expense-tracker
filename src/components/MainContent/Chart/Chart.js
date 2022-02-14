@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ChartPic from "./ChartPic/ChartPic";
 import ChartOption from "./ChartOption/ChartOption";
 import Backdrop from "../../UI/Modal/Backdrop";
-import debounce from "../../../Others/Debounce/debounce";
 import BtnIcon from "../../UI/BtnIcon/BtnIcon";
+import useCurWidth from "../../../Others/Custom/useCurWidth";
 import style from "./Chart.module.css";
 
 function Chart() {
   const [chartData, setChartData] = useState();
   const [chartOptionModal, setChartOptionModal] = useState(false);
-  const [curWidth, setCurWidth] = useState(window.innerWidth);
+  const curWidth = useCurWidth();
 
   // need two seperate function
   function showChartOptionModalHandler() {
@@ -18,16 +18,6 @@ function Chart() {
   function closeChartOptionModalHandler() {
     setChartOptionModal(false);
   }
-
-  useEffect(() => {
-    const detectWindowWidth = debounce(function handleResize() {
-      setCurWidth(window.innerWidth);
-    }, 500);
-
-    window.addEventListener("resize", detectWindowWidth);
-
-    return () => window.removeEventListener("resize", detectWindowWidth);
-  }, []);
 
   const classOptionContainer =
     curWidth <= 900 && chartOptionModal
@@ -42,7 +32,10 @@ function Chart() {
   return (
     <div className={style.chart}>
       {curWidth <= 900 && chartOptionModal && (
-        <Backdrop classBackdrop={style.backdrop} />
+        <Backdrop
+          onClick={closeChartOptionModalHandler}
+          classBackdrop={style.backdrop}
+        />
       )}
 
       <div className={classOptionContainer}>

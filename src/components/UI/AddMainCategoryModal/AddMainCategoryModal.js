@@ -97,7 +97,7 @@ function AddMainCategoryModal(props) {
     : "empty is not allowed";
 
   return (
-    <Modal classModal={style.modal}>
+    <Modal onClick={props.addMainCategoryModalToggler} classModal={style.modal}>
       <Title className={style.title}>add main category</Title>
       <HorizontalLine />
       <form onSubmit={formSubmitHandler} className={style.form}>

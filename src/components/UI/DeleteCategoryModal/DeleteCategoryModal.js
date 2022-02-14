@@ -52,7 +52,7 @@ function DeleteCategoryModal(props) {
   }
 
   return (
-    <Modal classModal={style.modal}>
+    <Modal onClick={props.deleteModalToggler} classModal={style.modal}>
       <div className={style["title__container"]}>
         <Title className={style.title}>are you sure to delete</Title>
         <Title className={style.title}>

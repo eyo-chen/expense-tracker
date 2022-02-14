@@ -6,6 +6,10 @@
   justify-content: space-between;
 }
 
+.backdrop {
+  z-index: 500;
+}
+
 .title {
   text-align: center;
   margin: 3rem 0 10px;

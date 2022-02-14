@@ -193,7 +193,7 @@ function SettingCategory() {
   function deleteModalToggler(e) {
     categoryStateDispatch({
       type: "DELETE_CATEGORY_MODAL",
-      value: e.target.dataset.id,
+      value: e?.target.dataset.id, // Reference 3
     });
   }
 
@@ -311,4 +311,17 @@ These two functions do two things respectively
    (show and close the modal)
 2) add the category 
    (this will only invoke when there's value which is the name of new category)
+*/
+
+/*
+Reference 3
+Note that this function would be triggerd in multiple places
+Like in delete btn of both main and sub category
+AND also in the backdrop 
+Now the question is how do we invoke this function in the Backdrop component
+Here
+if (e.target.dataset.id === "backdrop" && props.onClick) props.onClick();
+We invoke function here props.onClick()
+So now e is undefined
+we have to put ? to avoid potential error happen
 */

@@ -9,10 +9,6 @@ function ExpenseListModal(props) {
   let scrollClassName = null;
   if (props.expenseDataList.length > 6) scrollClassName = "scroll";
 
-  function backClickHandler() {
-    props.expenseListModalToggler();
-  }
-
   function addClickHandler() {
     props.expenseListModalToggler();
     props.addDataFormModalToggler();
@@ -35,14 +31,14 @@ function ExpenseListModal(props) {
     );
 
   return (
-    <Modal classModal={style.modal}>
+    <Modal onClick={props.expenseListModalToggler} classModal={style.modal}>
       <SubTitle className={style.title}>{props.selectedDate}</SubTitle>
       <HorizontalLine />
       <div className={style["list__container"]}>{mainContent}</div>
 
       <div className={style["btn__container"]}>
         <Button
-          onClick={backClickHandler}
+          onClick={props.expenseListModalToggler}
           type="button"
           className={`${style.btn} uppercase transition--25`}
         >

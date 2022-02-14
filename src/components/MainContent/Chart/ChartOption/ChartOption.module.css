@@ -11,6 +11,11 @@
   display: none;
 }
 
+.btn__text {
+  font-size: 1.7rem;
+  bottom: -3rem;
+}
+
 .form {
   display: flex;
   flex-direction: column;

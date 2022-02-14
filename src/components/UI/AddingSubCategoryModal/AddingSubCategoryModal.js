@@ -75,7 +75,7 @@ function AddingSubCategoryModal(props) {
     : "empty is not allowed";
 
   return (
-    <Modal classModal={style.modal}>
+    <Modal onClick={props.addSubCategoryModalToggler} classModal={style.modal}>
       <Title className={style.title}>add sub category</Title>
       <HorizontalLine />
       <div className={style["subtitle__container"]}>

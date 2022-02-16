@@ -13,6 +13,8 @@ import FormSubCategory from "./FormSubCategory";
 import FormMainCategory from "./FormMainCategory";
 import FormTitle from "./FormTitle";
 import { v4 as uuidv4 } from "uuid";
+import { db } from "../../../firebase-config";
+import { collection, addDoc } from "firebase/firestore";
 import style from "./AddDataForm.module.css";
 
 function reducer(state, action) {
@@ -119,6 +121,7 @@ function AddDataForm(props) {
     useContext(CategoryContext);
   const mainCateExpenseArr = Object.keys(categoryExpense);
   const mainCateIncomeArr = Object.keys(categoryIncome);
+  const expenseDataCollectionRef = collection(db, "expense-data");
 
   /*
   the data storing in expenseDataProvider do NOT have
@@ -212,7 +215,7 @@ function AddDataForm(props) {
     });
   }
 
-  function formSubmitHandler(e) {
+  async function formSubmitHandler(e) {
     e.preventDefault();
 
     const newFormData = {
@@ -226,6 +229,18 @@ function AddDataForm(props) {
       year: formData.date.slice(0, 4),
       month: formData.date.slice(5, 7),
       day: formData.date.slice(8, 10),
+    };
+
+    const newFormData2 = {
+      type: formData.category,
+      mainCategory: formData.mainCategory,
+      subCategory: formData.subCategory,
+      time: formData.date,
+      year: formData.date.slice(0, 4),
+      month: formData.date.slice(5, 7),
+      day: formData.date.slice(8, 10),
+      description: formData.description,
+      price: formData.price,
     };
 
     // if props.oldExpenseData exist, it means it's editing the old data
@@ -251,6 +266,8 @@ function AddDataForm(props) {
     if (props.btnMoreToggler) props.btnMoreToggler();
 
     props.addDataFormModalToggler();
+
+    await addDoc(expenseDataCollectionRef, newFormData2);
   }
 
   return (

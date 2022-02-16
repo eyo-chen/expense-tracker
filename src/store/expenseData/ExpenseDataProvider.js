@@ -1,5 +1,14 @@
-import { useReducer } from "react";
+import { useReducer, useState, useEffect } from "react";
 import ExpenseDataContext from "./expenseData--context";
+import { db } from "../../firebase-config";
+import {
+  collection,
+  getDocs,
+  doc,
+  query,
+  orderBy,
+  onSnapshot,
+} from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
 const EXPENSE_CATEGORY = {
@@ -2165,11 +2174,23 @@ function reducer(state, action) {
 }
 
 function ExpenseDataProvider(props) {
+  const [expenseData, setExpenseData] = useState([]);
+  const expenseDataCollectionRef = collection(db, "expense-data");
+
   const [expenseDataState, expenseDataDispatch] = useReducer(
     reducer,
     reducerInitialObj
   );
-  // originalObj = expenseDataState.expenseDataSearchList;
+
+  useEffect(() => {
+    onSnapshot(expenseDataCollectionRef, (snapshot) => {
+      setExpenseData(
+        snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
+    });
+  }, []);
+
+  console.log(expenseData);
 
   function removeExpenseData(id) {
     expenseDataDispatch({ type: "DELETE", id });

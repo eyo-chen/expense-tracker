@@ -24,9 +24,8 @@ function createAccAmount(
         : compareTime(expenseData, endDayObj));
 
     if (validTimeIndex) {
-      if (expenseData.category === "expense")
-        accExpense += Number(expenseData.price);
-      else accIncome += Number(expenseData.price);
+      if (expenseData.type === "expense") accExpense += expenseData.price;
+      else accIncome += expenseData.price;
     }
   });
 

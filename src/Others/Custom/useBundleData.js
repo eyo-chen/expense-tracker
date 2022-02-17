@@ -15,9 +15,10 @@ function useBundleData(type, initialDate, fn = undefined) {
     expenseData
   );
 
-  let mainContent = createWeeklyData(initialDate);
+  let mainContent;
   if (type === "month")
     mainContent = CreateCalendarTable(initialDate, fn, expenseData);
+  else mainContent = createWeeklyData(initialDate);
 
   function modalCardToggler(e) {
     if (modalCard) setModalCard(false);

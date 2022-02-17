@@ -21,24 +21,27 @@ function ExpenseItem(props) {
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const curWidth = useCurWidth();
   const { iconObj } = useContext(CategoryContext);
-  const icon = iconObj[props.mainCate];
+  const icon = iconObj[props.mainCategory];
 
   const oldExpenseData = {
     id: props.id,
-    category: props.category,
+    type: props.type,
     mainCategoryArr: [],
-    mainCategory: props.mainCate,
+    mainCategory: props.mainCategory,
     subCategoryArr: [],
-    subCategory: props.subCate,
+    subCategory: props.subCategory,
     date: props.time,
+    year: props.year,
+    month: props.month,
+    day: props.day,
     description: props.description,
     price: props.price,
     isValid: true,
   };
 
   const deletedDataInfo = {
-    mainCate: props.mainCate,
-    subCate: props.subCate,
+    mainCategory: props.mainCategory,
+    subCategory: props.subCategory,
     price: props.price,
     time: props.time,
     description: props.description,
@@ -60,7 +63,7 @@ function ExpenseItem(props) {
   }
 
   const classMainCategory =
-    props.category === "expense"
+    props.type === "expense"
       ? `${style["item__category--blue"]}`
       : `${style["item__category--pink"]}`;
 
@@ -117,13 +120,13 @@ function ExpenseItem(props) {
       >
         <div className={style["item__info"]}>
           <div
-            title={props.mainCate}
+            title={props.mainCategory}
             className={`${style["item__category"]} ${classMainCategory} center--flex`}
           >
             {icon}
           </div>
           <div>
-            <p className="capitalize">{props.subCate}</p>
+            <p className="capitalize">{props.subCategory}</p>
             <p className={style["item__time"]}>{props.time}</p>
           </div>
           <p

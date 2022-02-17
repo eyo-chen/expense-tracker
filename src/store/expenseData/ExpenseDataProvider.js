@@ -3,11 +3,11 @@ import ExpenseDataContext from "./expenseData--context";
 import { db } from "../../firebase-config";
 import {
   collection,
-  getDocs,
-  doc,
-  query,
-  orderBy,
   onSnapshot,
+  doc,
+  addDoc,
+  deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
@@ -2177,10 +2177,10 @@ function ExpenseDataProvider(props) {
   const [expenseData, setExpenseData] = useState([]);
   const expenseDataCollectionRef = collection(db, "expense-data");
 
-  const [expenseDataState, expenseDataDispatch] = useReducer(
-    reducer,
-    reducerInitialObj
-  );
+  // const [expenseDataState, expenseDataDispatch] = useReducer(
+  //   reducer,
+  //   reducerInitialObj
+  // );
 
   useEffect(() => {
     onSnapshot(expenseDataCollectionRef, (snapshot) => {
@@ -2190,26 +2190,37 @@ function ExpenseDataProvider(props) {
     });
   }, []);
 
-  console.log(expenseData);
+  async function removeExpenseData(id) {
+    const userDocs = doc(db, "expense-data", id);
 
-  function removeExpenseData(id) {
-    expenseDataDispatch({ type: "DELETE", id });
+    await deleteDoc(userDocs);
   }
 
-  function addExpenseData(value) {
-    expenseDataDispatch({ type: "ADD", value });
+  async function addExpenseData(value) {
+    try {
+      await addDoc(expenseDataCollectionRef, value);
+    } catch (error) {
+      alert(error);
+    }
   }
 
-  function editExpenseData(value) {
-    expenseDataDispatch({ type: "EDIT", value });
+  async function editExpenseData(value, id) {
+    const userDocs = doc(db, "expense-data", id);
+
+    await updateDoc(userDocs, value);
   }
 
   function removeExpenseDataByCategory(deleteMainOrSub, value) {
-    expenseDataDispatch({ type: "DELETE_CATEGORY", deleteMainOrSub, value });
+    expenseData.forEach((data) => {
+      if (deleteMainOrSub === "main")
+        if (data.mainCategory === value) removeExpenseData(data.id);
+        else if (deleteMainOrSub === "sub")
+          if (data.subCategory === value) removeExpenseData(data.id);
+    });
   }
 
   const contextInitialObj = {
-    expenseData: expenseDataState.expenseData,
+    expenseData,
     categoryExpense: EXPENSE_CATEGORY,
     categoryIncome: INCOME_CATEGORY,
     removeExpenseData,

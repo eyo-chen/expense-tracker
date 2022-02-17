@@ -4,6 +4,7 @@ import Modal from "../Modal/Modal";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import CategoryContext from "../../../store/category/category--context";
+import SearchListDataContext from "../../../store/searchListData/searchListData--context";
 import createDateStringFormat from "../../../Others/CreateDateStringFormat/CreateDateStringFormat";
 import FormBtn from "./FormBtn";
 import FormPrice from "./FormPrice";
@@ -14,12 +15,12 @@ import FormMainCategory from "./FormMainCategory";
 import FormTitle from "./FormTitle";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "../../../firebase-config";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc } from "firebase/firestore";
 import style from "./AddDataForm.module.css";
 
 function reducer(state, action) {
   switch (action.type) {
-    case "CATEGORY": {
+    case "TYPE": {
       let mainCategoryArr, subCategoryArr;
       const categoryExpenseKeyArr = Object.keys(state.categoryExpense);
       const categoryIncomeKeyArr = Object.keys(state.categoryIncome);
@@ -41,7 +42,7 @@ function reducer(state, action) {
 
       return {
         ...state,
-        category: action.value,
+        type: action.value,
         mainCategoryArr,
         subCategoryArr,
         mainCategory:
@@ -63,7 +64,7 @@ function reducer(state, action) {
     case "MAIN_CATEGORY": {
       let subCategoryArr;
 
-      if (state.category === "expense")
+      if (state.type === "expense")
         subCategoryArr = state.categoryExpense[action.value];
       else subCategoryArr = state.categoryIncome[action.value];
 
@@ -119,35 +120,36 @@ function AddDataForm(props) {
   const [, setEditModal] = useContext(EditModalContext);
   const { categoryExpense, categoryIncome, iconObj } =
     useContext(CategoryContext);
+  const { update } = useContext(SearchListDataContext);
   const mainCateExpenseArr = Object.keys(categoryExpense);
   const mainCateIncomeArr = Object.keys(categoryIncome);
-  const expenseDataCollectionRef = collection(db, "expense-data");
 
   /*
   the data storing in expenseDataProvider do NOT have
   mainCategoryArr, subCategoryArr categoryExpense, categoryIncome, iconObj, priceTouch
   but we need this data in the form, so add them
   */
+
   let initialObj;
   if (props.oldExpenseData)
     initialObj = {
       ...props.oldExpenseData,
       mainCategoryArr:
-        props.oldExpenseData.category === "expense"
+        props.oldExpenseData.type === "expense"
           ? mainCateExpenseArr
           : mainCateIncomeArr,
       subCategoryArr:
-        props.oldExpenseData.category === "expense"
+        props.oldExpenseData.type === "expense"
           ? categoryExpense[props.oldExpenseData.mainCategory]
           : categoryIncome[props.oldExpenseData.mainCategory],
-      categoryExpense,
-      categoryIncome,
       iconObj,
       priceTouch: true,
+      categoryExpense,
+      categoryIncome,
     };
   else
     initialObj = {
-      category: "expense",
+      type: "expense",
       mainCategoryArr: mainCateExpenseArr,
       subCategoryArr: categoryExpense[mainCateExpenseArr[0]],
       mainCategory: mainCateExpenseArr[0],
@@ -170,7 +172,7 @@ function AddDataForm(props) {
   const [formData, formDataDispatch] = useReducer(reducer, initialObj);
 
   function categoryChangeHandler(e) {
-    formDataDispatch({ type: "CATEGORY", value: e.target.value });
+    formDataDispatch({ type: "TYPE", value: e.target.value });
   }
 
   function mainCategoryChangeHandler(e) {
@@ -218,21 +220,21 @@ function AddDataForm(props) {
   async function formSubmitHandler(e) {
     e.preventDefault();
 
-    const newFormData = {
-      id: props.oldExpenseData ? props.oldExpenseData.id : uuidv4(),
-      category: formData.category,
-      mainCate: formData.mainCategory,
-      subCate: formData.subCategory,
-      time: formData.date,
-      description: formData.description,
-      price: Number(formData.price),
-      year: formData.date.slice(0, 4),
-      month: formData.date.slice(5, 7),
-      day: formData.date.slice(8, 10),
-    };
+    // const newFormData = {
+    //   id: props.oldExpenseData ? props.oldExpenseData.id : uuidv4(),
+    //   category: formData.category,
+    //   mainCate: formData.mainCategory,
+    //   subCate: formData.subCategory,
+    //   time: formData.date,
+    //   description: formData.description,
+    //   price: Number(formData.price),
+    //   year: formData.date.slice(0, 4),
+    //   month: formData.date.slice(5, 7),
+    //   day: formData.date.slice(8, 10),
+    // };
 
-    const newFormData2 = {
-      type: formData.category,
+    const newFormData = {
+      type: formData.type,
       mainCategory: formData.mainCategory,
       subCategory: formData.subCategory,
       time: formData.date,
@@ -240,17 +242,19 @@ function AddDataForm(props) {
       month: formData.date.slice(5, 7),
       day: formData.date.slice(8, 10),
       description: formData.description,
-      price: formData.price,
+      price: Number(formData.price),
     };
 
     // if props.oldExpenseData exist, it means it's editing the old data
     if (props.oldExpenseData) {
-      editExpenseData(newFormData);
+      editExpenseData(newFormData, props.oldExpenseData.id);
       setEditModal({
         show: true,
         type: "data",
         value: "edit",
       });
+
+      update(newFormData, props.oldExpenseData.id);
     }
     // add new data
     else {
@@ -266,15 +270,13 @@ function AddDataForm(props) {
     if (props.btnMoreToggler) props.btnMoreToggler();
 
     props.addDataFormModalToggler();
-
-    await addDoc(expenseDataCollectionRef, newFormData2);
   }
 
   return (
     <Modal onClick={props.addDataFormModalToggler} classModal={style.modal}>
       <form onSubmit={formSubmitHandler} className={style.form}>
         <FormTitle
-          category={formData.category}
+          type={formData.type}
           categoryChangeHandler={categoryChangeHandler}
         />
 
@@ -282,7 +284,7 @@ function AddDataForm(props) {
         <div className={style["form__container"]}>
           <FormMainCategory
             mainCategory={formData.mainCategory}
-            type={formData.category}
+            type={formData.type}
             icon={formData.icon}
             mainCategoryChangeHandler={mainCategoryChangeHandler}
             mainCategoryArr={formData.mainCategoryArr}

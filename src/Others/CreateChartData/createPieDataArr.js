@@ -1,21 +1,12 @@
-import compareTimeWithRange from "../CompareTime/compareTimeWithRange";
-
-function createPieDataArr(startingDate, endingDate, expenseData, mainCategory) {
-  const filteredData = expenseData.filter(
-    (element) =>
-      compareTimeWithRange(
-        element,
-        new Date(startingDate),
-        new Date(endingDate)
-      ) && element.category === mainCategory
-  );
+function createPieDataArr(expenseData, type) {
+  const filteredData = expenseData.filter((element) => element.type === type);
 
   // Reference 1
   const dataObj = {};
   for (let data of filteredData) {
-    if (dataObj[data.mainCate] !== undefined)
-      dataObj[data.mainCate] += Number(data.price);
-    else dataObj[data.mainCate] = Number(data.price);
+    if (dataObj[data.mainCategory] !== undefined)
+      dataObj[data.mainCategory] += data.price;
+    else dataObj[data.mainCategory] = data.price;
   }
 
   return [Object.keys(dataObj), Object.values(dataObj)];

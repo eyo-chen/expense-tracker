@@ -1,5 +1,17 @@
-import { useReducer } from "react";
+import { useReducer, useState, useEffect } from "react";
 import CategoryContext from "./category--context";
+import { db } from "../../firebase-config";
+import {
+  collection,
+  onSnapshot,
+  doc,
+  addDoc,
+  deleteDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
+
 import style from "./CategoryProvider.module.css";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { IoIosShirt } from "react-icons/io";
@@ -56,6 +68,15 @@ import {
 
 import { MdAudiotrack } from "react-icons/md";
 import { IoAmericanFootball } from "react-icons/io5";
+
+import ReactDOMServer from "react-dom/server";
+
+function encodeSvg(reactElement) {
+  return (
+    "data:image/svg+xml," +
+    escape(ReactDOMServer.renderToStaticMarkup(reactElement))
+  );
+}
 
 const iconArr = [
   <BsFillHeartFill className={style.icon} />,
@@ -225,6 +246,49 @@ function reducer(state, action) {
 }
 
 function CategoryProvider(props) {
+  const categoryExpenseCollectionRef = collection(db, "category-expense");
+  const categoryIncomeCollectionRef = collection(db, "category-income");
+  const [categoryExpense, setCategoryExpense] = useState({});
+  const [categoryIncome, setCategoryIncome] = useState({});
+
+  useEffect(() => {
+    onSnapshot(categoryExpenseCollectionRef, (snapshot) => {
+      const categoryExpenseObj = {};
+      const targetObj =
+        snapshot.docs[0]["_document"].data.value.mapValue.fields;
+
+      const keys = Object.keys(targetObj);
+
+      keys.forEach((key) => {
+        const values = targetObj[key].arrayValue.values.map(
+          (val) => val.stringValue
+        );
+
+        categoryExpenseObj[key] = values;
+      });
+
+      setCategoryExpense(categoryExpenseObj);
+    });
+
+    onSnapshot(categoryIncomeCollectionRef, (snapshot) => {
+      const categoryIncomeObj = {};
+      const targetObj =
+        snapshot.docs[0]["_document"].data.value.mapValue.fields;
+
+      const keys = Object.keys(targetObj);
+
+      keys.forEach((key) => {
+        const values = targetObj[key].arrayValue.values.map(
+          (val) => val.stringValue
+        );
+
+        categoryIncomeObj[key] = values;
+      });
+
+      setCategoryIncome(categoryIncomeObj);
+    });
+  }, []);
+
   const [categoryState, categoryDispatch] = useReducer(reducer, {
     categoryExpense: EXPENSE_CATEGORY,
     categoryIncome: INCOME_CATEGORY,
@@ -245,8 +309,15 @@ function CategoryProvider(props) {
     });
   }
 
-  function addMainCategory(value, iconIndex, category) {
+  async function addMainCategory(value, iconIndex, category) {
     categoryDispatch({ type: "ADD_MAIN_CATEGORY", value, iconIndex, category });
+
+    // const washingtonRef = doc(db, "cities", "DC");
+
+    // // Atomically add a new region to the "regions" array field.
+    // await updateDoc(washingtonRef, {
+    //   regions: arrayUnion("greater_virginia"),
+    // });
   }
 
   function addSubCategory(value, category, mainCategory) {
@@ -259,8 +330,8 @@ function CategoryProvider(props) {
   }
 
   const contextInitialObj = {
-    categoryExpense: categoryState.categoryExpense,
-    categoryIncome: categoryState.categoryIncome,
+    categoryExpense,
+    categoryIncome,
     iconObj: categoryState.iconObj,
     iconArr: categoryState.iconArr,
     removeMainCategory,

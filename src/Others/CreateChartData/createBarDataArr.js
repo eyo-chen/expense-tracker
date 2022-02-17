@@ -54,13 +54,13 @@ function createBarDataArr(
       }
 
       if (timeValidIndex) {
-        if (filteredData[indexData].category === mainCategory) {
+        if (filteredData[indexData].type === mainCategory) {
           // Reference 3
           if (
             checkboxNoChange ||
-            subCategory.includes(filteredData[indexData].mainCate)
+            subCategory.includes(filteredData[indexData].mainCategory)
           ) {
-            currentAmount += Number(filteredData[indexData].price);
+            currentAmount += filteredData[indexData].price;
           }
         }
 

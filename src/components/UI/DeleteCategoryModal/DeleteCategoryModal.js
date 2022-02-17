@@ -19,13 +19,13 @@ function DeleteCategoryModal(props) {
   // main category
   if (props.deleteMainOrSub === "main") {
     expenseItem = expenseData.filter(
-      (element) => element.mainCate === props.clickingCategoryForDelete
+      (element) => element.mainCategory === props.clickingCategoryForDelete
     );
   }
   // sub category
   else if (props.deleteMainOrSub === "sub") {
     expenseItem = expenseData.filter(
-      (element) => element.subCate === props.clickingCategoryForDelete
+      (element) => element.subCatetegory === props.clickingCategoryForDelete
     );
   }
 

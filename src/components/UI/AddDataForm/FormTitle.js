@@ -13,7 +13,7 @@ function FormTitle(props) {
         value="expense"
         id="expense"
         onChange={props.categoryChangeHandler}
-        checked={props.category === "expense"}
+        checked={props.type === "expense"}
       />
       <InputRadio
         classInput={style.input}
@@ -24,7 +24,7 @@ function FormTitle(props) {
         value="income"
         id="income"
         onChange={props.categoryChangeHandler}
-        checked={props.category === "income"}
+        checked={props.type === "income"}
       />
     </div>
   );

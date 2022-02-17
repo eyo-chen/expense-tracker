@@ -8,6 +8,7 @@ function SearchList(props) {
   const { expenseData } = useContext(SearchListDataContext);
 
   let mainContent = <p className={style.empty}>No Data</p>;
+
   if (expenseData.length !== 0)
     mainContent = (
       <ExpenseList

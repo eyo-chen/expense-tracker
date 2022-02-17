@@ -6,10 +6,13 @@ function ExpenseList(props) {
   const expenseItem = props.data.map((expense, i) => (
     <Fragment key={expense.id}>
       <ExpenseItem
-        category={expense.category}
-        mainCate={expense.mainCate}
-        subCate={expense.subCate}
+        type={expense.type}
+        mainCategory={expense.mainCategory}
+        subCategory={expense.subCategory}
         time={expense.time}
+        year={expense.year}
+        month={expense.month}
+        day={expense.day}
         description={expense.description}
         price={expense.price}
         id={expense.id}

@@ -115,8 +115,8 @@ function createMonthData(date, expenseData, lastOfCurMonthDate) {
 
     // only store the data of current month
     if (curYear === dataYear && curMonth === dataMonth) {
-      if (data.category === "expense") expenseDaySet.add(dataDay);
-      else if (data.category === "income") incomeDaySet.add(dataDay);
+      if (data.type === "expense") expenseDaySet.add(dataDay);
+      else if (data.type === "income") incomeDaySet.add(dataDay);
     }
   });
 

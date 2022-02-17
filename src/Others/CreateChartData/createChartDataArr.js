@@ -54,9 +54,7 @@ function createChartDataArr(
   // pie chart
   else
     [labels, data] = createPieDataArr(
-      startingDate,
-      endingDate,
-      expenseData,
+      createFilteredData(null, expenseData, startingDate, endingDate),
       mainCategory
     );
 

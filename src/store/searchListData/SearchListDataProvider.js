@@ -112,23 +112,41 @@ function reducer(state, action) {
       return { ...state, expenseData: newState };
     }
 
+    case "UPDATE": {
+      const newExpenseData = state.expenseData.map((data) => {
+        if (data.id === action.id) {
+          return { ...action.value };
+        } else return data;
+      });
+
+      return { ...state, expenseData: newExpenseData };
+    }
+
     default:
       return state;
   }
 }
 
 function SearchListDataProvider(props) {
-  const expenseDataCtx = useContext(ExpenseDataContext);
+  const { expenseData } = useContext(ExpenseDataContext);
   const [filteredData, setFilteredData] = useReducer(reducer, {
     constraintObj: {},
-    expenseData: expenseDataCtx.expenseData,
+    expenseData: expenseData,
   });
 
-  originalData = expenseDataCtx.expenseData;
+  function update(expenseData, id) {
+    setFilteredData({ type: "UPDATE", value: expenseData, id });
+  }
+
+  // // console.log(expenseData);
+  // console.log(filteredData.expenseData);
+
+  originalData = expenseData;
 
   const SearchListDataContextInitialObject = {
     setFilteredData,
     expenseData: filteredData.expenseData,
+    update,
   };
 
   return (

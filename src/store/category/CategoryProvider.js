@@ -69,14 +69,48 @@ import {
 import { MdAudiotrack } from "react-icons/md";
 import { IoAmericanFootball } from "react-icons/io5";
 
-import ReactDOMServer from "react-dom/server";
+// import ReactDOMServer from "react-dom/server";
 
-function encodeSvg(reactElement) {
-  return (
-    "data:image/svg+xml," +
-    escape(ReactDOMServer.renderToStaticMarkup(reactElement))
-  );
-}
+// function encodeSvg(reactElement) {
+//   return (
+//     "data:image/svg+xml," +
+//     escape(ReactDOMServer.renderToStaticMarkup(reactElement))
+//   );
+// }
+
+// console.log(String(encodeSvg(<RiPingPongFill />)));
+
+// const test = [
+//   <IoFastFoodSharp />,
+//   <IoIosShirt />,
+//   <GiFamilyHouse />,
+//   <AiFillCar />,
+//   <ImBook />,
+//   <IoLogoGameControllerB />,
+//   <RiMoneyDollarCircleFill />,
+//   <BsTrophy />,
+//   <RiHandCoinFill />,
+//   <AiOutlineStock />,
+//   <FiAlignCenter />,
+// ];
+// const keys = Object.keys(iconObj);
+// for (let i = 0; i < test.length; i++) {
+//   console.log(keys[i], encodeSvg(test[i]));
+// }
+
+const iconObj = {
+  food: <IoFastFoodSharp className={style.icon} />,
+  clothing: <IoIosShirt className={style.icon} />,
+  housing: <GiFamilyHouse className={style.icon} />,
+  transportation: <AiFillCar className={style.icon} />,
+  education: <ImBook className={style.icon} />,
+  entertainment: <IoLogoGameControllerB className={style.icon} />,
+  salary: <RiMoneyDollarCircleFill className={style.icon} />,
+  investment: <BsTrophy className={style.icon} />,
+  bonus: <RiHandCoinFill className={style.icon} />,
+  stock: <AiOutlineStock className={style.icon} />,
+  others: <FiAlignCenter className={style.icon} />,
+};
 
 const iconArr = [
   <BsFillHeartFill className={style.icon} />,
@@ -116,20 +150,6 @@ const iconArr = [
   <MdAudiotrack className={style.icon} />,
   <IoAmericanFootball className={style.icon} />,
 ];
-
-const iconObj = {
-  food: <IoFastFoodSharp className={style.icon} />,
-  clothing: <IoIosShirt className={style.icon} />,
-  housing: <GiFamilyHouse className={style.icon} />,
-  transportation: <AiFillCar className={style.icon} />,
-  education: <ImBook className={style.icon} />,
-  entertainment: <IoLogoGameControllerB className={style.icon} />,
-  salary: <RiMoneyDollarCircleFill className={style.icon} />,
-  investment: <BsTrophy className={style.icon} />,
-  bonus: <RiHandCoinFill className={style.icon} />,
-  stock: <AiOutlineStock className={style.icon} />,
-  others: <FiAlignCenter className={style.icon} />,
-};
 
 const EXPENSE_CATEGORY = {
   food: ["breakfast", "brunch", "lunch", "dinner", "snack", "drink"],
@@ -246,48 +266,69 @@ function reducer(state, action) {
 }
 
 function CategoryProvider(props) {
-  const categoryExpenseCollectionRef = collection(db, "category-expense");
-  const categoryIncomeCollectionRef = collection(db, "category-income");
-  const [categoryExpense, setCategoryExpense] = useState({});
-  const [categoryIncome, setCategoryIncome] = useState({});
+  // const categoryExpenseCollectionRef = collection(db, "category-expense");
+  // const categoryIncomeCollectionRef = collection(db, "category-income");
+  // const userRef = collection(db, "users");
+  // const iconCollectionRef = collection(db, "icon");
+  // const [categoryExpense, setCategoryExpense] = useState({});
+  // const [categoryIncome, setCategoryIncome] = useState({});
+  // const [iconObjTes, setIconObjTes] = useState({});
 
-  useEffect(() => {
-    onSnapshot(categoryExpenseCollectionRef, (snapshot) => {
-      const categoryExpenseObj = {};
-      const targetObj =
-        snapshot.docs[0]["_document"].data.value.mapValue.fields;
+  // useEffect(() => {
+  //   onSnapshot(categoryExpenseCollectionRef, (snapshot) => {
+  //     const categoryExpenseObj = {};
+  //     const targetObj =
+  //       snapshot.docs[0]["_document"].data.value.mapValue.fields;
 
-      const keys = Object.keys(targetObj);
+  //     const keys = Object.keys(targetObj);
 
-      keys.forEach((key) => {
-        const values = targetObj[key].arrayValue.values.map(
-          (val) => val.stringValue
-        );
+  //     keys.forEach((key) => {
+  //       const subArrObj = targetObj[key].arrayValue.values;
+  //       const values = subArrObj ? subArrObj.map((val) => val.stringValue) : [];
 
-        categoryExpenseObj[key] = values;
-      });
+  //       categoryExpenseObj[key] = values;
+  //     });
 
-      setCategoryExpense(categoryExpenseObj);
-    });
+  //     setCategoryExpense(categoryExpenseObj);
+  //   });
 
-    onSnapshot(categoryIncomeCollectionRef, (snapshot) => {
-      const categoryIncomeObj = {};
-      const targetObj =
-        snapshot.docs[0]["_document"].data.value.mapValue.fields;
+  //   onSnapshot(categoryIncomeCollectionRef, (snapshot) => {
+  //     const categoryIncomeObj = {};
+  //     const targetObj =
+  //       snapshot.docs[0]["_document"].data.value.mapValue.fields;
 
-      const keys = Object.keys(targetObj);
+  //     const keys = Object.keys(targetObj);
 
-      keys.forEach((key) => {
-        const values = targetObj[key].arrayValue.values.map(
-          (val) => val.stringValue
-        );
+  //     keys.forEach((key) => {
+  //       const values = targetObj[key].arrayValue.values.map(
+  //         (val) => val.stringValue
+  //       );
 
-        categoryIncomeObj[key] = values;
-      });
+  //       categoryIncomeObj[key] = values;
+  //     });
 
-      setCategoryIncome(categoryIncomeObj);
-    });
-  }, []);
+  //     setCategoryIncome(categoryIncomeObj);
+  //   });
+
+  //   onSnapshot(iconCollectionRef, (snapshot) => {
+  //     const iconObj = {};
+
+  //     snapshot.docs.forEach((doc) => {
+  //       const id = doc.id;
+  //       const targetObj = doc["_document"].data.value.mapValue.fields;
+  //       const [iconName] = Object.keys(targetObj);
+  //       const url = targetObj[iconName].stringValue;
+
+  //       iconObj[iconName] = [id, url];
+  //     });
+
+  //     setIconObjTes(iconObj);
+  //   });
+
+  //   onSnapshot(userRef, (snapshot) => {
+  //     console.log(snapshot.docs);
+  //   });
+  // }, []);
 
   const [categoryState, categoryDispatch] = useReducer(reducer, {
     categoryExpense: EXPENSE_CATEGORY,
@@ -312,26 +353,31 @@ function CategoryProvider(props) {
   async function addMainCategory(value, iconIndex, category) {
     categoryDispatch({ type: "ADD_MAIN_CATEGORY", value, iconIndex, category });
 
-    // const washingtonRef = doc(db, "cities", "DC");
+    // const washingtonRef = doc(db, "category-expense", "L06cvqpk8QmD9Q2yKyB7");
 
-    // // Atomically add a new region to the "regions" array field.
     // await updateDoc(washingtonRef, {
-    //   regions: arrayUnion("greater_virginia"),
+    //   ever: [],
     // });
   }
 
-  function addSubCategory(value, category, mainCategory) {
+  async function addSubCategory(value, category, mainCategory) {
     categoryDispatch({
       type: "ADD_SUB_CATEGORY",
       value,
       category,
       mainCategory,
     });
+
+    // add sub category
+    // const washingtonRef = doc(db, "category-expense", "L06cvqpk8QmD9Q2yKyB7");
+    // await updateDoc(washingtonRef, {
+    //   clothing: arrayUnion("greater_virginia"),
+    // });
   }
 
   const contextInitialObj = {
-    categoryExpense,
-    categoryIncome,
+    categoryExpense: categoryState.categoryExpense,
+    categoryIncome: categoryState.categoryIncome,
     iconObj: categoryState.iconObj,
     iconArr: categoryState.iconArr,
     removeMainCategory,

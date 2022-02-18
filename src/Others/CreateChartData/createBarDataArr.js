@@ -60,7 +60,7 @@ function createBarDataArr(
             checkboxNoChange ||
             subCategory.includes(filteredData[indexData].mainCategory)
           ) {
-            currentAmount += filteredData[indexData].price;
+            currentAmount += Number(filteredData[indexData].price);
           }
         }
 

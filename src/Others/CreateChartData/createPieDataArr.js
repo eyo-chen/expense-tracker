@@ -5,8 +5,8 @@ function createPieDataArr(expenseData, type) {
   const dataObj = {};
   for (let data of filteredData) {
     if (dataObj[data.mainCategory] !== undefined)
-      dataObj[data.mainCategory] += data.price;
-    else dataObj[data.mainCategory] = data.price;
+      dataObj[data.mainCategory] += Number(data.price);
+    else dataObj[data.mainCategory] = Number(data.price);
   }
 
   return [Object.keys(dataObj), Object.values(dataObj)];

@@ -150,6 +150,16 @@ function reducer(state, action) {
       } else return state;
     }
 
+    case "UPDATE": {
+      // const mainCategoryArr = state.mainCategoryArr.map((data) => {
+      //   if (data.id === action.id) {
+      //     return { ...action.value };
+      //   } else return data;
+      // });
+
+      return { ...state, mainCategoryArr: action.value };
+    }
+
     default: {
       return state;
     }
@@ -221,6 +231,8 @@ function SettingCategory() {
   // Referecne 2
   function addMainCategoryModalToggler(e, value) {
     categoryStateDispatch({ type: "ADD_MAIN_CATEGORY_MODAL" });
+
+    // categoryStateDispatch({ type: "UPDATE", value: categoryExpense });
 
     if (value) categoryStateDispatch({ type: "ADD_MAIN_CATEGORY", value });
   }

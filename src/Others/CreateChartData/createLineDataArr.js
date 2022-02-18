@@ -23,8 +23,8 @@ function createLineDataArr(labels, expenseData) {
       curLabelTime = new Date(labels[++labelIndex]);
       finalDataArr.push(curAccIncome - curAccExpense);
     } else {
-      if (data.type === "expense") curAccExpense += data.price;
-      else curAccIncome += data.price;
+      if (data.type === "expense") curAccExpense += Number(data.price);
+      else curAccIncome += Number(data.price);
 
       expenseDataIndex++;
     }

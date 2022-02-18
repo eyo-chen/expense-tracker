@@ -12,7 +12,7 @@ function AccountSmallChart() {
   const chartRef = useRef(null);
 
   const filteredData = expenseData.filter(
-    (element) => element.category === "expense"
+    (element) => element.type === "expense"
   );
 
   useEffect(() => {
@@ -102,9 +102,9 @@ function createCacheTable(expensData) {
 
   // create three diff tables in O(n) time
   expensData.forEach((data) => {
-    if (cacheTableCategory[data.mainCate] !== undefined) {
-      cacheTableCategory[data.mainCate] += Number(data.price);
-    } else cacheTableCategory[data.mainCate] = Number(data.price);
+    if (cacheTableCategory[data.mainCategory] !== undefined)
+      cacheTableCategory[data.mainCategory] += Number(data.price);
+    else cacheTableCategory[data.mainCategory] = Number(data.price);
 
     cacheTableMonth[Number(data.month) - 1] += Number(data.price);
     cacheTableDay[new Date(data.time).getDay()] += Number(data.price);

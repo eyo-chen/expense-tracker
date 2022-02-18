@@ -14,8 +14,6 @@ import FormSubCategory from "./FormSubCategory";
 import FormMainCategory from "./FormMainCategory";
 import FormTitle from "./FormTitle";
 import { v4 as uuidv4 } from "uuid";
-import { db } from "../../../firebase-config";
-import { collection, addDoc, doc } from "firebase/firestore";
 import style from "./AddDataForm.module.css";
 
 function reducer(state, action) {
@@ -120,7 +118,6 @@ function AddDataForm(props) {
   const [, setEditModal] = useContext(EditModalContext);
   const { categoryExpense, categoryIncome, iconObj } =
     useContext(CategoryContext);
-  const { update } = useContext(SearchListDataContext);
   const mainCateExpenseArr = Object.keys(categoryExpense);
   const mainCateIncomeArr = Object.keys(categoryIncome);
 
@@ -220,20 +217,8 @@ function AddDataForm(props) {
   async function formSubmitHandler(e) {
     e.preventDefault();
 
-    // const newFormData = {
-    //   id: props.oldExpenseData ? props.oldExpenseData.id : uuidv4(),
-    //   category: formData.category,
-    //   mainCate: formData.mainCategory,
-    //   subCate: formData.subCategory,
-    //   time: formData.date,
-    //   description: formData.description,
-    //   price: Number(formData.price),
-    //   year: formData.date.slice(0, 4),
-    //   month: formData.date.slice(5, 7),
-    //   day: formData.date.slice(8, 10),
-    // };
-
     const newFormData = {
+      id: props.oldExpenseData ? props.oldExpenseData.id : uuidv4(),
       type: formData.type,
       mainCategory: formData.mainCategory,
       subCategory: formData.subCategory,
@@ -245,6 +230,18 @@ function AddDataForm(props) {
       price: Number(formData.price),
     };
 
+    // const newFormData = {
+    //   type: formData.type,
+    //   mainCategory: formData.mainCategory,
+    //   subCategory: formData.subCategory,
+    //   time: formData.date,
+    //   year: formData.date.slice(0, 4),
+    //   month: formData.date.slice(5, 7),
+    //   day: formData.date.slice(8, 10),
+    //   description: formData.description,
+    //   price: Number(formData.price),
+    // };
+
     // if props.oldExpenseData exist, it means it's editing the old data
     if (props.oldExpenseData) {
       editExpenseData(newFormData, props.oldExpenseData.id);
@@ -254,7 +251,7 @@ function AddDataForm(props) {
         value: "edit",
       });
 
-      update(newFormData, props.oldExpenseData.id);
+      // update(newFormData, props.oldExpenseData.id);
     }
     // add new data
     else {

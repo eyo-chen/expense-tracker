@@ -312,7 +312,6 @@ body {
 
 .transition--25 {
   transition: all 0.25s linear;
-  -webkit-transition: all 0.25s linear;
 }
 
 .input {

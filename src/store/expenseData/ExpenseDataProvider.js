@@ -2175,7 +2175,12 @@ function reducer(state, action) {
 
 function ExpenseDataProvider(props) {
   // const [expenseData, setExpenseData] = useState([]);
-  // const expenseDataCollectionRef = collection(db, "expense-data");
+  // const expenseDataCollectionRef = collection(
+  //   db,
+  //   "users",
+  //   "0v0byR6gkOFkmTcGCUvi",
+  //   "data"
+  // );
 
   const [expenseDataState, expenseDataDispatch] = useReducer(
     reducer,
@@ -2184,9 +2189,10 @@ function ExpenseDataProvider(props) {
 
   // useEffect(() => {
   //   onSnapshot(expenseDataCollectionRef, (snapshot) => {
-  //     setExpenseData(
-  //       snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  //     );
+  //     console.log(snapshot);
+  //     // setExpenseData(
+  //     //   snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+  //     // );
   //   });
   // }, []);
 

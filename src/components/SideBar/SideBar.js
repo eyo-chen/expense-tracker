@@ -8,6 +8,12 @@ import { SiCashapp } from "react-icons/si";
 import SideBarItem from "./SideBarItem";
 import style from "./SideBar.module.css";
 
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-config";
+
+import { useContext } from "react";
+import UserInfoContext from "../../store/userInfo/userInfo--context";
+
 const SIDEBAR__ICON = [
   [
     "Home",
@@ -76,6 +82,10 @@ function SideBar(props) {
     );
   });
 
+  function signedOut() {
+    signOut(auth);
+  }
+
   return (
     <aside
       className={`${style.sidebar} ${
@@ -100,6 +110,7 @@ function SideBar(props) {
         <p>
           {new Intl.DateTimeFormat("en-US", dateOptObj1).format(props.today)}
         </p>
+        <span onClick={signedOut}>G</span>
       </div>
     </aside>
   );

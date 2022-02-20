@@ -1,16 +1,8 @@
 import { useReducer, useState, useEffect } from "react";
 import CategoryContext from "./category--context";
-import { db } from "../../firebase-config";
-import {
-  collection,
-  onSnapshot,
-  doc,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
-} from "firebase/firestore";
+import { db, auth } from "../../firebase-config";
+
+import { onSnapshot, doc, updateDoc } from "firebase/firestore";
 
 import style from "./CategoryProvider.module.css";
 import { IoFastFoodSharp } from "react-icons/io5";
@@ -52,6 +44,7 @@ import {
   FaMapMarkedAlt,
   FaPhone,
   FaUserGraduate,
+  FaUserSlash,
 } from "react-icons/fa";
 
 import {
@@ -69,34 +62,154 @@ import {
 import { MdAudiotrack } from "react-icons/md";
 import { IoAmericanFootball } from "react-icons/io5";
 
-// import ReactDOMServer from "react-dom/server";
+import ReactDOMServer from "react-dom/server";
+import createInitialData from "../../Others/CreateInitialData/createInitialData";
 
-// function encodeSvg(reactElement) {
-//   return (
-//     "data:image/svg+xml," +
-//     escape(ReactDOMServer.renderToStaticMarkup(reactElement))
-//   );
-// }
+function CategoryProvider(props) {
+  const user = auth.currentUser;
+  let userID = "dcwecwe";
+  if (user) {
+    const { displayName, email } = user;
+    userID = `${email}${displayName.split(" ").join("")}`;
+  }
+  const userDocRef = doc(db, "users", userID);
 
-// console.log(String(encodeSvg(<RiPingPongFill />)));
+  const [categoryExpense, setCategoryExpense] = useState({});
+  const [categoryIncome, setCategoryIncome] = useState({});
+  const [iconArr, setIconArr] = useState([]);
+  const [iconObj, setIconObj] = useState({});
 
-// const test = [
-//   <IoFastFoodSharp />,
-//   <IoIosShirt />,
-//   <GiFamilyHouse />,
-//   <AiFillCar />,
-//   <ImBook />,
-//   <IoLogoGameControllerB />,
-//   <RiMoneyDollarCircleFill />,
-//   <BsTrophy />,
-//   <RiHandCoinFill />,
-//   <AiOutlineStock />,
-//   <FiAlignCenter />,
-// ];
-// const keys = Object.keys(iconObj);
-// for (let i = 0; i < test.length; i++) {
-//   console.log(keys[i], encodeSvg(test[i]));
-// }
+  useEffect(() => {
+    if (!user) return;
+    onSnapshot(userDocRef, (snapshot) => {
+      const { categoryExpense, categoryIncome, iconArr, iconObj } =
+        snapshot.data();
+
+      setCategoryExpense(categoryExpense);
+      setCategoryIncome(categoryIncome);
+      setIconArr(iconArr);
+      setIconObj(iconObj);
+    });
+  }, [user]);
+
+  // const [categoryState, categoryDispatch] = useReducer(reducer, {
+  //   categoryExpense: EXPENSE_CATEGORY,
+  //   categoryIncome: INCOME_CATEGORY,
+  //   iconObj,
+  //   iconArr,
+  // });
+
+  async function removeMainCategory(value, type) {
+    const icon = iconObj[value];
+    const newIconArr = [...iconArr, icon];
+    const newIconObj = { ...iconObj };
+    const newMainCategory = {
+      ...(type === "expense" ? categoryExpense : categoryIncome),
+    };
+    delete newMainCategory[value];
+    delete newIconObj[value];
+
+    if (type === "expense")
+      await updateDoc(userDocRef, {
+        categoryExpense: newMainCategory,
+        iconArr: newIconArr,
+        iconObj: newIconObj,
+      });
+    else
+      await updateDoc(userDocRef, {
+        categoryIncome: newMainCategory,
+        iconArr: newIconArr,
+        iconObj: newIconObj,
+      });
+  }
+
+  async function removeSubCategory(value, type, mainCategory) {
+    const newMainCategory = {
+      ...(type === "expense" ? categoryExpense : categoryIncome),
+    };
+    newMainCategory[mainCategory] = newMainCategory[mainCategory].filter(
+      (category) => category !== value
+    );
+
+    if (type === "expense")
+      await updateDoc(userDocRef, {
+        categoryExpense: newMainCategory,
+      });
+    else if (type === "income")
+      await updateDoc(userDocRef, {
+        categoryIncome: newMainCategory,
+      });
+  }
+
+  async function addMainCategory(value, iconIndex, type) {
+    const icon = iconArr[iconIndex];
+    const newIconArr = iconArr.filter(
+      (icon, index) => index !== Number(iconIndex)
+    );
+    const newIconObj = { ...iconObj };
+    newIconObj[value] = icon;
+
+    const newMainCategory = {
+      ...(type === "expense" ? categoryExpense : categoryIncome),
+    };
+    newMainCategory[value] = [];
+
+    if (type === "expense")
+      await updateDoc(userDocRef, {
+        categoryExpense: newMainCategory,
+        iconArr: newIconArr,
+        iconObj: newIconObj,
+      });
+    else
+      await updateDoc(userDocRef, {
+        categoryIncome: newMainCategory,
+        iconArr: newIconArr,
+        iconObj: newIconObj,
+      });
+  }
+
+  async function addSubCategory(value, type, mainCategory) {
+    const newMainCategory = {
+      ...(type === "expense" ? categoryExpense : categoryIncome),
+    };
+    newMainCategory[mainCategory] = [...newMainCategory[mainCategory], value];
+
+    if (type === "expense")
+      await updateDoc(userDocRef, {
+        categoryExpense: newMainCategory,
+      });
+    else if (type === "income")
+      await updateDoc(userDocRef, {
+        categoryIncome: newMainCategory,
+      });
+  }
+
+  const contextInitialObj = {
+    categoryExpense,
+    categoryIncome,
+    iconObj,
+    iconArr,
+    removeMainCategory,
+    removeSubCategory,
+    addMainCategory,
+    addSubCategory,
+  };
+
+  return (
+    <CategoryContext.Provider value={contextInitialObj}>
+      {props.children}
+    </CategoryContext.Provider>
+  );
+}
+
+export default CategoryProvider;
+
+function encodeSvg(reactElement) {
+  return (
+    "data:image/svg+xml," +
+    escape(ReactDOMServer.renderToStaticMarkup(reactElement))
+  );
+}
 
 const iconObj = {
   food: <IoFastFoodSharp className={style.icon} />,
@@ -264,133 +377,3 @@ function reducer(state, action) {
       break;
   }
 }
-
-function CategoryProvider(props) {
-  // const categoryExpenseCollectionRef = collection(db, "category-expense");
-  // const categoryIncomeCollectionRef = collection(db, "category-income");
-  // const userRef = collection(db, "users");
-  // const iconCollectionRef = collection(db, "icon");
-  // const [categoryExpense, setCategoryExpense] = useState({});
-  // const [categoryIncome, setCategoryIncome] = useState({});
-  // const [iconObjTes, setIconObjTes] = useState({});
-
-  // useEffect(() => {
-  //   onSnapshot(categoryExpenseCollectionRef, (snapshot) => {
-  //     const categoryExpenseObj = {};
-  //     const targetObj =
-  //       snapshot.docs[0]["_document"].data.value.mapValue.fields;
-
-  //     const keys = Object.keys(targetObj);
-
-  //     keys.forEach((key) => {
-  //       const subArrObj = targetObj[key].arrayValue.values;
-  //       const values = subArrObj ? subArrObj.map((val) => val.stringValue) : [];
-
-  //       categoryExpenseObj[key] = values;
-  //     });
-
-  //     setCategoryExpense(categoryExpenseObj);
-  //   });
-
-  //   onSnapshot(categoryIncomeCollectionRef, (snapshot) => {
-  //     const categoryIncomeObj = {};
-  //     const targetObj =
-  //       snapshot.docs[0]["_document"].data.value.mapValue.fields;
-
-  //     const keys = Object.keys(targetObj);
-
-  //     keys.forEach((key) => {
-  //       const values = targetObj[key].arrayValue.values.map(
-  //         (val) => val.stringValue
-  //       );
-
-  //       categoryIncomeObj[key] = values;
-  //     });
-
-  //     setCategoryIncome(categoryIncomeObj);
-  //   });
-
-  //   onSnapshot(iconCollectionRef, (snapshot) => {
-  //     const iconObj = {};
-
-  //     snapshot.docs.forEach((doc) => {
-  //       const id = doc.id;
-  //       const targetObj = doc["_document"].data.value.mapValue.fields;
-  //       const [iconName] = Object.keys(targetObj);
-  //       const url = targetObj[iconName].stringValue;
-
-  //       iconObj[iconName] = [id, url];
-  //     });
-
-  //     setIconObjTes(iconObj);
-  //   });
-
-  //   onSnapshot(userRef, (snapshot) => {
-  //     console.log(snapshot.docs);
-  //   });
-  // }, []);
-
-  const [categoryState, categoryDispatch] = useReducer(reducer, {
-    categoryExpense: EXPENSE_CATEGORY,
-    categoryIncome: INCOME_CATEGORY,
-    iconObj,
-    iconArr,
-  });
-
-  function removeMainCategory(value, category) {
-    categoryDispatch({ type: "REMOVE_MAIN_CATEGORY", value, category });
-  }
-
-  function removeSubCategory(value, category, mainCategory) {
-    categoryDispatch({
-      type: "REMOVE_SUB_CATEGORY",
-      value,
-      category,
-      mainCategory,
-    });
-  }
-
-  async function addMainCategory(value, iconIndex, category) {
-    categoryDispatch({ type: "ADD_MAIN_CATEGORY", value, iconIndex, category });
-
-    // const washingtonRef = doc(db, "category-expense", "L06cvqpk8QmD9Q2yKyB7");
-
-    // await updateDoc(washingtonRef, {
-    //   ever: [],
-    // });
-  }
-
-  async function addSubCategory(value, category, mainCategory) {
-    categoryDispatch({
-      type: "ADD_SUB_CATEGORY",
-      value,
-      category,
-      mainCategory,
-    });
-
-    // add sub category
-    // const washingtonRef = doc(db, "category-expense", "L06cvqpk8QmD9Q2yKyB7");
-    // await updateDoc(washingtonRef, {
-    //   clothing: arrayUnion("greater_virginia"),
-    // });
-  }
-
-  const contextInitialObj = {
-    categoryExpense: categoryState.categoryExpense,
-    categoryIncome: categoryState.categoryIncome,
-    iconObj: categoryState.iconObj,
-    iconArr: categoryState.iconArr,
-    removeMainCategory,
-    removeSubCategory,
-    addMainCategory,
-    addSubCategory,
-  };
-
-  return (
-    <CategoryContext.Provider value={contextInitialObj}>
-      {props.children}
-    </CategoryContext.Provider>
-  );
-}
-
-export default CategoryProvider;

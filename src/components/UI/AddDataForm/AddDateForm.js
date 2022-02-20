@@ -217,20 +217,8 @@ function AddDataForm(props) {
   async function formSubmitHandler(e) {
     e.preventDefault();
 
-    const newFormData = {
-      id: props.oldExpenseData ? props.oldExpenseData.id : uuidv4(),
-      type: formData.type,
-      mainCategory: formData.mainCategory,
-      subCategory: formData.subCategory,
-      time: formData.date,
-      year: formData.date.slice(0, 4),
-      month: formData.date.slice(5, 7),
-      day: formData.date.slice(8, 10),
-      description: formData.description,
-      price: Number(formData.price),
-    };
-
     // const newFormData = {
+    //   id: props.oldExpenseData ? props.oldExpenseData.id : uuidv4(),
     //   type: formData.type,
     //   mainCategory: formData.mainCategory,
     //   subCategory: formData.subCategory,
@@ -241,6 +229,18 @@ function AddDataForm(props) {
     //   description: formData.description,
     //   price: Number(formData.price),
     // };
+
+    const newFormData = {
+      type: formData.type,
+      mainCategory: formData.mainCategory,
+      subCategory: formData.subCategory,
+      time: formData.date,
+      year: formData.date.slice(0, 4),
+      month: formData.date.slice(5, 7),
+      day: formData.date.slice(8, 10),
+      description: formData.description,
+      price: Number(formData.price),
+    };
 
     // if props.oldExpenseData exist, it means it's editing the old data
     if (props.oldExpenseData) {

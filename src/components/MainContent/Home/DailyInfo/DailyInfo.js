@@ -16,7 +16,6 @@ import mutipleArgsHelper from "../../../../Others/MultipleArgsHelper/multipleArg
 import useBundleData from "../../../../Others/Custom/useBundleData";
 import { TiPlus } from "react-icons/ti";
 import style from "./DailyInfo.module.css";
-
 const { TODAY } = timeObj;
 
 function DailyInfo(props) {

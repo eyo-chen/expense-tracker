@@ -146,7 +146,7 @@
   --add-main-category-icon-hover-color: var(--black);
 
   /* //////////////////////////////////////////////// */
-  /* --icon-filter: none; */
+  --icon-filter: none;
 }
 
 .dark {
@@ -233,8 +233,8 @@
   --focus-outline: 1px dotted var(--gray);
 
   /* //////////////////////////////////////////////// */
-  /* --icon-filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg)
-    brightness(102%) contrast(102%); */
+  --icon-filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg)
+    brightness(102%) contrast(102%);
 }
 
 ::-webkit-scrollbar {
@@ -356,7 +356,7 @@ body {
   background-color: transparent;
 }
 
-/* .icon {
+.icon {
   width: 90%;
   height: 90%;
 
@@ -364,7 +364,7 @@ body {
   min-height: 2.3rem;
 
   filter: var(--icon-filter);
-} */
+}
 
 /* /////////////////////////// */
 /* *** MEDIA QUERY *** */

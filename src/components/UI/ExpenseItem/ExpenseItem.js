@@ -123,7 +123,11 @@ function ExpenseItem(props) {
             title={props.mainCategory}
             className={`${style["item__category"]} ${classMainCategory} center--flex`}
           >
-            {icon}
+            <img
+              alt={props.mainCategory}
+              className={`icon`}
+              src={iconObj[props.mainCategory]}
+            />
           </div>
           <div>
             <p className="capitalize">{props.subCategory}</p>

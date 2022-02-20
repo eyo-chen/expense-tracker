@@ -24,14 +24,14 @@ function SettingMainCategory(props) {
     >
       {/* Reference 1  */}
       <div className={style["data__cover"]} data-id={element}></div>
-      <span className={style["data__icon"]}>{iconObj[element]}</span>
-      {/* <span className={style["data__icon"]}>
+      {/* <span className={style["data__icon"]}>{iconObj[element]}</span> */}
+      <span className={style["data__icon"]}>
         <img
           alt={element}
           className={`icon ${style["img__icon"]}`}
-          src={iconObjTes[element][1]}
+          src={iconObj[element]}
         />
-      </span> */}
+      </span>
       <span>{element}</span>
     </div>
   ));

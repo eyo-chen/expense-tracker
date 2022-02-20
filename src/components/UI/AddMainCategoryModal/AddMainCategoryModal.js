@@ -125,24 +125,30 @@ function AddMainCategoryModal(props) {
         <div className={style["input__container"]}>
           <p className={`${style.label} capitalize`}>icon</p>
           <div className={style["icon__container"]}>
-            {iconArr.map((element, index) => (
-              <InputRadio
-                key={uuidv4()}
-                name="icon"
-                ariaLabel={element}
-                label={element}
-                value={index}
-                classLabel={`${style.icon} transition--25 ${
-                  props.type === "expense"
-                    ? `${style["icon--expense"]}`
-                    : `${style["icon--income"]}`
-                }`}
-                classContainer={style["radio__container"]}
-                classInput={style["input--icon"]}
-                onChange={radioIconChangeHandler}
-                checked={index + "" === form.iconIndex}
-              />
-            ))}
+            {iconArr.map((element, index) => {
+              const iconImg = (
+                <img alt="icon" className={`icon`} src={element} />
+              );
+
+              return (
+                <InputRadio
+                  key={uuidv4()}
+                  name="icon"
+                  ariaLabel="icon"
+                  label={iconImg}
+                  value={index}
+                  classLabel={`${style.icon} transition--25 ${
+                    props.type === "expense"
+                      ? `${style["icon--expense"]}`
+                      : `${style["icon--income"]}`
+                  }`}
+                  classContainer={style["radio__container"]}
+                  classInput={style["input--icon"]}
+                  onChange={radioIconChangeHandler}
+                  checked={index + "" === form.iconIndex}
+                />
+              );
+            })}
           </div>
         </div>
         <div className={style["btn__container"]}>

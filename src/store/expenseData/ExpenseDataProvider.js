@@ -1,14 +1,19 @@
-import { useReducer, useState, useEffect } from "react";
+import { useReducer, useState, useEffect, useContext } from "react";
 import ExpenseDataContext from "./expenseData--context";
-import { db } from "../../firebase-config";
+import UserInfoContext from "../userInfo/userInfo--context";
 import {
-  collection,
-  onSnapshot,
   doc,
+  getDoc,
+  setDoc,
+  onSnapshot,
+  collection,
   addDoc,
-  deleteDoc,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
+import { signInWithPopup, getAuth } from "firebase/auth";
+import { db, provider, auth } from "../../firebase-config";
+import createInitialData from "../../Others/CreateInitialData/createInitialData";
 import { v4 as uuidv4 } from "uuid";
 
 const EXPENSE_CATEGORY = {
@@ -2174,49 +2179,50 @@ function reducer(state, action) {
 }
 
 function ExpenseDataProvider(props) {
-  // const [expenseData, setExpenseData] = useState([]);
-  // const expenseDataCollectionRef = collection(
-  //   db,
-  //   "users",
-  //   "0v0byR6gkOFkmTcGCUvi",
-  //   "data"
-  // );
+  const [expenseData, setExpenseData] = useState([]);
+  const user = auth.currentUser;
+  let userID = "dcwecwe";
+  if (user) {
+    const { displayName, email } = user;
+    userID = `${email}${displayName.split(" ").join("")}`;
+  }
+  const expenseDataCollectionRef = collection(db, "users", userID, "data");
 
   const [expenseDataState, expenseDataDispatch] = useReducer(
     reducer,
     reducerInitialObj
   );
 
-  // useEffect(() => {
-  //   onSnapshot(expenseDataCollectionRef, (snapshot) => {
-  //     console.log(snapshot);
-  //     // setExpenseData(
-  //     //   snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  //     // );
-  //   });
-  // }, []);
+  useEffect(() => {
+    if (!user) return;
+
+    onSnapshot(expenseDataCollectionRef, (snapshot) => {
+      setExpenseData(
+        snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
+    });
+  }, [user]);
 
   async function removeExpenseData(id) {
-    const userDocs = doc(db, "expense-data", id);
-
-    await deleteDoc(userDocs);
+    // const userDocs = doc(db, "expense-data", id);
+    await deleteDoc(doc(db, "users", userID, "data", id));
   }
 
   async function addExpenseData(value) {
-    expenseDataDispatch({ type: "ADD", value });
-    // try {
-    //   await addDoc(expenseDataCollectionRef, value);
-    // } catch (error) {
-    //   alert(error);
-    // }
+    // expenseDataDispatch({ type: "ADD", value });
+    try {
+      await addDoc(expenseDataCollectionRef, value);
+    } catch (error) {
+      alert(error);
+    }
   }
 
-  function editExpenseData(value, id) {
-    expenseDataDispatch({ type: "EDIT", value, id });
+  async function editExpenseData(value, id) {
+    // expenseDataDispatch({ type: "EDIT", value, id });
 
     // const userDocs = doc(db, "expense-data", id);
 
-    // await updateDoc(userDocs, value);
+    await updateDoc(doc(db, "users", userID, "data", id), value);
   }
 
   function removeExpenseDataByCategory(deleteMainOrSub, value) {
@@ -2231,7 +2237,7 @@ function ExpenseDataProvider(props) {
   }
 
   const contextInitialObj = {
-    expenseData: expenseDataState.expenseData,
+    expenseData: expenseData,
     categoryExpense: EXPENSE_CATEGORY,
     categoryIncome: INCOME_CATEGORY,
     removeExpenseData,

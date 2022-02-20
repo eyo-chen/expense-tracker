@@ -1,9 +1,12 @@
+import { useContext } from "react";
 import FormContainer from "./FormContainer";
 import Select from "../Select/Select";
 import createNewSelectArr from "../../../Others/CreateNewSelectArr/createNewSelectArr";
+import CategoryContext from "../../../store/category/category--context";
 import style from "./AddDataForm.module.css";
 
 function FormMainCategory(props) {
+  const { iconObj } = useContext(CategoryContext);
   // Reference 2
   let newSelectArr = props.mainCategoryArr;
   if (props.edit)
@@ -16,7 +19,13 @@ function FormMainCategory(props) {
     <FormContainer>
       <label htmlFor="mainCategory" className={`${style.label} capitalize`}>
         main category
-        <div className={`center--flex ${style.icon}`}>{props.icon}</div>
+        <div className={`center--flex ${style.icon}`}>
+          <img
+            alt={props.mainCategory}
+            className={`icon`}
+            src={iconObj[props.mainCategory]}
+          />
+        </div>
       </label>
       <Select
         id="mainCategory"

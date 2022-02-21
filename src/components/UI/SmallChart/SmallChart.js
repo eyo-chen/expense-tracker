@@ -52,6 +52,7 @@ function SmallChart(props) {
           <option value="1">pie chart</option>
         </Select>
       </div>
+
       <div className={classNameChart}>
         <canvas
           tabIndex="0"

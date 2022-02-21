@@ -134,16 +134,16 @@ function SearchListDataProvider(props) {
     expenseData: expenseData,
   });
 
-  // function update(expenseData, id) {
-  //   setFilteredData({ type: "UPDATE", value: expenseData, id });
-  // }
+  function update(expenseData, id) {
+    setFilteredData({ type: "UPDATE", value: expenseData, id });
+  }
 
   originalData = expenseData;
 
   const SearchListDataContextInitialObject = {
     setFilteredData,
     expenseData: filteredData.expenseData,
-    // update,
+    update,
   };
 
   return (

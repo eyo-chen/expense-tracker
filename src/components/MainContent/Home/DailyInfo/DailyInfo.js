@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
 import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
@@ -15,10 +17,12 @@ import formatMoney from "../../../../Others/FormatMoney/formatMoney";
 import mutipleArgsHelper from "../../../../Others/MultipleArgsHelper/multipleArgsHelper";
 import useBundleData from "../../../../Others/Custom/useBundleData";
 import { TiPlus } from "react-icons/ti";
+import LoadingData from "../../../UI/LoadingData/LoadingData";
 import style from "./DailyInfo.module.css";
 const { TODAY } = timeObj;
 
 function DailyInfo(props) {
+  const { dataIsLoading } = useContext(ExpenseDataContext);
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const [
     weeklyCalendar,
@@ -88,15 +92,16 @@ function DailyInfo(props) {
     }
   );
 
-  let listContent = (
+  const dataListContent = dataIsLoading ? (
+    <LoadingData />
+  ) : expenseDataList.length > 0 ? (
+    <ExpenseList data={expenseDataList} classItem={style.item} />
+  ) : (
     <div className={`${style.noData} center--flex capitalize`}>
       <p>no data</p>
       <p>click button to add data</p>
     </div>
   );
-
-  if (expenseDataList.length > 0)
-    listContent = <ExpenseList data={expenseDataList} classItem={style.item} />;
 
   return (
     <div className={style.daily}>
@@ -165,7 +170,7 @@ function DailyInfo(props) {
         <DailyDataCard text="income" value={income} />
         <DailyDataCard text="net income" value={netIncome} />
       </div>
-      {listContent}
+      {dataListContent}
     </div>
   );
 }

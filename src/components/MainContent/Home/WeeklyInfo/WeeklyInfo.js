@@ -30,14 +30,12 @@ function WeeklyInfo(props) {
     displayTheme
   );
 
-  const [accIncome, accExpense, accNetIncome] = createAccAmount(
-    expenseData,
-    true,
-    startingDateObj,
-    endingDateObj
-  );
+  const [accIncome, accExpense, accNetIncome] =
+    expenseData.length === 0
+      ? [0, 0, 0]
+      : createAccAmount(expenseData, true, startingDateObj, endingDateObj);
 
-  configBar.data.labels = labels;
+  if (configBar && configBar.data) configBar.data.labels = labels;
 
   return (
     <div className={style.weekly}>

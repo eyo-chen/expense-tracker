@@ -9,18 +9,13 @@ import DisplayThemeContext from "./store/displayTheme/displayTheme--context";
 import UserInfoContext from "./store/userInfo/userInfo--context";
 import SignInModal from "./components/UI/SignInModal/SignInModal";
 import Loading from "./components/UI/Loading/Loading";
+import createUserID from "./Others/CreateUserID/createUserID";
 import { FiChevronsLeft } from "react-icons/fi";
 import { FiMenu } from "react-icons/fi";
 import timeObj from "./components/assets/timeObj/timeObj";
 import style from "./App.module.css";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  onSnapshot,
-  collection,
-} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db, provider, auth } from "./firebase-config";
 
 const { TODAY } = timeObj;
@@ -30,7 +25,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [showSidebar, setShowSidebar] = useState(false);
-  const { displayTheme } = useContext(DisplayThemeContext);
+  const { displayTheme, setDisplayTheme } = useContext(DisplayThemeContext);
+  const [user, userID] = createUserID();
+  const userDocRef = doc(db, "users", userID);
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -43,14 +40,27 @@ function App() {
   });
 
   useEffect(() => {
-    if (displayTheme === "dark") {
-      document.body.classList.remove("light");
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-      document.body.classList.add("light");
-    }
-  }, [displayTheme]);
+    if (!user) return;
+    onSnapshot(userDocRef, (snapshot) => {
+      if (!snapshot["_document"]) return;
+
+      const { displayTheme } = snapshot.data();
+
+      if (displayTheme === "dark") {
+        document.body.classList.remove("light");
+        document.body.classList.add("dark");
+      } else {
+        document.body.classList.remove("dark");
+        document.body.classList.add("light");
+      }
+
+      setDisplayTheme(displayTheme);
+    });
+  }, [user, userDocRef]);
+
+  useEffect(() => {
+    document.body.classList.add("dark");
+  }, []);
 
   function menuClickHandler() {
     setShowSidebar((prev) => !prev);

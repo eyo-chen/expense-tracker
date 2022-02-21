@@ -1,5 +1,6 @@
 import { useReducer, useState, useEffect } from "react";
 import CategoryContext from "./category--context";
+import createUserID from "../../Others/CreateUserID/createUserID";
 import { db, auth } from "../../firebase-config";
 
 import { onSnapshot, doc, updateDoc } from "firebase/firestore";
@@ -66,22 +67,19 @@ import ReactDOMServer from "react-dom/server";
 import createInitialData from "../../Others/CreateInitialData/createInitialData";
 
 function CategoryProvider(props) {
-  const user = auth.currentUser;
-  let userID = "dcwecwe";
-  if (user) {
-    const { displayName, email } = user;
-    userID = `${email}${displayName.split(" ").join("")}`;
-  }
-  const userDocRef = doc(db, "users", userID);
-
   const [categoryExpense, setCategoryExpense] = useState({});
   const [categoryIncome, setCategoryIncome] = useState({});
   const [iconArr, setIconArr] = useState([]);
   const [iconObj, setIconObj] = useState({});
 
+  const [user, userID] = createUserID();
+  const userDocRef = doc(db, "users", userID);
+
   useEffect(() => {
     if (!user) return;
     onSnapshot(userDocRef, (snapshot) => {
+      if (!snapshot["_document"]) return;
+
       const { categoryExpense, categoryIncome, iconArr, iconObj } =
         snapshot.data();
 

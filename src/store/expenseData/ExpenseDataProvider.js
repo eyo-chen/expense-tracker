@@ -1,20 +1,91 @@
 import { useReducer, useState, useEffect, useContext } from "react";
+import createUserID from "../../Others/CreateUserID/createUserID";
 import ExpenseDataContext from "./expenseData--context";
-import UserInfoContext from "../userInfo/userInfo--context";
 import {
   doc,
-  getDoc,
-  setDoc,
   onSnapshot,
   collection,
   addDoc,
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { signInWithPopup, getAuth } from "firebase/auth";
 import { db, provider, auth } from "../../firebase-config";
-import createInitialData from "../../Others/CreateInitialData/createInitialData";
 import { v4 as uuidv4 } from "uuid";
+
+function ExpenseDataProvider(props) {
+  const [expenseData, setExpenseData] = useState([]);
+  const [dataIsLoading, setDataIsLoading] = useState(true);
+  const [user, userID] = createUserID();
+  const expenseDataCollectionRef = collection(db, "users", userID, "data");
+
+  const [expenseDataState, expenseDataDispatch] = useReducer(
+    reducer,
+    reducerInitialObj
+  );
+
+  useEffect(() => {
+    if (!user) return;
+
+    onSnapshot(expenseDataCollectionRef, (snapshot) => {
+      setExpenseData(
+        snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
+      setDataIsLoading(false);
+    });
+  }, [user]);
+
+  async function removeExpenseData(id) {
+    // const userDocs = doc(db, "expense-data", id);
+    await deleteDoc(doc(db, "users", userID, "data", id));
+  }
+
+  async function addExpenseData(value) {
+    // expenseDataDispatch({ type: "ADD", value });
+    try {
+      await addDoc(expenseDataCollectionRef, value);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  async function editExpenseData(value, id) {
+    // expenseDataDispatch({ type: "EDIT", value, id });
+
+    // const userDocs = doc(db, "expense-data", id);
+
+    await updateDoc(doc(db, "users", userID, "data", id), value);
+  }
+
+  function removeExpenseDataByCategory(deleteMainOrSub, value) {
+    expenseDataDispatch({ type: "DELETE_CATEGORY", deleteMainOrSub, value });
+
+    // expenseData.forEach((data) => {
+    //   if (deleteMainOrSub === "main")
+    //     if (data.mainCategory === value) removeExpenseData(data.id);
+    //     else if (deleteMainOrSub === "sub")
+    //       if (data.subCategory === value) removeExpenseData(data.id);
+    // });
+  }
+
+  const contextInitialObj = {
+    expenseData: expenseData,
+    // categoryExpense: EXPENSE_CATEGORY,
+    // categoryIncome: INCOME_CATEGORY,
+    removeExpenseData,
+    addExpenseData,
+    editExpenseData,
+    removeExpenseDataByCategory,
+    dataIsLoading,
+  };
+
+  return (
+    <ExpenseDataContext.Provider value={contextInitialObj}>
+      {props.children}
+    </ExpenseDataContext.Provider>
+  );
+}
+
+export default ExpenseDataProvider;
 
 const EXPENSE_CATEGORY = {
   food: ["breakfast", "brunch", "lunch", "dinner", "snack", "drink"],
@@ -2177,80 +2248,3 @@ function reducer(state, action) {
       return state;
   }
 }
-
-function ExpenseDataProvider(props) {
-  const [expenseData, setExpenseData] = useState([]);
-  const user = auth.currentUser;
-  let userID = "dcwecwe";
-  if (user) {
-    const { displayName, email } = user;
-    userID = `${email}${displayName.split(" ").join("")}`;
-  }
-  const expenseDataCollectionRef = collection(db, "users", userID, "data");
-
-  const [expenseDataState, expenseDataDispatch] = useReducer(
-    reducer,
-    reducerInitialObj
-  );
-
-  useEffect(() => {
-    if (!user) return;
-
-    onSnapshot(expenseDataCollectionRef, (snapshot) => {
-      setExpenseData(
-        snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-      );
-    });
-  }, [user]);
-
-  async function removeExpenseData(id) {
-    // const userDocs = doc(db, "expense-data", id);
-    await deleteDoc(doc(db, "users", userID, "data", id));
-  }
-
-  async function addExpenseData(value) {
-    // expenseDataDispatch({ type: "ADD", value });
-    try {
-      await addDoc(expenseDataCollectionRef, value);
-    } catch (error) {
-      alert(error);
-    }
-  }
-
-  async function editExpenseData(value, id) {
-    // expenseDataDispatch({ type: "EDIT", value, id });
-
-    // const userDocs = doc(db, "expense-data", id);
-
-    await updateDoc(doc(db, "users", userID, "data", id), value);
-  }
-
-  function removeExpenseDataByCategory(deleteMainOrSub, value) {
-    expenseDataDispatch({ type: "DELETE_CATEGORY", deleteMainOrSub, value });
-
-    // expenseData.forEach((data) => {
-    //   if (deleteMainOrSub === "main")
-    //     if (data.mainCategory === value) removeExpenseData(data.id);
-    //     else if (deleteMainOrSub === "sub")
-    //       if (data.subCategory === value) removeExpenseData(data.id);
-    // });
-  }
-
-  const contextInitialObj = {
-    expenseData: expenseData,
-    categoryExpense: EXPENSE_CATEGORY,
-    categoryIncome: INCOME_CATEGORY,
-    removeExpenseData,
-    addExpenseData,
-    editExpenseData,
-    removeExpenseDataByCategory,
-  };
-
-  return (
-    <ExpenseDataContext.Provider value={contextInitialObj}>
-      {props.children}
-    </ExpenseDataContext.Provider>
-  );
-}
-
-export default ExpenseDataProvider;

@@ -1,40 +1,12 @@
-.form {
-  /* display: flex;
-  flex-direction: column; */
-  display: grid; /* fix flex gap */
-  gap: 5rem;
-  margin-top: 3rem;
+.container {
+  margin: 2rem 0 5rem 0;
 }
 
 .label {
-  display: block;
-  font-size: 2.2rem;
-  margin-bottom: 10px;
-}
-
-.input {
-  width: 60%;
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   letter-spacing: 1px;
-  padding: 1rem;
 }
 
-.btn {
-  /* align-self: flex-start; */
-  width: 12rem; /* fix flex gap */
-  letter-spacing: 1.2px;
-  font-size: 1.5rem;
-  padding: 1.2rem 2rem;
-}
-
-.warnning {
-  margin-top: 8px;
-  font-size: 1.3rem;
-}
-
-/* fix flex gap */
-@media screen and (max-width: 700px) {
-  .btn {
-    padding: 1rem 1.8rem;
-  }
+.info {
+  font-size: 2rem;
 }

@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, useContext } from "react";
 import InputRadio from "../../../UI/InputRadio/InputRadio";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
+import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--context";
 import createLineDataArr from "../../../../Others/CreateChartData/createLineDataArr";
 import createLineLabels from "../../../../Others/CreateChartData/createLineLabels";
 import style from "./AccountChart.module.css";
@@ -21,13 +22,14 @@ const initialLabels = createLineLabels(initialDate, TODAY);
 
 function AccountChart() {
   const { expenseData } = useContext(ExpenseDataContext);
+  const { displayTheme } = useContext(DisplayThemeContext);
   const [chartData, setChartData] = useState([
     initialLabels,
     createLineDataArr(initialLabels, expenseData),
   ]);
   const chartRef = useRef(null);
 
-  const config = createConfigObj(...chartData, null, "account");
+  const config = createConfigObj(...chartData, displayTheme, "account");
 
   useEffect(() => {
     const chart = new Chart(chartRef.current, config);

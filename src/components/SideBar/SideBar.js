@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { AiOutlineBarChart } from "react-icons/ai";
@@ -5,14 +6,12 @@ import { FaSearch } from "react-icons/fa";
 import { AiFillSetting } from "react-icons/ai";
 import { MdAccountCircle } from "react-icons/md";
 import { SiCashapp } from "react-icons/si";
+import Button from "../UI/Button/Button";
 import SideBarItem from "./SideBarItem";
-import style from "./SideBar.module.css";
-
+import createUserID from "../../Others/CreateUserID/createUserID";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
-
-import { useContext } from "react";
-import UserInfoContext from "../../store/userInfo/userInfo--context";
+import style from "./SideBar.module.css";
 
 const SIDEBAR__ICON = [
   [
@@ -63,6 +62,10 @@ const dateOptObj = { month: "short" };
 const dateOptObj1 = { year: "numeric" };
 
 function SideBar(props) {
+  const [logoutBtn, setLogoutBtn] = useState(false);
+  const [user] = createUserID();
+  const { photoURL } = user;
+
   // SIDEBAR__ICON is 2D array
   const sidebarItem = SIDEBAR__ICON.map(([title, icon], index) => {
     let activePage = false;
@@ -76,6 +79,7 @@ function SideBar(props) {
         activePage={activePage}
         menuClickHandler={props.menuClickHandler}
         setPage={props.setPage}
+        setLogoutBtn={setLogoutBtn}
       >
         {icon}
       </SideBarItem>
@@ -84,6 +88,11 @@ function SideBar(props) {
 
   function signedOut() {
     signOut(auth);
+    setLogoutBtn((prev) => !prev);
+  }
+
+  function accountImgClickHandler() {
+    setLogoutBtn((prev) => !prev);
   }
 
   return (
@@ -110,23 +119,25 @@ function SideBar(props) {
         <p>
           {new Intl.DateTimeFormat("en-US", dateOptObj1).format(props.today)}
         </p>
-        <span onClick={signedOut}>G</span>
+
+        <span className={style["user__container"]}>
+          <img
+            onClick={accountImgClickHandler}
+            className={style.user}
+            src={photoURL}
+            alt="user account image"
+          />
+          {logoutBtn && (
+            <span className={style.logout}>
+              <Button onClick={signedOut} className={`${style.btn} uppercase`}>
+                logout
+              </Button>
+            </span>
+          )}
+        </span>
       </div>
     </aside>
   );
 }
 
 export default SideBar;
-
-/*
-  user first name and background color
-  const backgroundColorClass = { backgroundColor: accountInfo.background };
-  const userInfoName = accountInfo.name.slice(0, 1);
-
-          <div
-          style={backgroundColorClass}
-          className={`${style["sidebar__user"]} center--flex`}
-        >
-          {userInfoName}
-        </div>
-*/

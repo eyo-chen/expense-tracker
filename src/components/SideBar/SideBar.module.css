@@ -40,6 +40,26 @@
   margin-bottom: 0.5rem;
 }
 
+.user__container {
+  position: relative;
+}
+
+.user {
+  width: 35%;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.logout {
+  position: absolute;
+  margin-left: 1rem;
+}
+
+.btn {
+  background-color: var(--btn-main-bg);
+  color: var(--bg);
+}
+
 @media screen and (max-width: 1000px) {
   .sidebar {
     position: absolute;

@@ -5,7 +5,10 @@ function SideBarItem(props) {
     // e.target.dataset.id
     const page = e.target.getAttribute("data-id");
 
-    if (page) props.setPage(page);
+    if (page) {
+      props.setPage(page);
+      props.setLogoutBtn(false);
+    }
 
     // close sidebar after clicking icon page
     if (window.innerWidth <= 1000) props.menuClickHandler();

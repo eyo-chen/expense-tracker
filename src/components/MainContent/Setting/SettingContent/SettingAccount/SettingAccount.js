@@ -1,10 +1,26 @@
-import { useContext, useReducer } from "react";
-import Button from "../../../../UI/Button/Button";
-import InputText from "../../../../UI/InputText/InputText";
-import AccountInfoContext from "../../../../../store/accountInfo/accountInfo--context";
-import Warning from "../../../../UI/Warning/Warning";
+import { auth } from "../../../../../firebase-config";
 import style from "./SettingAccount.module.css";
 
+function SettingAccount() {
+  const { displayName, email } = auth.currentUser;
+
+  return (
+    <div>
+      <div className={style.container}>
+        <p className={`${style.label} capitalize`}>name</p>
+        <p className={style.info}>{displayName}</p>
+      </div>
+      <div>
+        <p className={`${style.label} capitalize`}>email</p>
+        <p className={style.info}>{email}</p>
+      </div>
+    </div>
+  );
+}
+
+export default SettingAccount;
+
+/*
 function reducer(state, action) {
   switch (action.type) {
     case "name": {
@@ -28,6 +44,7 @@ function reducer(state, action) {
 
 function SettingAccount() {
   const { accountInfo, setAccountInfo } = useContext(AccountInfoContext);
+  const { displayName, email } = auth.currentUser;
 
   const [infoValidation, setInfoValidation] = useReducer(reducer, {
     name: accountInfo.name,
@@ -110,4 +127,4 @@ function SettingAccount() {
   );
 }
 
-export default SettingAccount;
+*/

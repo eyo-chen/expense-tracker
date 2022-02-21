@@ -37,6 +37,18 @@ function createConfigObj(
         scales: {
           y: {
             beginAtZero: true,
+            ticks: {
+              color: `${
+                displayTheme === "dark" ? "rgb(210,210,210)" : "rgb(70,70,70)"
+              }`,
+            },
+          },
+          x: {
+            ticks: {
+              color: `${
+                displayTheme === "dark" ? "rgb(210,210,210)" : "rgb(70,70,70)"
+              }`,
+            },
           },
         },
       },

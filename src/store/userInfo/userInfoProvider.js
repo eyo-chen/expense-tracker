@@ -55,14 +55,13 @@ function UserInfoProvider(props) {
       categoryIncome,
       iconObj,
       iconArr,
-      displayTheme: "black",
+      displayTheme: "dark",
     });
 
     userDataObj = { userName: displayName, userID, displayTheme: "black" };
     setUserInfo(userDataObj);
   }
 
-  console.log(userInfo);
   const contextObj = userInfo
     ? { ...userInfo, signInWithGoogle, setUserInfo }
     : { userData: false, signInWithGoogle, setUserInfo };

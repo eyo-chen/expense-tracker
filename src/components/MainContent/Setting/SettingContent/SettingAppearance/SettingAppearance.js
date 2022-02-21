@@ -1,13 +1,20 @@
 import { useContext } from "react";
 import InputRadio from "../../../../UI/InputRadio/InputRadio";
 import DisplayThemeContext from "../../../../../store/displayTheme/displayTheme--context";
+import createUserID from "../../../../../Others/CreateUserID/createUserID";
+import { db } from "../../../../../firebase-config";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import style from "./SettingAppearance.module.css";
 
 function SettingAppearance() {
-  const { displayTheme, setDisplayTheme } = useContext(DisplayThemeContext);
+  const { displayTheme } = useContext(DisplayThemeContext);
+  const [user, userID] = createUserID();
+  const userDocRef = doc(db, "users", userID);
 
-  function displayThemeRadioChangeHandler(e) {
-    setDisplayTheme(e.target.value);
+  async function changeDisplayThemeHandler(e) {
+    await updateDoc(userDocRef, {
+      displayTheme: e.target.value,
+    });
   }
 
   return (
@@ -22,7 +29,7 @@ function SettingAppearance() {
           label="light"
           name="theme"
           value="light"
-          onChange={displayThemeRadioChangeHandler}
+          onChange={changeDisplayThemeHandler}
           checked={displayTheme === "light"}
         />
         <InputRadio
@@ -32,7 +39,7 @@ function SettingAppearance() {
           label="dark"
           name="theme"
           value="dark"
-          onChange={displayThemeRadioChangeHandler}
+          onChange={changeDisplayThemeHandler}
           checked={displayTheme === "dark"}
         />
       </div>

@@ -1,6 +1,6 @@
 import { Fragment } from "react";
-import style from "./ExpenseList.module.css";
 import ExpenseItem from "../ExpenseItem/ExpenseItem";
+import style from "./ExpenseList.module.css";
 
 function ExpenseList(props) {
   const expenseItem = props.data.map((expense, i) => (

@@ -118,6 +118,7 @@ function AddDataForm(props) {
   const [, setEditModal] = useContext(EditModalContext);
   const { categoryExpense, categoryIncome, iconObj } =
     useContext(CategoryContext);
+  const { update } = useContext(SearchListDataContext);
   const mainCateExpenseArr = Object.keys(categoryExpense);
   const mainCateIncomeArr = Object.keys(categoryIncome);
 
@@ -251,7 +252,7 @@ function AddDataForm(props) {
         value: "edit",
       });
 
-      // update(newFormData, props.oldExpenseData.id);
+      update(newFormData, props.oldExpenseData.id);
     }
     // add new data
     else {

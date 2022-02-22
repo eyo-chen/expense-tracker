@@ -18,7 +18,7 @@ import mutipleArgsHelper from "../../../../Others/MultipleArgsHelper/multipleArg
 import useBundleData from "../../../../Others/Custom/useBundleData";
 import { TiPlus } from "react-icons/ti";
 import LoadingData from "../../../UI/LoadingData/LoadingData";
-import style from "./DailyInfo.module.css";
+import styles from "./DailyInfo.module.css";
 const { TODAY } = timeObj;
 
 function DailyInfo(props) {
@@ -95,16 +95,16 @@ function DailyInfo(props) {
   const dataListContent = dataIsLoading ? (
     <LoadingData />
   ) : expenseDataList.length > 0 ? (
-    <ExpenseList data={expenseDataList} classItem={style.item} />
+    <ExpenseList data={expenseDataList} classItem={styles.item} />
   ) : (
-    <div className={`${style.noData} center--flex capitalize`}>
+    <div className={`${styles.noData} center--flex capitalize`}>
       <p>no data</p>
       <p>click button to add data</p>
     </div>
   );
 
   return (
-    <div className={style.daily}>
+    <div className={styles.daily}>
       {addDataFormModal && (
         <AddDataForm
           addDataFormModalToggler={addDataFormModalToggler}
@@ -126,30 +126,30 @@ function DailyInfo(props) {
         />
       )}
 
-      <div className={style["title__container"]}>
+      <div className={styles["title__container"]}>
         <Title>daily transection</Title>
 
-        <div className={`${style["btn__container"]} center--flex`}>
+        <div className={`${styles["btn__container"]} center--flex`}>
           <BtnIcons onClick={modalCardToggler} />
           <BtnIcon
             onClick={addDataFormModalToggler}
             text="click to add data"
-            classBtn={`${style["btn--main"]} uppercase`}
-            classText={style["btn__text--main"]}
+            classBtn={`${styles["btn--main"]} uppercase`}
+            classText={styles["btn__text--main"]}
           >
-            <TiPlus aria-label="add data" className={style["btn--icon"]} />
+            <TiPlus aria-label="add data" className={styles["btn--icon"]} />
             <p>add data</p>
           </BtnIcon>
         </div>
       </div>
 
-      <div className={style["calendar__container"]}>
+      <div className={styles["calendar__container"]}>
         <BtnIcon
           text="last week"
           dataID="last"
           onClick={arrowBtnClickHandler}
-          classBtn={`${style["btn--arow"]} center--flex`}
-          classText={style["btn__text"]}
+          classBtn={`${styles["btn--arow"]} center--flex`}
+          classText={styles["btn__text"]}
         >
           {"<"}
         </BtnIcon>
@@ -158,14 +158,14 @@ function DailyInfo(props) {
           text="next week"
           dataID="next"
           onClick={arrowBtnClickHandler}
-          classBtn={`${style["btn--arow"]} center--flex`}
-          classText={style["btn__text"]}
+          classBtn={`${styles["btn--arow"]} center--flex`}
+          classText={styles["btn__text"]}
         >
           {">"}
         </BtnIcon>
       </div>
 
-      <div className={`${style.card} capitalize`}>
+      <div className={`${styles.card} capitalize`}>
         <DailyDataCard text="expense" value={expense} />
         <DailyDataCard text="income" value={income} />
         <DailyDataCard text="net income" value={netIncome} />

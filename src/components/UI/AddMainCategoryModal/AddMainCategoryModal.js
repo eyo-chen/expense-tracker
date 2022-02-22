@@ -9,7 +9,7 @@ import CategoryContext from "../../../store/category/category--context";
 import EditModalContext from "../../../store/editModal/editModal--context";
 import Warning from "../Warning/Warning";
 import { v4 as uuidv4 } from "uuid";
-import style from "./AddMainCategoryModal.module.css";
+import styles from "./AddMainCategoryModal.module.css";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -47,11 +47,13 @@ function reducer(state, action) {
 function AddMainCategoryModal(props) {
   const { addMainCategory, iconArr, categoryExpense, categoryIncome } =
     useContext(CategoryContext);
-  const [, setEditModal] = useContext(EditModalContext);
+  const [_, setEditModal] = useContext(EditModalContext);
 
   // Reference 4
-  let categoryNameArr = Object.keys(categoryExpense);
-  if (props.type === "income") categoryNameArr = Object.keys(categoryIncome);
+  const categoryNameArr =
+    props.type === "expense"
+      ? Object.keys(categoryExpense)
+      : Object.keys(categoryIncome);
 
   const [form, formDispatch] = useReducer(reducer, {
     name: "",
@@ -79,7 +81,8 @@ function AddMainCategoryModal(props) {
   function formSubmitHandler(e) {
     e.preventDefault();
 
-    props.addMainCategoryModalToggler(null, form.name);
+    // omit input e
+    props.addMainCategoryModalToggler(_, form.name);
     addMainCategory(form.name, form.iconIndex, props.type);
     setEditModal({
       show: true,
@@ -88,81 +91,82 @@ function AddMainCategoryModal(props) {
     });
   }
 
+  const iconListContent = iconArr.map((element, index) => {
+    const iconImg = <img alt="icon" className={`icon`} src={element} />;
+
+    return (
+      <InputRadio
+        key={uuidv4()}
+        name="icon"
+        ariaLabel="icon"
+        label={iconImg}
+        value={index}
+        classLabel={`${styles.icon} transition--25 ${
+          props.type === "expense"
+            ? `${styles["icon--expense"]}`
+            : `${styles["icon--income"]}`
+        }`}
+        classContainer={styles["radio__container"]}
+        classInput={styles["input--icon"]}
+        onChange={radioIconChangeHandler}
+        checked={index + "" === form.iconIndex}
+      />
+    );
+  });
+
   // Reference 2
   const warnningIndex = form.isDuplicate || (form.isTouch && !form.inputValid);
 
   // Reference 3
   const warnningText = form.isDuplicate
     ? "duplicate category name is not allowed"
-    : "empty is not allowed";
+    : "required";
 
   return (
-    <Modal onClick={props.addMainCategoryModalToggler} classModal={style.modal}>
-      <Title className={style.title}>add main category</Title>
+    <Modal
+      onClick={props.addMainCategoryModalToggler}
+      classModal={styles.modal}
+    >
+      <Title className={styles.title}>add main category</Title>
       <HorizontalLine />
-      <form onSubmit={formSubmitHandler} className={style.form}>
-        <div className={style.container}>
-          <div className={style["input__container"]}>
+      <form onSubmit={formSubmitHandler} className={styles.form}>
+        <div className={styles.container}>
+          <div className={styles["input__container"]}>
             <InputText
               name="maincategory"
               id="name"
               label="main category name"
               value={form.name}
-              classLabel={style.label}
+              classLabel={styles.label}
               classInput={
                 warnningIndex
-                  ? `${style.input} input--invalid`
-                  : `${style.input}`
+                  ? `${styles.input} input--invalid`
+                  : `${styles.input}`
               }
               onChange={inputTextChangeHandler}
               onBlur={inputTextTouchHandler}
             />
           </div>
-          <Warning className={style.warning} index={warnningIndex}>
+          <Warning className={styles.warning} index={warnningIndex}>
             {warnningText}
           </Warning>
         </div>
-        <div className={style["input__container"]}>
-          <p className={`${style.label} capitalize`}>icon</p>
-          <div className={style["icon__container"]}>
-            {iconArr.map((element, index) => {
-              const iconImg = (
-                <img alt="icon" className={`icon`} src={element} />
-              );
-
-              return (
-                <InputRadio
-                  key={uuidv4()}
-                  name="icon"
-                  ariaLabel="icon"
-                  label={iconImg}
-                  value={index}
-                  classLabel={`${style.icon} transition--25 ${
-                    props.type === "expense"
-                      ? `${style["icon--expense"]}`
-                      : `${style["icon--income"]}`
-                  }`}
-                  classContainer={style["radio__container"]}
-                  classInput={style["input--icon"]}
-                  onChange={radioIconChangeHandler}
-                  checked={index + "" === form.iconIndex}
-                />
-              );
-            })}
-          </div>
+        <div className={styles["input__container"]}>
+          <p className={`${styles.label} capitalize`}>icon</p>
+          <div className={styles["icon__container"]}>{iconListContent}</div>
         </div>
-        <div className={style["btn__container"]}>
+        <div className={styles["btn__container"]}>
           <Button
             onClick={props.addMainCategoryModalToggler}
-            className={`${style.btn} btn--valid uppercase transition--25`}
+            className={`${styles.btn} btn--valid uppercase transition--25`}
             type="button"
           >
             cancel
           </Button>
           <Button
             disabled={!form.isValid}
-            className={`${style.btn} uppercase transition--25 ${
-              style["btn--right"]
+            className={`${styles.btn} uppercase transition--25 ${
+              styles["btn--right"]
             } ${form.isValid ? `btn--valid` : "btn--invalid"}`}
             type="submit"
           >
@@ -192,6 +196,7 @@ But it's not
 First function is to make the UI immediately adding the new adding category
 Second function is truly add the category where we storing all the category
 */
+
 /*
 Reference 2
 Note that have four diff indexes

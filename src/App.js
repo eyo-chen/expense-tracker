@@ -25,7 +25,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [showSidebar, setShowSidebar] = useState(false);
-  const { displayTheme, setDisplayTheme } = useContext(DisplayThemeContext);
+  const { setDisplayTheme } = useContext(DisplayThemeContext);
   const [user, userID] = createUserID();
   const userDocRef = doc(db, "users", userID);
 
@@ -45,7 +45,6 @@ function App() {
       if (!snapshot["_document"]) return;
 
       const { displayTheme } = snapshot.data();
-
       if (displayTheme === "dark") {
         document.body.classList.remove("light");
         document.body.classList.add("dark");

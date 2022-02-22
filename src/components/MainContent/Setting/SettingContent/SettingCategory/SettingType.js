@@ -1,5 +1,5 @@
 import InputRadio from "../../../../UI/InputRadio/InputRadio";
-import style from "./SettingCategory.module.css";
+import styles from "./SettingCategory.module.css";
 
 function SettingType(props) {
   function typeChangeHandler(e) {
@@ -7,12 +7,12 @@ function SettingType(props) {
   }
 
   return (
-    <div className={style.type}>
+    <div className={styles.type}>
       <InputRadio
-        classContainer={style["radio__container"]}
-        classInput={style.input}
-        classLabel={`${style["label--blue"]} ${style.label} uppercase transition--25`}
-        classCheck={style.check}
+        classContainer={styles["radio__container"]}
+        classInput={styles.input}
+        classLabel={`${styles["label--blue"]} ${styles.label} uppercase transition--25`}
+        classCheck={styles.check}
         id="expense"
         name="type"
         value="expense"
@@ -21,10 +21,10 @@ function SettingType(props) {
         onChange={typeChangeHandler}
       />
       <InputRadio
-        classContainer={style["radio__container"]}
-        classInput={style.input}
-        classLabel={`${style["label--pink"]} ${style.label} uppercase transition--25`}
-        classCheck={style.check}
+        classContainer={styles["radio__container"]}
+        classInput={styles.input}
+        classLabel={`${styles["label--pink"]} ${styles.label} uppercase transition--25`}
+        classCheck={styles.check}
         id="income"
         name="type"
         value="income"

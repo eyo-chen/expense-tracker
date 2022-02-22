@@ -1,12 +1,14 @@
 import { useRef, useEffect, useState, useContext } from "react";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
+import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--context";
 import Card from "../../../UI/Card/Card";
 import Select from "../../../UI/Select/Select";
-import style from "./AccountSmallChart.module.css";
 import Chart from "chart.js/auto";
+import styles from "./AccountSmallChart.module.css";
 
 function AccountSmallChart() {
   const { expenseData, categoryExpense } = useContext(ExpenseDataContext);
+  const { displayTheme } = useContext(DisplayThemeContext);
   const [smallChartType, setSmallChartType] = useState("category");
   const chartRef = useRef(null);
 
@@ -42,6 +44,22 @@ function AccountSmallChart() {
       },
       options: {
         indexAxis: "y",
+        scales: {
+          y: {
+            ticks: {
+              color: `${
+                displayTheme === "dark" ? "rgb(210,210,210)" : "rgb(70,70,70)"
+              }`,
+            },
+          },
+          x: {
+            ticks: {
+              color: `${
+                displayTheme === "dark" ? "rgb(210,210,210)" : "rgb(70,70,70)"
+              }`,
+            },
+          },
+        },
       },
     };
 
@@ -58,12 +76,12 @@ function AccountSmallChart() {
 
   return (
     <Card>
-      <label htmlFor="chart" className={style.label}>
+      <label htmlFor="chart" className={styles.label}>
         Chart
       </label>
       <Select
         id="chart"
-        className={style.select}
+        className={styles.select}
         onChange={selectChangeHandler}
       >
         <option value="category">which category expense the most</option>

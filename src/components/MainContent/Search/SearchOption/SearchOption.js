@@ -5,22 +5,22 @@ import SearchOptionPrice from "./SearchOptionPrice";
 import SearchOptionCategory from "./SearchOptionCategory";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import { RiCloseCircleFill } from "react-icons/ri";
-import style from "./SearchOption.module.css";
+import styles from "./SearchOption.module.css";
 
 function SearchOption(props) {
   return (
-    <Card className={style.option}>
+    <Card className={styles.option}>
       <BtnIcon
         onClick={props.searchOptionModalToggler}
         text="close"
-        classBtn={style.close}
-        classText={style["btn__text"]}
+        classBtn={styles.close}
+        classText={styles["btn__text"]}
       >
         <RiCloseCircleFill />
       </BtnIcon>
 
       <Title>search by</Title>
-      <div className={style["option__container"]}>
+      <div className={styles["option__container"]}>
         <SearchOptionTime />
         <SearchOptionPrice />
         <SearchOptionCategory />

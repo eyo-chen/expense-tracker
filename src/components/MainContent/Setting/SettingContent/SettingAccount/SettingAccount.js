@@ -1,18 +1,18 @@
 import { auth } from "../../../../../firebase-config";
-import style from "./SettingAccount.module.css";
+import styles from "./SettingAccount.module.css";
 
 function SettingAccount() {
   const { displayName, email } = auth.currentUser;
 
   return (
     <div>
-      <div className={style.container}>
-        <p className={`${style.label} capitalize`}>name</p>
-        <p className={style.info}>{displayName}</p>
+      <div className={styles.container}>
+        <p className={`${styles.label} capitalize`}>name</p>
+        <p className={styles.info}>{displayName}</p>
       </div>
       <div>
-        <p className={`${style.label} capitalize`}>email</p>
-        <p className={style.info}>{email}</p>
+        <p className={`${styles.label} capitalize`}>email</p>
+        <p className={styles.info}>{email}</p>
       </div>
     </div>
   );
@@ -71,7 +71,7 @@ function SettingAccount() {
   }
 
   return (
-    <form className={style.form} onSubmit={submitHandler}>
+    <form className={styles.form} onSubmit={submitHandler}>
       <div>
         <InputText
           id="name"
@@ -81,8 +81,8 @@ function SettingAccount() {
           value={infoValidation.name}
           classInput={
             infoValidation.validText
-              ? `${style.input}`
-              : `${style.input} input--invalid`
+              ? `${styles.input}`
+              : `${styles.input} input--invalid`
           }
           classLabel={`${style.label} capitalize`}
           onChange={nameChangeHandler}

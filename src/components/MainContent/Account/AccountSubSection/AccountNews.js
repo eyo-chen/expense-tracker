@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import Card from "../../../UI/Card/Card";
 import SubTitle from "../../../UI/SubTitle/SubTitle";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
-import style from "./AccountNews.module.css";
+import NewsErrorContent from "../../../UI/NewsErrorContent/NewsErrorContent";
+import Loading from "../../../UI/Loading/Loading";
 import { BiRefresh } from "react-icons/bi";
+import styles from "./AccountNews.module.css";
 
 const newsArr = [];
 let newsIndex = 0;
 
 function AccountNews() {
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [news, setNews] = useState({
     title: "",
     img: "",
@@ -19,6 +23,7 @@ function AccountNews() {
 
   useEffect(() => {
     async function getNews() {
+      setIsLoading(true);
       const data = await fetch(
         "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=5295e93382ff4fd1a92c1256f5843d3f"
       );
@@ -37,9 +42,14 @@ function AccountNews() {
         description: newsArr[0].description,
         source: newsArr[0].source.name,
       });
+
+      setIsLoading(false);
     }
 
-    getNews();
+    getNews().catch(() => {
+      setIsLoading(false);
+      setError(true);
+    });
   }, []);
 
   function refreshClickHandler() {
@@ -59,38 +69,44 @@ function AccountNews() {
     });
   }
 
-  return (
-    <Card className={style.card}>
-      <div className={style["title__section"]}>
-        <SubTitle className={style.title}>latest news</SubTitle>
+  const content = isLoading ? (
+    <Loading className={styles.loading} />
+  ) : error ? (
+    <NewsErrorContent />
+  ) : (
+    <>
+      <div className={styles["title__section"]}>
+        <SubTitle className={styles.title}>latest news</SubTitle>
         <BtnIcon
-          classText={style["btn__text"]}
+          classText={styles["btn__text"]}
           text="next"
           onClick={refreshClickHandler}
         >
-          <BiRefresh className={style.refresh} />
+          <BiRefresh className={styles.refresh} />
         </BtnIcon>
       </div>
-      <p title={news.title} className={style.subTitle}>
+      <p title={news.title} className={styles.subTitle}>
         {news.editedTitle}
       </p>
-      <div className={style["img__container"]}>
+      <div className={styles["img__container"]}>
         <a
           href={news.url}
           target="_blank"
           aria-label="click to go to news page"
         >
           <img
-            className={style.img}
+            className={styles.img}
             src={news.img}
             alt="latest business news"
             title={news.description}
           />
         </a>
-        <span className={style.source}>{`source: ${news.source}`}</span>
+        <span className={styles.source}>{`source: ${news.source}`}</span>
       </div>
-    </Card>
+    </>
   );
+
+  return <Card className={styles.card}>{content}</Card>;
 }
 
 export default AccountNews;

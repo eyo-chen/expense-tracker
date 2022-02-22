@@ -10,12 +10,7 @@ function SearchOptionCategory() {
   const checkboxItem = Object.keys(categoryExpense)
     .concat(Object.keys(categoryIncome))
     .map((element, index) => {
-      /*
-      Because both expense and income have "others"
-      And I use text as key in SearchOptionUI
-      So I have to use category to distinguish different others
-      to avoid same key (two same others)
-      */
+      // Reference 1
       let category;
       if (index < expenseLength) category = "expense";
       else category = "income";
@@ -33,3 +28,11 @@ function SearchOptionCategory() {
 }
 
 export default SearchOptionCategory;
+
+/*
+Reference 1
+Because both expense and income have "others"
+And I use text as key in SearchOptionUI
+So I have to use category to distinguish different others
+to avoid same key (two same others)
+*/

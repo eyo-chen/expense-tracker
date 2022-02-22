@@ -1,10 +1,10 @@
 import AccountOverview from "./AccountOverview/AccountOverview";
 import AccountSubSection from "./AccountSubSection/AccountSubSection";
-import style from "./Account.module.css";
+import styles from "./Account.module.css";
 
 function Account() {
   return (
-    <div className={style.account}>
+    <div className={styles.account}>
       <AccountOverview />
       <AccountSubSection />
     </div>

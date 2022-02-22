@@ -1,9 +1,9 @@
-import style from "./CalendarCell.module.css";
+import styles from "./CalendarCell.module.css";
 
 function CalendarCell(props) {
-  let classNameContainer = `${style.cell} center--flex`;
-  classNameContainer += !props.curMonthIndex ? " " + style.negative : "";
-  classNameContainer += props.todayIndex ? " " + style.current : "";
+  let classNameContainer = `${styles.cell} center--flex`;
+  classNameContainer += !props.curMonthIndex ? " " + styles.negative : "";
+  classNameContainer += props.todayIndex ? " " + styles.current : "";
 
   return (
     <div
@@ -15,17 +15,17 @@ function CalendarCell(props) {
     >
       {props.children}
       {props.curMonthIndex && (
-        <div className={style["dot__container"]}>
+        <div className={styles["dot__container"]}>
           {props.expenseIndex && (
-            <span className={`${style["dot--blue"]} ${style.dot}`}></span>
+            <span className={`${styles["dot--blue"]} ${styles.dot}`}></span>
           )}
           {props.incomeIndex && (
-            <span className={`${style["dot--pink"]} ${style.dot}`}></span>
+            <span className={`${styles["dot--pink"]} ${styles.dot}`}></span>
           )}
           {props.bothIndex && (
             <>
-              <span className={`${style["dot--blue"]} ${style.dot}`}></span>
-              <span className={`${style["dot--pink"]} ${style.dot}`}></span>
+              <span className={`${styles["dot--blue"]} ${styles.dot}`}></span>
+              <span className={`${styles["dot--pink"]} ${styles.dot}`}></span>
             </>
           )}
         </div>

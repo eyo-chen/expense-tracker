@@ -2,24 +2,24 @@ import { useContext } from "react";
 import SearchListInput from "./SearchListInput/SearchListInput";
 import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
 import SearchListDataContext from "../../../../store/searchListData/searchListData--context";
-import style from "./SearchList.module.css";
+import styles from "./SearchList.module.css";
 
 function SearchList(props) {
   const { expenseData } = useContext(SearchListDataContext);
 
-  let mainContent = <p className={style.empty}>No Data</p>;
+  let mainContent = <p className={styles.empty}>No Data</p>;
 
   if (expenseData.length !== 0)
     mainContent = (
       <ExpenseList
-        classItemSearch={style["item--inner"]}
+        classItemSearch={styles["item--inner"]}
         data={expenseData}
-        classItem={style.item}
+        classItem={styles.item}
       />
     );
 
   return (
-    <div className={style.search}>
+    <div className={styles.search}>
       <SearchListInput
         searchOptionModalToggler={props.searchOptionModalToggler}
       />

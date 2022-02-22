@@ -1,6 +1,6 @@
 import SubTitle from "../../../../UI/SubTitle/SubTitle";
 import InputRadio from "../../../../UI/InputRadio/InputRadio";
-import style from "./ChartOptionMainCategory.module.css";
+import styles from "./ChartOptionMainCategory.module.css";
 
 function ChartOptionMainCategory(props) {
   function changeRadioHandler(e) {
@@ -8,23 +8,23 @@ function ChartOptionMainCategory(props) {
   }
 
   return (
-    <div className={style.container}>
+    <div className={styles.container}>
       <SubTitle
         className={
           props.classColor === "time"
-            ? `${style["subtitle--time"]}`
-            : `${style["subtitle--category"]}`
+            ? `${styles["subtitle--time"]}`
+            : `${styles["subtitle--category"]}`
         }
       >
         Select Data
       </SubTitle>
-      <div className={style["input__container"]}>
+      <div className={styles["input__container"]}>
         <InputRadio
-          classContainer={style["radio__container"]}
-          classCheck={`${style.check} center--flex`}
-          classLabel={`${style.label} capitalize`}
-          classInput={style.input}
-          classInside={style.inside}
+          classContainer={styles["radio__container"]}
+          classCheck={`${styles.check} center--flex`}
+          classLabel={`${styles.label} capitalize`}
+          classInput={styles.input}
+          classInside={styles.inside}
           value="income"
           id="income"
           name="data"
@@ -33,11 +33,11 @@ function ChartOptionMainCategory(props) {
           onChange={changeRadioHandler}
         />
         <InputRadio
-          classContainer={style["radio__container"]}
-          classCheck={`${style.check} center--flex`}
-          classLabel={`${style.label} capitalize`}
-          classInput={style.input}
-          classInside={style.inside}
+          classContainer={styles["radio__container"]}
+          classCheck={`${styles.check} center--flex`}
+          classLabel={`${styles.label} capitalize`}
+          classInput={styles.input}
+          classInside={styles.inside}
           value="expense"
           id="expense"
           name="data"
@@ -48,11 +48,11 @@ function ChartOptionMainCategory(props) {
         {/* Reference 1 */}
         {props.mainType !== "category" && (
           <InputRadio
-            classContainer={style["radio__container"]}
-            classCheck={`${style.check} center--flex`}
-            classLabel={`${style.label} capitalize`}
-            classInput={style.input}
-            classInside={style.inside}
+            classContainer={styles["radio__container"]}
+            classCheck={`${styles.check} center--flex`}
+            classLabel={`${styles.label} capitalize`}
+            classInput={styles.input}
+            classInside={styles.inside}
             value="net"
             id="net"
             name="data"

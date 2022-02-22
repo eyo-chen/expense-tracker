@@ -1,77 +1,14 @@
-import { useReducer, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import CategoryContext from "./category--context";
 import createUserID from "../../Others/CreateUserID/createUserID";
-import { db, auth } from "../../firebase-config";
-
+import { db } from "../../firebase-config";
 import { onSnapshot, doc, updateDoc } from "firebase/firestore";
-
-import style from "./CategoryProvider.module.css";
-import { IoFastFoodSharp } from "react-icons/io5";
-import { IoIosShirt } from "react-icons/io";
-import { GiFamilyHouse } from "react-icons/gi";
-import { AiFillCar } from "react-icons/ai";
-import { ImBook } from "react-icons/im";
-import { IoLogoGameControllerB } from "react-icons/io";
-import { RiMoneyDollarCircleFill } from "react-icons/ri";
-import { RiHandCoinFill } from "react-icons/ri";
-import { AiOutlineStock } from "react-icons/ai";
-import { FiAlignCenter } from "react-icons/fi";
-import {
-  BsFillHeartFill,
-  BsExclamationOctagonFill,
-  BsTrophy,
-  BsFillAwardFill,
-  BsFillBriefcaseFill,
-  BsFillEnvelopeOpenFill,
-} from "react-icons/bs";
-
-import {
-  FaAlipay,
-  FaCcAmazonPay,
-  FaCcApplePay,
-  FaGooglePlusSquare,
-  FaLine,
-  FaSpotify,
-  FaAddressCard,
-  FaCameraRetro,
-  FaCat,
-  FaChild,
-  FaCut,
-  FaFlushed,
-  FaGlasses,
-  FaHandsHelping,
-  FaGuitar,
-  FaKey,
-  FaMapMarkedAlt,
-  FaPhone,
-  FaUserGraduate,
-  FaUserSlash,
-} from "react-icons/fa";
-
-import {
-  RiVidicon2Fill,
-  RiPlaneLine,
-  RiPingPongFill,
-  RiMentalHealthFill,
-  RiCake2Fill,
-  RiCakeFill,
-  RiBilliardsFill,
-  RiUmbrellaFill,
-  RiHandHeartFill,
-} from "react-icons/ri";
-
-import { MdAudiotrack } from "react-icons/md";
-import { IoAmericanFootball } from "react-icons/io5";
-
-import ReactDOMServer from "react-dom/server";
-import createInitialData from "../../Others/CreateInitialData/createInitialData";
 
 function CategoryProvider(props) {
   const [categoryExpense, setCategoryExpense] = useState({});
   const [categoryIncome, setCategoryIncome] = useState({});
   const [iconArr, setIconArr] = useState([]);
   const [iconObj, setIconObj] = useState({});
-
   const [user, userID] = createUserID();
   const userDocRef = doc(db, "users", userID);
 
@@ -90,14 +27,7 @@ function CategoryProvider(props) {
     });
   }, [user]);
 
-  // const [categoryState, categoryDispatch] = useReducer(reducer, {
-  //   categoryExpense: EXPENSE_CATEGORY,
-  //   categoryIncome: INCOME_CATEGORY,
-  //   iconObj,
-  //   iconArr,
-  // });
-
-  async function removeMainCategory(value, type) {
+  async function deleteMainCategory(value, type) {
     const icon = iconObj[value];
     const newIconArr = [...iconArr, icon];
     const newIconObj = { ...iconObj };
@@ -121,7 +51,7 @@ function CategoryProvider(props) {
       });
   }
 
-  async function removeSubCategory(value, type, mainCategory) {
+  async function deleteSubCategory(value, type, mainCategory) {
     const newMainCategory = {
       ...(type === "expense" ? categoryExpense : categoryIncome),
     };
@@ -187,8 +117,8 @@ function CategoryProvider(props) {
     categoryIncome,
     iconObj,
     iconArr,
-    removeMainCategory,
-    removeSubCategory,
+    deleteMainCategory,
+    deleteSubCategory,
     addMainCategory,
     addSubCategory,
   };
@@ -202,6 +132,66 @@ function CategoryProvider(props) {
 
 export default CategoryProvider;
 
+/*
+import { IoFastFoodSharp } from "react-icons/io5";
+import { IoIosShirt } from "react-icons/io";
+import { GiFamilyHouse } from "react-icons/gi";
+import { AiFillCar } from "react-icons/ai";
+import { ImBook } from "react-icons/im";
+import { IoLogoGameControllerB } from "react-icons/io";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { RiHandCoinFill } from "react-icons/ri";
+import { AiOutlineStock } from "react-icons/ai";
+import { FiAlignCenter } from "react-icons/fi";
+import {
+  BsFillHeartFill,
+  BsExclamationOctagonFill,
+  BsTrophy,
+  BsFillAwardFill,
+  BsFillBriefcaseFill,
+  BsFillEnvelopeOpenFill,
+} from "react-icons/bs";
+
+import {
+  FaAlipay,
+  FaCcAmazonPay,
+  FaCcApplePay,
+  FaGooglePlusSquare,
+  FaLine,
+  FaSpotify,
+  FaAddressCard,
+  FaCameraRetro,
+  FaCat,
+  FaChild,
+  FaCut,
+  FaFlushed,
+  FaGlasses,
+  FaHandsHelping,
+  FaGuitar,
+  FaKey,
+  FaMapMarkedAlt,
+  FaPhone,
+  FaUserGraduate,
+  FaUserSlash,
+} from "react-icons/fa";
+
+import {
+  RiVidicon2Fill,
+  RiPlaneLine,
+  RiPingPongFill,
+  RiMentalHealthFill,
+  RiCake2Fill,
+  RiCakeFill,
+  RiBilliardsFill,
+  RiUmbrellaFill,
+  RiHandHeartFill,
+} from "react-icons/ri";
+
+import { MdAudiotrack } from "react-icons/md";
+import { IoAmericanFootball } from "react-icons/io5";
+
+import ReactDOMServer from "react-dom/server";
+
 function encodeSvg(reactElement) {
   return (
     "data:image/svg+xml," +
@@ -210,56 +200,56 @@ function encodeSvg(reactElement) {
 }
 
 const iconObj = {
-  food: <IoFastFoodSharp className={style.icon} />,
-  clothing: <IoIosShirt className={style.icon} />,
-  housing: <GiFamilyHouse className={style.icon} />,
-  transportation: <AiFillCar className={style.icon} />,
-  education: <ImBook className={style.icon} />,
-  entertainment: <IoLogoGameControllerB className={style.icon} />,
-  salary: <RiMoneyDollarCircleFill className={style.icon} />,
-  investment: <BsTrophy className={style.icon} />,
-  bonus: <RiHandCoinFill className={style.icon} />,
-  stock: <AiOutlineStock className={style.icon} />,
-  others: <FiAlignCenter className={style.icon} />,
+  food: <IoFastFoodSharp className={styles.icon} />,
+  clothing: <IoIosShirt className={styles.icon} />,
+  housing: <GiFamilyHouse className={styles.icon} />,
+  transportation: <AiFillCar className={styles.icon} />,
+  education: <ImBook className={styles.icon} />,
+  entertainment: <IoLogoGameControllerB className={styles.icon} />,
+  salary: <RiMoneyDollarCircleFill className={styles.icon} />,
+  investment: <BsTrophy className={styles.icon} />,
+  bonus: <RiHandCoinFill className={styles.icon} />,
+  stock: <AiOutlineStock className={styles.icon} />,
+  others: <FiAlignCenter className={styles.icon} />,
 };
 
 const iconArr = [
-  <BsFillHeartFill className={style.icon} />,
-  <BsExclamationOctagonFill className={style.icon} />,
-  <BsTrophy className={style.icon} />,
-  <BsFillAwardFill className={style.icon} />,
-  <BsFillBriefcaseFill className={style.icon} />,
-  <BsFillEnvelopeOpenFill className={style.icon} />,
-  <FaAlipay className={style.icon} />,
-  <FaCcAmazonPay className={style.icon} />,
-  <FaCcApplePay className={style.icon} />,
-  <FaGooglePlusSquare className={style.icon} />,
-  <FaLine className={style.icon} />,
-  <FaSpotify className={style.icon} />,
-  <FaAddressCard className={style.icon} />,
-  <FaCameraRetro className={style.icon} />,
-  <FaCat className={style.icon} />,
-  <FaChild className={style.icon} />,
-  <FaCut className={style.icon} />,
-  <FaFlushed className={style.icon} />,
-  <FaGlasses className={style.icon} />,
-  <FaHandsHelping className={style.icon} />,
-  <FaGuitar className={style.icon} />,
-  <FaKey className={style.icon} />,
-  <FaMapMarkedAlt className={style.icon} />,
-  <FaPhone className={style.icon} />,
-  <FaUserGraduate className={style.icon} />,
-  <RiVidicon2Fill className={style.icon} />,
-  <RiPlaneLine className={style.icon} />,
-  <RiPingPongFill className={style.icon} />,
-  <RiMentalHealthFill className={style.icon} />,
-  <RiCake2Fill className={style.icon} />,
-  <RiCakeFill className={style.icon} />,
-  <RiBilliardsFill className={style.icon} />,
-  <RiUmbrellaFill className={style.icon} />,
-  <RiHandHeartFill className={style.icon} />,
-  <MdAudiotrack className={style.icon} />,
-  <IoAmericanFootball className={style.icon} />,
+  <BsFillHeartFill className={styles.icon} />,
+  <BsExclamationOctagonFill className={styles.icon} />,
+  <BsTrophy className={styles.icon} />,
+  <BsFillAwardFill className={styles.icon} />,
+  <BsFillBriefcaseFill className={styles.icon} />,
+  <BsFillEnvelopeOpenFill className={styles.icon} />,
+  <FaAlipay className={styles.icon} />,
+  <FaCcAmazonPay className={styles.icon} />,
+  <FaCcApplePay className={styles.icon} />,
+  <FaGooglePlusSquare className={styles.icon} />,
+  <FaLine className={styles.icon} />,
+  <FaSpotify className={styles.icon} />,
+  <FaAddressCard className={styles.icon} />,
+  <FaCameraRetro className={styles.icon} />,
+  <FaCat className={styles.icon} />,
+  <FaChild className={styles.icon} />,
+  <FaCut className={styles.icon} />,
+  <FaFlushed className={styles.icon} />,
+  <FaGlasses className={styles.icon} />,
+  <FaHandsHelping className={styles.icon} />,
+  <FaGuitar className={styles.icon} />,
+  <FaKey className={styles.icon} />,
+  <FaMapMarkedAlt className={styles.icon} />,
+  <FaPhone className={styles.icon} />,
+  <FaUserGraduate className={styles.icon} />,
+  <RiVidicon2Fill className={styles.icon} />,
+  <RiPlaneLine className={styles.icon} />,
+  <RiPingPongFill className={styles.icon} />,
+  <RiMentalHealthFill className={styles.icon} />,
+  <RiCake2Fill className={styles.icon} />,
+  <RiCakeFill className={styles.icon} />,
+  <RiBilliardsFill className={styles.icon} />,
+  <RiUmbrellaFill className={styles.icon} />,
+  <RiHandHeartFill className={styles.icon} />,
+  <MdAudiotrack className={styles.icon} />,
+  <IoAmericanFootball className={styles.icon} />,
 ];
 
 const EXPENSE_CATEGORY = {
@@ -325,10 +315,10 @@ function reducer(state, action) {
     }
 
     case "ADD_MAIN_CATEGORY": {
-      /*
+      
       No matter it's expense or income, iconObj and iconArr are always the same
       The only difference is category object data
-      */
+      
       const iconObj = { ...state.iconObj };
       iconObj[action.value] = state.iconArr[action.iconIndex];
       const iconArr = state.iconArr.filter(
@@ -375,3 +365,11 @@ function reducer(state, action) {
       break;
   }
 }
+
+  // const [categoryState, categoryDispatch] = useReducer(reducer, {
+  //   categoryExpense: EXPENSE_CATEGORY,
+  //   categoryIncome: INCOME_CATEGORY,
+  //   iconObj,
+  //   iconArr,
+  // });
+*/

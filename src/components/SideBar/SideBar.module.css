@@ -11,9 +11,13 @@
 }
 
 .logo {
-  margin: 3rem 0 5rem 0;
   font-size: 3.6rem;
   color: var(--logo);
+}
+
+a {
+  margin: 5rem 0 5rem 0;
+  display: inline-block;
 }
 
 .sidebar__item {

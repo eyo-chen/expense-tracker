@@ -1,6 +1,6 @@
 import SubTitle from "../../../../UI/SubTitle/SubTitle";
 import InputCheckbox from "../../../../UI/InputCheckbox/InputCheckbox";
-import style from "./ChartOptionSubCategory.module.css";
+import styles from "./ChartOptionSubCategory.module.css";
 
 function ChartOptionSubCategory(props) {
   function checkboxChangeHandler(e) {
@@ -11,15 +11,15 @@ function ChartOptionSubCategory(props) {
     });
   }
   return (
-    <div className={style.checkbox}>
-      <SubTitle className={style["subtitle--time"]}>Select Sub Data</SubTitle>
-      <div className={style["checkbox__container"]}>
+    <div className={styles.checkbox}>
+      <SubTitle className={styles["subtitle--time"]}>Select Sub Data</SubTitle>
+      <div className={styles["checkbox__container"]}>
         {props.category.map((element) => (
           <InputCheckbox
-            classContainer={style["input__container"]}
-            classCheck={style.check}
-            classInput={style.input}
-            classLabel={`${style.label} transition--25 capitalize`}
+            classContainer={styles["input__container"]}
+            classCheck={styles.check}
+            classInput={styles.input}
+            classLabel={`${styles.label} transition--25 capitalize`}
             key={element}
             id={element}
             label={element}

@@ -1,16 +1,16 @@
-import { AiFillEdit } from "react-icons/ai";
 import BtnIcon from "../../../../UI/BtnIcon/BtnIcon";
 import Button from "../../../../UI/Button/Button";
-import style from "./SettingCategory.module.css";
+import { AiFillEdit } from "react-icons/ai";
+import styles from "./SettingCategory.module.css";
 
 function SettingSubCategory(props) {
   const categoryList = props.categoryState.subCategoryArr.map((element) => (
     <div
-      className={`${style.data}  ${
+      className={`${styles.data}  ${
         element === props.categoryState.subCategory
           ? props.categoryState.type === "expense"
-            ? style["data--active--expense"]
-            : style["data--active--income"]
+            ? styles["data--active--expense"]
+            : styles["data--active--income"]
           : ""
       }  `}
       key={element}
@@ -29,26 +29,26 @@ function SettingSubCategory(props) {
   }
 
   return (
-    <div className={style.container}>
-      <div className={style["subtitle__container"]}>
-        <p className={`${style.subtitle} capitalize`}>sub category</p>
+    <div className={styles.container}>
+      <div className={styles["subtitle__container"]}>
+        <p className={`${styles.subtitle} capitalize`}>sub category</p>
         <BtnIcon
           dataID="sub"
           text="edit"
-          classBtn={style["btn--edit"]}
-          classText={style["btn__text"]}
+          classBtn={styles["btn--edit"]}
+          classText={styles["btn__text"]}
           onClick={props.clickEditBtnHandler}
         >
           <AiFillEdit />
         </BtnIcon>
       </div>
-      <div className={style["data__container"]}>{categoryList}</div>
+      <div className={styles["data__container"]}>{categoryList}</div>
       {props.categoryState.editSubCategory && (
-        <div className={style["btn__container"]}>
+        <div className={styles["btn__container"]}>
           <Button
             onClick={props.deleteModalToggler}
             type="button"
-            className={`${style.btn} transition--25 uppercase`}
+            className={`${styles.btn} transition--25 uppercase`}
             dataID="sub"
           >
             delete
@@ -56,7 +56,7 @@ function SettingSubCategory(props) {
           <Button
             onClick={props.addSubCategoryModalToggler}
             type="button"
-            className={`${style.btn} transition--25 uppercase`}
+            className={`${styles.btn} transition--25 uppercase`}
             dataID="sub"
           >
             add

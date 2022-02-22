@@ -6,7 +6,7 @@ import AccountChart from "./AccountChart";
 import BtnIcons from "../../../UI/BtnIcons/BtnIcons";
 import AccountModal from "../../../UI/AccountModal/AccountModal";
 import { auth } from "../../../../firebase-config";
-import style from "./AccountOverview.module.css";
+import styles from "./AccountOverview.module.css";
 
 function AccountOverview() {
   const [modalCard, setModalCard] = useState(false);
@@ -26,11 +26,11 @@ function AccountOverview() {
       {modalCard && (
         <AccountModal modalCard={modalCard} closeModalCard={modalCardToggler} />
       )}
-      <div className={style.overview}>
-        <div className={style.title}>
+      <div className={styles.overview}>
+        <div className={styles.title}>
           <Title>account overview</Title>
-          <SubTitle className={style.subtitle}>hi, {displayName}</SubTitle>
-          <div className={style["btn__container"]}>
+          <SubTitle className={styles.subtitle}>hi, {displayName}</SubTitle>
+          <div className={styles["btn__container"]}>
             <BtnIcons onClick={modalCardToggler} news={true} />
           </div>
         </div>

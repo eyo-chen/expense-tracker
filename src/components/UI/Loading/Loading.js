@@ -1,7 +1,13 @@
 import styles from "./Loading.module.css";
 
-function Loading() {
-  return <div className={`${styles.loader} center`}></div>;
+function Loading(props) {
+  return (
+    <div
+      className={`${styles.loader} center ${
+        props.className ? props.className : ""
+      }`}
+    ></div>
+  );
 }
 
 export default Loading;

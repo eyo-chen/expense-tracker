@@ -1,10 +1,10 @@
 import AccountNews from "./AccountNews";
 import AccountSmallChart from "./AccountSmallChart";
-import style from "./AccountSubSection.module.css";
+import styles from "./AccountSubSection.module.css";
 
 function AccountSubSection() {
   return (
-    <div className={style.subSection}>
+    <div className={styles.subSection}>
       {/* <AccountNews /> */}
       <AccountSmallChart />
     </div>

@@ -6,7 +6,7 @@ import DeleteCategoryModal from "../../../../UI/DeleteCategoryModal/DeleteCatego
 import SettingType from "./SettingType";
 import SettingMainCategory from "./SettingMainCategory";
 import SettingSubCategory from "./SettingSubCategory";
-import style from "./SettingCategory.module.css";
+import styles from "./SettingCategory.module.css";
 
 let expenseObj, incomeObj;
 
@@ -115,6 +115,7 @@ function reducer(state, action) {
     }
 
     // have to update several variables after deleting(For UI purpose)
+    // (see the referecne 4)
     case "DELETE_CATEGORY": {
       // main category
       if (action.value === "main") {
@@ -122,18 +123,18 @@ function reducer(state, action) {
           (element) => element !== state.clickingCategoryForDelete
         );
 
+        const subCategoryArr =
+          state.type === "expense"
+            ? expenseObj[mainCategoryArr[0]]
+            : incomeObj[mainCategoryArr[0]];
+
         return {
           ...state,
           mainCategoryArr,
           mainCategory: mainCategoryArr[0],
-          subCategoryArr:
-            state.type === "expense"
-              ? expenseObj[mainCategoryArr[0]]
-              : incomeObj[mainCategoryArr[0]],
+          subCategoryArr,
           subCategory:
-            state.type === "expense"
-              ? expenseObj[mainCategoryArr[0]][0]
-              : incomeObj[mainCategoryArr[0]][0],
+            state.type === "expense" ? subCategoryArr[0] : subCategoryArr[0],
         };
       }
       // sub category
@@ -150,16 +151,6 @@ function reducer(state, action) {
       } else return state;
     }
 
-    case "UPDATE": {
-      // const mainCategoryArr = state.mainCategoryArr.map((data) => {
-      //   if (data.id === action.id) {
-      //     return { ...action.value };
-      //   } else return data;
-      // });
-
-      return { ...state, mainCategoryArr: action.value };
-    }
-
     default: {
       return state;
     }
@@ -170,16 +161,16 @@ function SettingCategory() {
   const {
     categoryExpense,
     categoryIncome,
-    removeMainCategory,
-    removeSubCategory,
+    deleteMainCategory,
+    deleteSubCategory,
   } = useContext(CategoryContext);
 
   const [categoryState, categoryStateDispatch] = useReducer(reducer, {
     type: "expense",
     mainCategory: Object.keys(categoryExpense)[0],
-    mainCategoryArr: Object.keys(categoryExpense),
     subCategory: categoryExpense[Object.keys(categoryExpense)[0]][0],
-    subCategoryArr: categoryExpense[Object.keys(categoryExpense)[0]],
+    mainCategoryArr: Object.keys(categoryExpense), // x
+    subCategoryArr: categoryExpense[Object.keys(categoryExpense)[0]], // x
     editMainCategory: false,
     editSubCategory: false,
     deleteModal: false,
@@ -210,36 +201,39 @@ function SettingCategory() {
   function clickDeleteBtnHandler(e) {
     const id = e.target.dataset.id;
 
+    // delect category from database
     if (id === "main") {
-      removeMainCategory(
+      deleteMainCategory(
         categoryState.clickingCategoryForDelete,
         categoryState.type
       );
     } else if (id === "sub") {
-      removeSubCategory(
+      deleteSubCategory(
         categoryState.clickingCategoryForDelete,
         categoryState.type,
         categoryState.mainCategory
       );
     }
 
+    // Reference 4
+    // delet the category from UI(also update other UI)
     categoryStateDispatch({ type: "DELETE_CATEGORY", value: id });
-
-    return;
   }
 
   // Referecne 2
   function addMainCategoryModalToggler(e, value) {
+    // always toggle the modal
     categoryStateDispatch({ type: "ADD_MAIN_CATEGORY_MODAL" });
 
-    // categoryStateDispatch({ type: "UPDATE", value: categoryExpense });
-
+    // add the category if having input value(when click the add btn in modal)
     if (value) categoryStateDispatch({ type: "ADD_MAIN_CATEGORY", value });
   }
 
   function addSubCategoryModalToggler(e, value) {
+    // always toggle the modal
     categoryStateDispatch({ type: "ADD_SUB_CATEGORY_MODAL" });
 
+    // add the category if having input value(when click the add btn in modal)
     if (value) categoryStateDispatch({ type: "ADD_SUB_CATEGORY", value });
   }
 
@@ -267,7 +261,7 @@ function SettingCategory() {
           clickDeleteBtnHandler={clickDeleteBtnHandler}
         />
       )}
-      <div className={style.form}>
+      <div className={styles.form}>
         <SettingType
           type={categoryState.type}
           categoryStateDispatch={categoryStateDispatch}
@@ -333,7 +327,49 @@ AND also in the backdrop
 Now the question is how do we invoke this function in the Backdrop component
 Here
 if (e.target.dataset.id === "backdrop" && props.onClick) props.onClick();
-We invoke function here props.onClick()
+We invoke function here => props.onClick()
 So now e is undefined
 we have to put ? to avoid potential error happen
+*/
+
+/*
+Reference 4
+
+Why we still need categoryStateDispatch({ type: "DELETE_CATEGORY", value: id })
+even tho we have deleted the category by the function in provider?
+
+Because for the UI purpose!!
+
+Both deleteMainCategory and deleteSubCategory are the function in provider
+These two functions delete the category from database
+However, this is nothing to do with the UI
+which means we indeed delete the category from database
+But we did NOT show that action in UI
+
+We need to do couple things after delete the category
+Here, we only mention the UI purpose
+
+If delete the main category,
+1. creat new main category array
+2. create new sub category array
+   => because sub category array is also deleted after deleting main category
+3. choose the first element of new main category array as selected
+   => why?
+   => because it's weird the selected color just disappear after deleting
+   => again, for the UI purpose
+   => For example, now user select food
+   => and user wanna delete the food main category
+   => after deleting, the food category disappear
+   => now we have to select sth new
+   => so we just say we always wanna select the first element in the new main category array
+   => I don't care what's that, just select
+   => user will change the select the category he wants 
+4. choose the first element of new sub category array as selected
+   => same as above
+   => new sub category is created
+   => so just defaul select the first element of new sub category
+
+If delete the main category,
+1. create new sub category array
+2. choose the first element of new sub category array as selected
 */

@@ -2,7 +2,7 @@ import SubTitle from "../../../../UI/SubTitle/SubTitle";
 import InputDate from "../../../../UI/InputDate/InputDate";
 import Select from "../../../../UI/Select/Select";
 import createDateStringFormat from "../../../../../Others/CreateDateStringFormat/CreateDateStringFormat";
-import style from "./ChartOptionTime.module.css";
+import styles from "./ChartOptionTime.module.css";
 
 function ChartOptionTime(props) {
   function startingDateChangeHandler(e) {
@@ -28,7 +28,7 @@ function ChartOptionTime(props) {
       : "";
 
   const startingDate = (
-    <div className={style["time__container"]}>
+    <div className={styles["time__container"]}>
       <InputDate
         label="starting date"
         name="starting date"
@@ -36,7 +36,7 @@ function ChartOptionTime(props) {
         max={maxDate}
         value={props.valueStarting}
         onChange={startingDateChangeHandler}
-        classInput={style["time__input"]}
+        classInput={styles["time__input"]}
       />
     </div>
   );
@@ -46,7 +46,7 @@ function ChartOptionTime(props) {
     timeContent = (
       <>
         {startingDate}
-        <div className={style["time__container"]}>
+        <div className={styles["time__container"]}>
           <InputDate
             label="ending date"
             name="ending date"
@@ -54,7 +54,7 @@ function ChartOptionTime(props) {
             min={minDate}
             value={props.valueEnding}
             onChange={endingDateChangeHandler}
-            classInput={style["time__input"]}
+            classInput={styles["time__input"]}
           />
         </div>
       </>
@@ -63,13 +63,13 @@ function ChartOptionTime(props) {
     timeContent = (
       <>
         {startingDate}
-        <div className={style["time__container"]}>
+        <div className={styles["time__container"]}>
           <label htmlFor="duration">time duration</label>
           <Select
             id="duration"
             name="duration"
             onChange={timeDurationChangeHandler}
-            className={`${style["time__input"]} ${style.duration}`}
+            className={`${styles["time__input"]} ${styles.duration}`}
           >
             <option value="7">one week(7days)</option>
             <option value="14">two weeks(14days)</option>
@@ -87,8 +87,8 @@ function ChartOptionTime(props) {
       <SubTitle
         className={
           props.classColor === "time"
-            ? `${style["subtitle--time"]}`
-            : `${style["subtitle--category"]}`
+            ? `${styles["subtitle--time"]}`
+            : `${styles["subtitle--category"]}`
         }
       >
         Select Time

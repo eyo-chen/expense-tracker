@@ -4,7 +4,7 @@ import ChartOption from "./ChartOption/ChartOption";
 import Backdrop from "../../UI/Modal/Backdrop";
 import BtnIcon from "../../UI/BtnIcon/BtnIcon";
 import useCurWidth from "../../../Others/Custom/useCurWidth";
-import style from "./Chart.module.css";
+import styles from "./Chart.module.css";
 
 function Chart() {
   const [chartData, setChartData] = useState();
@@ -21,20 +21,20 @@ function Chart() {
 
   const classOptionContainer =
     curWidth <= 900 && chartOptionModal
-      ? `${style["option__container"]} ${style["option__container--show"]} center`
-      : `${style["option__container"]}`;
+      ? `${styles["option__container"]} ${styles["option__container--show"]} center`
+      : `${styles["option__container"]}`;
 
   const classBtn =
     chartData === undefined
-      ? `${style.btn} capitalize`
-      : `${style.btn} capitalize ${style["btn--chart"]} `;
+      ? `${styles.btn} capitalize`
+      : `${styles.btn} capitalize ${styles["btn--chart"]} `;
 
   return (
-    <div className={style.chart}>
+    <div className={styles.chart}>
       {curWidth <= 900 && chartOptionModal && (
         <Backdrop
           onClick={closeChartOptionModalHandler}
-          classBackdrop={style.backdrop}
+          classBackdrop={styles.backdrop}
         />
       )}
 
@@ -46,11 +46,11 @@ function Chart() {
       </div>
 
       {chartData === undefined ? (
-        <div className={`${style["chart__description"]} center--flex`}>
+        <div className={`${styles["chart__description"]} center--flex`}>
           <p className="capitalize">please input data to create graph</p>
         </div>
       ) : (
-        <ChartPic className={style["chart__pic"]} chartData={chartData} />
+        <ChartPic className={styles["chart__pic"]} chartData={chartData} />
       )}
 
       {chartOptionModal || (
@@ -58,7 +58,7 @@ function Chart() {
           onClick={showChartOptionModalHandler}
           text="click to choose data"
           classBtn={classBtn}
-          classText={style["btn__text"]}
+          classText={styles["btn__text"]}
         >
           choose data
         </BtnIcon>

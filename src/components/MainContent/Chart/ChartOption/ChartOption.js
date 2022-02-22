@@ -9,7 +9,7 @@ import ChartOptionTime from "./ChartOptionTime/ChartOptionTime";
 import CategoryContext from "../../../../store/category/category--context";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import { RiCloseCircleFill } from "react-icons/ri";
-import style from "./ChartOption.module.css";
+import styles from "./ChartOption.module.css";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -72,7 +72,7 @@ function ChartOption(props) {
   const { categoryExpense, categoryIncome } = useContext(CategoryContext);
 
   const initialObj = {
-    mainType: "",
+    mainType: "time",
     startingDate: "",
     endingDate: "",
     timeDuration: "7",
@@ -126,49 +126,47 @@ function ChartOption(props) {
   }
 
   return (
-    <Card className={style.card}>
+    <Card className={styles.card}>
       <BtnIcon
-        classText={style["btn__text"]}
-        classBtn={style.close}
+        classText={styles["btn__text"]}
+        classBtn={styles.close}
         onClick={props.closeChartOptionModalHandler}
         text="close"
       >
         <RiCloseCircleFill />
       </BtnIcon>
 
-      <form onSubmit={submitFormHandler} className={style.form}>
+      <form onSubmit={submitFormHandler} className={styles.form}>
         <div>
-          <Title className={style["form__title"]}>Analyize By</Title>
+          <Title className={styles["form__title"]}>Analyize By</Title>
 
           <ChartOptionType
             mainType={chartData.mainType}
             dispatchChartData={dispatchChartData}
           />
 
-          {chartData.mainType && (
-            <div className={style.scroll}>
-              <ChartOptionTime
-                classColor={chartData.mainType}
-                dispatchChartData={dispatchChartData}
-                valueStarting={chartData.startingDate}
-                valueEnding={chartData.endingDate}
-                mainType={chartData.mainType}
-                optionMainType={chartData.mainType}
-              />
-              <ChartOptionMainCategory
-                mainCategory={chartData.mainCategory}
-                mainType={chartData.mainType}
-                classColor={chartData.mainType}
-                dispatchChartData={dispatchChartData}
-              />
-              {checkboxContent}
-            </div>
-          )}
+          <div className={styles.scroll}>
+            <ChartOptionTime
+              classColor={chartData.mainType}
+              dispatchChartData={dispatchChartData}
+              valueStarting={chartData.startingDate}
+              valueEnding={chartData.endingDate}
+              mainType={chartData.mainType}
+              optionMainType={chartData.mainType}
+            />
+            <ChartOptionMainCategory
+              mainCategory={chartData.mainCategory}
+              mainType={chartData.mainType}
+              classColor={chartData.mainType}
+              dispatchChartData={dispatchChartData}
+            />
+            {checkboxContent}
+          </div>
         </div>
 
         <Button
           disabled={!validIndex}
-          className={`${style.btn} transition--25 ${
+          className={`${styles.btn} transition--25 ${
             !validIndex ? `btn--invalid` : `btn--valid`
           }`}
         >

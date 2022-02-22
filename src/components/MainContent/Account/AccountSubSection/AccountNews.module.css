@@ -1,5 +1,6 @@
 .card {
   position: relative;
+  min-height: 13rem;
 }
 
 .title__section {
@@ -44,6 +45,13 @@
   text-align: end;
   font-size: 1.3rem;
   font-weight: 500;
+}
+
+.loading {
+  border: 2px solid white;
+  border-top: 2px solid var(--card-dark-bg);
+  width: 2rem;
+  height: 2rem;
 }
 
 @media screen and (max-width: 1200px) {

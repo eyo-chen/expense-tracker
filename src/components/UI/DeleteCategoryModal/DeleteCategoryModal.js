@@ -1,41 +1,36 @@
 import { useContext } from "react";
 import Modal from "../Modal/Modal";
-import Title from "../Title/Title";
 import SubTitle from "../SubTitle/SubTitle";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import Button from "../Button/Button";
 import ExpenseList from "../ExpenseList/ExpenseList";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import EditModalContext from "../../../store/editModal/editModal--context";
+import CategoryContext from "../../../store/category/category--context";
 import { AiFillWarning } from "react-icons/ai";
 import style from "./DeleteCategoryModal.module.css";
 
 function DeleteCategoryModal(props) {
   const { expenseData, removeExpenseDataByCategory } =
     useContext(ExpenseDataContext);
-  const [, setEditModal] = useContext(EditModalContext);
+  const { iconObj } = useContext(CategoryContext);
+  const [_, setEditModal] = useContext(EditModalContext);
 
-  let expenseItem;
-  // main category
-  if (props.deleteMainOrSub === "main") {
-    expenseItem = expenseData.filter(
-      (element) => element.mainCategory === props.clickingCategoryForDelete
-    );
-  }
-  // sub category
-  else if (props.deleteMainOrSub === "sub") {
-    expenseItem = expenseData.filter(
-      (element) => element.subCatetegory === props.clickingCategoryForDelete
-    );
-  }
+  const expenseItem =
+    props.deleteMainOrSub === "main"
+      ? expenseData.filter(
+          (element) => element.mainCategory === props.clickingCategoryForDelete
+        )
+      : (expenseItem = expenseData.filter(
+          (element) => element.subCatetegory === props.clickingCategoryForDelete
+        ));
 
-  let subtitleContent;
-  if (expenseItem.length > 0)
-    subtitleContent = `there ${expenseItem.length === 1 ? "is" : "are"} still ${
-      expenseItem.length
-    } data of ${props.clickingCategoryForDelete} in your expense history`;
-  else
-    subtitleContent = `there's no data of ${props.clickingCategoryForDelete} in your expense history`;
+  const subtitleContent =
+    expenseItem.length > 0
+      ? `there ${expenseItem.length === 1 ? "is" : "are"} still ${
+          expenseItem.length
+        } data in your ${props.type} history`
+      : `there's no data of ${props.clickingCategoryForDelete} in your ${props.type} history`;
 
   function btnDeleteClickHandler(e) {
     props.clickDeleteBtnHandler(e);
@@ -54,17 +49,21 @@ function DeleteCategoryModal(props) {
   return (
     <Modal onClick={props.deleteModalToggler} classModal={style.modal}>
       <div className={style["title__container"]}>
-        <Title className={style.title}>are you sure to delete</Title>
-        <Title className={style.title}>
-          {props.clickingCategoryForDelete} category?
-        </Title>
+        <SubTitle className={style.title}>are you sure to delete</SubTitle>
+        <SubTitle className={`${style.title} ${style["title--icon"]}`}>
+          <img
+            className={`${style.icon} icon`}
+            src={iconObj[props.clickingCategoryForDelete]}
+          />
+          {props.clickingCategoryForDelete} ?
+        </SubTitle>
       </div>
       <HorizontalLine />
       <SubTitle className={style.subtitle}>{subtitleContent}</SubTitle>
       {expenseItem.length > 0 && (
-        <p className={`${style.description} capitalize`}>
+        <p className={`${style.description}`}>
           <AiFillWarning className={style.warning} />
-          all of these data will be deleted if the category is deleted
+          All of these data will be deleted if the category is deleted
           <AiFillWarning className={style.warning} />
         </p>
       )}

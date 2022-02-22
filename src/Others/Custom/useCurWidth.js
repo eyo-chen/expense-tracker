@@ -7,7 +7,7 @@ function useCurWidth() {
   useEffect(() => {
     const detectWindowWidth = debounce(function handleResize() {
       setCurWidth(window.innerWidth);
-    }, 500);
+    }, 300);
 
     window.addEventListener("resize", detectWindowWidth);
 

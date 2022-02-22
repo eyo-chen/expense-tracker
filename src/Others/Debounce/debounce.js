@@ -1,13 +1,14 @@
 function debounce(fn, ms) {
   let timer;
 
-  return (_) => {
+  return function (...args) {
     clearTimeout(timer);
 
     timer = setTimeout((_) => {
       timer = null;
 
-      fn.apply(this, arguments);
+      fn(...args);
+      // fn.apply(this, arguments);
     }, ms);
   };
 }

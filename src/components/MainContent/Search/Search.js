@@ -4,7 +4,7 @@ import SearchOption from "./SearchOption/SearchOption";
 import SearchListDataProvider from "../../../store/searchListData/SearchListDataProvider";
 import Backdrop from "../../UI/Modal/Backdrop";
 import useCurWidth from "../../../Others/Custom/useCurWidth";
-import style from "./Search.module.css";
+import styles from "./Search.module.css";
 
 function Search() {
   const [searchOptionModal, setSearchOptionModal] = useState(false);
@@ -14,22 +14,21 @@ function Search() {
     setSearchOptionModal((prev) => !prev);
   }
 
+  const optionContainerClassName =
+    curWidth <= 900 && searchOptionModal
+      ? `${styles["option__container"]} ${styles["option--show"]} center`
+      : `${styles["option__container"]}`;
+
   return (
     <SearchListDataProvider>
       {curWidth <= 900 && searchOptionModal && (
         <Backdrop
           onClick={searchOptionModalToggler}
-          classBackdrop={style.backdrop}
+          classBackdrop={styles.backdrop}
         />
       )}
-      <div className={style.search}>
-        <div
-          className={
-            curWidth <= 900 && searchOptionModal
-              ? `${style["option__container"]} ${style["option--show"]} center`
-              : `${style["option__container"]}`
-          }
-        >
+      <div className={styles.search}>
+        <div className={optionContainerClassName}>
           <SearchOption searchOptionModalToggler={searchOptionModalToggler} />
         </div>
         <SearchList searchOptionModalToggler={searchOptionModalToggler} />

@@ -8,7 +8,7 @@ import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
 import useBundleData from "../../../../Others/Custom/useBundleData";
-import style from "./CalendarTable.module.css";
+import styles from "./CalendarTable.module.css";
 
 const dateOptObj = { month: "long" };
 
@@ -79,39 +79,39 @@ function CalendarTable(props) {
         />
       )}
 
-      <div className={style["icon__container"]}>
+      <div className={styles["icon__container"]}>
         <BtnIcons onClick={modalCardToggler} />
       </div>
 
-      <div className={style["monthly__container"]}>
-        <div className={style["monthly__month"]}>
+      <div className={styles["monthly__container"]}>
+        <div className={styles["monthly__month"]}>
           <BtnIcon
             text="last month"
             onClick={arrowBtnClickHandler}
-            classBtn={style.btn}
-            classText={style["btn__text"]}
+            classBtn={styles.btn}
+            classText={styles["btn__text"]}
             dataID="decrease"
           >
             {"<"}
           </BtnIcon>
 
-          <div className={`${style["monthly__title"]} center--flex`}>
-            <Title className={style.title}>
+          <div className={`${styles["monthly__title"]} center--flex`}>
+            <Title className={styles.title}>
               {new Intl.DateTimeFormat("en-US", dateOptObj).format(props.month)}
             </Title>
-            <Title className={style.title}>{props.month.getFullYear()}</Title>
+            <Title className={styles.title}>{props.month.getFullYear()}</Title>
           </div>
           <BtnIcon
             text="next month"
             onClick={arrowBtnClickHandler}
-            classBtn={style.btn}
-            classText={style["btn__text"]}
+            classBtn={styles.btn}
+            classText={styles["btn__text"]}
             dataID="increase"
           >
             {">"}
           </BtnIcon>
         </div>
-        <div className={style["monthly__week"]}>
+        <div className={styles["monthly__week"]}>
           <div>Sun</div>
           <div>Mon</div>
           <div>Tue</div>
@@ -120,7 +120,7 @@ function CalendarTable(props) {
           <div>Fri</div>
           <div>Sat</div>
         </div>
-        <div className={style["monthly__days"]}>{calendarTable}</div>
+        <div className={styles["monthly__days"]}>{calendarTable}</div>
       </div>
     </>
   );

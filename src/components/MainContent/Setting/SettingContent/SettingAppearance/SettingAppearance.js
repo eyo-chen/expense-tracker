@@ -3,12 +3,12 @@ import InputRadio from "../../../../UI/InputRadio/InputRadio";
 import DisplayThemeContext from "../../../../../store/displayTheme/displayTheme--context";
 import createUserID from "../../../../../Others/CreateUserID/createUserID";
 import { db } from "../../../../../firebase-config";
-import { doc, onSnapshot, updateDoc } from "firebase/firestore";
-import style from "./SettingAppearance.module.css";
+import { doc, updateDoc } from "firebase/firestore";
+import styles from "./SettingAppearance.module.css";
 
 function SettingAppearance() {
   const { displayTheme } = useContext(DisplayThemeContext);
-  const [user, userID] = createUserID();
+  const [_, userID] = createUserID();
   const userDocRef = doc(db, "users", userID);
 
   async function changeDisplayThemeHandler(e) {
@@ -18,13 +18,13 @@ function SettingAppearance() {
   }
 
   return (
-    <div className={style.container}>
-      <p className={`${style.subtitle} capitalize`}>display theme</p>
+    <div className={styles.container}>
+      <p className={`${styles.subtitle} capitalize`}>display theme</p>
 
-      <div className={style["radio__container"]}>
+      <div className={styles["radio__container"]}>
         <InputRadio
-          classInput={style.input}
-          classLabel={`${style.label} ${style.light} uppercase`}
+          classInput={styles.input}
+          classLabel={`${styles.label} ${styles.light} uppercase`}
           id="light"
           label="light"
           name="theme"
@@ -33,8 +33,8 @@ function SettingAppearance() {
           checked={displayTheme === "light"}
         />
         <InputRadio
-          classInput={style.input}
-          classLabel={`${style.label} ${style.dark} uppercase`}
+          classInput={styles.input}
+          classLabel={`${styles.label} ${styles.dark} uppercase`}
           id="dark"
           label="dark"
           name="theme"

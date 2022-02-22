@@ -4,10 +4,10 @@ import ExpenseDataContext from "../../../../store/expenseData/expenseData--conte
 import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--context";
 import createLineDataArr from "../../../../Others/CreateChartData/createLineDataArr";
 import createLineLabels from "../../../../Others/CreateChartData/createLineLabels";
-import style from "./AccountChart.module.css";
 import Chart from "chart.js/auto";
 import createConfigObj from "../../../../Others/CreateChartData/createConfigObj";
 import timeObj from "../../../assets/timeObj/timeObj";
+import styles from "./AccountChart.module.css";
 
 // for choosing diff time range (input radio)
 const timeRangeArr = ["1wk", "1mo", "3mo", "6mo", "1yr"];
@@ -54,10 +54,10 @@ function AccountChart() {
   }
 
   return (
-    <div className={style.container}>
+    <div className={styles.container}>
       <div
         onChange={chartRadioChangeHandler}
-        className={style["radio__container"]}
+        className={styles["radio__container"]}
       >
         {timeRangeArr.map((element, index) => (
           <InputRadio
@@ -67,14 +67,14 @@ function AccountChart() {
             value={element}
             name="chart__btn"
             defaultChecked={index === 0}
-            classLabel={`${style.label} transition--25`}
-            classInput={style.input}
-            classCheck={style.check}
+            classLabel={`${styles.label} transition--25`}
+            classInput={styles.input}
+            classCheck={styles.check}
           />
         ))}
       </div>
-      <div className={style["chart__container"]}>
-        <canvas className={style.chart} ref={chartRef}></canvas>
+      <div className={styles["chart__container"]}>
+        <canvas className={styles.chart} ref={chartRef}></canvas>
       </div>
     </div>
   );
@@ -89,14 +89,12 @@ const [chartData, setChartData] = useState([
   ]);
 the reason I choose to use array, instead of object
 is because this
-const config = createConfigObj(...chartData, null, "account");
+const config = createConfigObj(...chartData, displayTheme, "account");
 I can use ... to spread out the element, and pass in as argument
-(null -> skip displayTheme)
 
 Note
 Initially, i put line-config-object inside the this component
 but we later decide use line chart for net income
 So now it's not reasonable to have two exact same line-config-object in two diff components
 that's the one of main reason to seperate createChartDataArr and createConfigArr
-
 */

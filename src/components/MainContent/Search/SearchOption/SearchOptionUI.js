@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
-import style from "./SearchOptionUI.module.css";
 import InputCheckbox from "../../../UI/InputCheckbox/InputCheckbox";
 import SearchListDataContext from "../../../../store/searchListData/searchListData--context";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
+import styles from "./SearchOptionUI.module.css";
 
 /*
 for each different type of search option
@@ -11,6 +11,7 @@ we have different group of small check boxes
 */
 function SearchOptionUI(props) {
   const [showBoxes, setShowBoxes] = useState(true);
+  const { setFilteredData } = useContext(SearchListDataContext);
 
   /*
   to keep tracking each small check boxes if it's checked or not
@@ -19,7 +20,6 @@ function SearchOptionUI(props) {
   const [checkState, setCheckState] = useState(
     new Array(props.checkboxItem.length).fill(false)
   );
-  const searchExpenseDataCtx = useContext(SearchListDataContext);
 
   function arrowBtnClickHandler() {
     setShowBoxes((prev) => !prev);
@@ -32,7 +32,7 @@ function SearchOptionUI(props) {
     if (e.target.checked) {
       // add constraint
       // addConstraintObj(e.target.value, e.target.dataset.id);
-      searchExpenseDataCtx.setFilteredData({
+      setFilteredData({
         type: "ADD",
         value: e.target.value,
         id: e.target.dataset.id,
@@ -40,7 +40,7 @@ function SearchOptionUI(props) {
     } else {
       // remove constraint
       // removeConstraintObj(e.target.value, e.target.dataset.id);
-      searchExpenseDataCtx.setFilteredData({
+      setFilteredData({
         type: "REMOVE",
         value: e.target.value,
         id: e.target.dataset.id,
@@ -59,9 +59,9 @@ function SearchOptionUI(props) {
       value={checkbox.value}
       checked={checkState[i]}
       dataID={props.dataID}
-      classCheck={style.check}
-      classInput={style.input}
-      classLabel={`${style["label--item"]} capitalize`}
+      classCheck={styles.check}
+      classInput={styles.input}
+      classLabel={`${styles["label--item"]} capitalize`}
       onChange={(e) => changeChekboxHandler(i, e)}
     />
   ));
@@ -71,9 +71,9 @@ function SearchOptionUI(props) {
       <InputCheckbox
         label={props.label}
         id={props.label}
-        classCheck={style.icon}
-        classLabel={`${style.label} uppercase`}
-        classContainer={style["icon__container"]}
+        classCheck={styles.icon}
+        classLabel={`${styles.label} uppercase`}
+        classContainer={styles["icon__container"]}
         icon={
           showBoxes ? (
             <IoIosArrowDropdownCircle aria-label="hide" />
@@ -87,8 +87,8 @@ function SearchOptionUI(props) {
       <div
         className={
           showBoxes
-            ? `${style.container}`
-            : `${style.container} ${style.hidden}`
+            ? `${styles.container}`
+            : `${styles.container} ${styles.hidden}`
         }
       >
         {checkboxContent}

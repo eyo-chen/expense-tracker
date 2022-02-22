@@ -1,5 +1,5 @@
 import InputRadio from "../../../../UI/InputRadio/InputRadio";
-import style from "./ChartOptionType.module.css";
+import styles from "./ChartOptionType.module.css";
 
 function ChartOptionType(props) {
   function changeRadioHandler(e) {
@@ -7,13 +7,13 @@ function ChartOptionType(props) {
   }
 
   return (
-    <div className={style.container}>
+    <div className={styles.container}>
       <InputRadio
-        classContainer={style["radio__container"]}
-        classInput={style.input}
-        classLabel={`${style["label--time"]} ${style.label} transition--25 uppercase`}
-        classCheck={style.check}
-        classInside={style.inside}
+        classContainer={styles["radio__container"]}
+        classInput={styles.input}
+        classLabel={`${styles["label--time"]} ${styles.label} transition--25 uppercase`}
+        classCheck={styles.check}
+        classInside={styles.inside}
         onChange={changeRadioHandler}
         id="time"
         name="chart"
@@ -22,10 +22,10 @@ function ChartOptionType(props) {
         checked={props.mainType === "time"}
       />
       <InputRadio
-        classContainer={style["radio__container"]}
-        classInput={style.input}
-        classLabel={`${style["label--category"]} ${style.label} transition--25 uppercase`}
-        classCheck={style.check}
+        classContainer={styles["radio__container"]}
+        classInput={styles.input}
+        classLabel={`${styles["label--category"]} ${styles.label} transition--25 uppercase`}
+        classCheck={styles.check}
         onChange={changeRadioHandler}
         id="category"
         name="chart"

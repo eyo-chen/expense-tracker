@@ -6,7 +6,7 @@ import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--co
 import Chart from "chart.js/auto";
 import createConfigObj from "../../../../Others/CreateChartData/createConfigObj";
 import createChartDataArr from "../../../../Others/CreateChartData/createChartDataArr";
-import style from "./ChartPic.module.css";
+import styles from "./ChartPic.module.css";
 
 function ChartPic(props) {
   const chartRef = useRef(null);
@@ -39,12 +39,12 @@ function ChartPic(props) {
     };
   }, [props.chartData, config]);
 
-  let chartClassName = style["chart--bar"];
+  let chartClassName = styles["chart--bar"];
   if (props.chartData.mainType === "category")
-    chartClassName = style["chart--pie"];
+    chartClassName = styles["chart--pie"];
 
   return (
-    <div className={`${style.chart} ${chartClassName}`}>
+    <div className={`${styles.chart} ${chartClassName}`}>
       <canvas ref={chartRef}></canvas>
     </div>
   );

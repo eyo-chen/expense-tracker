@@ -5,6 +5,13 @@
 
 .title {
   text-align: center;
+  font-size: 3rem;
+}
+
+.title--icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .subtitle {
@@ -15,8 +22,22 @@
   text-align: center;
 }
 
+.text--expense {
+  color: var(--blue);
+}
+
+.text--income {
+  color: var(--pink);
+}
+
+.icon {
+  height: 3rem;
+  width: 3rem;
+  margin-right: 1rem;
+}
+
 .description {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: var(--red);
   font-weight: 700;
   font-style: italic;

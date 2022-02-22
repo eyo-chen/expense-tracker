@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import CategoryContext from "../../../../../store/category/category--context";
-import { AiFillEdit } from "react-icons/ai";
 import BtnIcon from "../../../../UI/BtnIcon/BtnIcon";
 import Button from "../../../../UI/Button/Button";
-import style from "./SettingCategory.module.css";
+import { AiFillEdit } from "react-icons/ai";
+import styles from "./SettingCategory.module.css";
 
 function SettingMainCategory(props) {
   const { iconObj } = useContext(CategoryContext);
@@ -13,22 +13,21 @@ function SettingMainCategory(props) {
       tabIndex="0"
       aria-label={element}
       onClick={clickMainCategoryHandler}
-      className={`${style.data}  ${
+      className={`${styles.data}  ${
         element === props.categoryState.mainCategory
           ? props.categoryState.type === "expense"
-            ? style["data--active--expense"]
-            : style["data--active--income"]
+            ? styles["data--active--expense"]
+            : styles["data--active--income"]
           : ""
       } `}
       key={element}
     >
       {/* Reference 1  */}
-      <div className={style["data__cover"]} data-id={element}></div>
-      {/* <span className={style["data__icon"]}>{iconObj[element]}</span> */}
-      <span className={style["data__icon"]}>
+      <div className={styles["data__cover"]} data-id={element}></div>
+      <span className={styles["data__icon"]}>
         <img
           alt={element}
-          className={`icon ${style["img__icon"]}`}
+          className={`icon ${styles["img__icon"]}`}
           src={iconObj[element]}
         />
       </span>
@@ -44,26 +43,26 @@ function SettingMainCategory(props) {
   }
 
   return (
-    <div className={style.container}>
-      <div className={style["subtitle__container"]}>
-        <p className={`${style.subtitle} capitalize`}>main category</p>
+    <div className={styles.container}>
+      <div className={styles["subtitle__container"]}>
+        <p className={`${styles.subtitle} capitalize`}>main category</p>
         <BtnIcon
           dataID="main"
           text="edit"
-          classBtn={style["btn--edit"]}
-          classText={style["btn__text"]}
+          classBtn={styles["btn--edit"]}
+          classText={styles["btn__text"]}
           onClick={props.clickEditBtnHandler}
         >
           <AiFillEdit />
         </BtnIcon>
       </div>
-      <div className={style["data__container"]}>{categoryList}</div>
+      <div className={styles["data__container"]}>{categoryList}</div>
       {props.categoryState.editMainCategory && (
-        <div className={style["btn__container"]}>
+        <div className={styles["btn__container"]}>
           <Button
             onClick={props.deleteModalToggler}
             type="button"
-            className={`${style.btn} transition--25 uppercase`}
+            className={`${styles.btn} transition--25 uppercase`}
             dataID="main"
           >
             delete
@@ -71,7 +70,7 @@ function SettingMainCategory(props) {
           <Button
             onClick={props.addMainCategoryModalToggler}
             type="button"
-            className={`${style.btn} transition--25 uppercase`}
+            className={`${styles.btn} transition--25 uppercase`}
             dataID="main"
           >
             add

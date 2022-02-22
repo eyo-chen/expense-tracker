@@ -6,7 +6,7 @@ import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--co
 import createAccountCardPreData from "../../../../Others/CreateAccountCardData/createAccountCardPreData";
 import createSmallChartData from "../../../../Others/CreateAccountCardData/createSmallChartData";
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
-import style from "./WeeklyInfo.module.css";
+import styles from "./WeeklyInfo.module.css";
 
 function WeeklyInfo(props) {
   const { expenseData } = useContext(ExpenseDataContext);
@@ -38,7 +38,7 @@ function WeeklyInfo(props) {
   if (configBar && configBar.data) configBar.data.labels = labels;
 
   return (
-    <div className={style.weekly}>
+    <div className={styles.weekly}>
       <CardChartSection
         title="Weekly Overview"
         income={accIncome}

@@ -8,7 +8,7 @@ import Button from "../Button/Button";
 import CategoryContext from "../../../store/category/category--context";
 import Warning from "../Warning/Warning";
 import EditModalContext from "../../../store/editModal/editModal--context";
-import style from "./AddingSubCategoryModal.module.css";
+import styles from "./AddingSubCategoryModal.module.css";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -32,7 +32,7 @@ function reducer(state, action) {
 function AddingSubCategoryModal(props) {
   const { categoryExpense, categoryIncome, addSubCategory } =
     useContext(CategoryContext);
-  const [, setEditModal] = useContext(EditModalContext);
+  const [_, setEditModal] = useContext(EditModalContext);
 
   const categoryNameArr =
     props.type === "expense"
@@ -72,42 +72,42 @@ function AddingSubCategoryModal(props) {
 
   const warnningText = form.isDuplicate
     ? "duplicate category name is not allowed"
-    : "empty is not allowed";
+    : "required";
 
   return (
-    <Modal onClick={props.addSubCategoryModalToggler} classModal={style.modal}>
-      <Title className={style.title}>add sub category</Title>
+    <Modal onClick={props.addSubCategoryModalToggler} classModal={styles.modal}>
+      <Title className={styles.title}>add sub category</Title>
       <HorizontalLine />
-      <div className={style["subtitle__container"]}>
+      <div className={styles["subtitle__container"]}>
         <SubTitle>you're adding sub category of {props.mainCategory}</SubTitle>
       </div>
       <form onSubmit={submitHandler}>
-        <div className={style.container}>
-          <div className={style["input__container"]}>
+        <div className={styles.container}>
+          <div className={styles["input__container"]}>
             <InputText
               name="subcategory name"
               label="subcategory name"
               value={form.name}
               onChange={inputTextChangeHandler}
               onBlur={inputTextTouchHandler}
-              classLabel={style.label}
+              classLabel={styles.label}
               classInput={
                 warnningIndex
-                  ? `${style.input} input--invalid`
-                  : `${style.input}`
+                  ? `${styles.input} input--invalid`
+                  : `${styles.input}`
               }
             />
           </div>
 
-          <Warning className={style.warning} index={warnningIndex}>
+          <Warning className={styles.warning} index={warnningIndex}>
             {warnningText}
           </Warning>
         </div>
 
-        <div className={style["btn__container"]}>
+        <div className={styles["btn__container"]}>
           <Button
             type="button"
-            className={`${style.btn} uppercase btn--valid transition--25`}
+            className={`${styles.btn} uppercase btn--valid transition--25`}
             onClick={props.addSubCategoryModalToggler}
           >
             cancel
@@ -115,7 +115,7 @@ function AddingSubCategoryModal(props) {
           <Button
             disabled={!form.isValid}
             type="submit"
-            className={`${style.btn} uppercase transition--25 ${
+            className={`${styles.btn} uppercase transition--25 ${
               form.isValid ? `btn--valid` : "btn--invalid"
             }`}
           >

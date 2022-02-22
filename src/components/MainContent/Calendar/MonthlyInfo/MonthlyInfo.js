@@ -6,7 +6,7 @@ import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--co
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
 import createAccountCardPreData from "../../../../Others/CreateAccountCardData/createAccountCardPreData";
 import createSmallChartData from "../../../../Others/CreateAccountCardData/createSmallChartData";
-import style from "./MonthlyInfo.module.css";
+import styles from "./MonthlyInfo.module.css";
 
 function MonthlyInfo(props) {
   const { expenseData } = useContext(ExpenseDataContext);
@@ -33,7 +33,7 @@ function MonthlyInfo(props) {
   );
 
   return (
-    <div className={style.monthly}>
+    <div className={styles.monthly}>
       <CardChartSection
         title="Monthly Overview"
         income={accIncome}

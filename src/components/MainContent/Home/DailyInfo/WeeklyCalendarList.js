@@ -1,4 +1,4 @@
-import style from "./WeeklyCalendarList.module.css";
+import styles from "./WeeklyCalendarList.module.css";
 
 function WeeklyCalendarList(props) {
   function clickDateHandler(e) {
@@ -8,13 +8,15 @@ function WeeklyCalendarList(props) {
   }
 
   // NOTE: need white space to seprate differnt className
-  let className = `${style.date} center--flex transition--25 `;
-  className += props.active ? `${style.active} ` : `${style["date--others"]} `;
-  className += props.selected ? `${style.selected} ` : "";
+  let className = `${styles.date} center--flex transition--25 `;
+  className += props.active
+    ? `${styles.active} `
+    : `${styles["date--others"]} `;
+  className += props.selected ? `${styles.selected} ` : "";
 
   return (
     <div>
-      <p className={style.day}>{props.weekDay}</p>
+      <p className={styles.day}>{props.weekDay}</p>
       <div
         tabIndex="0"
         aria-label="change day"

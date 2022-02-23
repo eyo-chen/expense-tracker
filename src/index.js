@@ -4,6 +4,7 @@ import "./index.css";
 import DisplayThemeProvider from "./store/displayTheme/DisplayThemeProvider";
 import App from "./App";
 
+console.log("aaa");
 ReactDOM.render(
   <React.StrictMode>
     <DisplayThemeProvider>

@@ -68,8 +68,8 @@ function ExpenseItem(props) {
 
   // Reference 4
   let limitedLength = props.modal ? 20 : 40;
-  if (curWidth <= 1100) limitedLength = 20;
-  if (curWidth <= 600) limitedLength = 15;
+  if (curWidth <= 1100) limitedLength = 15;
+  if (curWidth <= 600) limitedLength = 10;
 
   const classLongDescription =
     props.description?.length > limitedLength ? "item__description--long" : "";

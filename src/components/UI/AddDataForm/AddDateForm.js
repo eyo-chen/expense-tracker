@@ -111,7 +111,7 @@ function reducer(state, action) {
 
 function AddDataForm(props) {
   const { addExpenseData, editExpenseData } = useContext(ExpenseDataContext);
-  const [_, setEditModal] = useContext(EditModalContext);
+  const [, setEditModal] = useContext(EditModalContext);
   const { categoryExpense, categoryIncome, iconObj } =
     useContext(CategoryContext);
   const { update } = useContext(SearchListDataContext);

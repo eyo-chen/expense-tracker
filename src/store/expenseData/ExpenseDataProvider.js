@@ -1,4 +1,4 @@
-import { useReducer, useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import createUserID from "../../Others/CreateUserID/createUserID";
 import ExpenseDataContext from "./expenseData--context";
 import {
@@ -9,19 +9,13 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { db, provider, auth } from "../../firebase-config";
-import { v4 as uuidv4 } from "uuid";
+import { db } from "../../firebase-config";
 
 function ExpenseDataProvider(props) {
   const [expenseData, setExpenseData] = useState([]);
   const [dataIsLoading, setDataIsLoading] = useState(true);
   const [user, userID] = createUserID();
   const expenseDataCollectionRef = collection(db, "users", userID, "data");
-
-  const [expenseDataState, expenseDataDispatch] = useReducer(
-    reducer,
-    reducerInitialObj
-  );
 
   useEffect(() => {
     if (!user) return;
@@ -35,12 +29,10 @@ function ExpenseDataProvider(props) {
   }, [user]);
 
   async function removeExpenseData(id) {
-    // const userDocs = doc(db, "expense-data", id);
     await deleteDoc(doc(db, "users", userID, "data", id));
   }
 
   async function addExpenseData(value) {
-    // expenseDataDispatch({ type: "ADD", value });
     try {
       await addDoc(expenseDataCollectionRef, value);
     } catch (error) {
@@ -49,28 +41,20 @@ function ExpenseDataProvider(props) {
   }
 
   async function editExpenseData(value, id) {
-    // expenseDataDispatch({ type: "EDIT", value, id });
-
-    // const userDocs = doc(db, "expense-data", id);
-
     await updateDoc(doc(db, "users", userID, "data", id), value);
   }
 
   function removeExpenseDataByCategory(deleteMainOrSub, value) {
-    expenseDataDispatch({ type: "DELETE_CATEGORY", deleteMainOrSub, value });
-
-    // expenseData.forEach((data) => {
-    //   if (deleteMainOrSub === "main")
-    //     if (data.mainCategory === value) removeExpenseData(data.id);
-    //     else if (deleteMainOrSub === "sub")
-    //       if (data.subCategory === value) removeExpenseData(data.id);
-    // });
+    expenseData.forEach((data) => {
+      if (deleteMainOrSub === "main" && data.mainCategory === value)
+        removeExpenseData(data.id);
+      if (deleteMainOrSub === "sub" && data.subCategory === value)
+        removeExpenseData(data.id);
+    });
   }
 
   const contextInitialObj = {
     expenseData: expenseData,
-    // categoryExpense: EXPENSE_CATEGORY,
-    // categoryIncome: INCOME_CATEGORY,
     removeExpenseData,
     addExpenseData,
     editExpenseData,
@@ -87,6 +71,7 @@ function ExpenseDataProvider(props) {
 
 export default ExpenseDataProvider;
 
+/*
 const EXPENSE_CATEGORY = {
   food: ["breakfast", "brunch", "lunch", "dinner", "snack", "drink"],
   clothing: ["clothes", "pants", "shoes", "accessories", "underwear"],
@@ -2228,11 +2213,11 @@ function reducer(state, action) {
     }
 
     case "EDIT": {
-      /*
+
       actione.value is new edited object
       1) use id to find the date user wanna edit
       2) loop through this data, and edit each new property
-      */
+      
       const [editingExpenseData] = state.expenseData.filter(
         (element) => element.id === action.value.id
       );
@@ -2248,3 +2233,11 @@ function reducer(state, action) {
       return state;
   }
 }
+
+
+  const [expenseDataState, expenseDataDispatch] = useReducer(
+    reducer,
+    reducerInitialObj
+  );
+
+*/

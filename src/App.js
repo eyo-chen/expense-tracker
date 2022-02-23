@@ -13,8 +13,8 @@ import { FiMenu } from "react-icons/fi";
 import timeObj from "./components/assets/timeObj/timeObj";
 import style from "./App.module.css";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, onSnapshot, updateDoc } from "firebase/firestore";
-import { db, firebaseConfig, auth } from "./firebase-config";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db, auth } from "./firebase-config";
 
 const { TODAY } = timeObj;
 
@@ -111,36 +111,3 @@ function App() {
 }
 
 export default App;
-
-/*
-
-// var dt = new Date();
-
-// dt.getMonth() will return a month between 0 - 11
-// we add one to get to the last day of the month
-// so that when getDate() is called it will return the last day of the month
-// var month = dt.getMonth() + 1;
-
-// var year = dt.getFullYear();
-
-// this line does the magic (in collab with the lines above)
-// var daysInMonth = new Date(year, month, 0).getDate();
-
-
-var options = { weekday: 'long'};
-console.log(new Intl.DateTimeFormat('en-US', options).format(Xmas95));
-// Monday
-console.log(new Intl.DateTimeFormat('de-DE', options).format(Xmas95));
-// Montag
-*/
-
-// const haha = new Date();
-
-// function opop(date) {
-//   date.setDate(date.getDate() + 7);
-//   console.log(date);
-// }
-
-// opop(haha);
-// opop(haha);
-// opop(haha);

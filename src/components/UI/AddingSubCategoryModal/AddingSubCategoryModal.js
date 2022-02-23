@@ -32,7 +32,7 @@ function reducer(state, action) {
 function AddingSubCategoryModal(props) {
   const { categoryExpense, categoryIncome, addSubCategory } =
     useContext(CategoryContext);
-  const [_, setEditModal] = useContext(EditModalContext);
+  const [, setEditModal] = useContext(EditModalContext);
 
   const categoryNameArr =
     props.type === "expense"

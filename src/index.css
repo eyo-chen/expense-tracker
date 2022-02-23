@@ -292,13 +292,9 @@ body {
   border: none;
   padding: 1rem;
   border-radius: 10px;
-  background-color: var(--btn-bg);
+  background-color: transparent;
   color: var(--btn-color);
   text-transform: capitalize;
-}
-
-.btn:hover {
-  background-color: var(--btn-hover-bg);
 }
 
 .capitalize {

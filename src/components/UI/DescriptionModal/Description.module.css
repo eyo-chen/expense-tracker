@@ -1,10 +1,12 @@
 .modal {
   height: 60%;
+  z-index: 800;
 }
 
 .title {
   text-align: center;
   margin: 2rem 0;
+  font-size: 3.5rem;
 }
 
 .description {

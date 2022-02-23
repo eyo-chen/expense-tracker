@@ -8,7 +8,7 @@ import styles from "./SettingAppearance.module.css";
 
 function SettingAppearance() {
   const { displayTheme } = useContext(DisplayThemeContext);
-  const [_, userID] = createUserID();
+  const [, userID] = createUserID();
   const userDocRef = doc(db, "users", userID);
 
   async function changeDisplayThemeHandler(e) {

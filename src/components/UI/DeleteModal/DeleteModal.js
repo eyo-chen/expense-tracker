@@ -33,7 +33,6 @@ function DeleteModal(props) {
         <div
           onClick={descriptionModalToggler}
           key={dataInfoKey[index]}
-          className={styles["info__item"]}
           className={
             data?.length >= 20
               ? `${styles["info__item"]} ${styles.long}`
@@ -88,11 +87,7 @@ function DeleteModal(props) {
           {props.dataInfo.description}
         </DescriptionModal>
       )}
-      <Modal
-        onClick={closeDeleteModal}
-        classBackdrop={styles.backdrop}
-        classModal={styles.modal}
-      >
+      <Modal onClick={closeDeleteModal} classModal={styles.modal}>
         <div>
           <SubTitle className={styles.title}>
             are you sure <br /> to delete this data?

@@ -24,7 +24,7 @@ function SmallChart(props) {
     };
   }, [
     chartState,
-    expenseData,
+    expenseData.length,
     props.startingDateString,
     props.configBar,
     props.configPie,

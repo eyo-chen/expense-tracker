@@ -1,0 +1,48 @@
+.modal {
+  height: 70vh;
+}
+
+.title {
+  font-size: 3.2rem;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.subtitle {
+  text-align: center;
+  margin: 2rem;
+}
+
+.info {
+  text-align: center;
+  margin-bottom: 8rem;
+}
+
+.name {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+img {
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+
+.email {
+  font-size: 2.5rem;
+}
+
+.btn__container {
+  text-align: center;
+}
+
+.btn {
+  font-size: 2.5rem;
+  padding: 1rem 2rem;
+  background-color: var(--btn-bg);
+  margin: 0 4rem;
+}
+
+.btn:hover {
+  background-color: var(--btn-hover-bg);
+}

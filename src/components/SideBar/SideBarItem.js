@@ -7,7 +7,7 @@ function SideBarItem(props) {
 
     if (page) {
       props.setPage(page);
-      props.setLogoutBtn(false);
+      // props.setLogoutBtn(false);
     }
 
     // close sidebar after clicking icon page

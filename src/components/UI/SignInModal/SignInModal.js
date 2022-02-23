@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import UserInfoContext from "../../../store/userInfo/userInfo--context";
 import signInWithGoogle from "./../../../Others/SignInWithGoogle/signInWithGoogle";
 import Title from "../Title/Title";
 import Modal from "../Modal/Modal";

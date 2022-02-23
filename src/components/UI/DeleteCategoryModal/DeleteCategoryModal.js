@@ -12,7 +12,7 @@ import styles from "./DeleteCategoryModal.module.css";
 function DeleteCategoryModal(props) {
   const { expenseData, removeExpenseDataByCategory } =
     useContext(ExpenseDataContext);
-  const [_, setEditModal] = useContext(EditModalContext);
+  const [, setEditModal] = useContext(EditModalContext);
 
   const expenseItem =
     props.deleteMainOrSub === "main"

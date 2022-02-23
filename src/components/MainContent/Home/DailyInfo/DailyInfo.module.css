@@ -49,7 +49,10 @@
   transform: translateY(-5px);
   box-shadow: var(--btn-arrow-box-shadow);
   transition: all 0.1s linear;
-  -webkit-transition: all 0.1s linear;
+}
+
+.btn--arow:hover {
+  background-color: var(--btn-arrow-bg);
 }
 
 .btn--arow:active {

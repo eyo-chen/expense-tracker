@@ -6,11 +6,9 @@ import { FaSearch } from "react-icons/fa";
 import { AiFillSetting } from "react-icons/ai";
 import { MdAccountCircle } from "react-icons/md";
 import { SiCashapp } from "react-icons/si";
-import Button from "../UI/Button/Button";
 import SideBarItem from "./SideBarItem";
 import createUserID from "../../Others/CreateUserID/createUserID";
-import { signOut } from "firebase/auth";
-import { auth } from "../../firebase-config";
+import LogoutModal from "../UI/LogoutModal/LogoutModal";
 import styles from "./SideBar.module.css";
 
 const SIDEBAR__ICON = [
@@ -62,7 +60,7 @@ const dateOptObj = { month: "short" };
 const dateOptObj1 = { year: "numeric" };
 
 function SideBar(props) {
-  const [logoutBtn, setLogoutBtn] = useState(false);
+  const [logoutModal, setLogoutModal] = useState(false);
   const [user] = createUserID();
   const { photoURL } = user;
 
@@ -79,64 +77,55 @@ function SideBar(props) {
         activePage={activePage}
         menuClickHandler={props.menuClickHandler}
         setPage={props.setPage}
-        setLogoutBtn={setLogoutBtn}
+        setLogoutModal={setLogoutModal}
       >
         {icon}
       </SideBarItem>
     );
   });
 
-  function signedOut() {
-    signOut(auth);
-    setLogoutBtn((prev) => !prev);
-  }
-
-  function accountImgClickHandler() {
-    setLogoutBtn((prev) => !prev);
+  function logoutModalToggler() {
+    setLogoutModal((prev) => !prev);
   }
 
   return (
-    <aside
-      className={`${styles.sidebar} ${
-        props.showSidebar ? `${styles["sidebar--show"]}` : ""
-      }`}
-    >
-      <div>
-        <a href="." aria-label="reload the page">
-          <SiCashapp aria-label="reload the page" className={styles.logo} />
-        </a>
+    <>
+      {logoutModal && <LogoutModal logoutModalToggler={logoutModalToggler} />}
+      <aside
+        className={`${styles.sidebar} ${
+          props.showSidebar ? `${styles["sidebar--show"]}` : ""
+        }`}
+      >
+        <div>
+          <a href="." aria-label="reload the page">
+            <SiCashapp aria-label="reload the page" className={styles.logo} />
+          </a>
 
-        <nav>
-          <ul className={styles["sidebar__item"]}>{sidebarItem}</ul>
-        </nav>
-      </div>
+          <nav>
+            <ul className={styles["sidebar__item"]}>{sidebarItem}</ul>
+          </nav>
+        </div>
 
-      <div className={styles["sidebar__info"]}>
-        <p>{`${props.today.getDate()} th`}</p>
-        <p>
-          {new Intl.DateTimeFormat("en-US", dateOptObj).format(props.today)}
-        </p>
-        <p>
-          {new Intl.DateTimeFormat("en-US", dateOptObj1).format(props.today)}
-        </p>
+        <div className={styles["sidebar__info"]}>
+          <p>{`${props.today.getDate()} th`}</p>
+          <p>
+            {new Intl.DateTimeFormat("en-US", dateOptObj).format(props.today)}
+          </p>
+          <p>
+            {new Intl.DateTimeFormat("en-US", dateOptObj1).format(props.today)}
+          </p>
 
-        <span className={styles["user__container"]}>
-          <img
-            onClick={accountImgClickHandler}
-            className={styles.user}
-            src={photoURL}
-            alt="user account image"
-          />
-          {logoutBtn && (
-            <span className={styles.logout}>
-              <Button onClick={signedOut} className={`${styles.btn} uppercase`}>
-                logout
-              </Button>
-            </span>
-          )}
-        </span>
-      </div>
-    </aside>
+          <span className={styles["user__container"]}>
+            <img
+              onClick={logoutModalToggler}
+              className={styles.user}
+              src={photoURL}
+              alt="user account"
+            />
+          </span>
+        </div>
+      </aside>
+    </>
   );
 }
 

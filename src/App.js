@@ -53,7 +53,7 @@ function App() {
 
       setDisplayTheme(displayTheme);
     });
-  }, [user, userDocRef1]);
+  }, [user, userDocRef]);
 
   useEffect(() => {
     document.body.classList.add("dark");

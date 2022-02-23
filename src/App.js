@@ -28,7 +28,6 @@ function App() {
   const userDocRef = doc(db, "users", userID);
 
   onAuthStateChanged(auth, async (user) => {
-    console.log(user);
     if (user) {
       setSignedIn(true);
       setIsLoading(false);

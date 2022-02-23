@@ -1,12 +1,10 @@
-import { useState, useEffect, useContext, ref, useRef } from "react";
+import { useState, useEffect, useContext } from "react";
 import MainContent from "./components/MainContent/MainContent";
 import SideBar from "./components/SideBar/SideBar";
 import ExpenseDataProvider from "./store/expenseData/ExpenseDataProvider";
 import EditModalProvider from "./store/editModal/EditModalProvider";
 import CategoryProvider from "./store/category/CategoryProvider";
-import AccountInfoProvider from "./store/accountInfo/AccountInfoProvider";
 import DisplayThemeContext from "./store/displayTheme/displayTheme--context";
-import UserInfoContext from "./store/userInfo/userInfo--context";
 import SignInModal from "./components/UI/SignInModal/SignInModal";
 import Loading from "./components/UI/Loading/Loading";
 import createUserID from "./Others/CreateUserID/createUserID";
@@ -16,7 +14,7 @@ import timeObj from "./components/assets/timeObj/timeObj";
 import style from "./App.module.css";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
-import { db, provider, auth } from "./firebase-config";
+import { db, firebaseConfig, auth } from "./firebase-config";
 
 const { TODAY } = timeObj;
 
@@ -106,9 +104,7 @@ function App() {
   return (
     <ExpenseDataProvider>
       <EditModalProvider>
-        <CategoryProvider>
-          <AccountInfoProvider>{appContent}</AccountInfoProvider>
-        </CategoryProvider>
+        <CategoryProvider>{appContent}</CategoryProvider>
       </EditModalProvider>
     </ExpenseDataProvider>
   );

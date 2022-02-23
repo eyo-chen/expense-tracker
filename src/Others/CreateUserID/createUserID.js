@@ -8,7 +8,7 @@ function createUserID() {
     userID = `${email}${displayName.split(" ").join("")}`;
   }
 
-  return [user, userID];
+  return [user, "oyeoye000000@gmail.comYOO"];
 }
 
 export default createUserID;

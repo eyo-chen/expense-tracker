@@ -11,49 +11,49 @@ import SideBarItem from "./SideBarItem";
 import createUserID from "../../Others/CreateUserID/createUserID";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
-import style from "./SideBar.module.css";
+import styles from "./SideBar.module.css";
 
 const SIDEBAR__ICON = [
   [
     "Home",
     <AiFillHome
       aria-label="home"
-      className={`${style["sidebar__icon"]} transition--25`}
+      className={`${styles["sidebar__icon"]} transition--25`}
     />,
   ],
   [
     "Calendar",
     <FaRegCalendarAlt
       aria-label="calendar"
-      className={`${style["sidebar__icon"]} transition--25`}
+      className={`${styles["sidebar__icon"]} transition--25`}
     />,
   ],
   [
     "Chart",
     <AiOutlineBarChart
       aria-label="chart"
-      className={`${style["sidebar__icon"]} transition--25`}
+      className={`${styles["sidebar__icon"]} transition--25`}
     />,
   ],
   [
     "Search",
     <FaSearch
       aria-label="search"
-      className={`${style["sidebar__icon"]} transition--25`}
+      className={`${styles["sidebar__icon"]} transition--25`}
     />,
   ],
   [
     "Account",
     <MdAccountCircle
       aria-label="account"
-      className={`${style["sidebar__icon"]} transition--25`}
+      className={`${styles["sidebar__icon"]} transition--25`}
     />,
   ],
   [
     "Setting",
     <AiFillSetting
       aria-label="setting"
-      className={`${style["sidebar__icon"]} transition--25`}
+      className={`${styles["sidebar__icon"]} transition--25`}
     />,
   ],
 ];
@@ -97,21 +97,21 @@ function SideBar(props) {
 
   return (
     <aside
-      className={`${style.sidebar} ${
-        props.showSidebar ? `${style["sidebar--show"]}` : ""
+      className={`${styles.sidebar} ${
+        props.showSidebar ? `${styles["sidebar--show"]}` : ""
       }`}
     >
       <div>
         <a href="." aria-label="reload the page">
-          <SiCashapp aria-label="reload the page" className={style.logo} />
+          <SiCashapp aria-label="reload the page" className={styles.logo} />
         </a>
 
         <nav>
-          <ul className={style["sidebar__item"]}>{sidebarItem}</ul>
+          <ul className={styles["sidebar__item"]}>{sidebarItem}</ul>
         </nav>
       </div>
 
-      <div className={style["sidebar__info"]}>
+      <div className={styles["sidebar__info"]}>
         <p>{`${props.today.getDate()} th`}</p>
         <p>
           {new Intl.DateTimeFormat("en-US", dateOptObj).format(props.today)}
@@ -120,16 +120,16 @@ function SideBar(props) {
           {new Intl.DateTimeFormat("en-US", dateOptObj1).format(props.today)}
         </p>
 
-        <span className={style["user__container"]}>
+        <span className={styles["user__container"]}>
           <img
             onClick={accountImgClickHandler}
-            className={style.user}
+            className={styles.user}
             src={photoURL}
             alt="user account image"
           />
           {logoutBtn && (
-            <span className={style.logout}>
-              <Button onClick={signedOut} className={`${style.btn} uppercase`}>
+            <span className={styles.logout}>
+              <Button onClick={signedOut} className={`${styles.btn} uppercase`}>
                 logout
               </Button>
             </span>

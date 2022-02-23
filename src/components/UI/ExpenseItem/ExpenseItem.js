@@ -12,7 +12,7 @@ import useCurWidth from "../../../Others/Custom/useCurWidth";
 import { MdMoreVert } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
-import style from "./ExpenseItem.module.css";
+import styles from "./ExpenseItem.module.css";
 
 function ExpenseItem(props) {
   const [btnMore, setBtnMore] = useState(false);
@@ -21,7 +21,6 @@ function ExpenseItem(props) {
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const curWidth = useCurWidth();
   const { iconObj } = useContext(CategoryContext);
-  const icon = iconObj[props.mainCategory];
 
   const oldExpenseData = {
     id: props.id,
@@ -64,8 +63,8 @@ function ExpenseItem(props) {
 
   const classMainCategory =
     props.type === "expense"
-      ? `${style["item__category--blue"]}`
-      : `${style["item__category--pink"]}`;
+      ? `${styles["item__category--blue"]}`
+      : `${styles["item__category--pink"]}`;
 
   // Reference 4
   let limitedLength = props.modal ? 20 : 40;
@@ -115,13 +114,15 @@ function ExpenseItem(props) {
 
       <li
         className={
-          props.classItem ? `${style.item} ${props.classItem}` : `${style.item}`
+          props.classItem
+            ? `${styles.item} ${props.classItem}`
+            : `${styles.item}`
         }
       >
-        <div className={style["item__info"]}>
+        <div className={styles["item__info"]}>
           <div
             title={props.mainCategory}
-            className={`${style["item__category"]} ${classMainCategory} center--flex`}
+            className={`${styles["item__category"]} ${classMainCategory} center--flex`}
           >
             <img
               alt={props.mainCategory}
@@ -131,19 +132,19 @@ function ExpenseItem(props) {
           </div>
           <div>
             <p className="capitalize">{props.subCategory}</p>
-            <p className={style["item__time"]}>{props.time}</p>
+            <p className={styles["item__time"]}>{props.time}</p>
           </div>
           <p
             data-id={longIndex}
             onClick={descriptionModalToggler}
             className={
               longIndex
-                ? `${style["item__description"]} ${style[classLongDescription]}`
-                : `${style["item__description"]}`
+                ? `${styles["item__description"]} ${styles[classLongDescription]}`
+                : `${styles["item__description"]}`
             }
           >
             {editedDescription}
-            <span className={style["description__text--hover"]}>
+            <span className={styles["description__text--hover"]}>
               click to show description
             </span>
           </p>
@@ -152,7 +153,7 @@ function ExpenseItem(props) {
             <p
               data-id={longIndex}
               onClick={descriptionModalToggler}
-              className={style["description__text"]}
+              className={styles["description__text"]}
             >
               click to show description
             </p>
@@ -160,24 +161,24 @@ function ExpenseItem(props) {
         </div>
 
         <div>
-          <p className={style["item__price"]}>${formatMoney(props.price)}</p>
+          <p className={styles["item__price"]}>${formatMoney(props.price)}</p>
 
           {!props.inDeleteSection && btnMore && (
-            <div className={style["btn__container"]}>
+            <div className={styles["btn__container"]}>
               <BtnIcon
                 onClick={showDeleteModalHandler}
-                classBtn={style["btn__icon"]}
+                classBtn={styles["btn__icon"]}
                 text="delete"
               >
-                <AiFillDelete className={style.icon} />
+                <AiFillDelete className={styles.icon} />
               </BtnIcon>
-              <span className={style.vertical} />
+              <span className={styles.vertical} />
               <BtnIcon
                 onClick={addDataFormModalToggler}
-                classBtn={style["btn__icon"]}
+                classBtn={styles["btn__icon"]}
                 text="edit"
               >
-                <AiFillEdit className={style.icon} />
+                <AiFillEdit className={styles.icon} />
               </BtnIcon>
             </div>
           )}
@@ -185,7 +186,7 @@ function ExpenseItem(props) {
             <Button
               onClick={btnMoreToggler}
               type="button"
-              className={style["btn__more"]}
+              className={styles["btn__more"]}
               ariaLabel="more"
             >
               <MdMoreVert />

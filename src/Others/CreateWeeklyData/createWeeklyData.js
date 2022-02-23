@@ -1,4 +1,4 @@
-import createYearMonthDay from "./CreateYearMonthDay/createYearMonthDay";
+import createYearMonthDay from "../CreateYearMonthDay/createYearMonthDay";
 
 const dateOptions = {
   weekday: "short",

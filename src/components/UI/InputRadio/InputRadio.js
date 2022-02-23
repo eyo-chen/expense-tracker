@@ -1,21 +1,21 @@
-import style from "./InputRadio.module.css";
+import styles from "./InputRadio.module.css";
 
 function InputRadio(props) {
   const classNameContainer = props.classContainer
-    ? `${props.classContainer} ${style["radio__container"]}`
-    : `${style["radio__container"]}`;
+    ? `${props.classContainer} ${styles["radio__container"]}`
+    : `${styles["radio__container"]}`;
 
   const classNameCheck = props.classCheck
     ? `${props.classCheck} transition--25`
     : `transition--25`;
 
   const classNameInside = props.classInside
-    ? `${props.classInside} ${style.inside} transition--25`
-    : `${style.inside} transition--25`;
+    ? `${props.classInside} ${styles.inside} transition--25`
+    : `${styles.inside} transition--25`;
 
   const classNameInput = props.classInput
-    ? `${props.classInput} ${style.input}`
-    : `${style.input}`;
+    ? `${props.classInput} ${styles.input}`
+    : `${styles.input}`;
 
   return (
     <div className={classNameContainer}>

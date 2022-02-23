@@ -1,14 +1,14 @@
 import { useState } from "react";
 import SettingMenu from "./SettingMenu/SettingMenu";
 import SettingContent from "./SettingContent/SettingContent";
-import style from "./Setting.module.css";
+import styles from "./Setting.module.css";
 
 function Setting() {
   const [settingContent, setSettingContent] = useState("0");
 
   return (
-    <div className={style.setting}>
-      <div className={`${style.container} center`}>
+    <div className={styles.setting}>
+      <div className={`${styles.container} center`}>
         <SettingMenu
           settingContent={settingContent}
           setSettingContent={setSettingContent}

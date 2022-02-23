@@ -1,17 +1,17 @@
-import style from "./InputCheckbox.module.css";
+import styles from "./InputCheckbox.module.css";
 
 function InputCheckbox(props) {
   const classContainer = props.classContainer
-    ? `${props.classContainer} ${style["input__container"]}`
-    : style["input__container"];
+    ? `${props.classContainer} ${styles["input__container"]}`
+    : styles["input__container"];
 
   const classInput = props.classInput
-    ? `${props.classInput} ${style.input}`
-    : style.input;
+    ? `${props.classInput} ${styles.input}`
+    : styles.input;
 
   const classLabel = props.classLabel
-    ? `${props.classLabel} ${style.label}`
-    : `${style.label}`;
+    ? `${props.classLabel} ${styles.label}`
+    : `${styles.label}`;
 
   return (
     <div className={classContainer}>

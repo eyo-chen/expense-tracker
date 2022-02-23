@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import UserInfoContext from "../../../store/userInfo/userInfo--context";
+import signInWithGoogle from "./../../../Others/SignInWithGoogle/signInWithGoogle";
 import Title from "../Title/Title";
 import Modal from "../Modal/Modal";
 import BtnIcon from "../BtnIcon/BtnIcon";
@@ -7,7 +8,6 @@ import { FcGoogle } from "react-icons/fc";
 import styles from "./SignInModal.module.css";
 
 function SignInModal() {
-  const { signInWithGoogle } = useContext(UserInfoContext);
   return (
     <Modal classModal={`${styles.modal} center--flex`}>
       <Title className={styles.title}>welcome</Title>

@@ -1,6 +1,10 @@
 .btn {
-  color: var(--btn-color);
+  background-color: transparent;
   position: relative;
+}
+
+.btn:hover {
+  background-color: transparent;
 }
 
 .cover {

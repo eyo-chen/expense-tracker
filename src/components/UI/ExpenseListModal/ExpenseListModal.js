@@ -40,7 +40,7 @@ function ExpenseListModal(props) {
         <Button
           onClick={props.expenseListModalToggler}
           type="button"
-          className={`${style.btn} uppercase transition--25`}
+          className={`${style.btn} transition--25`}
         >
           back
         </Button>
@@ -48,7 +48,7 @@ function ExpenseListModal(props) {
         <Button
           onClick={addClickHandler}
           type="button"
-          className={`${style.btn} uppercase transition--25`}
+          className={`${style.btn} transition--25`}
         >
           add data
         </Button>

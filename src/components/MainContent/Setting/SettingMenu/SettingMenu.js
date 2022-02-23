@@ -1,4 +1,4 @@
-import style from "./SettingMenu.module.css";
+import styles from "./SettingMenu.module.css";
 
 const SETTING_MENU = ["account", "appearance", "category"];
 
@@ -15,8 +15,8 @@ function SettingMenu(props) {
       data-id={index}
       className={` ${
         props.settingContent === String(index)
-          ? `${style.list} uppercase transition--25 ${style.active}`
-          : `${style.list} uppercase transition--25 `
+          ? `${styles.list} uppercase transition--25 ${styles.active}`
+          : `${styles.list} uppercase transition--25 `
       }`}
     >
       {element}
@@ -24,8 +24,8 @@ function SettingMenu(props) {
   ));
 
   return (
-    <div className={style.menu}>
-      <ul className={style.ul}>{menu}</ul>
+    <div className={styles.menu}>
+      <ul className={styles.ul}>{menu}</ul>
     </div>
   );
 }

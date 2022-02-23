@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import ExpenseItem from "../ExpenseItem/ExpenseItem";
-import style from "./ExpenseList.module.css";
+import styles from "./ExpenseList.module.css";
 
 function ExpenseList(props) {
   const expenseItem = props.data.map((expense, i) => (
@@ -24,8 +24,8 @@ function ExpenseList(props) {
         <hr
           className={
             props.classItemSearch
-              ? `${style["item__line"]} ${style["item__line--long"]}`
-              : `${style["item__line"]}`
+              ? `${styles["item__line"]} ${styles["item__line--long"]}`
+              : `${styles["item__line"]}`
           }
         />
       )}
@@ -33,8 +33,8 @@ function ExpenseList(props) {
   ));
 
   return (
-    <div className={`${style.item} ${props.classItem}`}>
-      <ul className={style["item__container"]}>{expenseItem}</ul>
+    <div className={`${styles.item} ${props.classItem}`}>
+      <ul className={styles["item__container"]}>{expenseItem}</ul>
     </div>
   );
 }

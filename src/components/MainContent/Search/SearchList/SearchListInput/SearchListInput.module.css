@@ -46,7 +46,6 @@
   border-radius: 50px;
   gap: 0.5rem;
   transition: all 0.1s linear;
-  -webkit-transition: all 0.1s linear;
 }
 
 .btn:hover {

@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import ExpenseDataContext from "../../store/expenseData/expenseData--context";
-import createWeeklyData from "../createWeeklyData";
+import createWeeklyData from "../CreateWeeklyData/createWeeklyData";
 import CreateCalendarTable from "../../components/MainContent/Calendar/CalendarTable/CreateCalendarTable";
 import createExpenseDataList from "../CreateExpenseDataList/createExpenseDataList";
 

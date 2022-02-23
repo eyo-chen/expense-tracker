@@ -1,9 +1,9 @@
-import style from "./Backdrop.module.css";
+import styles from "./Backdrop.module.css";
 
 function Backdrop(props) {
   const classNameBackdrop = props.classBackdrop
-    ? `${style.backdrop} ${props.classBackdrop}`
-    : `${style.backdrop}`;
+    ? `${styles.backdrop} ${props.classBackdrop}`
+    : `${styles.backdrop}`;
 
   function backdropClickHandler(e) {
     if (e.target.dataset.id === "backdrop" && props.onClick) props.onClick();

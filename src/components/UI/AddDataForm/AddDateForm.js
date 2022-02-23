@@ -14,7 +14,7 @@ import FormSubCategory from "./FormSubCategory";
 import FormMainCategory from "./FormMainCategory";
 import FormTitle from "./FormTitle";
 import { v4 as uuidv4 } from "uuid";
-import style from "./AddDataForm.module.css";
+import styles from "./AddDataForm.module.css";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -25,11 +25,7 @@ function reducer(state, action) {
       const firstCategoryExpense = Object.keys(state.categoryExpense)[0];
       const firstCategoryIncome = Object.keys(state.categoryIncome)[0];
 
-      /*
-      Note that do NOT directly hard code "food" or "salary"
-      because user may add, remove, edit main and sub category
-      what we want is showing the first main category, and it's sub category
-      */
+      // Reference 1
       if (action.value === "expense") {
         mainCategoryArr = categoryExpenseKeyArr;
         subCategoryArr = state.categoryExpense[categoryExpenseKeyArr[0]];
@@ -115,19 +111,14 @@ function reducer(state, action) {
 
 function AddDataForm(props) {
   const { addExpenseData, editExpenseData } = useContext(ExpenseDataContext);
-  const [, setEditModal] = useContext(EditModalContext);
+  const [_, setEditModal] = useContext(EditModalContext);
   const { categoryExpense, categoryIncome, iconObj } =
     useContext(CategoryContext);
   const { update } = useContext(SearchListDataContext);
   const mainCateExpenseArr = Object.keys(categoryExpense);
   const mainCateIncomeArr = Object.keys(categoryIncome);
 
-  /*
-  the data storing in expenseDataProvider do NOT have
-  mainCategoryArr, subCategoryArr categoryExpense, categoryIncome, iconObj, priceTouch
-  but we need this data in the form, so add them
-  */
-
+  // Reference 2
   let initialObj;
   if (props.oldExpenseData)
     initialObj = {
@@ -159,7 +150,6 @@ function AddDataForm(props) {
       description: "",
       price: "",
       priceTouch: false,
-      icon: iconObj[Object.keys(categoryExpense)[0]],
       isValid: false,
       isTooLarge: false,
       iconObj,
@@ -218,20 +208,8 @@ function AddDataForm(props) {
   async function formSubmitHandler(e) {
     e.preventDefault();
 
-    // const newFormData = {
-    //   id: props.oldExpenseData ? props.oldExpenseData.id : uuidv4(),
-    //   type: formData.type,
-    //   mainCategory: formData.mainCategory,
-    //   subCategory: formData.subCategory,
-    //   time: formData.date,
-    //   year: formData.date.slice(0, 4),
-    //   month: formData.date.slice(5, 7),
-    //   day: formData.date.slice(8, 10),
-    //   description: formData.description,
-    //   price: Number(formData.price),
-    // };
-
     const newFormData = {
+      id: props.oldExpenseData ? props.oldExpenseData.id : uuidv4(),
       type: formData.type,
       mainCategory: formData.mainCategory,
       subCategory: formData.subCategory,
@@ -252,7 +230,8 @@ function AddDataForm(props) {
         value: "edit",
       });
 
-      update(newFormData, props.oldExpenseData.id);
+      // update UI in search list section
+      if (update) update(newFormData, props.oldExpenseData.id);
     }
     // add new data
     else {
@@ -271,19 +250,18 @@ function AddDataForm(props) {
   }
 
   return (
-    <Modal onClick={props.addDataFormModalToggler} classModal={style.modal}>
-      <form onSubmit={formSubmitHandler} className={style.form}>
+    <Modal onClick={props.addDataFormModalToggler} classModal={styles.modal}>
+      <form onSubmit={formSubmitHandler} className={styles.form}>
         <FormTitle
           type={formData.type}
           categoryChangeHandler={categoryChangeHandler}
         />
 
         <HorizontalLine />
-        <div className={style["form__container"]}>
+        <div className={styles["form__container"]}>
           <FormMainCategory
             mainCategory={formData.mainCategory}
             type={formData.type}
-            icon={formData.icon}
             mainCategoryChangeHandler={mainCategoryChangeHandler}
             mainCategoryArr={formData.mainCategoryArr}
             edit={!(props.oldExpenseData === undefined)}
@@ -328,3 +306,17 @@ function AddDataForm(props) {
 }
 
 export default AddDataForm;
+
+/*
+Reference 1
+Note that do NOT directly hard code "food" or "salary"
+because user may add, remove, edit main and sub category
+what we want is showing the first main category, and it's sub category
+*/
+
+/*
+Reference 2
+the data storing in expenseDataProvider do NOT have
+mainCategoryArr, subCategoryArr categoryExpense, categoryIncome, iconObj, priceTouch
+but we need this data in the form, so add them
+*/

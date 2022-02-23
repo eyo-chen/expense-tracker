@@ -1,3 +1,8 @@
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { signInWithPopup } from "firebase/auth";
+import { db, provider, auth } from "./../../firebase-config";
+import createInitialData from "./../CreateInitialData/createInitialData";
+
 async function signInWithGoogle() {
   const res = await signInWithPopup(auth, provider);
   const { displayName, email } = res.user;
@@ -25,5 +30,6 @@ async function signInWithGoogle() {
   });
 
   userDataObj = { userName: displayName, userID, displayTheme: "black" };
-  setUserInfo(userDataObj);
 }
+
+export default signInWithGoogle;

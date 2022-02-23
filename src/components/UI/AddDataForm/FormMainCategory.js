@@ -3,7 +3,7 @@ import FormContainer from "./FormContainer";
 import Select from "../Select/Select";
 import createNewSelectArr from "../../../Others/CreateNewSelectArr/createNewSelectArr";
 import CategoryContext from "../../../store/category/category--context";
-import style from "./AddDataForm.module.css";
+import styles from "./AddDataForm.module.css";
 
 function FormMainCategory(props) {
   const { iconObj } = useContext(CategoryContext);
@@ -17,9 +17,9 @@ function FormMainCategory(props) {
 
   return (
     <FormContainer>
-      <label htmlFor="mainCategory" className={`${style.label} capitalize`}>
+      <label htmlFor="mainCategory" className={`${styles.label} capitalize`}>
         main category
-        <div className={`center--flex ${style.icon}`}>
+        <div className={`center--flex ${styles.icon}`}>
           <img
             alt={props.mainCategory}
             className={`icon`}
@@ -30,7 +30,7 @@ function FormMainCategory(props) {
       <Select
         id="mainCategory"
         name="mainCategory"
-        className={style.input}
+        className={styles.input}
         onChange={props.mainCategoryChangeHandler}
       >
         {newSelectArr.map((element) => (

@@ -74,7 +74,15 @@ const categoryExpense = {
     "cable bill",
     "internet bill",
   ],
-  transportation: ["gasoline", "parking", "maintenance"],
+  transportation: [
+    "bus",
+    "MRT",
+    "uber",
+    "taxi",
+    "gasoline",
+    "parking",
+    "maintenance",
+  ],
   education: ["books", "course"],
   entertainment: [
     "phone games",

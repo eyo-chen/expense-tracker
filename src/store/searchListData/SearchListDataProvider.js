@@ -85,11 +85,11 @@ function reducer(state, action) {
 
     case "SORT_CATEGORY": {
       const incomeDataArr = state.expenseData.filter(
-        (element) => element.category === "income"
+        (element) => element.type === "income"
       );
 
       const expenseDataArr = state.expenseData.filter(
-        (element) => element.category === "expense"
+        (element) => element.type === "expense"
       );
 
       let newState;

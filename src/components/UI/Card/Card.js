@@ -1,10 +1,10 @@
-import style from "./Card.module.css";
+import styles from "./Card.module.css";
 
 function Card(props) {
   return (
     <div
       className={
-        props.className ? `${style.card} ${props.className}` : `${style.card}`
+        props.className ? `${styles.card} ${props.className}` : `${styles.card}`
       }
     >
       {props.children}

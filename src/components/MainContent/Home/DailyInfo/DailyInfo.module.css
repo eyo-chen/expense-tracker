@@ -31,6 +31,10 @@
   padding: 0.5rem 1rem;
 }
 
+.btn--main:hover {
+  background-color: var(--btn-main-bg);
+}
+
 .btn--main p {
   font-size: 1.5rem;
   position: relative;

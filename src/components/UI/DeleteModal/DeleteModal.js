@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import Modal from "../Modal/Modal";
-import Title from "../Title/Title";
+import SubTitle from "../SubTitle/SubTitle";
 import Button from "../Button/Button";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import SearchListDataContext from "../../../store/searchListData/searchListData--context";
@@ -9,7 +9,7 @@ import EditModalContext from "../../../store/editModal/editModal--context";
 import DescriptionModal from "../DescriptionModal/DescriptionModal";
 import createEditedDescription from "../../../Others/CreateEditedDescription/createEditedDescription";
 import { FaRegHandPointRight } from "react-icons/fa";
-import style from "./DeleteModal.module.css";
+import styles from "./DeleteModal.module.css";
 
 // Reference 1
 function DeleteModal(props) {
@@ -33,24 +33,24 @@ function DeleteModal(props) {
         <div
           onClick={descriptionModalToggler}
           key={dataInfoKey[index]}
-          className={style["info__item"]}
+          className={styles["info__item"]}
           className={
             data?.length >= 20
-              ? `${style["info__item"]} ${style.long}`
-              : `${style["info__item"]}`
+              ? `${styles["info__item"]} ${styles.long}`
+              : `${styles["info__item"]}`
           }
         >
-          <p className={style["info__category"]}>
-            <FaRegHandPointRight className={style.icon} /> {dataItemName}:
+          <p className={styles["info__category"]}>
+            <FaRegHandPointRight className={styles.icon} /> {dataItemName}:
           </p>
           <p>{editedDescription}</p>
         </div>
       );
     } else
       return (
-        <div key={dataInfoKey[index]} className={style["info__item"]}>
-          <p className={style["info__category"]}>
-            <FaRegHandPointRight className={style.icon} /> {dataItemName}:
+        <div key={dataInfoKey[index]} className={styles["info__item"]}>
+          <p className={styles["info__category"]}>
+            <FaRegHandPointRight className={styles.icon} /> {dataItemName}:
           </p>
           <p>{data}</p>
         </div>
@@ -90,33 +90,33 @@ function DeleteModal(props) {
       )}
       <Modal
         onClick={closeDeleteModal}
-        classBackdrop={style.backdrop}
-        classModal={style.modal}
+        classBackdrop={styles.backdrop}
+        classModal={styles.modal}
       >
         <div>
-          <Title className={style.title}>
+          <SubTitle className={styles.title}>
             are you sure <br /> to delete this data?
-          </Title>
+          </SubTitle>
           <HorizontalLine />
         </div>
 
-        <div className={style["info__container"]}>{infoItem}</div>
+        <div className={styles["info__container"]}>{infoItem}</div>
 
-        <p className={style.description}>
+        <p className={styles.description}>
           there is no way getting back this data <br /> once you delete it
         </p>
-        <div className={style["btn__container"]}>
+        <div className={styles["btn__container"]}>
           <Button
             type="button"
             onClick={closeDeleteModal}
-            className={`${style.btn} uppercase transition--25`}
+            className={`${styles.btn} uppercase transition--25`}
           >
             no
           </Button>
           <Button
             type="button"
             onClick={removeExpenseItemHandler}
-            className={`${style.btn} uppercase transition--25`}
+            className={`${styles.btn} uppercase transition--25`}
           >
             yes
           </Button>

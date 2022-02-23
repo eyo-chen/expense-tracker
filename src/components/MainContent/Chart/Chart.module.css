@@ -26,6 +26,10 @@
   display: none;
 }
 
+.btn:hover {
+  background-color: var(--btn-main-bg);
+}
+
 .btn__text {
   width: 130%;
   bottom: -6rem;

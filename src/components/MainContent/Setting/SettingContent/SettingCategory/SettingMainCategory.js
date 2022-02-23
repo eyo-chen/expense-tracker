@@ -62,7 +62,7 @@ function SettingMainCategory(props) {
           <Button
             onClick={props.deleteModalToggler}
             type="button"
-            className={`${styles.btn} transition--25 uppercase`}
+            className={`${styles.btn} transition--25`}
             dataID="main"
           >
             delete
@@ -70,7 +70,7 @@ function SettingMainCategory(props) {
           <Button
             onClick={props.addMainCategoryModalToggler}
             type="button"
-            className={`${styles.btn} transition--25 uppercase`}
+            className={`${styles.btn} transition--25`}
             dataID="main"
           >
             add

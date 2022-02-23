@@ -23,54 +23,54 @@ import createInitialData from "../../Others/CreateInitialData/createInitialData"
 //   }
 // });
 
-function UserInfoProvider(props) {
-  const [userInfo, setUserInfo] = useState(false);
+// function UserInfoProvider(props) {
+//   const [userInfo, setUserInfo] = useState(false);
 
-  async function signInWithGoogle() {
-    const res = await signInWithPopup(auth, provider);
-    const { displayName, email } = res.user;
-    let userDataObj;
+//   async function signInWithGoogle() {
+//     const res = await signInWithPopup(auth, provider);
+//     const { displayName, email } = res.user;
+//     let userDataObj;
 
-    const userID = `${email}${displayName.split(" ").join("")}`;
+//     const userID = `${email}${displayName.split(" ").join("")}`;
 
-    const userDocSnap = await getDoc(doc(db, "users", userID));
+//     const userDocSnap = await getDoc(doc(db, "users", userID));
 
-    if (userDocSnap.exists()) {
-      const { userName, displayTheme } = userDocSnap.data();
-      userDataObj = {
-        userName,
-        displayTheme,
-        userID,
-      };
-      return;
-    }
+//     if (userDocSnap.exists()) {
+//       const { userName, displayTheme } = userDocSnap.data();
+//       userDataObj = {
+//         userName,
+//         displayTheme,
+//         userID,
+//       };
+//       return;
+//     }
 
-    const [categoryExpense, categoryIncome, iconObj, iconArr] =
-      createInitialData();
+//     const [categoryExpense, categoryIncome, iconObj, iconArr] =
+//       createInitialData();
 
-    await setDoc(doc(db, "users", userID), {
-      userName: displayName,
-      email,
-      categoryExpense,
-      categoryIncome,
-      iconObj,
-      iconArr,
-      displayTheme: "dark",
-    });
+//     await setDoc(doc(db, "users", userID), {
+//       userName: displayName,
+//       email,
+//       categoryExpense,
+//       categoryIncome,
+//       iconObj,
+//       iconArr,
+//       displayTheme: "dark",
+//     });
 
-    userDataObj = { userName: displayName, userID, displayTheme: "black" };
-    setUserInfo(userDataObj);
-  }
+//     userDataObj = { userName: displayName, userID, displayTheme: "black" };
+//     setUserInfo(userDataObj);
+//   }
 
-  const contextObj = userInfo
-    ? { ...userInfo, signInWithGoogle, setUserInfo }
-    : { userData: false, signInWithGoogle, setUserInfo };
+//   const contextObj = userInfo
+//     ? { ...userInfo, signInWithGoogle, setUserInfo }
+//     : { userData: false, signInWithGoogle, setUserInfo };
 
-  return (
-    <UserInfoContext.Provider value={contextObj}>
-      {props.children}
-    </UserInfoContext.Provider>
-  );
-}
+//   return (
+//     <UserInfoContext.Provider value={contextObj}>
+//       {props.children}
+//     </UserInfoContext.Provider>
+//   );
+// }
 
-export default UserInfoProvider;
+// export default UserInfoProvider;

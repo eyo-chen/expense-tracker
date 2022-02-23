@@ -6,14 +6,12 @@ import Button from "../Button/Button";
 import ExpenseList from "../ExpenseList/ExpenseList";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import EditModalContext from "../../../store/editModal/editModal--context";
-import CategoryContext from "../../../store/category/category--context";
 import { AiFillWarning } from "react-icons/ai";
-import style from "./DeleteCategoryModal.module.css";
+import styles from "./DeleteCategoryModal.module.css";
 
 function DeleteCategoryModal(props) {
   const { expenseData, removeExpenseDataByCategory } =
     useContext(ExpenseDataContext);
-  const { iconObj } = useContext(CategoryContext);
   const [_, setEditModal] = useContext(EditModalContext);
 
   const expenseItem =
@@ -21,16 +19,16 @@ function DeleteCategoryModal(props) {
       ? expenseData.filter(
           (element) => element.mainCategory === props.clickingCategoryForDelete
         )
-      : (expenseItem = expenseData.filter(
+      : expenseData.filter(
           (element) => element.subCatetegory === props.clickingCategoryForDelete
-        ));
+        );
 
   const subtitleContent =
     expenseItem.length > 0
       ? `there ${expenseItem.length === 1 ? "is" : "are"} still ${
           expenseItem.length
         } data in your ${props.type} history`
-      : `there's no data of ${props.clickingCategoryForDelete} in your ${props.type} history`;
+      : `there's no data in your ${props.type} history`;
 
   function btnDeleteClickHandler(e) {
     props.clickDeleteBtnHandler(e);
@@ -47,24 +45,23 @@ function DeleteCategoryModal(props) {
   }
 
   return (
-    <Modal onClick={props.deleteModalToggler} classModal={style.modal}>
-      <div className={style["title__container"]}>
-        <SubTitle className={style.title}>are you sure to delete</SubTitle>
-        <SubTitle className={`${style.title} ${style["title--icon"]}`}>
-          <img
-            className={`${style.icon} icon`}
-            src={iconObj[props.clickingCategoryForDelete]}
-          />
-          {props.clickingCategoryForDelete} ?
+    <Modal onClick={props.deleteModalToggler} classModal={styles.modal}>
+      <div className={styles["title__container"]}>
+        <SubTitle className={styles.title}>are you sure to delete</SubTitle>
+        <SubTitle className={`${styles.title} ${styles["title--icon"]}`}>
+          <span className={styles["text__category"]}>
+            {props.clickingCategoryForDelete}
+          </span>
+          ?
         </SubTitle>
       </div>
       <HorizontalLine />
-      <SubTitle className={style.subtitle}>{subtitleContent}</SubTitle>
+      <SubTitle className={styles.subtitle}>{subtitleContent}</SubTitle>
       {expenseItem.length > 0 && (
-        <p className={`${style.description}`}>
-          <AiFillWarning className={style.warning} />
+        <p className={`${styles.description}`}>
+          <AiFillWarning className={styles.warning} />
           All of these data will be deleted if the category is deleted
-          <AiFillWarning className={style.warning} />
+          <AiFillWarning className={styles.warning} />
         </p>
       )}
       {
@@ -73,23 +70,23 @@ function DeleteCategoryModal(props) {
         */
         <ExpenseList
           modal={true}
-          classItem={style.list}
+          classItem={styles.list}
           data={expenseItem}
           inDeleteSection={true}
         />
       }
-      <div className={style["btn__container"]}>
+      <div className={styles["btn__container"]}>
         <Button
           type="button"
           onClick={props.deleteModalToggler}
-          className={`${style.btn} transition--25 uppercase`}
+          className={`${styles.btn} transition--25`}
         >
           cancel
         </Button>
         <Button
           dataID={props.deleteMainOrSub}
           onClick={btnDeleteClickHandler}
-          className={`${style.btn} ${style["btn--right"]} transition--25 uppercase`}
+          className={`${styles.btn} ${styles["btn--right"]} transition--25`}
         >
           delete
         </Button>

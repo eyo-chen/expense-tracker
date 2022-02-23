@@ -1,13 +1,13 @@
 import ModalCloseIcon from "../ModalCloseIcon/ModalCloseIcon";
 import AccountSmallChart from "../../MainContent/Account/AccountSubSection/AccountSmallChart";
 import AccountNews from "../../MainContent/Account/AccountSubSection/AccountNews";
-import style from "./AccountModal.module.css";
+import styles from "./AccountModal.module.css";
 
 function AccountModal(props) {
   return (
     <ModalCloseIcon
-      classBackdrop={style.backdrop}
-      classModal={style.modal}
+      classBackdrop={styles.backdrop}
+      classModal={styles.modal}
       onClick={props.closeModalCard}
     >
       {props.modalCard === "chart" ? <AccountSmallChart /> : <AccountNews />}

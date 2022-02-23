@@ -1,6 +1,6 @@
 import FormContainer from "./FormContainer";
 import InputText from "../InputText/InputText";
-import style from "./AddDataForm.module.css";
+import styles from "./AddDataForm.module.css";
 
 function FormDescription(props) {
   return (
@@ -11,8 +11,8 @@ function FormDescription(props) {
         id="description"
         label="description (optional)"
         onChange={props.descriptionChangeHandler}
-        classInput={style.input}
-        classLabel={`${style.label} capitalize`}
+        classInput={styles.input}
+        classLabel={`${styles.label} capitalize`}
       />
     </FormContainer>
   );

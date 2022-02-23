@@ -11,11 +11,7 @@ function createAccAmount(
   let accIncome = 0,
     accExpense = 0;
 
-  /*
-  If it's noRange, do NOT need to consider the range of date
-  It it's withRange, need to consider starting data and ending date
-  It's it's not withRange, only need to consider starting date
-   */
+  // Reference 1
   expenseData.forEach((expenseData) => {
     const validTimeIndex =
       noRange ||
@@ -34,3 +30,10 @@ function createAccAmount(
 }
 
 export default createAccAmount;
+
+/*
+Reference 1
+If it's noRange, do NOT need to consider the range of date
+It it's withRange, need to consider starting data and ending date
+It's it's not withRange, only need to consider starting date
+*/

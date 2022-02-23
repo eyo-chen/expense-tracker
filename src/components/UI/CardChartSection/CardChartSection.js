@@ -1,10 +1,10 @@
 import DataCard from "../DataCard/DataCard";
 import SmallChart from "../SmallChart/SmallChart";
-import style from "./CardChartSection.module.css";
+import styles from "./CardChartSection.module.css";
 
 function CardChartSection(props) {
   return (
-    <div className={style.container}>
+    <div className={styles.container}>
       <DataCard
         title={props.title}
         income={props.income}

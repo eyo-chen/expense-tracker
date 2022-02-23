@@ -2,8 +2,8 @@ import { useRef, useEffect, useState, useContext } from "react";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import Card from "../Card/Card";
 import Select from "../Select/Select";
-import style from "./SmallChart.module.css";
 import Chart from "chart.js/auto";
+import styles from "./SmallChart.module.css";
 
 function SmallChart(props) {
   const { expenseData } = useContext(ExpenseDataContext);
@@ -33,20 +33,20 @@ function SmallChart(props) {
   // pie chart need more height
   const classNameChart =
     chartState === "1"
-      ? `${style["chart__container"]} ${style["chart--pie"]} `
-      : `${style["chart__container"]} `;
+      ? `${styles["chart__container"]} ${styles["chart--pie"]} `
+      : `${styles["chart__container"]} `;
 
   return (
-    <Card className={style["chart__section"]}>
-      <div className={style["title__section"]}>
-        <label htmlFor="chart" className={style.label}>
+    <Card className={styles["chart__section"]}>
+      <div className={styles["title__section"]}>
+        <label htmlFor="chart" className={styles.label}>
           Chart
         </label>
         <Select
           name="chart"
           id="chart"
           onChange={selectChangeHandler}
-          className={style.select}
+          className={styles.select}
         >
           <option value="0">bar chart</option>
           <option value="1">pie chart</option>

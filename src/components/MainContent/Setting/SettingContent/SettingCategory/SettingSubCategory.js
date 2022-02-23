@@ -48,7 +48,7 @@ function SettingSubCategory(props) {
           <Button
             onClick={props.deleteModalToggler}
             type="button"
-            className={`${styles.btn} transition--25 uppercase`}
+            className={`${styles.btn} transition--25 `}
             dataID="sub"
           >
             delete
@@ -56,7 +56,7 @@ function SettingSubCategory(props) {
           <Button
             onClick={props.addSubCategoryModalToggler}
             type="button"
-            className={`${styles.btn} transition--25 uppercase`}
+            className={`${styles.btn} transition--25 `}
             dataID="sub"
           >
             add

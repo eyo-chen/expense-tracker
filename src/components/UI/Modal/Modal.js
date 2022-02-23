@@ -1,12 +1,12 @@
 import { Fragment } from "react";
 import ReactDOM from "react-dom";
 import Backdrop from "./Backdrop";
-import style from "./Modal.module.css";
+import styles from "./Modal.module.css";
 
 function PopupModal(props) {
   const classNameModal = props.classModal
-    ? `${style.modal} ${props.classModal} center--position`
-    : `${style.modal} center--position`;
+    ? `${styles.modal} ${props.classModal} center--position`
+    : `${styles.modal} center--position`;
 
   return (
     <Backdrop onClick={props.onClick} classBackdrop={props.classBackdrop}>

@@ -1,11 +1,11 @@
 import { Fragment } from "react";
 import ReactDOM from "react-dom";
-import style from "./EditModal.module.css";
+import styles from "./EditModal.module.css";
 
 function EditModal(props) {
-  let className = `${style.modal} capitalize center--flex `;
-  if (props.type === "expense") className += `${style["modal--blue"]}`;
-  if (props.type === "income") className += `${style["modal--pink"]}`;
+  let className = `${styles.modal} capitalize center--flex `;
+  if (props.type === "expense") className += `${styles["modal--blue"]}`;
+  if (props.type === "income") className += `${styles["modal--pink"]}`;
 
   return (
     <Fragment>

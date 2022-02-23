@@ -4,7 +4,7 @@ import DataCard from "../DataCard/DataCard";
 import createAccountCardPreData from "../../../Others/CreateAccountCardData/createAccountCardPreData";
 import createAccAmount from "../../../Others/CreateAccountCardData/createAccAmount";
 import ModalCloseIcon from "../ModalCloseIcon/ModalCloseIcon";
-import style from "./DataCardModal.module.css";
+import styles from "./DataCardModal.module.css";
 
 function DataCardModal(props) {
   const { expenseData } = useContext(ExpenseDataContext);
@@ -24,8 +24,8 @@ function DataCardModal(props) {
   return (
     <ModalCloseIcon
       onClick={props.modalCardToggler}
-      classBackdrop={style.backdrop}
-      classModal={style.modal}
+      classBackdrop={styles.backdrop}
+      classModal={styles.modal}
     >
       <DataCard
         title={title}

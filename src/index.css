@@ -87,8 +87,6 @@
   /* //////////////////////////////////////////////// */
   --btn-color: var(--white);
   --btn-bg: var(--black-10);
-  /* --btn-border: 1px solid var(--white-1); */
-  /* --btn-hover-ft: var(--black-4); */
   --btn-hover-bg: var(--white);
   --btn-active-border: 1px solid transparent;
   --btn-disabled-color: var(--gray-4);
@@ -290,11 +288,17 @@ body {
 
 .btn {
   outline: none;
-  background-color: transparent;
   cursor: pointer;
   border: none;
   padding: 1rem;
   border-radius: 10px;
+  background-color: var(--btn-bg);
+  color: var(--btn-color);
+  text-transform: capitalize;
+}
+
+.btn:hover {
+  background-color: var(--btn-hover-bg);
 }
 
 .capitalize {

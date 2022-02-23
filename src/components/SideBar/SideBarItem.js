@@ -1,4 +1,4 @@
-import style from "./SideBarItem.module.css";
+import styles from "./SideBarItem.module.css";
 
 function SideBarItem(props) {
   function pageIconHandler(e) {
@@ -14,8 +14,8 @@ function SideBarItem(props) {
     if (window.innerWidth <= 1000) props.menuClickHandler();
   }
 
-  let className = `${style["sidebar__item"]} ${
-    props.activePage ? `${style["sidebar__item--active"]}` : ""
+  let className = `${styles["sidebar__item"]} ${
+    props.activePage ? `${styles["sidebar__item--active"]}` : ""
   }`;
 
   return (
@@ -25,7 +25,7 @@ function SideBarItem(props) {
         tabIndex="0"
         data-id={props.pageIndex}
         onClick={pageIconHandler}
-        className={style.cover}
+        className={styles.cover}
       ></div>
       {props.children}
     </li>
@@ -34,7 +34,7 @@ function SideBarItem(props) {
 
 export default SideBarItem;
 /*
-Why use <div className={style.cover}></div>?
+Why use <div className={styles.cover}></div>?
 It seems useless at first
 But we use it here for the sake of better user experience
 

@@ -1,7 +1,7 @@
 import Modal from "../Modal/Modal";
 import BtnIcon from "../BtnIcon/BtnIcon";
 import { RiCloseCircleFill } from "react-icons/ri";
-import style from "./ModalCloseIcon.module.css";
+import styles from "./ModalCloseIcon.module.css";
 
 function ModalCloseIcon(props) {
   return (
@@ -11,12 +11,12 @@ function ModalCloseIcon(props) {
       classModal={props.classModal}
     >
       <BtnIcon
-        classText={style.text}
-        classBtn={style.btn}
+        classText={styles.text}
+        classBtn={styles.btn}
         text="close"
         onClick={props.onClick}
       >
-        <RiCloseCircleFill className={style.close} />
+        <RiCloseCircleFill className={styles.close} />
       </BtnIcon>
 
       {props.children}

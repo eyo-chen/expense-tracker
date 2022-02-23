@@ -1,3 +1,7 @@
+.modal {
+  height: 95vh;
+}
+
 .title__container {
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -22,12 +26,11 @@
   text-align: center;
 }
 
-.text--expense {
-  color: var(--blue);
-}
-
-.text--income {
-  color: var(--pink);
+.text__category {
+  font-size: 3.5rem;
+  font-weight: 800;
+  font-style: italic;
+  border-bottom: 1px solid var(--font-normal);
 }
 
 .icon {
@@ -68,8 +71,6 @@
   font-size: 2rem;
   letter-spacing: 1.5px;
   padding: 1rem 2.5rem;
-  background-color: var(--btn-form-bg);
-  color: var(--btn-ft);
   border: none;
   cursor: pointer;
   margin-right: 7rem; /* fix flex gap */
@@ -78,10 +79,6 @@
 /* fix flex gap */
 .btn--right {
   margin-right: -1rem;
-}
-
-.btn:hover {
-  background-color: var(--btn-form-hover-bg);
 }
 
 @media screen and (max-width: 1200px) {

@@ -1,11 +1,11 @@
-import style from "./FormContainer.module.css";
+import styles from "./FormContainer.module.css";
 function FormContainer(props) {
   return (
     <div
       className={
         props.className
-          ? `${style.container} ${props.className}`
-          : `${style.container}`
+          ? `${styles.container} ${props.className}`
+          : `${styles.container}`
       }
     >
       {props.children}

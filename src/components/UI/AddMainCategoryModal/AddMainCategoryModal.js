@@ -158,16 +158,16 @@ function AddMainCategoryModal(props) {
         <div className={styles["btn__container"]}>
           <Button
             onClick={props.addMainCategoryModalToggler}
-            className={`${styles.btn} btn--valid uppercase transition--25`}
+            className={`${styles.btn} btn--valid transition--25`}
             type="button"
           >
             cancel
           </Button>
           <Button
             disabled={!form.isValid}
-            className={`${styles.btn} uppercase transition--25 ${
-              styles["btn--right"]
-            } ${form.isValid ? `btn--valid` : "btn--invalid"}`}
+            className={`${styles.btn} transition--25 ${styles["btn--right"]} ${
+              form.isValid ? `btn--valid` : "btn--invalid"
+            }`}
             type="submit"
           >
             add

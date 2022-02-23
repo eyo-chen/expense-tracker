@@ -1,4 +1,4 @@
-import createWeeklyData from "../createWeeklyData";
+import createWeeklyData from "../CreateWeeklyData/createWeeklyData";
 import createDateStringFormat from "../CreateDateStringFormat/CreateDateStringFormat";
 import createYearMonthDay from "../CreateYearMonthDay/createYearMonthDay";
 

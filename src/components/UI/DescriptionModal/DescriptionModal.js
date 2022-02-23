@@ -1,17 +1,17 @@
 import ModalCloseIcon from "../ModalCloseIcon/ModalCloseIcon";
 import Title from "../Title/Title";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
-import style from "./Description.module.css";
+import styles from "./Description.module.css";
 
 function DescriptionModal(props) {
   return (
     <ModalCloseIcon
       onClick={props.descriptionModalToggler}
-      classModal={style.modal}
+      classModal={styles.modal}
     >
-      <Title className={style.title}>description</Title>
+      <Title className={styles.title}>description</Title>
       <HorizontalLine />
-      <div className={style.description}>
+      <div className={styles.description}>
         <p>{props.children}</p>
       </div>
     </ModalCloseIcon>

@@ -7,9 +7,9 @@ function FormDescription(props) {
     <FormContainer>
       <InputText
         value={props.description}
-        name="description"
-        id="description"
-        label="description (optional)"
+        name="notes"
+        id="notes"
+        label="notes (optional)"
         onChange={props.descriptionChangeHandler}
         classInput={styles.input}
         classLabel={`${styles.label} capitalize`}

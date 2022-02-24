@@ -52,7 +52,7 @@ function SearchListInput(props) {
     <div>
       <div className={`${styles["input__container"]} center--flex`}>
         <label className={styles.label} htmlFor="search">
-          Search For Description
+          Search For Note
         </label>
         <input
           id="search"
@@ -60,7 +60,7 @@ function SearchListInput(props) {
           type="text"
           className={`${styles.input} transition--25`}
           onChange={inputChangeHandler}
-          placeholder="Search For Description"
+          placeholder="Search For Note"
         />
         <FaSearch aria-label="search" className={styles.icon} />
       </div>

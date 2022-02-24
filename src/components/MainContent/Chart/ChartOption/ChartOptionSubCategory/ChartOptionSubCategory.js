@@ -12,7 +12,9 @@ function ChartOptionSubCategory(props) {
   }
   return (
     <div className={styles.checkbox}>
-      <SubTitle className={styles["subtitle--time"]}>Select Sub Data</SubTitle>
+      <SubTitle className={styles["subtitle--time"]}>
+        select main category
+      </SubTitle>
       <div className={styles["checkbox__container"]}>
         {props.category.map((element) => (
           <InputCheckbox

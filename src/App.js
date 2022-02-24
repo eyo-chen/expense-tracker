@@ -8,6 +8,8 @@ import DisplayThemeContext from "./store/displayTheme/displayTheme--context";
 import SignInModal from "./components/UI/SignInModal/SignInModal";
 import Loading from "./components/UI/Loading/Loading";
 import createUserID from "./Others/CreateUserID/createUserID";
+import ErrorModal from "./components/UI/ErrorModal/ErrorModal";
+import useErrorModal from "./Others/Custom/useErrorModal";
 import { FiChevronsLeft } from "react-icons/fi";
 import { FiMenu } from "react-icons/fi";
 import timeObj from "./components/assets/timeObj/timeObj";
@@ -22,9 +24,10 @@ function App() {
   const [signedIn, setSignedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [showSidebar, setShowSidebar] = useState(false);
-  const { setDisplayTheme } = useContext(DisplayThemeContext);
   const [user, userID] = createUserID();
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [errorModal] = useErrorModal();
+  const { setDisplayTheme } = useContext(DisplayThemeContext);
   const userDocRef = doc(db, "users", userID);
 
   onAuthStateChanged(auth, async (user) => {
@@ -104,7 +107,10 @@ function App() {
   return (
     <ExpenseDataProvider>
       <EditModalProvider>
-        <CategoryProvider>{appContent}</CategoryProvider>
+        <CategoryProvider>
+          {errorModal && <ErrorModal />}
+          {appContent}
+        </CategoryProvider>
       </EditModalProvider>
     </ExpenseDataProvider>
   );

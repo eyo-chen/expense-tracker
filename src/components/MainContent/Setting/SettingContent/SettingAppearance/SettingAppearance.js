@@ -2,19 +2,26 @@ import { useContext } from "react";
 import InputRadio from "../../../../UI/InputRadio/InputRadio";
 import DisplayThemeContext from "../../../../../store/displayTheme/displayTheme--context";
 import createUserID from "../../../../../Others/CreateUserID/createUserID";
+import useErrorModal from "../../../../../Others/Custom/useErrorModal";
 import { db } from "../../../../../firebase-config";
 import { doc, updateDoc } from "firebase/firestore";
 import styles from "./SettingAppearance.module.css";
 
 function SettingAppearance() {
+  const [, setErrorModal] = useErrorModal();
   const { displayTheme } = useContext(DisplayThemeContext);
   const [, userID] = createUserID();
+
   const userDocRef = doc(db, "users", userID);
 
   async function changeDisplayThemeHandler(e) {
-    await updateDoc(userDocRef, {
-      displayTheme: e.target.value,
-    });
+    try {
+      await updateDoc(userDocRef, {
+        displayTheme: e.target.value,
+      });
+    } catch (err) {
+      setErrorModal(true);
+    }
   }
 
   return (

@@ -9,7 +9,7 @@ function FormPrice(props) {
   let classInput = `${styles.input} input`;
   if (invalid || props.isTooLarge) classInput += " input--invalid";
 
-  let warningText = "price must be positive integer";
+  let warningText = "price must be positive number";
   if (props.isTooLarge) warningText = "sorry! price should be less than 1000T";
 
   return (

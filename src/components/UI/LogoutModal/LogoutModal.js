@@ -23,7 +23,7 @@ function LogoutModal(props) {
       <SubTitle className={styles.subtitle}>current account</SubTitle>
       <div className={styles.info}>
         <p className={styles.name}>{displayName}</p>
-        <img src={photoURL} />
+        <img className={styles.img} src={photoURL} />
         <p className={styles.email}>{email}</p>
       </div>
       <div className={styles["btn__container"]}>

@@ -9,7 +9,7 @@ function DescriptionModal(props) {
       onClick={props.descriptionModalToggler}
       classModal={styles.modal}
     >
-      <SubTitle className={styles.title}>description</SubTitle>
+      <SubTitle className={styles.title}>notes</SubTitle>
       <HorizontalLine />
       <div className={styles.description}>
         <p>{props.children}</p>

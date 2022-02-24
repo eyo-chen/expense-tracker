@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import CategoryContext from "./category--context";
 import createUserID from "../../Others/CreateUserID/createUserID";
+import useErrorModal from "../../Others/Custom/useErrorModal";
 import { db } from "../../firebase-config";
 import { onSnapshot, doc, updateDoc } from "firebase/firestore";
 
@@ -9,6 +10,7 @@ function CategoryProvider(props) {
   const [categoryIncome, setCategoryIncome] = useState({});
   const [iconArr, setIconArr] = useState([]);
   const [iconObj, setIconObj] = useState({});
+  const [, setErrorModal] = useErrorModal();
   const [user, userID] = createUserID();
   const userDocRef = doc(db, "users", userID);
 
@@ -42,13 +44,13 @@ function CategoryProvider(props) {
         categoryExpense: newMainCategory,
         iconArr: newIconArr,
         iconObj: newIconObj,
-      });
+      }).catch((err) => setErrorModal(true));
     else
       await updateDoc(userDocRef, {
         categoryIncome: newMainCategory,
         iconArr: newIconArr,
         iconObj: newIconObj,
-      });
+      }).catch((err) => setErrorModal(true));
   }
 
   async function deleteSubCategory(value, type, mainCategory) {
@@ -62,11 +64,11 @@ function CategoryProvider(props) {
     if (type === "expense")
       await updateDoc(userDocRef, {
         categoryExpense: newMainCategory,
-      });
+      }).catch((err) => setErrorModal(true));
     else if (type === "income")
       await updateDoc(userDocRef, {
         categoryIncome: newMainCategory,
-      });
+      }).catch((err) => setErrorModal(true));
   }
 
   async function addMainCategory(value, iconIndex, type) {
@@ -87,13 +89,13 @@ function CategoryProvider(props) {
         categoryExpense: newMainCategory,
         iconArr: newIconArr,
         iconObj: newIconObj,
-      });
+      }).catch((err) => setErrorModal(true));
     else
       await updateDoc(userDocRef, {
         categoryIncome: newMainCategory,
         iconArr: newIconArr,
         iconObj: newIconObj,
-      });
+      }).catch((err) => setErrorModal(true));
   }
 
   async function addSubCategory(value, type, mainCategory) {
@@ -105,11 +107,11 @@ function CategoryProvider(props) {
     if (type === "expense")
       await updateDoc(userDocRef, {
         categoryExpense: newMainCategory,
-      });
+      }).catch((err) => setErrorModal(true));
     else if (type === "income")
       await updateDoc(userDocRef, {
         categoryIncome: newMainCategory,
-      });
+      }).catch((err) => setErrorModal(true));
   }
 
   const contextInitialObj = {

@@ -16,7 +16,7 @@ function ChartOptionMainCategory(props) {
             : `${styles["subtitle--category"]}`
         }
       >
-        Select Data
+        select type
       </SubTitle>
       <div className={styles["input__container"]}>
         <InputRadio

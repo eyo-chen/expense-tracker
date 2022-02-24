@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import createUserID from "../../Others/CreateUserID/createUserID";
 import ExpenseDataContext from "./expenseData--context";
+import useErrorModal from "../../Others/Custom/useErrorModal";
 import {
   doc,
   onSnapshot,
@@ -14,6 +15,7 @@ import { db } from "../../firebase-config";
 function ExpenseDataProvider(props) {
   const [expenseData, setExpenseData] = useState([]);
   const [dataIsLoading, setDataIsLoading] = useState(true);
+  const [, setErrorModal] = useErrorModal();
   const [user, userID] = createUserID();
   const expenseDataCollectionRef = collection(db, "users", userID, "data");
 
@@ -29,19 +31,21 @@ function ExpenseDataProvider(props) {
   }, [user]);
 
   async function removeExpenseData(id) {
-    await deleteDoc(doc(db, "users", userID, "data", id));
+    await deleteDoc(doc(db, "users", userID, "data", id)).catch((err) =>
+      setErrorModal(true)
+    );
   }
 
   async function addExpenseData(value) {
-    try {
-      await addDoc(expenseDataCollectionRef, value);
-    } catch (error) {
-      alert(error);
-    }
+    await addDoc(expenseDataCollectionRef, value).catch((err) =>
+      setErrorModal(true)
+    );
   }
 
   async function editExpenseData(value, id) {
-    await updateDoc(doc(db, "users", userID, "data", id), value);
+    await updateDoc(doc(db, "users", userID, "data", id), value).catch((err) =>
+      setErrorModal(true)
+    );
   }
 
   function removeExpenseDataByCategory(deleteMainOrSub, value) {

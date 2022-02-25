@@ -5,6 +5,7 @@ import createInitialData from "./../CreateInitialData/createInitialData";
 
 async function signInWithGoogle() {
   const res = await signInWithPopup(auth, provider);
+
   const { displayName, email } = res.user;
 
   const userID = `${email}${displayName.split(" ").join("")}`;

@@ -8,7 +8,7 @@ function SettingAccount() {
     <div>
       <div className={styles.container}>
         <p className={`${styles.label} capitalize`}>name</p>
-        <p className={styles.info}>{displayName}</p>
+        <p className={styles.info}>{displayName ? displayName : "sample"}</p>
       </div>
       <div>
         <p className={`${styles.label} capitalize`}>email</p>

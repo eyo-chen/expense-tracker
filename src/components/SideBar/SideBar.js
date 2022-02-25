@@ -116,12 +116,21 @@ function SideBar(props) {
           </p>
 
           <span className={styles["user__container"]}>
-            <img
-              onClick={logoutModalToggler}
-              className={styles.user}
-              src={photoURL}
-              alt="user account"
-            />
+            {photoURL ? (
+              <img
+                onClick={logoutModalToggler}
+                className={styles.user}
+                src={photoURL}
+                alt="user account"
+              />
+            ) : (
+              <div
+                className={`${styles.user} ${styles.sample} center--flex`}
+                onClick={logoutModalToggler}
+              >
+                S
+              </div>
+            )}
           </span>
         </div>
       </aside>

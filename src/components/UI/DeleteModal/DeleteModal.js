@@ -98,7 +98,7 @@ function DeleteModal(props) {
         <div className={styles["info__container"]}>{infoItem}</div>
 
         <p className={styles.description}>
-          there is no way getting back this data <br /> once you delete it
+          there is no way of getting back this data <br /> once you delete it
         </p>
         <div className={styles["btn__container"]}>
           <Button

@@ -29,7 +29,9 @@ function AccountOverview() {
       <div className={styles.overview}>
         <div className={styles.title}>
           <Title>account overview</Title>
-          <SubTitle className={styles.subtitle}>hi, {displayName}</SubTitle>
+          <SubTitle className={styles.subtitle}>
+            hi, {displayName ? displayName : "sample"}
+          </SubTitle>
           <div className={styles["btn__container"]}>
             <BtnIcons onClick={modalCardToggler} news={true} />
           </div>

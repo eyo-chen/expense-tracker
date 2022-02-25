@@ -5,7 +5,9 @@ function createUserID() {
   let userID = "oyeoye000000@gmail.comYOO";
   if (user) {
     const { displayName, email } = user;
-    userID = `${email}${displayName.split(" ").join("")}`;
+
+    if (!displayName || !email) userID = "GeZ0AIJ0Rn8ZH5LGT8vo";
+    else userID = `${email}${displayName.split(" ").join("")}`;
   }
 
   return [user, userID];

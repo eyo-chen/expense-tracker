@@ -68,6 +68,13 @@ a {
   background-color: var(--btn-main-bg);
 }
 
+.sample {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto;
+  background-color: rgb(59, 107, 240);
+}
+
 @media screen and (max-width: 1000px) {
   .sidebar {
     position: absolute;

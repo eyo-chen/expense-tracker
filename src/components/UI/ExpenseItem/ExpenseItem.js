@@ -145,7 +145,7 @@ function ExpenseItem(props) {
           >
             {editedDescription}
             <span className={styles["description__text--hover"]}>
-              click to show description
+              click to show notes
             </span>
           </p>
 
@@ -155,7 +155,7 @@ function ExpenseItem(props) {
               onClick={descriptionModalToggler}
               className={styles["description__text"]}
             >
-              click to show description
+              click to show notes
             </p>
           )}
         </div>

@@ -55,6 +55,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 ### Making a Progressive Web App
 
+
 This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
 ### Advanced Configuration
@@ -71,5 +72,5 @@ book.github.io/create-react-app/docs/deployment](https://facebook.github.io/crea
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 #######################################################################################################################################
-
+![Feb-26-2022 17-52-13](https://user-images.githubusercontent.com/78901921/155838823-d355773f-867a-4b3e-bd0f-3e1046b4cf1a.gif)
 

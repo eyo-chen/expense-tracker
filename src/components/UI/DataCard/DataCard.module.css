@@ -32,6 +32,10 @@
   font-size: 2.5rem;
 }
 
+.large {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 800px) {
   .card {
     padding: 4rem 5rem;

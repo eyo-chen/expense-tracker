@@ -4,6 +4,7 @@ import Button from "../Button/Button";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import AddDataForm from "../AddDataForm/AddDateForm";
 import DescriptionModal from "../DescriptionModal/DescriptionModal";
+import MoneyModal from "../MoneyModal/MoneyModal";
 import CategoryContext from "../../../store/category/category--context";
 import useAddDataForm from "../../../Others/Custom/useAddDataForm";
 import formatMoney from "../../../Others/FormatMoney/formatMoney";
@@ -20,6 +21,7 @@ function ExpenseItem(props) {
   const [deleteModal, setDeleteModal] = useState(false);
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const curWidth = useCurWidth();
+  const [moneyModal, setMoneyModal] = useState({ show: false, value: 0 });
   const { iconObj } = useContext(CategoryContext);
 
   const oldExpenseData = {
@@ -56,8 +58,7 @@ function ExpenseItem(props) {
 
   function descriptionModalToggler(e) {
     // Reference 1
-    if (descriptionModal) setDescriptionModal((prev) => !prev);
-    else if (e.target.dataset.id === "true")
+    if (descriptionModal || e.target.dataset.id === "true")
       setDescriptionModal((prev) => !prev);
   }
 
@@ -66,6 +67,7 @@ function ExpenseItem(props) {
       ? `${styles["item__category--blue"]}`
       : `${styles["item__category--pink"]}`;
 
+  //////////////////////////////////////////////////////////////////
   // Reference 4
   let limitedLength = props.modal ? 20 : 40;
   if (curWidth <= 1100) limitedLength = 15;
@@ -90,6 +92,19 @@ function ExpenseItem(props) {
       limitedLength - 10
     );
 
+  //////////////////////////////////////////////////////////////////
+  let largeMoney = false;
+  if (props.price >= 1000000) largeMoney = true;
+
+  function moneyModalToggler(e) {
+    if (moneyModal.show || e?.target.dataset.id === "true") {
+      setMoneyModal((prev) => ({
+        show: !prev.show,
+        value: e?.target.dataset.value,
+      }));
+    }
+  }
+
   return (
     <Fragment>
       {deleteModal && (
@@ -110,6 +125,9 @@ function ExpenseItem(props) {
         <DescriptionModal descriptionModalToggler={descriptionModalToggler}>
           {props.description}
         </DescriptionModal>
+      )}
+      {moneyModal.show && (
+        <MoneyModal value={moneyModal.value} onClick={moneyModalToggler} />
       )}
 
       <li
@@ -145,7 +163,7 @@ function ExpenseItem(props) {
           >
             {editedDescription}
             <span className={styles["description__text--hover"]}>
-              click to show notes
+              show notes
             </span>
           </p>
 
@@ -161,7 +179,16 @@ function ExpenseItem(props) {
         </div>
 
         <div>
-          <p className={styles["item__price"]}>${formatMoney(props.price)}</p>
+          <p
+            data-value={props.price}
+            data-id={largeMoney}
+            onClick={moneyModalToggler}
+            className={`${styles["item__price"]} ${
+              largeMoney ? `${styles["item__price--large"]}` : ""
+            }`}
+          >
+            ${formatMoney(props.price)}
+          </p>
 
           {!props.inDeleteSection && btnMore && (
             <div className={styles["btn__container"]}>
@@ -208,7 +235,7 @@ but we don't wanna trigger for every description, we only want to show the descr
 The logic is we only want to trigger that useState set method when
 1) descriptionModal is true, which means it's gonna close the modal
 2) e.target.dataset.id is true
-   (e.target.dataset.id is equal to variabe longIndex, which keep track if the description is too lo (see below)
+   (e.target.dataset.id is equal to variabe longIndex, which keep track if the description is too long (see below)
    (Note e.target.dataset.id represenat as string)
 */
 

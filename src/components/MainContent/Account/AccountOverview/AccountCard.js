@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Card from "../../../UI/Card/Card";
 import SubTitle from "../../../UI/SubTitle/SubTitle";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
@@ -6,34 +6,55 @@ import timeObj from "../../../assets/timeObj/timeObj";
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
 import mutipleArgsHelper from "../../../../Others/MultipleArgsHelper/multipleArgsHelper";
 import formatMoney from "../../../../Others/FormatMoney/formatMoney";
+import MoneyModal from "../../../UI/MoneyModal/MoneyModal";
 import styles from "./AccountCard.module.css";
 
 const { TODAY } = timeObj;
 
+const priceText = ["income", "expense", "net income"];
+
 function AccountCard() {
+  const [moneyModal, setMoneyModal] = useState({ show: false, value: 0 });
   const { expenseData } = useContext(ExpenseDataContext);
-  const [income, expense, netIncome] = mutipleArgsHelper(
-    formatMoney,
-    ...createAccAmount(expenseData, false, null, TODAY)
-  );
+  const prePriceAmountArr = createAccAmount(expenseData, false, null, TODAY);
+  const priceAmountArr = mutipleArgsHelper(formatMoney, ...prePriceAmountArr);
+
+  function moneyModalToggler(e) {
+    if (moneyModal.show || e?.target.dataset.id === "true") {
+      setMoneyModal((prev) => ({
+        show: !prev.show,
+        value: e?.target.dataset.value,
+      }));
+    }
+  }
+
+  const allCardContent = priceAmountArr.map((price, index) => {
+    const prePrice = prePriceAmountArr[index];
+
+    return (
+      <Card key={price + index} className={styles.card}>
+        <SubTitle className={styles["card__text"]}>{priceText[index]}</SubTitle>
+        <p
+          data-value={prePrice}
+          data-id={Math.abs(prePrice) >= 1000000}
+          className={` ${styles["card__number"]} ${
+            Math.abs(prePrice) >= 1000000
+              ? `${styles["card__number--large"]}`
+              : ""
+          }`}
+          onClick={moneyModalToggler}
+        >{`$${price}`}</p>
+      </Card>
+    );
+  });
 
   return (
-    <div className={styles["card__container"]}>
-      <Card className={styles.card}>
-        <SubTitle className={styles["card__text"]}>income</SubTitle>
-        <SubTitle className={styles["card__number"]}>{`$${income}`}</SubTitle>
-      </Card>
-      <Card className={styles.card}>
-        <SubTitle className={styles["card__text"]}>expense</SubTitle>
-        <SubTitle className={styles["card__number"]}>{`$${expense}`}</SubTitle>
-      </Card>
-      <Card className={styles.card}>
-        <SubTitle className={styles["card__text"]}>net income</SubTitle>
-        <SubTitle
-          className={styles["card__number"]}
-        >{`$${netIncome}`}</SubTitle>
-      </Card>
-    </div>
+    <>
+      {moneyModal.show && (
+        <MoneyModal value={moneyModal.value} onClick={moneyModalToggler} />
+      )}
+      <div className={styles["card__container"]}>{allCardContent}</div>
+    </>
   );
 }
 

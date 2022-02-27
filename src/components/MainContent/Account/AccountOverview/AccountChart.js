@@ -98,3 +98,19 @@ but we later decide use line chart for net income
 So now it's not reasonable to have two exact same line-config-object in two diff components
 that's the one of main reason to seperate createChartDataArr and createConfigArr
 */
+
+/*
+Reference 2
+createLineDataArr.bind(initialLabels, expenseData)
+vs.
+createLineDataArr(initialLabels, expenseData)
+
+pass a function as initial value is better than passing the result of a function
+This make sure createLineDataArr will only run once in initial render
+
+Try to use createLineDataArr(initialLabels, expenseData),
+and the function will run twice each time user click the button
+which is very unefficient
+
+See detail in https://beta.reactjs.org/apis/usestate
+*/

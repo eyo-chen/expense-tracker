@@ -35,6 +35,12 @@ So now we can only select last two div element
 .card__number {
   text-align: end;
   letter-spacing: 3px;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.card__number--large {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 800px) {

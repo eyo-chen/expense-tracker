@@ -52,7 +52,7 @@
   left: 50%;
   transform: translateX(-50%);
   bottom: -45px;
-  width: 23rem;
+  width: 15rem;
   color: var(--white-1);
   font-weight: 500;
   padding: 0.7rem;
@@ -85,6 +85,11 @@ use pseudo-class to avoid naming another className
   font-size: 1.8rem;
   letter-spacing: 1.5px;
   margin-right: 1rem; /* fix flex gap */
+}
+
+.item__price--large {
+  cursor: pointer;
+  position: relative;
 }
 
 .btn__container {

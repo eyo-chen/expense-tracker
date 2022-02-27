@@ -1,0 +1,18 @@
+.modal {
+  width: auto;
+  height: 30vh;
+  padding: 2rem 9rem;
+}
+
+.title {
+  font-size: 3rem;
+  margin: 0 2rem 2rem 0;
+  text-align: center;
+}
+
+.money {
+  font-size: 3rem;
+  text-align: center;
+  margin-top: 6rem;
+  letter-spacing: 1px;
+}

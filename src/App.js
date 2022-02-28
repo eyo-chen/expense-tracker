@@ -12,7 +12,7 @@ import ErrorModal from "./components/UI/ErrorModal/ErrorModal";
 import useErrorModal from "./Others/Custom/useErrorModal";
 import { FiChevronsLeft } from "react-icons/fi";
 import { FiMenu } from "react-icons/fi";
-import timeObj from "./components/assets/timeObj/timeObj";
+import timeObj from "./Others/TimeObj/timeObj";
 import style from "./App.module.css";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";

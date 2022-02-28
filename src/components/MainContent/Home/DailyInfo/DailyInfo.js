@@ -9,7 +9,7 @@ import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
 import Title from "../../../UI/Title/Title";
 import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
 import DailyDataCard from "./DailyDataCard";
-import timeObj from "../../../assets/timeObj/timeObj";
+import timeObj from "../../../../Others/TimeObj/timeObj";
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
 import createYearMonthDay from "../../../../Others/CreateYearMonthDay/createYearMonthDay";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";

@@ -2,11 +2,12 @@ import { useContext, useState } from "react";
 import Card from "../../../UI/Card/Card";
 import SubTitle from "../../../UI/SubTitle/SubTitle";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
-import timeObj from "../../../assets/timeObj/timeObj";
+import timeObj from "../../../../Others/TimeObj/timeObj";
 import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
 import mutipleArgsHelper from "../../../../Others/MultipleArgsHelper/multipleArgsHelper";
 import formatMoney from "../../../../Others/FormatMoney/formatMoney";
 import MoneyModal from "../../../UI/MoneyModal/MoneyModal";
+import useMoneyModal from "../../../../Others/Custom/useMoneyModal";
 import styles from "./AccountCard.module.css";
 
 const { TODAY } = timeObj;
@@ -14,19 +15,10 @@ const { TODAY } = timeObj;
 const priceText = ["income", "expense", "net income"];
 
 function AccountCard() {
-  const [moneyModal, setMoneyModal] = useState({ show: false, value: 0 });
+  const [moneyModal, moneyModalToggler] = useMoneyModal();
   const { expenseData } = useContext(ExpenseDataContext);
   const prePriceAmountArr = createAccAmount(expenseData, false, null, TODAY);
   const priceAmountArr = mutipleArgsHelper(formatMoney, ...prePriceAmountArr);
-
-  function moneyModalToggler(e) {
-    if (moneyModal.show || e?.target.dataset.id === "true") {
-      setMoneyModal((prev) => ({
-        show: !prev.show,
-        value: e?.target.dataset.value,
-      }));
-    }
-  }
 
   const allCardContent = priceAmountArr.map((price, index) => {
     const prePrice = prePriceAmountArr[index];

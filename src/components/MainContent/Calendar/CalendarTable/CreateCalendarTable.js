@@ -1,9 +1,8 @@
 import { React } from "react";
-import timeObj from "../../../assets/timeObj/timeObj";
+import timeObj from "../../../../Others/TimeObj/timeObj";
 import createYearMonthDay from "../../../../Others/CreateYearMonthDay/createYearMonthDay";
 import coerceNumber from "../../../../Others/CoerceNumber/coerceNumber";
 import CalendarCell from "./CalendarCell";
-import { v4 as uuidv4 } from "uuid";
 
 const { YEAR: year, MONTH: month, DAY: today } = timeObj;
 const [YEAR, MONTH, TODAY] = coerceNumber(year, month, today);
@@ -28,7 +27,7 @@ function CreateCalendarTable(date, showExpenseListModalHandler, expenseData) {
   // day of previous month
   for (let i = firstOfCurMonthDay; i > 0; i--) {
     res.push(
-      <CalendarCell key={uuidv4()} curMonthIndex={false}>
+      <CalendarCell key={key + i + "pre"} curMonthIndex={false}>
         {lastOfPrevMonthDate - i + 1}
       </CalendarCell>
     );
@@ -44,7 +43,7 @@ function CreateCalendarTable(date, showExpenseListModalHandler, expenseData) {
 
     res.push(
       <CalendarCell
-        key={uuidv4()}
+        key={key + "-" + indexID}
         dataID={key + "-" + indexID}
         curMonthIndex={true}
         onClick={showExpenseListModalHandler}
@@ -61,7 +60,7 @@ function CreateCalendarTable(date, showExpenseListModalHandler, expenseData) {
   // day of next month
   for (let i = 1; i <= daysOfNextMonth; i++) {
     res.push(
-      <CalendarCell key={uuidv4()} curMonthIndex={false}>
+      <CalendarCell key={key + i + "next"} curMonthIndex={false}>
         {i}
       </CalendarCell>
     );

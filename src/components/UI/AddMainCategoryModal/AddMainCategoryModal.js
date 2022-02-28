@@ -8,7 +8,6 @@ import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import CategoryContext from "../../../store/category/category--context";
 import EditModalContext from "../../../store/editModal/editModal--context";
 import Warning from "../Warning/Warning";
-import { v4 as uuidv4 } from "uuid";
 import styles from "./AddMainCategoryModal.module.css";
 
 function reducer(state, action) {
@@ -96,7 +95,7 @@ function AddMainCategoryModal(props) {
 
     return (
       <InputRadio
-        key={uuidv4()}
+        key={element}
         name="icon"
         ariaLabel="icon"
         label={iconImg}

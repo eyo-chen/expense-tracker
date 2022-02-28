@@ -6,7 +6,7 @@ import createLineDataArr from "../../../../Others/CreateChartData/createLineData
 import createLineLabels from "../../../../Others/CreateChartData/createLineLabels";
 import Chart from "chart.js/auto";
 import createConfigObj from "../../../../Others/CreateChartData/createConfigObj";
-import timeObj from "../../../assets/timeObj/timeObj";
+import timeObj from "../../../../Others/TimeObj/timeObj";
 import styles from "./AccountChart.module.css";
 
 // for choosing diff time range (input radio)

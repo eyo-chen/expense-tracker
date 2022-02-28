@@ -5,32 +5,49 @@ import BtnIcon from "../BtnIcon/BtnIcon";
 import formatMoney from "../../../Others/FormatMoney/formatMoney";
 import mutipleArgsHelper from "../../../Others/MultipleArgsHelper/multipleArgsHelper";
 import MoneyModal from "../MoneyModal/MoneyModal";
+import useMoneyModal from "../../../Others/Custom/useMoneyModal";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import { AiFillEye } from "react-icons/ai";
 import styles from "./DataCard.module.css";
 
+const priceText = ["income", "expense", "net income"];
+
 function DataCard(props) {
   const [visible, setVisible] = useState(true);
-  const [moneyModal, setMoneyModal] = useState({ show: false, value: 0 });
+  const [moneyModal, moneyModalToggler] = useMoneyModal();
   function eyeBtnClickToggler() {
     setVisible((prev) => !prev);
   }
 
-  const [income, expense, netIncome] = mutipleArgsHelper(
+  // Reference 1
+  const allCardContent = mutipleArgsHelper(
     formatMoney,
     props.income,
     props.expense,
     props.netIncome
-  );
+  ).map((price, index) => {
+    const priceTextStr = priceText[index];
+    const prePrice =
+      priceTextStr === "expense"
+        ? props.expense
+        : priceTextStr === "expense"
+        ? props.income
+        : props.netIncome;
 
-  function moneyModalToggler(e) {
-    if (moneyModal.show || e?.target.dataset.id === "true") {
-      setMoneyModal((prev) => ({
-        show: !prev.show,
-        value: e?.target.dataset.value,
-      }));
-    }
-  }
+    return (
+      <div key={priceTextStr} className={styles["data__container"]}>
+        <p className="capitalize">{priceTextStr}</p>
+        <p
+          data-value={prePrice}
+          data-id={Math.abs(prePrice) >= 1000000}
+          className={Math.abs(prePrice) >= 1000000 ? `${styles.large}` : ""}
+          onClick={moneyModalToggler}
+        >
+          {visible ? `$${price}` : "********"}
+        </p>
+      </div>
+    );
+  });
 
   return (
     <>
@@ -53,46 +70,12 @@ function DataCard(props) {
             )}
           </BtnIcon>
         </div>
-        <div className={styles["data__container"]}>
-          <p>Income</p>
-          <p
-            data-value={props.income}
-            data-id={props.income >= 1000000}
-            className={props.income >= 1000000 ? `${styles.large}` : ""}
-            onClick={moneyModalToggler}
-          >
-            {visible ? `$${income}` : "********"}
-          </p>
-        </div>
-        <div className={styles["data__container"]}>
-          <p>Expense</p>
-          <p
-            data-value={props.expense}
-            data-id={Math.abs(props.expense) >= 1000000}
-            className={
-              Math.abs(props.expense) >= 1000000 ? `${styles.large}` : ""
-            }
-            onClick={moneyModalToggler}
-          >
-            {visible ? `$${expense}` : "********"}
-          </p>
-        </div>
-        <div className={styles["data__container"]}>
-          <p>Net Income</p>
-          <p
-            data-value={props.netIncome}
-            data-id={Math.abs(props.netIncome) >= 1000000}
-            className={
-              Math.abs(props.netIncome) >= 1000000 ? `${styles.large}` : ""
-            }
-            onClick={moneyModalToggler}
-          >
-            {visible ? `$${netIncome}` : "********"}
-          </p>
-        </div>
+        {allCardContent}
       </Card>
     </>
   );
 }
 
 export default DataCard;
+
+// Reference 1

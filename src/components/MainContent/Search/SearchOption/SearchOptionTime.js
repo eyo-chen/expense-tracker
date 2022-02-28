@@ -38,6 +38,7 @@ dateLastYearFirst.setFullYear(dateLastYearFirst.getFullYear() - 1, 0, 1);
 dateLastYearLast.setFullYear(dateLastYearLast.getFullYear() - 1, 12, 0);
 
 const dateTodayString = createDateStringFormat(dateToday);
+const dateYesterDayString = createDateStringFormat(dateYesterDay);
 
 const checkboxTime = [
   {
@@ -46,7 +47,7 @@ const checkboxTime = [
   },
   {
     text: "yesterady",
-    value: [createDateStringFormat(dateYesterDay), dateTodayString],
+    value: [dateYesterDayString, dateYesterDayString],
   },
   {
     text: "three days ago",

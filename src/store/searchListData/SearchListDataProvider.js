@@ -3,7 +3,7 @@ import compareTimeWithRange from "../../Others/CompareTime/compareTimeWithRange"
 import ExpenseDataContext from "../expenseData/expenseData--context";
 import SearchListDataContext from "./searchListData--context";
 
-let originalData;
+// let originalData;
 
 function reducer(state, action) {
   switch (action.type) {
@@ -14,7 +14,11 @@ function reducer(state, action) {
       newConstraintObj[`${action.id}-${action.value}`] = action.value;
 
       return {
-        expenseData: reducerHelperFunction(newConstraintObj, originalData),
+        ...state,
+        expenseData: reducerHelperFunction(
+          newConstraintObj,
+          state.originalData
+        ),
         constraintObj: newConstraintObj,
       };
     }
@@ -26,12 +30,17 @@ function reducer(state, action) {
       delete newConstraintObj[`${action.id}-${action.value}`];
 
       let newState;
-      if (Object.keys(newConstraintObj).length === 0) newState = originalData;
+      if (Object.keys(newConstraintObj).length === 0)
+        newState = state.originalData;
       else {
-        newState = reducerHelperFunction(newConstraintObj, originalData);
+        newState = reducerHelperFunction(newConstraintObj, state.originalData);
       }
 
-      return { expenseData: newState, constraintObj: newConstraintObj };
+      return {
+        ...state,
+        expenseData: newState,
+        constraintObj: newConstraintObj,
+      };
     }
 
     case "SEARCH": {
@@ -39,14 +48,21 @@ function reducer(state, action) {
 
       // Reference 2
       if (action.value.length === 0) {
-        newState = reducerHelperFunction(state.constraintObj, originalData);
+        newState = reducerHelperFunction(
+          state.constraintObj,
+          state.originalData
+        );
       } else
         newState = reducerHelperFunction(
           state.constraintObj,
-          originalData
+          state.originalData
         ).filter((element) => element.description.includes(action.value));
 
-      return { expenseData: newState, constraintObj: state.constraintObj };
+      return {
+        ...state,
+        expenseData: newState,
+        constraintObj: state.constraintObj,
+      };
     }
 
     case "SORT_TIME": {
@@ -63,7 +79,11 @@ function reducer(state, action) {
             Number(new Date(elementB.time)) - Number(new Date(elementA.time))
         );
 
-      return { expenseData: newState, constraintObj: state.constraintObj };
+      return {
+        ...state,
+        expenseData: newState,
+        constraintObj: state.constraintObj,
+      };
     }
 
     case "SORT_PRICE": {
@@ -80,7 +100,11 @@ function reducer(state, action) {
             Number(elementB.price) - Number(elementA.price)
         );
 
-      return { expenseData: newState, constraintObj: state.constraintObj };
+      return {
+        ...state,
+        expenseData: newState,
+        constraintObj: state.constraintObj,
+      };
     }
 
     case "SORT_CATEGORY": {
@@ -97,7 +121,11 @@ function reducer(state, action) {
       if (action.sort) newState = [...incomeDataArr, ...expenseDataArr];
       else newState = [...expenseDataArr, ...incomeDataArr];
 
-      return { expenseData: newState, constraintObj: state.constraintObj };
+      return {
+        ...state,
+        expenseData: newState,
+        constraintObj: state.constraintObj,
+      };
     }
 
     case "DELETE": {
@@ -115,8 +143,6 @@ function reducer(state, action) {
         } else return data;
       });
 
-      console.log(action.value, action.id);
-
       return { ...state, expenseData: newExpenseData };
     }
 
@@ -130,13 +156,14 @@ function SearchListDataProvider(props) {
   const [filteredData, setFilteredData] = useReducer(reducer, {
     constraintObj: {},
     expenseData: expenseData,
+    originalData: expenseData,
   });
 
   function update(expenseData, id) {
     setFilteredData({ type: "UPDATE", value: expenseData, id });
   }
 
-  originalData = expenseData;
+  // originalData = expenseData;
 
   const SearchListDataContextInitialObject = {
     setFilteredData,

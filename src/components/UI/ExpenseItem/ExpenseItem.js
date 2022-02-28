@@ -9,6 +9,7 @@ import CategoryContext from "../../../store/category/category--context";
 import useAddDataForm from "../../../Others/Custom/useAddDataForm";
 import formatMoney from "../../../Others/FormatMoney/formatMoney";
 import createEditedDescription from "../../../Others/CreateEditedDescription/createEditedDescription";
+import useMoneyModal from "../../../Others/Custom/useMoneyModal";
 import useCurWidth from "../../../Others/Custom/useCurWidth";
 import { MdMoreVert } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
@@ -21,7 +22,7 @@ function ExpenseItem(props) {
   const [deleteModal, setDeleteModal] = useState(false);
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const curWidth = useCurWidth();
-  const [moneyModal, setMoneyModal] = useState({ show: false, value: 0 });
+  const [moneyModal, moneyModalToggler] = useMoneyModal();
   const { iconObj } = useContext(CategoryContext);
 
   const oldExpenseData = {
@@ -95,15 +96,6 @@ function ExpenseItem(props) {
   //////////////////////////////////////////////////////////////////
   let largeMoney = false;
   if (props.price >= 1000000) largeMoney = true;
-
-  function moneyModalToggler(e) {
-    if (moneyModal.show || e?.target.dataset.id === "true") {
-      setMoneyModal((prev) => ({
-        show: !prev.show,
-        value: e?.target.dataset.value,
-      }));
-    }
-  }
 
   return (
     <Fragment>

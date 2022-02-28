@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CalendarTable from "./CalendarTable/CalendarTable";
 import MonthlyInfo from "./MonthlyInfo/MonthlyInfo";
-import timeObj from "../../assets/timeObj/timeObj";
+import timeObj from "../../../Others/TimeObj/timeObj";
 import styles from "./Calendar.module.css";
 
 const { TODAY } = timeObj;

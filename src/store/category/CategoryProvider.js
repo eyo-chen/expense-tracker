@@ -6,10 +6,15 @@ import { db } from "../../firebase-config";
 import { onSnapshot, doc, updateDoc } from "firebase/firestore";
 
 function CategoryProvider(props) {
-  const [categoryExpense, setCategoryExpense] = useState({});
-  const [categoryIncome, setCategoryIncome] = useState({});
-  const [iconArr, setIconArr] = useState([]);
-  const [iconObj, setIconObj] = useState({});
+  const [categoryProviderVal, setCategoryProviderVal] = useState({
+    categoryExpense: {},
+    categoryIncome: {},
+    iconArr: {},
+    iconObj: {},
+  });
+  const { categoryExpense, categoryIncome, iconArr, iconObj } =
+    categoryProviderVal;
+
   const [, setErrorModal] = useErrorModal();
   const [user, userID] = createUserID();
   const userDocRef = doc(db, "users", userID);
@@ -22,10 +27,12 @@ function CategoryProvider(props) {
       const { categoryExpense, categoryIncome, iconArr, iconObj } =
         snapshot.data();
 
-      setCategoryExpense(categoryExpense);
-      setCategoryIncome(categoryIncome);
-      setIconArr(iconArr);
-      setIconObj(iconObj);
+      setCategoryProviderVal({
+        categoryExpense,
+        categoryIncome,
+        iconArr,
+        iconObj,
+      });
     });
   }, [user]);
 
@@ -134,6 +141,17 @@ function CategoryProvider(props) {
 
 export default CategoryProvider;
 
+/*
+  // const [categoryExpense, setCategoryExpense] = useState({});
+  // const [categoryIncome, setCategoryIncome] = useState({});
+  // const [iconArr, setIconArr] = useState([]);
+  // const [iconObj, setIconObj] = useState({});
+
+      // setCategoryExpense(categoryExpense);
+      // setCategoryIncome(categoryIncome);
+      // setIconArr(iconArr);
+      // setIconObj(iconObj);
+*/
 /*
 import { IoFastFoodSharp } from "react-icons/io5";
 import { IoIosShirt } from "react-icons/io";

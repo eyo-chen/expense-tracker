@@ -95,7 +95,11 @@ function DailyInfo(props) {
   const dataListContent = dataIsLoading ? (
     <LoadingData />
   ) : expenseDataList.length > 0 ? (
-    <ExpenseList data={expenseDataList} classItem={styles.item} />
+    <ExpenseList
+      key={selectedDate}
+      data={expenseDataList}
+      classItem={styles.item}
+    />
   ) : (
     <div className={`${styles.noData} center--flex capitalize`}>
       <p>no data</p>

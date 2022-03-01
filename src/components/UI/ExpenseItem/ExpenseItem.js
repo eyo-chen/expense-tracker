@@ -1,6 +1,5 @@
 import { Fragment, useState, useContext } from "react";
 import BtnIcon from "../BtnIcon/BtnIcon";
-import Button from "../Button/Button";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import AddDataForm from "../AddDataForm/AddDateForm";
 import DescriptionModal from "../DescriptionModal/DescriptionModal";
@@ -49,7 +48,7 @@ function ExpenseItem(props) {
     description: props.description,
   };
 
-  function btnMoreToggler() {
+  function btnMoreToggler(e) {
     setBtnMore((prev) => !prev);
   }
 
@@ -86,7 +85,7 @@ function ExpenseItem(props) {
   if (
     props.description &&
     props.description?.length > limitedLength - 10 &&
-    btnMore
+    props.btnMoreIndex
   )
     editedDescription = createEditedDescription(
       props.description,
@@ -110,7 +109,7 @@ function ExpenseItem(props) {
         <AddDataForm
           oldExpenseData={oldExpenseData}
           addDataFormModalToggler={addDataFormModalToggler}
-          btnMoreToggler={btnMoreToggler}
+          btnMoreToggler={props.btnMoreToggler}
         />
       )}
       {descriptionModal && (
@@ -159,7 +158,7 @@ function ExpenseItem(props) {
             </span>
           </p>
 
-          {longIndex && !btnMore && (
+          {longIndex && !props.btnMoreIndex && (
             <p
               data-id={longIndex}
               onClick={descriptionModalToggler}
@@ -182,7 +181,7 @@ function ExpenseItem(props) {
             ${formatMoney(props.price)}
           </p>
 
-          {!props.inDeleteSection && btnMore && (
+          {!props.inDeleteSection && props.btnMoreIndex && (
             <div className={styles["btn__container"]}>
               <BtnIcon
                 onClick={showDeleteModalHandler}
@@ -202,14 +201,16 @@ function ExpenseItem(props) {
             </div>
           )}
           {!props.inDeleteSection && (
-            <Button
-              onClick={btnMoreToggler}
+            <BtnIcon
+              onClick={props.btnMoreToggler}
               type="button"
-              className={styles["btn__more"]}
+              classBtn={styles["btn__more"]}
+              classText={styles["btn__more__text"]}
               ariaLabel="more"
+              dataID={props.index}
             >
               <MdMoreVert />
-            </Button>
+            </BtnIcon>
           )}
         </div>
       </li>

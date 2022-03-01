@@ -115,7 +115,9 @@ function AddDataForm(props) {
   const { categoryExpense, categoryIncome, iconObj } =
     useContext(CategoryContext);
   const { update } = useContext(SearchListDataContext);
-  const mainCateExpenseArr = Object.keys(categoryExpense);
+  const mainCateExpenseArr = Object.keys(categoryExpense).sort(
+    (a, b) => a.charCodeAt(0) - b.charCodeAt(0)
+  );
   const mainCateIncomeArr = Object.keys(categoryIncome);
 
   // Reference 2
@@ -320,3 +322,17 @@ the data storing in expenseDataProvider do NOT have
 mainCategoryArr, subCategoryArr categoryExpense, categoryIncome, iconObj, priceTouch
 but we need this data in the form, so add them
 */
+
+const mainCategoryArr = {
+  food: true,
+  transportation: true,
+  clothing: true,
+  housing: true,
+  entertainment: true,
+  education: true,
+  others: true,
+};
+
+// function createMainCategoryArr(categoryExpense) {
+//   const categoryArr = [];
+// }

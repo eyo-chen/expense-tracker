@@ -112,6 +112,10 @@ use pseudo-class to avoid naming another className
   padding: 0.5rem;
 }
 
+.btn__more__text {
+  display: none;
+}
+
 .btn__more:hover {
   background-color: transparent;
 }

@@ -17,17 +17,13 @@ function reducer(state, action) {
       let mainCategoryArr, subCategoryArr, mainCategory, subCategory;
 
       if (action.value === "expense") {
-        const expenseKeyArr = Object.keys(expenseObj);
-
-        mainCategoryArr = expenseKeyArr;
-        mainCategory = expenseKeyArr[0];
+        mainCategoryArr = state.mainCategoryExpense;
+        mainCategory = state.mainCategoryExpense[0];
         subCategoryArr = expenseObj[mainCategory];
         subCategory = expenseObj[mainCategory][0];
       } else {
-        const incomeKeyArr = Object.keys(incomeObj);
-
-        mainCategoryArr = incomeKeyArr;
-        mainCategory = incomeKeyArr[0];
+        mainCategoryArr = state.mainCategoryIncome;
+        mainCategory = state.mainCategoryIncome[0];
         subCategoryArr = incomeObj[mainCategory];
         subCategory = incomeObj[mainCategory][0];
       }
@@ -105,7 +101,18 @@ function reducer(state, action) {
     case "ADD_MAIN_CATEGORY": {
       const mainCategoryArr = state.mainCategoryArr.concat(action.value);
 
-      return { ...state, mainCategoryArr };
+      if (action.typeCaregory === "expense")
+        return {
+          ...state,
+          mainCategoryArr,
+          mainCategoryExpense: mainCategoryArr,
+        };
+      else
+        return {
+          ...state,
+          mainCategoryArr,
+          mainCategoryIncome: mainCategoryArr,
+        };
     }
 
     case "ADD_SUB_CATEGORY": {
@@ -128,14 +135,24 @@ function reducer(state, action) {
             ? expenseObj[mainCategoryArr[0]]
             : incomeObj[mainCategoryArr[0]];
 
-        return {
-          ...state,
-          mainCategoryArr,
-          mainCategory: mainCategoryArr[0],
-          subCategoryArr,
-          subCategory:
-            state.type === "expense" ? subCategoryArr[0] : subCategoryArr[0],
-        };
+        if (action.typeCategory === "expense")
+          return {
+            ...state,
+            mainCategoryArr,
+            mainCategory: mainCategoryArr[0],
+            subCategoryArr,
+            subCategory: subCategoryArr[0],
+            mainCategoryExpense: mainCategoryArr,
+          };
+        else
+          return {
+            ...state,
+            mainCategoryArr,
+            mainCategory: mainCategoryArr[0],
+            subCategoryArr,
+            subCategory: subCategoryArr[0],
+            mainCategoryIncome: mainCategoryArr,
+          };
       }
       // sub category
       else if (action.value === "sub") {
@@ -163,14 +180,16 @@ function SettingCategory() {
     categoryIncome,
     deleteMainCategory,
     deleteSubCategory,
+    mainCategoryExpense,
+    mainCategoryIncome,
   } = useContext(CategoryContext);
 
   const [categoryState, categoryStateDispatch] = useReducer(reducer, {
     type: "expense",
-    mainCategory: Object.keys(categoryExpense)[0],
-    subCategory: categoryExpense[Object.keys(categoryExpense)[0]][0],
-    mainCategoryArr: Object.keys(categoryExpense), // x
-    subCategoryArr: categoryExpense[Object.keys(categoryExpense)[0]], // x
+    mainCategory: mainCategoryExpense[0],
+    subCategory: categoryExpense[mainCategoryExpense[0]][0],
+    mainCategoryArr: mainCategoryExpense,
+    subCategoryArr: categoryExpense[mainCategoryExpense[0]],
     editMainCategory: false,
     editSubCategory: false,
     deleteModal: false,
@@ -179,6 +198,8 @@ function SettingCategory() {
     deleteCategoryModal: false,
     clickingCategoryForDelete: "",
     deleteMainOrSub: "main",
+    mainCategoryExpense,
+    mainCategoryIncome,
   });
   // make these variables connect with object because they are used in reducer function
   expenseObj = categoryExpense;
@@ -198,7 +219,7 @@ function SettingCategory() {
     });
   }
 
-  function clickDeleteBtnHandler(e) {
+  function clickDeleteBtnHandler(e, type) {
     const id = e.target.dataset.id;
 
     // delect category from database
@@ -217,16 +238,25 @@ function SettingCategory() {
 
     // Reference 4
     // delet the category from UI(also update other UI)
-    categoryStateDispatch({ type: "DELETE_CATEGORY", value: id });
+    categoryStateDispatch({
+      type: "DELETE_CATEGORY",
+      value: id,
+      typeCategory: type,
+    });
   }
 
   // Referecne 2
-  function addMainCategoryModalToggler(e, value) {
+  function addMainCategoryModalToggler(e, value, type) {
     // always toggle the modal
     categoryStateDispatch({ type: "ADD_MAIN_CATEGORY_MODAL" });
 
     // add the category if having input value(when click the add btn in modal)
-    if (value) categoryStateDispatch({ type: "ADD_MAIN_CATEGORY", value });
+    if (value)
+      categoryStateDispatch({
+        type: "ADD_MAIN_CATEGORY",
+        value,
+        typeCaregory: type,
+      });
   }
 
   function addSubCategoryModalToggler(e, value) {

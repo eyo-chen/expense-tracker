@@ -16,14 +16,22 @@ async function signInWithGoogle() {
     return;
   }
 
-  const [categoryExpense, categoryIncome, iconObj, iconArr] =
-    createInitialData();
+  const [
+    categoryExpense,
+    categoryIncome,
+    iconObj,
+    iconArr,
+    mainCategoryExpense,
+    mainCategoryIncome,
+  ] = createInitialData();
 
   await setDoc(doc(db, "users", userID), {
     userName: displayName,
     email,
     categoryExpense,
     categoryIncome,
+    mainCategoryExpense,
+    mainCategoryIncome,
     iconObj,
     iconArr,
     displayTheme: "dark",

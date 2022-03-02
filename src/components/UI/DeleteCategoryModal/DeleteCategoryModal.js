@@ -20,7 +20,7 @@ function DeleteCategoryModal(props) {
           (element) => element.mainCategory === props.clickingCategoryForDelete
         )
       : expenseData.filter(
-          (element) => element.subCatetegory === props.clickingCategoryForDelete
+          (element) => element.subCategory === props.clickingCategoryForDelete
         );
 
   const subtitleContent =
@@ -31,7 +31,7 @@ function DeleteCategoryModal(props) {
       : `there's no data in your ${props.type} history`;
 
   function btnDeleteClickHandler(e) {
-    props.clickDeleteBtnHandler(e);
+    props.clickDeleteBtnHandler(e, props.type);
     props.deleteModalToggler(e);
     removeExpenseDataByCategory(
       props.deleteMainOrSub,

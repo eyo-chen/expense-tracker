@@ -9,11 +9,19 @@ function CategoryProvider(props) {
   const [categoryProviderVal, setCategoryProviderVal] = useState({
     categoryExpense: {},
     categoryIncome: {},
+    mainCategoryExpense: [],
+    mainCategoryIncome: [],
     iconArr: {},
     iconObj: {},
   });
-  const { categoryExpense, categoryIncome, iconArr, iconObj } =
-    categoryProviderVal;
+  const {
+    categoryExpense,
+    categoryIncome,
+    iconArr,
+    iconObj,
+    mainCategoryExpense,
+    mainCategoryIncome,
+  } = categoryProviderVal;
 
   const [, setErrorModal] = useErrorModal();
   const [user, userID] = createUserID();
@@ -24,14 +32,22 @@ function CategoryProvider(props) {
     onSnapshot(userDocRef, (snapshot) => {
       if (!snapshot["_document"]) return;
 
-      const { categoryExpense, categoryIncome, iconArr, iconObj } =
-        snapshot.data();
+      const {
+        categoryExpense,
+        categoryIncome,
+        iconArr,
+        iconObj,
+        mainCategoryExpense,
+        mainCategoryIncome,
+      } = snapshot.data();
 
       setCategoryProviderVal({
         categoryExpense,
         categoryIncome,
         iconArr,
         iconObj,
+        mainCategoryExpense,
+        mainCategoryIncome,
       });
     });
   }, [user]);
@@ -40,6 +56,9 @@ function CategoryProvider(props) {
     const icon = iconObj[value];
     const newIconArr = [...iconArr, icon];
     const newIconObj = { ...iconObj };
+    const newMainCategoryArr = (
+      type === "expense" ? mainCategoryExpense : mainCategoryIncome
+    ).filter((category) => category !== value);
     const newMainCategory = {
       ...(type === "expense" ? categoryExpense : categoryIncome),
     };
@@ -51,12 +70,14 @@ function CategoryProvider(props) {
         categoryExpense: newMainCategory,
         iconArr: newIconArr,
         iconObj: newIconObj,
+        mainCategoryExpense: newMainCategoryArr,
       }).catch((err) => setErrorModal(true));
     else
       await updateDoc(userDocRef, {
         categoryIncome: newMainCategory,
         iconArr: newIconArr,
         iconObj: newIconObj,
+        mainCategoryIncome: newMainCategoryArr,
       }).catch((err) => setErrorModal(true));
   }
 
@@ -86,6 +107,11 @@ function CategoryProvider(props) {
     const newIconObj = { ...iconObj };
     newIconObj[value] = icon;
 
+    const newMainCategoryArr = [
+      ...(type === "expense" ? mainCategoryExpense : mainCategoryIncome),
+      value,
+    ];
+
     const newMainCategory = {
       ...(type === "expense" ? categoryExpense : categoryIncome),
     };
@@ -96,12 +122,14 @@ function CategoryProvider(props) {
         categoryExpense: newMainCategory,
         iconArr: newIconArr,
         iconObj: newIconObj,
+        mainCategoryExpense: newMainCategoryArr,
       }).catch((err) => setErrorModal(true));
     else
       await updateDoc(userDocRef, {
         categoryIncome: newMainCategory,
         iconArr: newIconArr,
         iconObj: newIconObj,
+        mainCategoryIncome: newMainCategoryArr,
       }).catch((err) => setErrorModal(true));
   }
 
@@ -126,6 +154,8 @@ function CategoryProvider(props) {
     categoryIncome,
     iconObj,
     iconArr,
+    mainCategoryExpense,
+    mainCategoryIncome,
     deleteMainCategory,
     deleteSubCategory,
     addMainCategory,
@@ -393,3 +423,10 @@ function reducer(state, action) {
   //   iconArr,
   // });
 */
+// function encodeSvg(reactElement) {
+//   return (
+//     "data:image/svg+xml," +
+//     escape(ReactDOMServer.renderToStaticMarkup(reactElement))
+//   );
+// }
+// console.log(encodeSvg(<BiFile />));

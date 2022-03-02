@@ -44,15 +44,13 @@ function reducer(state, action) {
 }
 
 function AddMainCategoryModal(props) {
-  const { addMainCategory, iconArr, categoryExpense, categoryIncome } =
+  const { addMainCategory, iconArr, mainCategoryExpense, mainCategoryIncome } =
     useContext(CategoryContext);
   const [_, setEditModal] = useContext(EditModalContext);
 
   // Reference 4
   const categoryNameArr =
-    props.type === "expense"
-      ? Object.keys(categoryExpense)
-      : Object.keys(categoryIncome);
+    props.type === "expense" ? mainCategoryExpense : mainCategoryIncome;
 
   const [form, formDispatch] = useReducer(reducer, {
     name: "",
@@ -81,7 +79,7 @@ function AddMainCategoryModal(props) {
     e.preventDefault();
 
     // omit input e
-    props.addMainCategoryModalToggler(_, form.name);
+    props.addMainCategoryModalToggler(_, form.name, props.type);
     addMainCategory(form.name, form.iconIndex, props.type);
     setEditModal({
       show: true,

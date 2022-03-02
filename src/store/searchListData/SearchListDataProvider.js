@@ -3,8 +3,6 @@ import compareTimeWithRange from "../../Others/CompareTime/compareTimeWithRange"
 import ExpenseDataContext from "../expenseData/expenseData--context";
 import SearchListDataContext from "./searchListData--context";
 
-// let originalData;
-
 function reducer(state, action) {
   switch (action.type) {
     case "ADD": {
@@ -129,11 +127,20 @@ function reducer(state, action) {
     }
 
     case "DELETE": {
-      const newState = state.expenseData.filter(
-        (element) => element.id !== action.id
+      const newExpenseData = state.expenseData.filter(
+        (data) => data.id !== action.id
       );
 
-      return { ...state, expenseData: newState };
+      // Reference 3
+      const newOriginalData = state.originalData.filter(
+        (data) => data.id !== action.id
+      );
+
+      return {
+        ...state,
+        expenseData: newExpenseData,
+        originalData: newOriginalData,
+      };
     }
 
     case "UPDATE": {
@@ -143,7 +150,17 @@ function reducer(state, action) {
         } else return data;
       });
 
-      return { ...state, expenseData: newExpenseData };
+      const newOriginalData = state.originalData.map((data) => {
+        if (data.id === action.id) {
+          return { ...action.value };
+        } else return data;
+      });
+
+      return {
+        ...state,
+        expenseData: newExpenseData,
+        originalData: newOriginalData,
+      };
     }
 
     default:
@@ -162,8 +179,6 @@ function SearchListDataProvider(props) {
   function update(expenseData, id) {
     setFilteredData({ type: "UPDATE", value: expenseData, id });
   }
-
-  // originalData = expenseData;
 
   const SearchListDataContextInitialObject = {
     setFilteredData,
@@ -290,4 +305,52 @@ It's nothing, it's empty
 So we have to filterd all the data when user input each character
 
 I know the performance is not perfect, but for the better user experience
+*/
+
+/*
+Reference 3
+Not only need to remove the delted data from expenseData
+Also need to remove from the originalData
+
+Note
+What's the difference between expenseData and originalData?
+expenseData 
+=> the data shows on the UI (list)
+=> this will dynamically change according to user's behavior
+=> for example, user click some checkboxes, the data will keep shrinking(growing)
+=> because user may narrow down the condition
+=> However, one thing we can make sure is that when user empty the checkbox
+=> which means there's no condition to filter the data
+=> this data should be the original data in the database
+=> that's the reason we need another variable to hold the reference of original data
+
+originalData
+=> keep the reference of original data
+=> Normally, this value won't change
+=> because the filter action by user should not affect this value
+=> instead, it sould affect the expenseData
+=> This data will only used in two situations
+   (1) when the checkbox is empty, there's no filter condition, we want to show back all the original data
+   (2) when user delete the data from this section?
+   => why?
+   => For example, now expenseData and originalData both have 5 data
+   => [1,2,3,4,5] (just for example)
+   => note the database should have 5 data at the same time
+   => Previously, if user delete the data from here
+   => we only delete the data in two places
+   => 1) database 2) expenseData(for the UI search data list)
+   => it seems enough, but it's not
+   => assume user delete the first data
+   => database: [2,3,4,5]
+   => expenseData: [2,3,4,5]
+   => originalData: [1,2,3,4,5]
+   => Can you see the problem?
+   => when user empty the checkbox, we would do this expenseData = originalData
+   => now expenseData = originalData = [1,2,3,4,5]
+   => but database: [2,3,4,5]
+   => at the momenet, UI shows five data, but there are only 4 data in the database
+   => Of couse, this will back to normal if user reload the page, or the compoenent re-render
+   => that's the main problem
+   => so we want to make sure the data of database and originalData should always be the same
+   => so if user delete the data, we should also delete it from originalData
 */

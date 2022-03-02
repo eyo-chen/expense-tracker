@@ -69,7 +69,8 @@ function reducer(state, action) {
 }
 
 function ChartOption(props) {
-  const { categoryExpense, categoryIncome } = useContext(CategoryContext);
+  const { mainCategoryExpense, mainCategoryIncome } =
+    useContext(CategoryContext);
 
   const initialObj = {
     mainType: "time",
@@ -78,8 +79,8 @@ function ChartOption(props) {
     timeDuration: "7",
     mainCategory: "",
     subCategory: "",
-    categoryExpense: Object.keys(categoryExpense),
-    categoryIncome: Object.keys(categoryIncome),
+    categoryExpense: mainCategoryExpense,
+    categoryIncome: mainCategoryIncome,
   };
 
   const [chartData, dispatchChartData] = useReducer(reducer, initialObj);

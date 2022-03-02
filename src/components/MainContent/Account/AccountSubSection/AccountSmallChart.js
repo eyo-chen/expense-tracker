@@ -68,7 +68,7 @@ function AccountSmallChart() {
     return function cleanUp() {
       chart.destroy();
     };
-  }, [smallChartType, categoryExpense, filteredData]);
+  }, [smallChartType, categoryExpense, filteredData, displayTheme]);
 
   function selectChangeHandler(e) {
     setSmallChartType(e.target.value);

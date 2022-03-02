@@ -53,9 +53,7 @@ function SearchOptionUI(props) {
       ariaLabel={checkbox.text}
       label={checkbox.text}
       id={checkbox.text}
-      key={
-        checkbox.category ? checkbox.category + checkbox.text : checkbox.text
-      }
+      key={checkbox.text}
       value={checkbox.value}
       checked={checkState[i]}
       dataID={props.dataID}

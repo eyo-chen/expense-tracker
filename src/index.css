@@ -80,8 +80,10 @@
 
   --calendar-weekly-border: 1.5px solid var(--white);
   --calendar-weekly-hover-border: 1.5px solid var(--gray);
-  --calendar-weekly-active-border: 1.5px solid transparent;
-  --calendar-weekly-active-bg: var(--gray-1);
+  --calendar-weekly-hover-bg: var(--gray);
+
+  --calendar-weekly-active-border: 1.5px solid var(--gray-2);
+  --calendar-weekly-active-bg: var(--gray-2);
   --calendar-weekly-active-color: var(--black);
 
   /* //////////////////////////////////////////////// */
@@ -165,10 +167,13 @@
   --calendar-hover-bg: var(--white);
 
   --calendar-weekly-border: 1.5px solid var(--black-4);
-  --calendar-weekly-hover-border: 1.5px solid var(--black-7);
-  --calendar-weekly-active-border: 1.5px solid transparent;
-  --calendar-weekly-active-bg: var(--black-7);
-  --calendar-weekly-active-color: var(--white-3);
+
+  --calendar-weekly-hover-border: 1.5px solid var(--gray-5);
+  --calendar-weekly-hover-bg: var(--gray-5);
+
+  --calendar-weekly-active-border: 1.5px solid var(--gray);
+  --calendar-weekly-active-bg: var(--gray);
+  --calendar-weekly-active-color: var(--black-4);
 
   /* //////////////////////////////////////////////// */
   --btn-color: var(--black-9);

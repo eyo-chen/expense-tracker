@@ -18,7 +18,7 @@
 .date--others:active,
 .date--others:focus,
 .selected {
-  background-color: var(--calendar-weekly-active-bg);
+  background-color: var(--calendar-weekly-hover-bg);
   border: var(--calendar-weekly-hover-border);
 }
 

@@ -16,7 +16,6 @@ import { AiFillEdit } from "react-icons/ai";
 import styles from "./ExpenseItem.module.css";
 
 function ExpenseItem(props) {
-  const [btnMore, setBtnMore] = useState(false);
   const [descriptionModal, setDescriptionModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
@@ -47,10 +46,6 @@ function ExpenseItem(props) {
     time: props.time,
     description: props.description,
   };
-
-  function btnMoreToggler(e) {
-    setBtnMore((prev) => !prev);
-  }
 
   function showDeleteModalHandler() {
     setDeleteModal(true);

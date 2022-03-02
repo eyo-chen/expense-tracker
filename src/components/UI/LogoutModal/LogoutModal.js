@@ -25,7 +25,7 @@ function LogoutModal(props) {
         {photoURL ? (
           <>
             <p className={styles.name}>{displayName}</p>
-            <img className={styles.img} src={photoURL} />
+            <img alt="user account" className={styles.img} src={photoURL} />
           </>
         ) : (
           <>

@@ -3,20 +3,13 @@ import SearchOptionUI from "./SearchOptionUI";
 import CategoryContext from "../../../../store/category/category--context";
 
 function SearchOptionCategory() {
-  const { categoryExpense, categoryIncome } = useContext(CategoryContext);
+  const { mainCategoryExpense, mainCategoryIncome } =
+    useContext(CategoryContext);
 
-  const expenseLength = Object.keys(categoryExpense).length;
-
-  const checkboxItem = Object.keys(categoryExpense)
-    .concat(Object.keys(categoryIncome))
-    .map((element, index) => {
-      // Reference 1
-      let category;
-      if (index < expenseLength) category = "expense";
-      else category = "income";
-
-      return { text: element, value: element, category };
-    });
+  // Reference 1
+  const checkboxItem = [
+    ...new Set(mainCategoryExpense.concat(mainCategoryIncome)),
+  ].map((element) => ({ text: element, value: element }));
 
   return (
     <SearchOptionUI
@@ -31,8 +24,8 @@ export default SearchOptionCategory;
 
 /*
 Reference 1
-Because both expense and income have "others"
-And I use text as key in SearchOptionUI
-So I have to use category to distinguish different others
-to avoid same key (two same others)
+Both expense and income may have same category name
+But showing two duplicate category name seems a liitle bit verbose
+Also, each key should be unique
+So use new Set() to remove duplicate element
 */

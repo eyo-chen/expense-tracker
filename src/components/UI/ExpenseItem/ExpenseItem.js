@@ -98,6 +98,7 @@ function ExpenseItem(props) {
           id={props.id}
           dataInfo={deletedDataInfo}
           setDeleteModal={setDeleteModal}
+          btnMoreToggler={props.btnMoreToggler}
         />
       )}
       {addDataFormModal && (

@@ -8,22 +8,34 @@ function ExpenseList(props) {
   );
 
   function btnMoreToggler(e) {
+    // e is undefined -> edit or delete the data
     if (!e) {
-      setBtnMore(btnMore.map((_) => false));
+      if (props.data.length !== btnMore.length)
+        setBtnMore(props.data.map((_) => false));
+      else setBtnMore(btnMore.map((_) => false));
       return;
     }
+
+    // the data is clicking the more btn
     const id = Number(e.target.dataset.id);
 
+    // the case when after adding the new data
+    // make sure updating the length of btnMore at the same time
     if (props.data.length > btnMore.length) {
       setBtnMore(props.data.map((_, index) => (index === id ? true : false)));
       return;
     }
 
+    // find the current state of the clicking data of more button
+    // for example, now the state of click button is ture or false(open or not open)
     const clickingBtnMore = btnMore.find((_, index) => index === id);
 
+    // it's open, close all the more button
     if (clickingBtnMore) {
       setBtnMore(btnMore.map((_) => false));
-    } else {
+    }
+    // it's close, open this more button, but close all other more buttons at the same time
+    else {
       setBtnMore(btnMore.map((_, index) => (index === id ? true : false)));
     }
   }

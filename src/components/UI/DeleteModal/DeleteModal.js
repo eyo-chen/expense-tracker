@@ -78,6 +78,9 @@ function DeleteModal(props) {
       type: "data",
       value: "delete",
     });
+
+    // close the btn more state after deleting the data
+    if (props.btnMoreToggler) props.btnMoreToggler();
   }
 
   return (

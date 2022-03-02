@@ -22,7 +22,7 @@ function ChartOptionSubCategory(props) {
             classCheck={styles.check}
             classInput={styles.input}
             classLabel={`${styles.label} transition--25 capitalize`}
-            key={element}
+            key={element + props.type} // Reference 1
             id={element}
             label={element}
             value={element}
@@ -36,3 +36,21 @@ function ChartOptionSubCategory(props) {
 }
 
 export default ChartOptionSubCategory;
+/*
+Reference 1
+This is important
+Because both income and expense may have same categoryName
+For example, "others"
+If we simply use categoryName as key
+Now both income and expense both have same state(checked or unchecked)
+
+For example,
+user first uncheked the "others" in expense, and move on to income
+Now user should expect "others" in income is checked
+However,
+"others" in income is unchecked
+because both "others" of income and expense share the same state
+
+In order to avoid that, we use element + props.type as key
+make sure every key is unique
+*/

@@ -109,6 +109,7 @@ function ChartOption(props) {
         <ChartOptionSubCategory
           category={chartData.categoryIncome}
           dispatchChartData={dispatchChartData}
+          type="income"
         />
       );
     if (chartData.mainCategory === "expense")
@@ -116,6 +117,7 @@ function ChartOption(props) {
         <ChartOptionSubCategory
           category={chartData.categoryExpense}
           dispatchChartData={dispatchChartData}
+          type="expense"
         />
       );
 

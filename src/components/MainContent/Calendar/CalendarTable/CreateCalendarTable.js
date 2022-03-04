@@ -20,7 +20,7 @@ function CreateCalendarTable(date, showExpenseListModalHandler, expenseData) {
     daysOfNextMonth,
   ] = createCalendarPreData(date);
 
-  const curMonthData = createMonthData(date, expenseData, lastOfPrevMonthDate);
+  const curMonthData = createMonthData(date, expenseData, lastOfCurMonthDate);
 
   const res = [];
 

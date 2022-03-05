@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import debounce from "../Debounce/debounce";
+import throttle from "../Throttle/throttle";
 
 function useCurWidth() {
   const [curWidth, setCurWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    const detectWindowWidth = debounce(function handleResize() {
+    const detectWindowWidth = throttle(function handleResize() {
       setCurWidth(window.innerWidth);
     }, 300);
 
@@ -14,6 +15,7 @@ function useCurWidth() {
     return () => window.removeEventListener("resize", detectWindowWidth);
   }, []);
 
+  console.log(curWidth);
   return curWidth;
 }
 

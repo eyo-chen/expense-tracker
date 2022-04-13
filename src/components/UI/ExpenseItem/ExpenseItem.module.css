@@ -4,6 +4,7 @@
   align-items: center;
   margin: 0 3rem;
   position: relative;
+  width: 90%;
 }
 
 .item__info {
@@ -13,6 +14,8 @@
 
   /* inherit to children (subcategory), so that we don't need give another className */
   font-size: 1.8rem;
+
+  width: 70%;
 }
 
 .item__category {

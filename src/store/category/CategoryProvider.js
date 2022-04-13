@@ -65,20 +65,29 @@ function CategoryProvider(props) {
     delete newMainCategory[value];
     delete newIconObj[value];
 
-    if (type === "expense")
-      await updateDoc(userDocRef, {
-        categoryExpense: newMainCategory,
-        iconArr: newIconArr,
-        iconObj: newIconObj,
-        mainCategoryExpense: newMainCategoryArr,
-      }).catch((err) => setErrorModal(true));
-    else
-      await updateDoc(userDocRef, {
-        categoryIncome: newMainCategory,
-        iconArr: newIconArr,
-        iconObj: newIconObj,
-        mainCategoryIncome: newMainCategoryArr,
-      }).catch((err) => setErrorModal(true));
+    if (type === "expense") {
+      try {
+        await updateDoc(userDocRef, {
+          categoryExpense: newMainCategory,
+          iconArr: newIconArr,
+          iconObj: newIconObj,
+          mainCategoryExpense: newMainCategoryArr,
+        });
+      } catch (err) {
+        setErrorModal(true);
+      }
+    } else {
+      try {
+        await updateDoc(userDocRef, {
+          categoryIncome: newMainCategory,
+          iconArr: newIconArr,
+          iconObj: newIconObj,
+          mainCategoryIncome: newMainCategoryArr,
+        });
+      } catch (err) {
+        setErrorModal(true);
+      }
+    }
   }
 
   async function deleteSubCategory(value, type, mainCategory) {
@@ -89,14 +98,23 @@ function CategoryProvider(props) {
       (category) => category !== value
     );
 
-    if (type === "expense")
-      await updateDoc(userDocRef, {
-        categoryExpense: newMainCategory,
-      }).catch((err) => setErrorModal(true));
-    else if (type === "income")
-      await updateDoc(userDocRef, {
-        categoryIncome: newMainCategory,
-      }).catch((err) => setErrorModal(true));
+    if (type === "expense") {
+      try {
+        await updateDoc(userDocRef, {
+          categoryExpense: newMainCategory,
+        });
+      } catch (err) {
+        setErrorModal(true);
+      }
+    } else if (type === "income") {
+      try {
+        await updateDoc(userDocRef, {
+          categoryIncome: newMainCategory,
+        });
+      } catch (err) {
+        setErrorModal(true);
+      }
+    }
   }
 
   async function addMainCategory(value, iconIndex, type) {
@@ -117,20 +135,29 @@ function CategoryProvider(props) {
     };
     newMainCategory[value] = [];
 
-    if (type === "expense")
-      await updateDoc(userDocRef, {
-        categoryExpense: newMainCategory,
-        iconArr: newIconArr,
-        iconObj: newIconObj,
-        mainCategoryExpense: newMainCategoryArr,
-      }).catch((err) => setErrorModal(true));
-    else
-      await updateDoc(userDocRef, {
-        categoryIncome: newMainCategory,
-        iconArr: newIconArr,
-        iconObj: newIconObj,
-        mainCategoryIncome: newMainCategoryArr,
-      }).catch((err) => setErrorModal(true));
+    if (type === "expense") {
+      try {
+        await updateDoc(userDocRef, {
+          categoryExpense: newMainCategory,
+          iconArr: newIconArr,
+          iconObj: newIconObj,
+          mainCategoryExpense: newMainCategoryArr,
+        });
+      } catch (err) {
+        setErrorModal(true);
+      }
+    } else {
+      try {
+        await updateDoc(userDocRef, {
+          categoryIncome: newMainCategory,
+          iconArr: newIconArr,
+          iconObj: newIconObj,
+          mainCategoryIncome: newMainCategoryArr,
+        });
+      } catch (err) {
+        setErrorModal(true);
+      }
+    }
   }
 
   async function addSubCategory(value, type, mainCategory) {
@@ -139,14 +166,23 @@ function CategoryProvider(props) {
     };
     newMainCategory[mainCategory] = [...newMainCategory[mainCategory], value];
 
-    if (type === "expense")
-      await updateDoc(userDocRef, {
-        categoryExpense: newMainCategory,
-      }).catch((err) => setErrorModal(true));
-    else if (type === "income")
-      await updateDoc(userDocRef, {
-        categoryIncome: newMainCategory,
-      }).catch((err) => setErrorModal(true));
+    if (type === "expense") {
+      try {
+        await updateDoc(userDocRef, {
+          categoryExpense: newMainCategory,
+        });
+      } catch (err) {
+        setErrorModal(true);
+      }
+    } else if (type === "income") {
+      try {
+        await updateDoc(userDocRef, {
+          categoryIncome: newMainCategory,
+        });
+      } catch (err) {
+        setErrorModal(true);
+      }
+    }
   }
 
   const contextInitialObj = {

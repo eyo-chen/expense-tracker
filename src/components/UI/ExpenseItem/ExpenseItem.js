@@ -139,6 +139,7 @@ function ExpenseItem(props) {
             <p className="capitalize">{props.subCategory}</p>
             <p className={styles["item__time"]}>{props.time}</p>
           </div>
+
           <p
             data-id={longIndex}
             onClick={descriptionModalToggler}

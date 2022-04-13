@@ -5,7 +5,7 @@ import styles from "./AccountSubSection.module.css";
 function AccountSubSection() {
   return (
     <div className={styles.subSection}>
-      {/* <AccountNews /> */}
+      <AccountNews />
       <AccountSmallChart />
     </div>
   );

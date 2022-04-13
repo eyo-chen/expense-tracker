@@ -2,7 +2,7 @@ import { auth } from "./../../firebase-config";
 
 function createUserID() {
   const user = auth.currentUser;
-  let userID = "oyeoye000000@gmail.comYOO";
+  let userID = "tmp";
   if (user) {
     const { displayName, email } = user;
 

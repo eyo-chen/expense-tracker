@@ -24,32 +24,43 @@ function AccountNews() {
   useEffect(() => {
     async function getNews() {
       setIsLoading(true);
-      const data = await fetch(
-        "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=5295e93382ff4fd1a92c1256f5843d3f"
-      );
-      const res = await data.json();
-      newsArr.push(...res.articles);
 
-      setNews({
-        title: newsArr[0].title,
-        editedTitle:
-          newsArr[0].title?.length >= 70 && window.innerWidth > 1200
-            ? newsArr[0].title.slice(0, 60) + "....."
-            : newsArr[0].title,
+      try {
+        const data = await fetch(
+          "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=5295e93382ff4fd1a92c1256f5843d3f"
+        );
 
-        img: newsArr[0].urlToImage,
-        url: newsArr[0].url,
-        description: newsArr[0].description,
-        source: newsArr[0].source.name,
-      });
+        if (data.status !== 200) {
+          throw new Error();
+        }
+        const res = await data.json();
+
+        if (!res) {
+          throw new Error();
+        }
+        newsArr.push(...res.articles);
+
+        setNews({
+          title: newsArr[0].title,
+          editedTitle:
+            newsArr[0].title?.length >= 70 && window.innerWidth > 1200
+              ? newsArr[0].title.slice(0, 60) + "....."
+              : newsArr[0].title,
+
+          img: newsArr[0].urlToImage,
+          url: newsArr[0].url,
+          description: newsArr[0].description,
+          source: newsArr[0].source.name,
+        });
+      } catch (err) {
+        setIsLoading(false);
+        setError(true);
+      }
 
       setIsLoading(false);
     }
 
-    getNews().catch(() => {
-      setIsLoading(false);
-      setError(true);
-    });
+    getNews();
   }, []);
 
   function refreshClickHandler() {

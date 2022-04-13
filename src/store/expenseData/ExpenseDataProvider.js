@@ -31,21 +31,27 @@ function ExpenseDataProvider(props) {
   }, [user]);
 
   async function removeExpenseData(id) {
-    await deleteDoc(doc(db, "users", userID, "data", id)).catch((err) =>
-      setErrorModal(true)
-    );
+    try {
+      await deleteDoc(doc(db, "users", userID, "data", id));
+    } catch (err) {
+      setErrorModal(true);
+    }
   }
 
   async function addExpenseData(value) {
-    await addDoc(expenseDataCollectionRef, value).catch((err) =>
-      setErrorModal(true)
-    );
+    try {
+      await addDoc(expenseDataCollectionRef, value);
+    } catch (err) {
+      setErrorModal(true);
+    }
   }
 
   async function editExpenseData(value, id) {
-    await updateDoc(doc(db, "users", userID, "data", id), value).catch((err) =>
-      setErrorModal(true)
-    );
+    try {
+      await updateDoc(doc(db, "users", userID, "data", id), value);
+    } catch (err) {
+      setErrorModal(true);
+    }
   }
 
   function removeExpenseDataByCategory(deleteMainOrSub, value) {

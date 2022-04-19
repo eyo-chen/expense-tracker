@@ -30,7 +30,7 @@ function AccountNews() {
           "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=5295e93382ff4fd1a92c1256f5843d3f"
         );
 
-        if (data.status !== 200) {
+        if (data.status === 404) {
           throw new Error();
         }
         const res = await data.json();

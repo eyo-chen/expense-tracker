@@ -1,5 +1,5 @@
 function mutipleArgsHelper(fn, ...args) {
-  return args.map((arg) => fn(arg));
+  return args.map(fn);
 }
 
 export default mutipleArgsHelper;

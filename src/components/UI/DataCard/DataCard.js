@@ -19,7 +19,6 @@ function DataCard(props) {
     setVisible((prev) => !prev);
   }
 
-  // Reference 1
   const allCardContent = mutipleArgsHelper(
     formatMoney,
     props.income,
@@ -77,5 +76,3 @@ function DataCard(props) {
 }
 
 export default DataCard;
-
-// Reference 1

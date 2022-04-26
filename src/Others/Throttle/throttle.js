@@ -19,7 +19,6 @@ function throttle(func, delay) {
     }
 
     func.call(this, ...args);
-
     wait = true;
 
     setTimeout(timeoutFunc, delay);

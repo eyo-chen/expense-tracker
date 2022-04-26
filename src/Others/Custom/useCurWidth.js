@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import debounce from "../Debounce/debounce";
 import throttle from "../Throttle/throttle";
 
 function useCurWidth() {

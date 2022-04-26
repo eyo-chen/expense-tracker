@@ -15,7 +15,6 @@ function useCurWidth() {
     return () => window.removeEventListener("resize", detectWindowWidth);
   }, []);
 
-  console.log(curWidth);
   return curWidth;
 }
 

@@ -27,12 +27,10 @@ function AccountNews() {
 
       try {
         const data = await fetch(
-          "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=5295e93382ff4fd1a92c1256f5843d3f"
+          "https://api.marketaux.com/v1/news/all?api_token=5xPT1RLEwzcL9JBK433fL8M4fYCu81BQJR0IoZux"
         );
 
-        console.log(data);
-
-        if (data.status === 404) {
+        if (!data.ok) {
           throw new Error();
         }
         const res = await data.json();
@@ -40,7 +38,8 @@ function AccountNews() {
         if (!res) {
           throw new Error();
         }
-        newsArr.push(...res.articles);
+
+        newsArr.push(...res.data);
 
         setNews({
           title: newsArr[0].title,
@@ -48,11 +47,10 @@ function AccountNews() {
             newsArr[0].title?.length >= 70 && window.innerWidth > 1200
               ? newsArr[0].title.slice(0, 60) + "....."
               : newsArr[0].title,
-
-          img: newsArr[0].urlToImage,
+          img: newsArr[0].image_url,
           url: newsArr[0].url,
           description: newsArr[0].description,
-          source: newsArr[0].source.name,
+          source: newsArr[0].source,
         });
       } catch (err) {
         setIsLoading(false);
@@ -67,18 +65,18 @@ function AccountNews() {
 
   function refreshClickHandler() {
     newsIndex++;
-    if (newsIndex === 20) newsIndex = 0;
+    if (newsIndex === 3) newsIndex = 0;
 
     setNews({
       title: newsArr[newsIndex].title,
       editedTitle:
-        newsArr[newsIndex].title.length >= 70 && window.innerWidth > 1200
+        newsArr[newsIndex].title?.length >= 70 && window.innerWidth > 1200
           ? newsArr[newsIndex].title.slice(0, 60) + "....."
           : newsArr[newsIndex].title,
-      img: newsArr[newsIndex].urlToImage,
+      img: newsArr[newsIndex].image_url,
       url: newsArr[newsIndex].url,
       description: newsArr[newsIndex].description,
-      source: newsArr[newsIndex].source.name,
+      source: newsArr[newsIndex].source,
     });
   }
 
@@ -107,12 +105,16 @@ function AccountNews() {
           target="_blank"
           aria-label="click to go to news page"
         >
-          <img
-            className={styles.img}
-            src={news.img}
-            alt="latest business news"
-            title={news.description}
-          />
+          {news.img ? (
+            <img
+              className={styles.img}
+              src={news.img}
+              alt="latest business news"
+              title={news.description}
+            />
+          ) : (
+            <p>not provided news image</p>
+          )}
         </a>
         <span className={styles.source}>{`source: ${news.source}`}</span>
       </div>

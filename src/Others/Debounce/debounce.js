@@ -7,8 +7,7 @@ function debounce(fn, ms) {
     timer = setTimeout((_) => {
       timer = null;
 
-      fn(...args);
-      // fn.apply(this, arguments);
+      fn.call(this, ...args);
     }, ms);
   };
 }

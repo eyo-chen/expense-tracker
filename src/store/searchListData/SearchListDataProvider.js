@@ -18,6 +18,7 @@ function reducer(state, action) {
           state.originalData
         ),
         constraintObj: newConstraintObj,
+        btnState: "",
       };
     }
 
@@ -38,6 +39,7 @@ function reducer(state, action) {
         ...state,
         expenseData: newState,
         constraintObj: newConstraintObj,
+        btnState: "",
       };
     }
 
@@ -60,6 +62,7 @@ function reducer(state, action) {
         ...state,
         expenseData: newState,
         constraintObj: state.constraintObj,
+        btnState: "",
       };
     }
 
@@ -81,6 +84,7 @@ function reducer(state, action) {
         ...state,
         expenseData: newState,
         constraintObj: state.constraintObj,
+        btnState: "time",
       };
     }
 
@@ -102,6 +106,7 @@ function reducer(state, action) {
         ...state,
         expenseData: newState,
         constraintObj: state.constraintObj,
+        btnState: "price",
       };
     }
 
@@ -123,6 +128,7 @@ function reducer(state, action) {
         ...state,
         expenseData: newState,
         constraintObj: state.constraintObj,
+        btnState: "category",
       };
     }
 
@@ -174,6 +180,7 @@ function SearchListDataProvider(props) {
     constraintObj: {},
     expenseData: expenseData,
     originalData: expenseData,
+    btnState: "",
   });
 
   function update(expenseData, id) {
@@ -184,6 +191,7 @@ function SearchListDataProvider(props) {
     setFilteredData,
     expenseData: filteredData.expenseData,
     update,
+    btnState: filteredData.btnState,
   };
 
   return (

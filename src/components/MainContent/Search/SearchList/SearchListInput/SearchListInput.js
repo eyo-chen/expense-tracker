@@ -11,7 +11,7 @@ let sortCategoryIndex = true;
 
 function SearchListInput(props) {
   const [inputValue, setInputValue] = useState("");
-  const { setFilteredData } = useContext(SearchListDataContext);
+  const { setFilteredData, btnState } = useContext(SearchListDataContext);
 
   function inputChangeHandler(e) {
     setInputValue(e.target.value);
@@ -69,21 +69,27 @@ function SearchListInput(props) {
         <Button
           onClick={sortTimeBtnClickHandler}
           type="button"
-          className={`${styles.btn} capitalize center--flex`}
+          className={`${styles.btn} capitalize center--flex ${
+            btnState === "time" ? `${styles["btn__clicked"]}` : ""
+          }`}
         >
           {<MdSort className={styles["btn__icon"]} />}sort by time
         </Button>
         <Button
           onClick={sortPriceBtnClickHandler}
           type="button"
-          className={`${styles.btn} capitalize center--flex`}
+          className={`${styles.btn} capitalize center--flex ${
+            btnState === "price" ? `${styles["btn__clicked"]}` : ""
+          }`}
         >
           {<MdSort className={styles["btn__icon"]} />}sort by price
         </Button>
         <Button
           onClick={sortCategoryBtnClickHandler}
           type="button"
-          className={`${styles.btn} capitalize center--flex`}
+          className={`${styles.btn} capitalize center--flex ${
+            btnState === "category" ? `${styles["btn__clicked"]}` : ""
+          }`}
         >
           {<MdSort className={styles["btn__icon"]} />}sort by catrgory
         </Button>

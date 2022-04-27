@@ -284,6 +284,32 @@ When constructing this project, there are two major challenges.
 
    After completing the project, I attempt to do a code review since the code was not organized and clean when I began writing it. I don't mean professional code review when I say code review. Simply said, I'm talking about making the code cleaner and more organized. Because I didn't concentrate on code maintenance when I built the code, the code review process is difficult and tedious. As a result, it's too late to concentrate on maintenance after the project is completed. Even while I do my best to code review, I can't guarantee that every single line of code is entirely clean. This experience taught me that it is critical to consider maintenance when developing an application.
 
+&nbsp;
+
+## What have I learned from this project?
+
+I learned three things while working on the project, all of which are valuable to me.
+
+1. Big O notation
+
+   Big O notation is a simple yet important idea in the realm of software. Before starting this project, I exclusively used this notion to solve technical coding challenges. However, I began to apply this principle in different contexts. When I was working on the project and writing several sophisticated functions, I began to consider the time complexity of this function.
+
+   For example, after developing a complex function, I'll first ask myself,
+
+   - What's the time complexity of this function?
+
+   and attempt to figure it out, then I'll consider
+
+   - Now that the time complexity of this function is O(n ^ 2), can I improve it to make this function O(n)?
+
+   and try to figure it out
+
+   Consideration of time complexity may seem unimportant when the amount of data is little, but it is always critical to consider runtime since we must suppose the input data will be quite enormous, and our program must still be efficient enough to cope with such large data.
+
+2. Functional programming
+
+   I now have a better understanding of the power of functional programming. Prior to studying React, I spent a significant amount of time attempting to learn functional programming. However, functional programming requires an entirely new perspective to approach programming, which is why it was so difficult for me to grasp at first. Despite my difficulties in understanding functional programming, I am still learning the fundamentals. After completing this project, I began to understand why functional programming places such emphasis on notions such as pure function, side effects, and immutability. All of this, in my perspective, is aimed at eliminating possible errors in the future and keeping the code very manageable. When the scope of the project is modest, it may seem trivial and unnecessary to worry about such details, but the power of functional programming becomes apparent when the scale of the project grows drastically. As a result, it's always a good idea to consider the notion of functional programming initially, so that the project can be maintained as the codebase grows.
+
 3. Maintenance
 
    I began to appreciate the significance of maintenance. Before embarking on this project, I was told that maintaining the software maintainable is critical, but I'm not sure why. However, as I worked on the project, I began to see the reason. When I first construct the application, all I worry about is completing the basic functionality and not the structure of the code underlying the functionality. Even if the UI appears good, the code behind the UI is a mess, and I have to spend a long time simply detecting a little bug. After completing the project, I begin the code review, reading every single line of code I previously wrote and asking myself questions, like
@@ -300,23 +326,9 @@ When constructing this project, there are two major challenges.
 
 &nbsp;
 
-## What have I learned from this project?
-
-I learned three things while working on the project, all of which are valuable to me.
-
-1. Big O notation
-
-   Big O notation is a simple yet important idea in the realm of software. Before starting this project, I exclusively used this notion to solve technical coding challenges. However, I began to apply this principle in different contexts. When I was working on the project and writing several sophisticated functions, I began to consider the time complexity of this function. For example, after developing a complex function, I'll first ask myself, "What's the time complexity of this function?" and attempt to figure it out, then I'll consider, "Now that the time complexity of this function is O(n ^ 2), can I improve it to make this function O(n)?" and try to figure it out. Consideration of time complexity may seem unimportant when the amount of data is little, but it is always critical to consider runtime since we must suppose the input data will be quite enormous, and our program must still be efficient enough to cope with such large data.
-
-2. Functional programming
-
-   I now have a better understanding of the power of functional programming. Prior to studying React, I spent a significant amount of time attempting to learn functional programming. However, functional programming requires an entirely new perspective to approach programming, which is why it was so difficult for me to grasp at first. Despite my difficulties in understanding functional programming, I am still learning the fundamentals. After completing this project, I began to understand why functional programming places such emphasis on notions such as pure function, side effects, and immutability. All of this, in my perspective, is aimed at eliminating possible errors in the future and keeping the code very manageable. When the scope of the project is modest, it may seem trivial and unnecessary to worry about such details, but the power of functional programming becomes apparent when the scale of the project grows drastically. As a result, it's always a good idea to consider the notion of functional programming initially, so that the project can be maintained as the codebase grows.
-
-&nbsp;
-
 ## What can be improved in this project?
 
-Although I wish to make my project seem like a real-world software program, there are still many flaws that need to be addressed. I am unable to do this project perfectly due to my lack of understanding and limited time. However, there are three major areas that I believe could be addressed in the future.
+Although I wish to make my project seem like a real-world software program, there are still many flaws that need to be addressed. I am unable to do this project perfectly due to my lack of understanding and limited time. However, there are four major areas that I believe could be addressed in the future.
 
 1. Backend
 
@@ -332,4 +344,4 @@ Although I wish to make my project seem like a real-world software program, ther
 
 4. Testing
 
-   As web applications get more complex, testing has become an increasingly significant notion in the front-end industry. However, due to time constraints, I was unable to study the testing. After I understand it, I'll attempt to include it into this project.
+   As web applications get more complex, testing has become an increasingly significant notion in the front-end industry. However, due to time constraints, I was unable to study the testing. After I learn it, I'll attempt to include it into this project.

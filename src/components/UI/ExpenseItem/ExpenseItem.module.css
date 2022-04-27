@@ -14,8 +14,6 @@
 
   /* inherit to children (subcategory), so that we don't need give another className */
   font-size: 1.8rem;
-
-  width: 70%;
 }
 
 .item__category {

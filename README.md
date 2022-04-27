@@ -1,7 +1,8 @@
 [中文版本](Readme-Chinese/READMECHINESE.md)
 
-In this readme file, you will find all the information you need about this project.
-To save time, I'll recommend you to do this.
+In this readme file, you will find all the information you need about this project
+
+To save time, I'll recommend that you do this.
 
 (1) watch the video
 
@@ -13,7 +14,7 @@ To save time, I'll recommend you to do this.
 
 # About the project
 
-This is a web-based expense tracker application. In the app, users may add, remove, and update daily spending and revenue data. With the data users provide, this app may offer a variety of various capabilities and assist users in managing their money in an orderly and effective manner.
+This is a web-based expense tracker application. In the app, users may add, remove, and update daily expense and income data. With the data users provide, this app may offer a variety of capabilities and assist users in managing their money in an orderly and effective manner.
 
 &nbsp;
 
@@ -153,11 +154,11 @@ Category
 
 _If you prefer viewing videos to reading, I suggest skipping this part and instead watching the video._
 
-I'd like to share three details in this project with you here.
+I'd like to share three details about this project with you here.
 
 ## 1. Format the representation of money
 
-In order to offer a clear representation of money, when there are three additional digits, I use a "," to separate them. Instead of presenting $2930, it's more straightforward to show $2,930. Also, when the price is exceedingly huge, showing the precise numbers gets too verbose, therefore I use English characters to indicate the high price. For example, 1,000,000 = 1M (million), 1,000,000,000 = 1B (billion), and 1,000,000,000,000 = 1T. (trillion). Instead of displaying 23,000,000,000, just display 23B. This feature allows users easily recognize the proper quantity of money while while maintaining the structure of user interface.
+In order to offer a clear representation of money, when there are three additional digits, I use a "," to separate them. Instead of presenting $2930, it's more straightforward to show $2,930. Also, when the price is exceedingly high, showing the precise numbers gets too verbose, so I use English characters to indicate the high price. For example, 1,000,000 = 1M (million), 1,000,000,000 = 1B (billion), and 1,000,000,000,000 = 1T (trillion). Instead of displaying 23,000,000,000, just display 23B. This feature allows users to easily recognize the proper quantity of money while maintaining the structure of the user interface.
 
 ## 2. When constructing a pie chart, prevent users from entering inaccurate data
 
@@ -165,7 +166,7 @@ Users must provide the beginning and ending dates to build a pie chart, although
 
 ## 3. Prevent users from entering the same category name again
 
-Users in this project may create new categories, however having two duplicate category names makes no sense. To avoid this, the button is disabled and the warning text is shown when users provide a duplicate category name.
+Users in this project may create new categories, but having two duplicate category names makes no sense. To avoid this, the button is disabled and the warning text is shown when users provide a duplicate category name.
 
 &nbsp;
 
@@ -175,7 +176,7 @@ Here, I'd like to share two special techniques in this project.
 
 ## 1. throttle function and useCurWidth custom hook
 
-When I was attempting to make the website responsive, I ran across a problem: I wanted to know the current window size when the user changed it. The initial thought is to just add an event listener to window and use useState to capture each state of the window size. This is effective. However, it is inefficient to force a re-render every time the user changes the screen size. The worst-case scenario is that the whole component is re-rendered thousands of times in a matter of seconds. To solve the issue, I'll need a helper function to ensure that function calls only occur within a certain time period. As a result, I looked for a solution and discovered that there is a helper function that does this task properly. This is the throttle function.
+When I was attempting to make the website responsive, I ran into a problem: I wanted to know the current window size when the user changed it. The initial thought is to just add an event listener to the window and use useState to capture each state of the window size. This is effective. However, it is inefficient to force a re-render every time the user changes the screen size. The worst-case scenario is that the whole component is re-rendered thousands of times in a matter of seconds. To solve the issue, I'll need a helper function to ensure that function calls only occur within a certain time period. As a result, I looked for a solution and discovered that there was a helper function that does this task properly. This is the throttle function.
 
 ```
 function throttle(func, delay) {
@@ -208,7 +209,7 @@ function throttle(func, delay) {
 export default throttle;
 ```
 
-Although I did not create this function initially, I do read the code and do my best to understand the mechanism in this function. This function, it turns out, integrates a number of critical principles, including high order function, spread operator, rest operator, recursion, asynchronous, and closure. Because I want to detect the current width in many components, I construct a custom hook to perform all of the logic inside, and I merely make sure that this custom hook always returns the current width of screen size.
+Although I did not initially create this function, I do read the code and do my best to understand the mechanism behind this function. This function, it turns out, integrates a number of critical principles, including high order function, spread operator, rest operator, recursion, asynchronous, and closure. Because I want to detect the current width in many components, I construct a custom hook to perform all of the logic inside, and I merely make sure that this custom hook always returns the current width of the screen size.
 
 ```
 import { useState, useEffect } from "react";
@@ -233,7 +234,7 @@ function useCurWidth() {
 export default useCurWidth;
 ```
 
-This custom hook calls useCurWidth, which requires no parameters and always returns the current width of the screen. Because adding an event listener to the window causes a side effect, I use the useEffect hook. Furthermore, due to the throttle function, the handleResize function is only invoked after 300 milliseconds, even if the user continues to change the width of the screen.
+This custom hook is called "useCurWidth," which requires no parameters and always returns the current width of the screen. Because adding an event listener to the window causes a side effect, I use the useEffect hook. Furthermore, due to the throttle function, the handleResize function is only invoked after 300 milliseconds, even if the user continues to change the width of the screen.
 
 ## 2. mutipleArgsHelper function
 
@@ -255,7 +256,7 @@ function mutipleArgsHelper(fn, ...args) {
 export default mutipleArgsHelper;
 ```
 
-This helper function is pretty straightforward. It accepts one argument named fn as well as numerous other parameters called args. I'm using ...args since I'm not sure how many arguments will be passed in this function. Furthermore, not assuming the amount of inputs ahead of time may make this function more reusable. In a result, I utilize the rest operator to aggregate all of the parameters as an array. Then, using the .map method, run the fn function on each argument. Because fn is a unary function, which means it only accepts one argument, we may write the code in a _point-free_ manner.
+This helper function is pretty straightforward. It accepts one argument named fn as well as numerous other parameters called args. I'm using ...args since I'm not sure how many arguments will be passed in this function. Furthermore, not assuming the number of inputs ahead of time may make this function more reusable. As a result, I utilize the rest operator to aggregate all of the parameters as an array. Then, using the .map method, run the fn function on each argument. Because fn is a unary function, which means it only accepts one argument, we may write the code in a _point-free_ manner.
 
 Then I apply this helper function to the location where I need to clean up the code.
 
@@ -282,13 +283,13 @@ When constructing this project, there are two major challenges.
 
 2. Code review
 
-   After completing the project, I attempt to do a code review since the code was not organized and clean when I began writing it. I don't mean professional code review when I say code review. Simply said, I'm talking about making the code cleaner and more organized. Because I didn't concentrate on code maintenance when I built the code, the code review process is difficult and tedious. As a result, it's too late to concentrate on maintenance after the project is completed. Even while I do my best to code review, I can't guarantee that every single line of code is entirely clean. This experience taught me that it is critical to consider maintenance when developing an application.
+   After completing the project, I attempted to do a code review since the code was not organized and clean when I began writing it. When I say "code review," I don't mean a professional code review. Simply said, I'm talking about making the code cleaner and more organized. Because I didn't concentrate on code maintenance when I built the code, the code review process is difficult and tedious. As a result, it's too late to concentrate on maintenance after the project is completed. Even while I do my best to code review, I can't guarantee that every single line of code is entirely clean. This experience taught me that it is critical to consider maintenance when developing an application.
 
 &nbsp;
 
 ## What have I learned from this project?
 
-I learned three things while working on the project, all of which are valuable to me.
+While working on the project, I learned three things, all of which are valuable to me.
 
 1. Big O notation
 
@@ -304,7 +305,7 @@ I learned three things while working on the project, all of which are valuable t
 
    and try to figure it out
 
-   Consideration of time complexity may seem unimportant when the amount of data is little, but it is always critical to consider runtime since we must suppose the input data will be quite enormous, and our program must still be efficient enough to cope with such large data.
+   Consideration of time complexity may seem unimportant when the amount of data is small, but it is always critical to consider runtime since we must suppose the input data will be quite enormous, and our program must still be efficient enough to cope with such large data.
 
 2. Functional programming
 
@@ -312,7 +313,7 @@ I learned three things while working on the project, all of which are valuable t
 
 3. Maintenance
 
-   I began to appreciate the significance of maintenance. Before embarking on this project, I was told that maintaining the software maintainable is critical, but I'm not sure why. However, as I worked on the project, I began to see the reason. When I first construct the application, all I worry about is completing the basic functionality and not the structure of the code underlying the functionality. Even if the UI appears good, the code behind the UI is a mess, and I have to spend a long time simply detecting a little bug. After completing the project, I begin the code review, reading every single line of code I previously wrote and asking myself questions, like
+   Finally, I realized the value of maintenance. Before embarking on this project, I was told that maintaining the software's maintainability is critical, but I'm not sure why. However, as I worked on the project, I began to see why. When I first construct the application, all I worry about is completing the functionality and not the structure of the code underlying the functionality. Even if the UI appears good, the code behind the UI is a mess, and I have to spend a long time simply detecting a little error. Following the completion of the project, I begin the code review, reading each and every line of code that I previously wrote, and ask myself following question,
 
    - Does this variable name fully describe itself?
 
@@ -322,26 +323,26 @@ I learned three things while working on the project, all of which are valuable t
 
    - Is this part of code clean and readable?
 
-   I attempt to solve these issues and refactor the code. If I don't strive to make the code maintainable from the start, it's difficult for me to detect errors, comprehend the code I created earlier, and, most importantly, other developers don't understand my code when they first encounter it. It is uncommon in software development for a single developer to create an application from the ground up. Rather, developers collaborate to create the application. As a result, it's critical to build code that other engineers can completely grasp without misunderstanding.
+   I attempt to solve these issues by refactoring the code. If I don't strive to make the code maintainable from the start, it's difficult for me to detect errors, comprehend the code I created earlier, and, most importantly, other developers don't understand my code when they first encounter it. It is uncommon in software development for a single developer to create an application from the ground up. Rather, developers collaborate to create the application. As a result, it's important to write code that other engineers can read and understand without having any problems.
 
 &nbsp;
 
 ## What can be improved in this project?
 
-Although I wish to make my project seem like a real-world software program, there are still many flaws that need to be addressed. I am unable to do this project perfectly due to my lack of understanding and limited time. However, there are four major areas that I believe could be addressed in the future.
+Although I wish to make my project seem like a real-world software program, there are still many flaws that need to be addressed. Due to my lack of understanding and limited time, I am unable to complete this project perfectly. However, there are four major areas that I believe could be addressed in the future.
 
 1. Backend
 
-   A real-world application should have its own backend rather than relying on Firebase. However, since I am only familiar with the frontend area, I am unable to design a database's backend system. If I learn it in the future, I will undoubtedly create a backend and database for this project.
+   A real-world application should have its own backend rather than rely on Firebase. However, since I am only familiar with the frontend area, I am unable to design a database's backend system. If I learn how to do it in the future, I'll be sure to make a backend and database for this project.
 
 2. Accessibility
 
-   Accessibility is an important aspect of a web application; it is not always sufficient to have a sophisticated web application that does not enable accessibility. In this project, I just do three things to ensure that the project has a minimal degree of accessibility: I use the semantic HTML tag, I add the tabindex property to the interactive content that does not have a built-in focus feature, and I add the aria-label attribute to the interactive material. Even though I done those three things to improve basic accessibility, it is far from flawless. Because accessibility is such a vast issue, it is difficult to execute in a short amount of time. If I have time in the future, I'd want to learn more about accessibility and apply it to the project.
+   Accessibility is an important aspect of a web application; it is not always sufficient to have a sophisticated web application that does not enable accessibility. In this project, I just do three things to ensure that the project has a minimal degree of accessibility: I use the semantic HTML tag, I add the tabindex property to the interactive content that does not have a built-in focus feature, and I add the aria-label attribute to the interactive material. Even though I've done those three things to improve basic accessibility, it is far from flawless. Because accessibility is such a vast issue, it is difficult to execute in a short amount of time. If I have time in the future, I'd want to learn more about accessibility and apply it to the project.
 
 3. Performance
 
-   Another critical challenge in online applications is performance, particularly when data volumes increase substantially. However, due to time constraints, I only have a basic knowledge of performance. After learning this topic, I want to fix any performance concerns it may have.
+   Another critical challenge in online applications is performance, particularly when data volumes increase substantially. Due to time constraints, I only have a basic knowledge of performance. After learning about this topic, I want to fix any performance concerns it may have had.
 
 4. Testing
 
-   As web applications get more complex, testing has become an increasingly significant notion in the front-end industry. However, due to time constraints, I was unable to study the testing. After I learn it, I'll attempt to include it into this project.
+   As web applications get more complex, testing has become an increasingly significant notion in the front-end industry. However, due to time constraints, I was unable to study for the testing. After I learn it, I'll attempt to include it in this project.

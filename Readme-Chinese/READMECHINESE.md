@@ -1,4 +1,4 @@
-[English Version](../Readme.md)
+[English Version](../README.md)
 
 # 關於這個作品
 

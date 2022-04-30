@@ -24,6 +24,7 @@ function DeleteModal(props) {
     let dataItemName;
     if (dataInfoKey[index] === "mainCate") dataItemName = "main category";
     else if (dataInfoKey[index] === "subCate") dataItemName = "sub category";
+    else if (dataInfoKey[index] === "time") dataItemName = "date";
     else dataItemName = dataInfoKey[index];
 
     if (dataItemName === "description" && data.length >= 20) {
@@ -101,7 +102,9 @@ function DeleteModal(props) {
         <div className={styles["info__container"]}>{infoItem}</div>
 
         <p className={styles.description}>
-          there is no way of getting back this data <br /> once you delete it
+          <em>
+            there is no way to get this data back once <br /> once you delete it
+          </em>
         </p>
         <div className={styles["btn__container"]}>
           <Button

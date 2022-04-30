@@ -60,7 +60,7 @@ function DeleteCategoryModal(props) {
       {expenseItem.length > 0 && (
         <p className={`${styles.description}`}>
           <AiFillWarning className={styles.warning} />
-          All of these data will be deleted if the category is deleted
+          All of these data will be removed if the category is deleted
           <AiFillWarning className={styles.warning} />
         </p>
       )}

@@ -2,13 +2,13 @@
 
 In this readme file, you will find all the information you need about this project
 
-To save time, I'll recommend that you do this.
+To save time, I'll recommend that you read this readme in this order:
 
-(1) watch the video
+(1) watch the demo video
 
-(2) check out special technique
+(2) special technique
 
-(3) reflection.
+(3) reflection
 
 &nbsp;
 
@@ -346,3 +346,15 @@ Although I wish to make my project seem like a real-world software program, ther
 4. Testing
 
    As web applications get more complex, testing has become an increasingly significant notion in the front-end industry. However, due to time constraints, I was unable to study for the testing. After I learn it, I'll attempt to include it in this project.
+
+&nbsp;
+
+# Demo Video
+
+**_It's highly recommended that you turn on the captions_**
+
+**_To save time, you can watch the video at 1.5x speed_**
+
+[English Version](https://youtu.be/yC7LjlKLeZc)
+
+[Chinese Version](https://youtu.be/5rNEYkm49zQ)

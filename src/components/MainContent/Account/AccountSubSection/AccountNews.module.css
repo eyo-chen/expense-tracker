@@ -1,6 +1,7 @@
 .card {
   position: relative;
-  min-height: 13rem;
+  min-height: 40vh;
+  max-height: 50vh;
 }
 
 .title__section {
@@ -22,11 +23,15 @@
 .img__container {
   width: 100%;
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .img {
   width: 100%;
-  max-height: 22rem;
+  height: auto;
+  max-height: 25vh;
   object-fit: cover;
 }
 
@@ -39,19 +44,34 @@
   bottom: -3rem;
 }
 
-.source {
-  color: var(--font-source);
-  display: block;
-  text-align: end;
-  font-size: 1.3rem;
-  font-weight: 500;
-}
-
 .loading {
   border: 2px solid white;
   border-top: 2px solid var(--card-dark-bg);
   width: 2rem;
   height: 2rem;
+}
+
+.loading--img {
+  margin-top: 5rem;
+}
+
+.noimg {
+  color: var(--font-normal);
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 2rem;
+  text-transform: capitalize;
+}
+
+.source {
+  color: var(--font-source);
+  position: absolute;
+  bottom: 5px;
+  right: 8px;
+
+  font-size: 1.3rem;
+  font-weight: 500;
 }
 
 @media screen and (max-width: 1200px) {

@@ -4,11 +4,11 @@ In this readme file, you will find all the information you need about this proje
 
 To save time, I'll recommend that you read this readme in this order:
 
-(1) watch the demo video
+(1) watch the [demo video](https://github.com/OYE0303/expense-tracker#demo-video)
 
-(2) special technique
+(2) [special technique](https://github.com/OYE0303/expense-tracker#special-technique)
 
-(3) reflection
+(3) [reflection](https://github.com/OYE0303/expense-tracker#reflection)
 
 &nbsp;
 
@@ -234,7 +234,7 @@ function useCurWidth() {
 export default useCurWidth;
 ```
 
-This custom hook is called "useCurWidth," which requires no parameters and always returns the current width of the screen. Because adding an event listener to the window causes a side effect, I use the useEffect hook. Furthermore, due to the throttle function, the handleResize function is only invoked after 300 milliseconds, even if the user continues to change the width of the screen.
+This custom hook is called `useCurWidth`, which requires no parameters and always returns the current width of the screen. Because adding an event listener to the window causes a side effect, I use the `useEffect` hook. Furthermore, due to the `throttle` function, the `handleResize` function is only invoked after 300 milliseconds, even if the user continues to change the width of the screen.
 
 ## 2. mutipleArgsHelper function
 
@@ -256,7 +256,7 @@ function mutipleArgsHelper(fn, ...args) {
 export default mutipleArgsHelper;
 ```
 
-This helper function is pretty straightforward. It accepts one argument named fn as well as numerous other parameters called args. I'm using ...args since I'm not sure how many arguments will be passed in this function. Furthermore, not assuming the number of inputs ahead of time may make this function more reusable. As a result, I utilize the rest operator to aggregate all of the parameters as an array. Then, using the .map method, run the fn function on each argument. Because fn is a unary function, which means it only accepts one argument, we may write the code in a _point-free_ manner.
+This helper function is pretty straightforward. It accepts one argument named fn as well as numerous other parameters called args. I'm using `...args` since I'm not sure how many arguments will be passed in this function. Furthermore, not assuming the number of inputs ahead of time may make this function more reusable. As a result, I utilize the rest operator to aggregate all of the parameters as an array. Then, using the `.map` method, run the `fn` function on each argument. Because `fn` is a unary function, which means it only accepts one argument, we may write the code in a _point-free_ manner.
 
 Then I apply this helper function to the location where I need to clean up the code.
 

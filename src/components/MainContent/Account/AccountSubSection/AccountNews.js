@@ -71,13 +71,31 @@ function AccountNews() {
 
     setImgIsLoading(true);
 
-    function test() {
+    function loadEventHandler() {
       setImgIsLoading(false);
     }
 
-    imgDom[0].addEventListener("load", test);
+    imgDom[0].addEventListener("load", loadEventHandler);
 
-    return () => imgDom[0]?.removeEventListener("load", test);
+    return () => imgDom[0]?.removeEventListener("load", loadEventHandler);
+  }, [news]);
+
+  useEffect(() => {
+    const imgDom = document.getElementsByTagName("img");
+
+    if (!imgDom[0]) {
+      return;
+    }
+
+    setImgIsLoading(true);
+
+    function errorEventHandler() {
+      setImgIsLoading(false);
+    }
+
+    imgDom[0].addEventListener("error", errorEventHandler);
+
+    return () => imgDom[0]?.removeEventListener("error", errorEventHandler);
   }, [news]);
 
   async function refreshClickHandler() {
@@ -177,7 +195,7 @@ function getNewsObj(newsObj, img) {
     img,
     url: newsObj.link,
     description: newsObj.description,
-    source: newsObj.source,
+    source: newsObj["source_id"],
   };
 }
 

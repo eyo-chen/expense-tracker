@@ -1,15 +1,30 @@
 .modal {
-  height: 50vh;
+  height: 60vh;
   flex-direction: column;
+  justify-content: space-around;
 }
 
 .title {
-  margin-bottom: 5rem;
-  font-size: 5rem;
+  font-size: 4rem;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.title__last {
+  display: flex;
+  justify-content: center;
+  letter-spacing: 3.5px;
+}
+
+.title__icon {
+  color: rgb(66, 66, 245);
+  height: 100%;
+  margin: auto 4px auto 1px;
 }
 
 .description {
-  font-size: 1.8rem;
+  font-size: 2rem;
+  transform: translateY(3rem);
 }
 
 .btn {

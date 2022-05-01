@@ -326,12 +326,14 @@ body {
 .input:focus,
 .input:active {
   outline: var(--input-outline-focus-active);
+  outline-width: 1.5px;
 }
 
 .input--invalid,
 .input--invalid:focus,
 .input--invalid:active {
   outline: var(--input-outline-invalid);
+  outline-width: 1.5px;
 }
 
 .btn--valid {

@@ -91,7 +91,7 @@ function SearchListInput(props) {
             btnState === "category" ? `${styles["btn__clicked"]}` : ""
           }`}
         >
-          {<MdSort className={styles["btn__icon"]} />}sort by catrgory
+          {<MdSort className={styles["btn__icon"]} />}sort by type
         </Button>
         <Button
           onClick={props.searchOptionModalToggler}

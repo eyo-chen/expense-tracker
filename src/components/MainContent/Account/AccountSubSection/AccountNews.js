@@ -9,7 +9,7 @@ import { createApi } from "unsplash-js";
 import styles from "./AccountNews.module.css";
 
 const api = createApi({
-  accessKey: "b3fApK5ghauXgTIqMeUdjYG4PjdS_Bvqj1XjYH_QT5o",
+  accessKey: `${process.env.REACT_APP_IMG}`,
 });
 let index = 0;
 
@@ -28,7 +28,7 @@ function AccountNews() {
 
       try {
         const data = await fetch(
-          "https://newsdata.io/api/1/news?apikey=pub_6974086be744d7e8ee2efb3d84cd2a39379a&category=business&language=en"
+          `https://newsdata.io/api/1/news?apikey=${process.env.REACT_APP_NEWS}&category=business&language=en`
         );
 
         if (!data.ok) {

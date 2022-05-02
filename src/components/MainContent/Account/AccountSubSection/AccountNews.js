@@ -11,7 +11,6 @@ import styles from "./AccountNews.module.css";
 const api = createApi({
   accessKey: `${process.env.REACT_APP_IMG}`,
 });
-let index = 0;
 
 function AccountNews() {
   const [isLoading, setIsLoading] = useState(false);
@@ -100,22 +99,18 @@ function AccountNews() {
 
   async function refreshClickHandler() {
     setIsLoading(true);
-    // setNewsIndex((prev) => prev + 1);
-    index++;
-    if (index === 10) {
-      index = 0;
+    setNewsIndex((prev) => prev + 1);
+
+    if (newsIndex >= fetchAgain * 10) {
+      if (fetchAgain === 20) {
+        setNewsIndex(0);
+      } else {
+        setFetchAgain((prev) => prev + 1);
+        return;
+      }
     }
 
-    // if (newsIndex >= fetchAgain * 10) {
-    //   if (fetchAgain === 20) {
-    //     setNewsIndex(0);
-    //   } else {
-    //     setFetchAgain((prev) => prev + 1);
-    //     return;
-    //   }
-    // }
-
-    const newsObj = newsArr[index];
+    const newsObj = newsArr[newsIndex];
 
     let img = newsObj["image_url"];
 
@@ -222,141 +217,3 @@ function getImgUrl(res) {
 
   return false;
 }
-/*
-  const [newsArr, setNewsArr] = useState([]);
-  // const [newsIndex, setNewsIndex] = useState(0);
-  const [fetchCount, setFetchCount] = useState(1);
-  // const [error, setError] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [news, setNews] = useState({
-  //   title: "",
-  //   img: "",
-  //   url: "",
-  //   description: "",
-  //   source: "",
-  // });
-  const [imgIsLoading, setImgIsLoading] = useState(false);
-  const [noImage, setNoImage] = useState(false);
-  const [imgUrl, setImgUrl] = useState(null);
-
-  const [
-    news,
-    setFetchAgain,
-    setNews,
-    newsIndex,
-    setNewsIndex,
-    isLoading,
-    error,
-  ] = useFetch();
-
-  // async function getNews() {
-  //   setIsLoading(true);
-
-  //   try {
-  //     const data = await fetch(
-  //       "https://newsdata.io/api/1/news?apikey=pub_6974086be744d7e8ee2efb3d84cd2a39379a&category=business&language=en"
-  //     );
-
-  //     if (!data.ok) {
-  //       throw new Error();
-  //     }
-
-  //     const { results: res } = await data.json();
-
-  //     if (!res) {
-  //       throw new Error();
-  //     }
-
-  //     setNewsArr([...newsArr, ...res]);
-
-  //     const newsObj = res[0];
-
-  //     let img = newsObj["image_url"];
-
-  //     if (!img) {
-  //       img = await FetchImage(newsObj.title, setError);
-  //     }
-
-  //     console.log(img);
-
-  //     setNews({
-  //       title: newsObj.title,
-  //       editedTitle:
-  //         newsObj.title?.length >= 70 && window.innerWidth > 1200
-  //           ? newsObj.title.slice(0, 60) + "....."
-  //           : newsObj.title,
-  //       img,
-  //       url: newsObj.link,
-  //       description: newsObj.description,
-  //       source: newsObj.source,
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //     setIsLoading(false);
-  //     setError(true);
-  //   }
-
-  //   setIsLoading(false);
-  // }
-
-  // useEffect(() => {
-  //   useFetch();
-  // }, []);
-
-  // useEffect(() => {
-  //   const imgDom = document.getElementsByTagName("img");
-
-  //   if (!imgDom[0]) {
-  //     return;
-  //   }
-
-  //   setImgIsLoading(true);
-
-  //   function test() {
-  //     setImgIsLoading(false);
-  //   }
-
-  //   imgDom[0].addEventListener("load", test);
-
-  //   if (!imgDom[0]) {
-  //     return;
-  //   }
-
-  //   return () => imgDom[0]?.removeEventListener("load", test);
-  // }, [news]);
-
-  async function refreshClickHandler() {
-    // setIsLoading(true);
-
-    setNewsIndex((prev) => prev + 1);
-
-    if (newsIndex >= fetchCount * 10) {
-      if (fetchCount < 50) {
-        setFetchAgain((prev) => prev + 1);
-      }
-    }
-
-    // const newsObj = newsArr[newsIndex];
-
-    // console.log(newsObj);
-    // let imgUrl = newsObj["image_url"];
-
-    // if (!imgUrl) {
-    //   imgUrl = await FetchImage(newsObj.title, setError, setImgUrl);
-    // }
-
-    // setNews({
-    //   title: newsObj.title,
-    //   editedTitle:
-    //     newsObj.title?.length >= 70 && window.innerWidth > 1200
-    //       ? newsObj.title.slice(0, 60) + "....."
-    //       : newsObj.title,
-    //   img: imgUrl,
-    //   url: newsObj.link,
-    //   description: newsObj.description,
-    //   source: newsObj.source,
-    // });
-
-    // setIsLoading(false);
-  }
-*/

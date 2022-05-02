@@ -14,7 +14,7 @@ To save time, I'll recommend that you read this readme in this order:
 
 # About the project
 
-This is a web-based expense tracker application. In the app, users may add, remove, and update daily expense and income data. With the data users provide, this app may offer a variety of capabilities and assist users in managing their money in an orderly and effective manner.
+This is a web-based expense tracker application. In the app, users may add, remove, and edit daily expense and income data. With the data users provide, this app may offer a variety of capabilities and assist users in managing their money in an orderly and effective manner.
 
 &nbsp;
 

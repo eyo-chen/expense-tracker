@@ -1,34 +1,25 @@
+import { NavLink } from "react-router-dom";
 import styles from "./SideBarItem.module.css";
 
 function SideBarItem(props) {
-  function pageIconHandler(e) {
-    // e.target.dataset.id
-    const page = e.target.getAttribute("data-id");
-
-    if (page) {
-      props.setPage(page);
-      // props.setLogoutBtn(false);
-    }
-
-    // close sidebar after clicking icon page
-    if (window.innerWidth <= 1000) props.menuClickHandler();
+  let toStr = "";
+  if (props.title !== "Home") {
+    toStr = props.title.toLowerCase();
   }
 
-  let className = `${styles["sidebar__item"]} ${
-    props.activePage ? `${styles["sidebar__item--active"]}` : ""
-  }`;
-
   return (
-    <li title={props.title} className={className}>
-      <div
-        aria-label={props.title}
-        tabIndex="0"
-        data-id={props.pageIndex}
-        onClick={pageIconHandler}
-        className={styles.cover}
-      ></div>
+    <NavLink
+      title={props.title}
+      to={`/${toStr}`}
+      className={(data) =>
+        data.isActive
+          ? `${styles["sidebar__item"]} ${styles["sidebar__item--active"]}`
+          : `${styles["sidebar__item"]}`
+      }
+    >
+      <div aria-label={props.title} tabIndex="0" className={styles.cover}></div>
       {props.children}
-    </li>
+    </NavLink>
   );
 }
 

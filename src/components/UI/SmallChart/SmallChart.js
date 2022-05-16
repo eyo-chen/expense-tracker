@@ -1,3 +1,4 @@
+import React from "react";
 import { useRef, useEffect, useState, useContext } from "react";
 import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import Card from "../Card/Card";
@@ -66,7 +67,7 @@ function SmallChart(props) {
   );
 }
 
-export default SmallChart;
+export default React.memo(SmallChart);
 /*
 Reference 1
 we want to re-create the chart when

@@ -65,20 +65,9 @@ function SideBar(props) {
   const { photoURL } = user;
 
   // SIDEBAR__ICON is 2D array
-  const sidebarItem = SIDEBAR__ICON.map(([title, icon], index) => {
-    let activePage = false;
-    if (props.page - 0 === index) activePage = true;
-
+  const sidebarItem = SIDEBAR__ICON.map(([title, icon]) => {
     return (
-      <SideBarItem
-        title={title}
-        key={title}
-        pageIndex={index}
-        activePage={activePage}
-        menuClickHandler={props.menuClickHandler}
-        setPage={props.setPage}
-        setLogoutModal={setLogoutModal}
-      >
+      <SideBarItem title={title} key={title} setLogoutModal={setLogoutModal}>
         {icon}
       </SideBarItem>
     );
@@ -97,7 +86,11 @@ function SideBar(props) {
         }`}
       >
         <div>
-          <a href="." aria-label="reload the page">
+          <a
+            className={styles["logo__link"]}
+            href="."
+            aria-label="reload the page"
+          >
             <SiCashapp aria-label="reload the page" className={styles.logo} />
           </a>
 

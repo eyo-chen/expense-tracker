@@ -89,7 +89,7 @@
   /* //////////////////////////////////////////////// */
   --btn-color: var(--white);
   --btn-bg: var(--black-10);
-  --btn-hover-bg: var(--white);
+  /* --btn-hover-bg: var(--white); */
   --btn-active-border: 1px solid transparent;
   --btn-disabled-color: var(--gray-4);
   --btn-disabled-border: 1px solid var(--gray-4);

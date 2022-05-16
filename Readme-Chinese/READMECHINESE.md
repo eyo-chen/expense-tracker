@@ -4,11 +4,49 @@
 
 為了節省您的時間，我非常推薦您用以下的順序來閱讀這份 readme
 
-(1) 觀看[介紹影片](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E4%BB%8B%E7%B4%B9%E5%BD%B1%E7%89%87)
+(1) [觀看介紹影片](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E4%BB%8B%E7%B4%B9%E5%BD%B1%E7%89%87)
 
 (2) [特殊的技巧](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E7%89%B9%E6%AE%8A%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7)
 
 (3) [反思](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E5%8F%8D%E6%80%9D)
+
+&nbsp;
+
+# 概述
+
+1. [關於這個作品](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E9%97%9C%E6%96%BC%E9%80%99%E5%80%8B%E4%BD%9C%E5%93%81)
+
+2. [作品的動機](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E4%BD%9C%E5%93%81%E7%9A%84%E5%8B%95%E6%A9%9F)
+
+3. [使用的技術](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E4%BD%BF%E7%94%A8%E7%9A%84%E6%8A%80%E8%A1%93)
+
+4. [介紹影片](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E4%BB%8B%E7%B4%B9%E5%BD%B1%E7%89%87)
+
+5. [作品概述](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E4%BD%9C%E5%93%81%E6%A6%82%E8%BF%B0)
+
+6. [探討細節](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E6%8E%A2%E8%A8%8E%E7%B4%B0%E7%AF%80)
+
+   1. [格式化價錢的表示](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#1-%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%83%B9%E9%8C%A2%E7%9A%84%E8%A1%A8%E7%A4%BA)
+
+   2. [當在製作圓餅圖時，防止使用者輸入錯誤的資料](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#2-%E7%95%B6%E5%9C%A8%E8%A3%BD%E4%BD%9C%E5%9C%93%E9%A4%85%E5%9C%96%E6%99%82%E9%98%B2%E6%AD%A2%E4%BD%BF%E7%94%A8%E8%80%85%E8%BC%B8%E5%85%A5%E9%8C%AF%E8%AA%A4%E7%9A%84%E8%B3%87%E6%96%99)
+
+   3. [防止使用者輸入重複的類別名稱](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#3-%E9%98%B2%E6%AD%A2%E4%BD%BF%E7%94%A8%E8%80%85%E8%BC%B8%E5%85%A5%E9%87%8D%E8%A4%87%E7%9A%84%E9%A1%9E%E5%88%A5%E5%90%8D%E7%A8%B1)
+
+7. [特殊的技巧](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E7%89%B9%E6%AE%8A%E7%9A%84%E6%8A%80%E5%B7%A7)
+
+   1. [throttle 函數和 useCurWidth 客製的 hook](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#1-throttle-%E5%87%BD%E6%95%B8%E5%92%8C-usecurwidth-%E5%AE%A2%E8%A3%BD%E7%9A%84-hook)
+
+   2. [mutipleArgsHelper 函數](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#2-mutipleargshelper-%E5%87%BD%E6%95%B8)
+
+   3. [當新聞的圖片沒有提供時，主動去抓其他圖片來](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#3-%E7%95%B6%E6%96%B0%E8%81%9E%E7%9A%84%E5%9C%96%E7%89%87%E6%B2%92%E6%9C%89%E6%8F%90%E4%BE%9B%E6%99%82%E4%B8%BB%E5%8B%95%E5%8E%BB%E6%8A%93%E5%85%B6%E4%BB%96%E5%9C%96%E7%89%87%E4%BE%86)
+
+8. [反思](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E5%8F%8D%E6%80%9D)
+
+   - [在做這個作品時有遇到什麼主要的困難嗎？](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E5%9C%A8%E5%81%9A%E9%80%99%E5%80%8B%E4%BD%9C%E5%93%81%E6%99%82%E6%9C%89%E9%81%87%E5%88%B0%E4%BB%80%E9%BA%BC%E4%B8%BB%E8%A6%81%E7%9A%84%E5%9B%B0%E9%9B%A3%E5%97%8E)
+
+   - [在這份作品中我從中學到了什麼？](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E5%9C%A8%E9%80%99%E4%BB%BD%E4%BD%9C%E5%93%81%E4%B8%AD%E6%88%91%E5%BE%9E%E4%B8%AD%E5%AD%B8%E5%88%B0%E4%BA%86%E4%BB%80%E9%BA%BC)
+
+   - [這份作品中也哪些地方是可以改善的？](https://github.com/OYE0303/expense-tracker/blob/main/Readme-Chinese/READMECHINESE.md#%E9%80%99%E4%BB%BD%E4%BD%9C%E5%93%81%E4%B8%AD%E4%B9%9F%E5%93%AA%E4%BA%9B%E5%9C%B0%E6%96%B9%E6%98%AF%E5%8F%AF%E4%BB%A5%E6%94%B9%E5%96%84%E7%9A%84)
 
 &nbsp;
 

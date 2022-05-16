@@ -8,24 +8,29 @@ import Search from "../MainContent/Search/Search";
 import Account from "./Account/Account";
 import Setting from "../MainContent/Setting/Setting";
 import Backdrop from "../UI/Modal/Backdrop";
+import { Routes, Route } from "react-router-dom";
 import styles from "./MainContent.module.css";
-
-const MAIN_CONTENT = [
-  <Home />,
-  <Calendar />,
-  <Chart />,
-  <Search />,
-  <Account />,
-  <Setting />,
-];
+import Fallback from "../../Others/Fallback/Fallback";
 
 function MainContent(props) {
   const [editModal] = useContext(EditModalContext);
 
+  const mainContent = (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="calendar" element={<Calendar />} />
+      <Route path="chart" element={<Chart />} />
+      <Route path="search" element={<Search />} />
+      <Route path="account" element={<Account />} />
+      <Route path="setting" element={<Setting />} />
+      <Route path="*" element={<Fallback />} />
+    </Routes>
+  );
+
   return (
     <>
       <main className={styles.mainContent}>
-        {MAIN_CONTENT[props.page]}
+        {mainContent}
         {editModal.show && (
           <EditModal type={editModal.type} value={editModal.value} />
         )}

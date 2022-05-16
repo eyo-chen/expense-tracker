@@ -15,7 +15,7 @@
   color: var(--logo);
 }
 
-a {
+.logo__link {
   margin: 5rem 0 5rem 0;
   display: inline-block;
 }

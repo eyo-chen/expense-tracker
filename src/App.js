@@ -17,13 +17,17 @@ import style from "./App.module.css";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db, auth } from "./firebase-config";
+import { Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+
+import Fallback from "./Others/Fallback/Fallback";
 
 const { TODAY } = timeObj;
 
 function App() {
   const [signedIn, setSignedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [user, userID] = createUserID();
   const [showSidebar, setShowSidebar] = useState(false);
   const [errorModal] = useErrorModal();
@@ -88,14 +92,14 @@ function App() {
 
       <SideBar
         today={TODAY}
-        setPage={setPage}
-        page={page}
+        // setPage={setPage}
+        // page={page}
         showSidebar={showSidebar}
         menuClickHandler={menuClickHandler}
       />
       <MainContent
         today={TODAY}
-        page={page}
+        // page={page}
         showSidebar={showSidebar}
         menuClickHandler={menuClickHandler}
       />
@@ -108,8 +112,10 @@ function App() {
     <ExpenseDataProvider>
       <EditModalProvider>
         <CategoryProvider>
-          {errorModal && <ErrorModal />}
-          {appContent}
+          <BrowserRouter>
+            {errorModal && <ErrorModal />}
+            {appContent}
+          </BrowserRouter>
         </CategoryProvider>
       </EditModalProvider>
     </ExpenseDataProvider>

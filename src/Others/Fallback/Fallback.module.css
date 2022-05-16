@@ -1,0 +1,20 @@
+.modal {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 300;
+  background-color: var(--black-4);
+
+  flex-direction: column;
+}
+
+.title {
+  margin-bottom: 5rem;
+  font-size: 6rem;
+}
+
+.btn {
+  font-size: 2rem;
+  background-color: var(--btn-main-bg);
+  color: black;
+}

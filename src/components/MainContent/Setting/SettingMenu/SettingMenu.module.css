@@ -11,12 +11,18 @@
   margin-top: 5rem;
 }
 
-.list {
+.ul li {
   list-style: none;
+}
+
+.list {
   font-size: 2rem;
   padding: 1.5rem 0 1.5rem 2rem;
   width: 100%;
+  display: inline-block;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
 
 .list:hover {

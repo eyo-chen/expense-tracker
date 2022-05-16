@@ -8,10 +8,12 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase-config";
 import useErrorModal from "../../../Others/Custom/useErrorModal";
 import { SiCashapp } from "react-icons/si";
+import { useNavigate } from "react-router-dom";
 import styles from "./SignInModal.module.css";
 
 function SignInModal() {
   const [setErrorModal] = useErrorModal();
+  const navigate = useNavigate();
 
   async function signInWithSample() {
     try {
@@ -20,6 +22,7 @@ function SignInModal() {
         "wY08shq4ClOssWZp0dDZ@gmail.com",
         "omUO7oSFpfWN2EmyYlTU"
       );
+      navigate("/");
     } catch (err) {
       setErrorModal(true);
     }

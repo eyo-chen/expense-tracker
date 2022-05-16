@@ -12,6 +12,44 @@ To save time, I'll recommend that you read this readme in this order:
 
 &nbsp;
 
+# Overview
+
+1. [About the project](https://github.com/OYE0303/expense-tracker#about-the-project)
+
+2. [The motivation behind the project](https://github.com/OYE0303/expense-tracker#the-motivation-behind-the-project)
+
+3. [Technologies used](https://github.com/OYE0303/expense-tracker#technologies-used)
+
+4. [Demo Video](https://github.com/OYE0303/expense-tracker#demo-video)
+
+5. [Project overview](https://github.com/OYE0303/expense-tracker#project-overview)
+
+6. [Dig into detail](https://github.com/OYE0303/expense-tracker#dig-into-detail)
+
+   1. [Format the representation of money](https://github.com/OYE0303/expense-tracker#1-format-the-representation-of-money)
+
+   2. [When constructing a pie chart, prevent users from entering inaccurate data](https://github.com/OYE0303/expense-tracker#2-when-constructing-a-pie-chart-prevent-users-from-entering-inaccurate-data)
+
+   3. [Prevent users from entering the same category name again](https://github.com/OYE0303/expense-tracker#3-prevent-users-from-entering-the-same-category-name-again)
+
+7. [Special Technique](https://github.com/OYE0303/expense-tracker#special-technique)
+
+   1. [throttle function and useCurWidth custom hook](https://github.com/OYE0303/expense-tracker#1-throttle-function-and-usecurwidth-custom-hook)
+
+   2. [mutipleArgsHelper function](https://github.com/OYE0303/expense-tracker#2-mutipleargshelper-function)
+
+   3. [fetch image when the news image is not provided](https://github.com/OYE0303/expense-tracker#3-fetch-image-when-the-news-image-is-not-provided)
+
+8. [Reflection](https://github.com/OYE0303/expense-tracker#reflection)
+
+   - [What’s the main obstacle when building this project?](https://github.com/OYE0303/expense-tracker#whats-the-main-obstacle-when-building-this-project)
+
+   - [What have I learned from this project?](https://github.com/OYE0303/expense-tracker#what-have-i-learned-from-this-project)
+
+   - [What can be improved in this project?](https://github.com/OYE0303/expense-tracker#what-can-be-improved-in-this-project)
+
+&nbsp;
+
 # About the project
 
 This is a web-based expense tracker application. In the app, users may add, remove, and edit daily expense and income data. With the data users provide, this app may offer a variety of capabilities and assist users in managing their money in an orderly and effective manner.

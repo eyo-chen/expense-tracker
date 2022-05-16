@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import CardChartSection from "../../../UI/CardChartSection/CardChartSection";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import CategoryContext from "../../../../store/category/category--context";
@@ -21,13 +21,18 @@ function WeeklyInfo(props) {
     labels,
   ] = createAccountCardPreData("week", props.week);
 
-  const [configBar, configPie] = createSmallChartData(
-    expenseData,
-    "7",
-    startingDateString,
-    endingDateString,
-    categoryExpense,
-    displayTheme
+  // Reference 1
+  const [configBar, configPie] = useMemo(
+    () =>
+      createSmallChartData(
+        expenseData,
+        "7",
+        startingDateString,
+        endingDateString,
+        categoryExpense,
+        displayTheme
+      ),
+    [expenseData, startingDateString]
   );
 
   const [accIncome, accExpense, accNetIncome] =
@@ -55,31 +60,8 @@ function WeeklyInfo(props) {
 export default WeeklyInfo;
 
 /*
-  const accIncome = expenseData
-    .filter((expenseData) => {
-      const dataTime = Number(new Date(expenseData.time));
-      const firstDayTime = Number(new Date(first.string));
-      const lastDayTime = Number(new Date(last.string));
+Reference 1
 
-      return (
-        dataTime <= lastDayTime &&
-        dataTime >= firstDayTime &&
-        expenseData.category === "income"
-      );
-    })
-    .reduce((acc, cur) => acc + Number(cur.price), 0);
-
-  const accExpense = expenseData
-    .filter((expenseData) => {
-      const dataTime = Number(new Date(expenseData.time));
-      const firstDayTime = Number(new Date(first.string));
-      const lastDayTime = Number(new Date(last.string));
-
-      return (
-        dataTime <= lastDayTime &&
-        dataTime >= firstDayTime &&
-        expenseData.category === "expense"
-      );
-    })
-    .reduce((acc, cur) => acc + Number(cur.price), 0);
+use UseMemo to avoid re-render
+For the purpose of UI
 */

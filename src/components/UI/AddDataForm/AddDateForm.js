@@ -1,11 +1,8 @@
-import { useContext, useReducer } from "react";
-import EditModalContext from "../../../store/editModal/editModal--context";
+import {  useReducer, useEffect } from "react";
 import Modal from "../Modal/Modal";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
-import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
-import CategoryContext from "../../../store/category/category--context";
-import SearchListDataContext from "../../../store/searchListData/searchListData--context";
 import createDateStringFormat from "../../../Others/CreateDateStringFormat/CreateDateStringFormat";
+import getToken from "../../../Others/GetToken/getToken";
 import FormBtn from "./FormBtn";
 import FormPrice from "./FormPrice";
 import FormDate from "./FormDate";
@@ -13,81 +10,45 @@ import FormDescription from "./FormDescription";
 import FormSubCategory from "./FormSubCategory";
 import FormMainCategory from "./FormMainCategory";
 import FormTitle from "./FormTitle";
-import { v4 as uuidv4 } from "uuid";
 import styles from "./AddDataForm.module.css";
+import axios from "axios";
 
 function AddDataForm(props) {
-  const { addExpenseData, editExpenseData } = useContext(ExpenseDataContext);
-  const [, setEditModal] = useContext(EditModalContext);
-  const {
-    categoryExpense,
-    categoryIncome,
-    iconObj,
-    mainCategoryExpense: mainCateExpenseArr,
-    mainCategoryIncome: mainCateIncomeArr,
-  } = useContext(CategoryContext);
-  const { update } = useContext(SearchListDataContext);
-
-  // Reference 2
-  let initialObj;
-  if (props.oldExpenseData)
-    initialObj = {
-      ...props.oldExpenseData,
-      mainCategoryArr:
-        props.oldExpenseData.type === "expense"
-          ? mainCateExpenseArr
-          : mainCateIncomeArr,
-      subCategoryArr:
-        props.oldExpenseData.type === "expense"
-          ? categoryExpense[props.oldExpenseData.mainCategory]
-          : categoryIncome[props.oldExpenseData.mainCategory],
-      iconObj,
-      priceTouch: true,
-      categoryExpense,
-      categoryIncome,
-      mainCateExpenseArr,
-      mainCateIncomeArr,
-    };
-  else
-    initialObj = {
-      type: "expense",
-      mainCategoryArr: mainCateExpenseArr,
-      subCategoryArr: categoryExpense[mainCateExpenseArr[0]],
-      mainCategory: mainCateExpenseArr[0],
-      subCategory: categoryExpense[mainCateExpenseArr[0]][0],
-      date:
-        props.date === undefined
-          ? createDateStringFormat(new Date())
-          : createDateStringFormat(new Date(props.date)),
+   const initialObj1 = {
+      type: "expense", 
+      mainCategList: [],
+      subCategList: [],
+      mainCateg: {},
+      subCateg: {},
+      date:  props.date === undefined
+      ? createDateStringFormat(new Date())
+      : createDateStringFormat(new Date(props.date)),
       description: "",
       price: "",
       priceTouch: false,
       isValid: false,
       isTooLarge: false,
-      iconObj,
-      categoryExpense,
-      categoryIncome,
-      mainCateExpenseArr,
-      mainCateIncomeArr,
-    };
+   }
 
-  const [formData, formDataDispatch] = useReducer(reducer, initialObj);
+  const [formData, formDataDispatch] = useReducer(reducer1, initialObj1);
 
-  function categoryChangeHandler(e) {
+  function typeChangeHandler(e) {
     formDataDispatch({ type: "TYPE", value: e.target.value });
   }
 
   function mainCategoryChangeHandler(e) {
+    const mainCateg = formData.mainCategList.find((categ) => categ.id === Number(e.target.value));
     formDataDispatch({
       type: "MAIN_CATEGORY",
-      value: e.target.value,
+      value: mainCateg,
     });
   }
 
   function subCategoryChangeHandler(e) {
+    const subCateg = formData.subCategList.find((categ) => categ.id === Number(e.target.value));
     formDataDispatch({
       type: "SUB_CATEGORY",
-      value: e.target.value,
+      value: subCateg,
     });
   }
 
@@ -99,6 +60,7 @@ function AddDataForm(props) {
   }
 
   function dateChangeHandler(e) {
+    console.log("dateChangeHandler", e.target.value)
     formDataDispatch({
       type: "DATE",
       value: e.target.value,
@@ -123,69 +85,111 @@ function AddDataForm(props) {
     e.preventDefault();
 
     const newFormData = {
-      id: props.oldExpenseData ? props.oldExpenseData.id : uuidv4(),
       type: formData.type,
-      mainCategory: formData.mainCategory,
-      subCategory: formData.subCategory,
-      time: formData.date,
-      year: formData.date.slice(0, 4),
-      month: formData.date.slice(5, 7),
-      day: formData.date.slice(8, 10),
-      description: formData.description,
+      main_category_id: formData.mainCateg.id,
+      sub_category_id: formData.subCateg.id,
+      date: formData.date + "T00:00:00.000Z",
+      note: formData.description,
       price: Number(formData.price),
     };
 
-    // if props.oldExpenseData exist, it means it's editing the old data
-    if (props.oldExpenseData) {
-      editExpenseData(newFormData, props.oldExpenseData.id);
-      setEditModal({
-        show: true,
-        type: "data",
-        value: "edit",
-      });
+    try {
+      const response = await axios.post("http://localhost:4000/v1/transaction", newFormData, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": getToken()
+        },
+        withCredentials: false
+      })
 
-      // update UI in search list section
-      if (update) update(newFormData, props.oldExpenseData.id);
+      console.log("response", response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-    // add new data
-    else {
-      addExpenseData(newFormData);
-      setEditModal({
-        show: true,
-        type: "data",
-        value: "add",
-      });
-    }
-
-    // hide the more functionality after user edit the data
-    if (props.btnMoreToggler) props.btnMoreToggler();
 
     props.addDataFormModalToggler();
   }
+
+  async function fetchMainCategList() {
+    try {
+      const mainCategoryResponse = await axios.get(`http://localhost:4000/v1/main-category?type=${formData.type}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": getToken()
+        },
+        withCredentials: false
+      });
+      const mainCategList = mainCategoryResponse.data.categories;
+
+      return mainCategList;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  async function fetchSubCategList(id) {
+    if (!id) return [];
+
+    try {
+      const subCategoryResponse = await axios.get(`http://localhost:4000/v1/main-category/${id}/sub-category`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": getToken()
+        },
+        withCredentials: false
+      });
+
+      return subCategoryResponse.data.categories;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchMainCategList().then((data) => {
+      formDataDispatch({ type: "MAIN_CATEGORY_LIST", value: data });
+      formDataDispatch({ type: "MAIN_CATEGORY", value: data[0] });
+      return data[0];
+    }).then((data) => {
+      fetchSubCategList(data.id).then((data) => {
+        formDataDispatch({ type: "SUB_CATEGORY_LIST", value: data });
+        formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
+      });
+    }).catch((error) => {
+      console.error("Error fetching data:", error);
+    })
+  }, [formData.type]);
+
+  useEffect(() => {
+    fetchSubCategList(formData.mainCateg.id).then((data) => {
+      formDataDispatch({ type: "SUB_CATEGORY_LIST", value: data });
+      formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
+    }).catch((error) => {
+      console.error("Error fetching data:", error);
+    })
+  }, [formData.mainCateg]);
+
 
   return (
     <Modal onClick={props.addDataFormModalToggler} classModal={styles.modal}>
       <form onSubmit={formSubmitHandler} className={styles.form}>
         <FormTitle
           type={formData.type}
-          categoryChangeHandler={categoryChangeHandler}
+          categoryChangeHandler={typeChangeHandler}
         />
 
         <HorizontalLine />
         <div className={styles["form__container"]}>
           <FormMainCategory
-            mainCategory={formData.mainCategory}
-            type={formData.type}
+            list={formData.mainCategList}
+            mainCateg={formData.mainCateg}
             mainCategoryChangeHandler={mainCategoryChangeHandler}
-            mainCategoryArr={formData.mainCategoryArr}
             edit={!(props.oldExpenseData === undefined)}
           />
 
           <FormSubCategory
+            list={formData.subCategList}
             subCategoryChangeHandler={subCategoryChangeHandler}
-            subCategory={formData.subCategory}
-            subCategoryArr={formData.subCategoryArr}
-            edit={!(props.oldExpenseData === undefined)}
           />
 
           <FormDescription
@@ -228,71 +232,39 @@ because user may add, remove, edit main and sub category
 what we want is showing the first main category, and it's sub category
 */
 
-/*
-Reference 2
-the data storing in expenseDataProvider do NOT have
-mainCategoryArr, subCategoryArr categoryExpense, categoryIncome, iconObj, priceTouch
-but we need this data in the form, so add them
 
-     // const categoryExpenseKeyArr = Object.keys(state.categoryExpense);
-      // const categoryIncomeKeyArr = Object.keys(state.categoryIncome);
-*/
-
-function reducer(state, action) {
+function reducer1(state, action) {
   switch (action.type) {
     case "TYPE": {
-      let mainCategoryArr, subCategoryArr;
-      const firstCategoryExpense = state.mainCateExpenseArr[0];
-      const firstCategoryIncome = state.mainCateIncomeArr[0];
-
-      // Reference 1
-      if (action.value === "expense") {
-        mainCategoryArr = state.mainCateExpenseArr;
-        subCategoryArr = state.categoryExpense[mainCategoryArr[0]];
-      } else {
-        mainCategoryArr = state.mainCateIncomeArr;
-        subCategoryArr = state.categoryIncome[mainCategoryArr[0]];
-      }
-
       return {
         ...state,
         type: action.value,
-        mainCategoryArr,
-        subCategoryArr,
-        mainCategory:
-          action.value === "expense"
-            ? firstCategoryExpense
-            : firstCategoryIncome,
-        subCategory:
-          action.value === "expense"
-            ? state.categoryExpense[firstCategoryExpense][0]
-            : state.categoryIncome[firstCategoryIncome][0],
-        icon: state.iconObj[
-          action.value === "expense"
-            ? firstCategoryExpense
-            : firstCategoryIncome
-        ],
+      }
+    }
+
+    case "MAIN_CATEGORY_LIST": {
+      return {
+        ...state,
+        mainCategList: action.value,
       };
     }
 
     case "MAIN_CATEGORY": {
-      let subCategoryArr;
-
-      if (state.type === "expense")
-        subCategoryArr = state.categoryExpense[action.value];
-      else subCategoryArr = state.categoryIncome[action.value];
-
       return {
         ...state,
-        mainCategory: action.value,
-        subCategoryArr,
-        subCategory: subCategoryArr[0],
-        icon: state.iconObj[action.value],
+        mainCateg: action.value,
       };
     }
 
     case "SUB_CATEGORY": {
-      return { ...state, subCategory: action.value };
+      return { ...state, subCateg: action.value };
+    }
+
+    case "SUB_CATEGORY_LIST": {
+      return {
+        ...state,
+        subCategList: action.value,
+      };
     }
 
     case "DESCRIPTION": {
@@ -328,3 +300,4 @@ function reducer(state, action) {
     }
   }
 }
+

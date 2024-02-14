@@ -1,29 +1,17 @@
-import { useContext } from "react";
 import FormContainer from "./FormContainer";
 import Select from "../Select/Select";
-import createNewSelectArr from "../../../Others/CreateNewSelectArr/createNewSelectArr";
-import CategoryContext from "../../../store/category/category--context";
 import styles from "./AddDataForm.module.css";
 
 function FormMainCategory(props) {
-  const { iconObj } = useContext(CategoryContext);
-  // Reference 2
-  let newSelectArr = props.mainCategoryArr;
-  if (props.edit)
-    newSelectArr = createNewSelectArr(
-      props.mainCategoryArr,
-      props.mainCategory
-    );
-
   return (
     <FormContainer>
       <label htmlFor="mainCategory" className={`${styles.label} capitalize`}>
         main category
         <div className={`center--flex ${styles.icon}`}>
           <img
-            alt={props.mainCategory}
+            alt={props.mainCateg?.name}
             className={`icon`}
-            src={iconObj[props.mainCategory]}
+            src={props.mainCateg?.icon?.url}
           />
         </div>
       </label>
@@ -33,10 +21,10 @@ function FormMainCategory(props) {
         className={styles.input}
         onChange={props.mainCategoryChangeHandler}
       >
-        {newSelectArr.map((element) => (
+        {props?.list.map(({id, name, type}) => (
           // Reference 1
-          <option value={element} key={`${element}-${props.type}`}>
-            {element}
+          <option value={id} key={`${name}-${type}`}>
+            {name}
           </option>
         ))}
       </Select>

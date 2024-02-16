@@ -1,10 +1,10 @@
 import styles from "./WeeklyCalendarList.module.css";
+import formatDate from "../../../../Others/FormatDate/formatDate";
 
 function WeeklyCalendarList(props) {
   function clickDateHandler(e) {
     const dateID = e.target.dataset.id;
-
-    props.setSelectedDate(dateID);
+    props.setSelectedDate(formatDate(dateID));
   }
 
   // NOTE: need white space to seprate differnt className

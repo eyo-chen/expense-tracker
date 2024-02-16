@@ -4,13 +4,13 @@ import styles from "./ExpenseList.module.css";
 
 function ExpenseList(props) {
   const [btnMore, setBtnMore] = useState(
-    new Array(props.data.length).fill(false)
+    new Array(props.dataList.length).fill(false)
   );
 
   function btnMoreToggler(e) {
     // e is undefined -> edit or delete the data
     if (!e) {
-      if (props.data.length !== btnMore.length)
+      if (props.dataList.length !== btnMore.length)
         setBtnMore(props.data.map((_) => false));
       else setBtnMore(btnMore.map((_) => false));
       return;
@@ -21,8 +21,8 @@ function ExpenseList(props) {
 
     // the case when after adding the new data
     // make sure updating the length of btnMore at the same time
-    if (props.data.length > btnMore.length) {
-      setBtnMore(props.data.map((_, index) => (index === id ? true : false)));
+    if (props.dataList.length > btnMore.length) {
+      setBtnMore(props.dataList.map((_, index) => (index === id ? true : false)));
       return;
     }
 
@@ -40,20 +40,19 @@ function ExpenseList(props) {
     }
   }
 
+  console.log("props.modal", props.modal);
+
   // function
-  const expenseItem = props.data.map((expense, i) => (
-    <Fragment key={expense.id}>
+  const expenseItem = props.dataList.map((e, i) => (
+    <Fragment key={e.id}>
       <ExpenseItem
-        type={expense.type}
-        mainCategory={expense.mainCategory}
-        subCategory={expense.subCategory}
-        time={expense.time}
-        year={expense.year}
-        month={expense.month}
-        day={expense.day}
-        description={expense.description}
-        price={expense.price}
-        id={expense.id}
+        id={e.id}
+        type={e.main_category.type}
+        mainCategory={e.main_category}
+        subCategory={e.sub_category}
+        date={e.date}
+        price={e.price}
+        note={e.note}
         modal={props.modal}
         inDeleteSection={props.inDeleteSection}
         classItem={props.classItemSearch}
@@ -61,7 +60,7 @@ function ExpenseList(props) {
         btnMoreToggler={btnMoreToggler}
         btnMoreIndex={btnMore[i]}
       />
-      {i === props.data.length - 1 || (
+      {i === props.dataList.length - 1 || (
         <hr
           className={
             props.classItemSearch

@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
+import { useEffect, useState } from "react";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
 import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
@@ -19,10 +18,16 @@ import useBundleData from "../../../../Others/Custom/useBundleData";
 import { TiPlus } from "react-icons/ti";
 import LoadingData from "../../../UI/LoadingData/LoadingData";
 import styles from "./DailyInfo.module.css";
+import axios from "axios";
+import getToken from "../../../../Others/GetToken/getToken";
+import formatDate from "../../../../Others/FormatDate/formatDate";
+
 const { TODAY } = timeObj;
 
 function DailyInfo(props) {
-  const { dataIsLoading } = useContext(ExpenseDataContext);
+  const [transactionList, setTransactionList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedDate1, setSelectedDate1] = useState(formatDate(TODAY));
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const [
     weeklyCalendar,
@@ -32,6 +37,41 @@ function DailyInfo(props) {
     modalCard,
     modalCardToggler,
   ] = useBundleData("daily", props.week);
+
+  async function fetchTransactionList() {
+    try {
+      const resp = await axios.get(`http://localhost:4000/v1/transaction?start_date=${selectedDate1}&end_date=${selectedDate1}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": getToken()
+        },
+        withCredentials: false
+      });
+
+      return resp.data.transactions
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function addDataHandler() {
+    try {
+      const updatedList = await fetchTransactionList();
+      setTransactionList(updatedList);
+    } catch (error) {
+      console.error("Error adding data:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchTransactionList().then((data) => {
+      setTransactionList(data);
+    }).catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+  }, [selectedDate1]);
 
   const [income, expense, netIncome] = mutipleArgsHelper(
     formatMoney,
@@ -52,12 +92,14 @@ function DailyInfo(props) {
 
     props.setWeek(newDate);
     setSelectedDate(newDate);
+    setSelectedDate1(formatDate(newDate));
   }
 
-  let active = false;
-  let selected = false;
   const weeklyCalendarList = weeklyCalendar.map(
     ({ year, month, monthDay, weekDay, dateObj }) => {
+      let selected = false;
+      let active = false;
+
       // check if it's "current" today
       const [todayYear, todayMonth, todayDate] = createYearMonthDay(TODAY);
       // check if it's selected day
@@ -86,26 +128,31 @@ function DailyInfo(props) {
           dateObj={dateObj}
           active={active}
           selected={selected}
-          setSelectedDate={setSelectedDate}
+          setSelectedDate={setSelectedDate1}
         />
       );
     }
   );
 
-  const dataListContent = dataIsLoading ? (
-    <LoadingData />
-  ) : expenseDataList.length > 0 ? (
-    <ExpenseList
-      key={selectedDate}
-      data={expenseDataList}
-      classItem={styles.item}
-    />
-  ) : (
-    <div className={`${styles.noData} center--flex capitalize`}>
-      <p>no data</p>
-      <p>click button to add data</p>
-    </div>
-  );
+  let listContent = <LoadingData />;
+  if (isLoading) listContent = <LoadingData />;
+  else if (transactionList.length > 0) {
+    listContent = (
+      <ExpenseList
+        key={selectedDate}
+        dataList={transactionList}
+        classItem={styles.item}
+      />
+    );
+  } else {
+    listContent = (
+      <div className={`${styles.noData} center--flex capitalize`}>
+        <p>no data</p>
+        <p>click button to add data</p>
+      </div>
+    );
+  }
+
 
   return (
     <div className={styles.daily}>
@@ -113,6 +160,7 @@ function DailyInfo(props) {
         <AddDataForm
           addDataFormModalToggler={addDataFormModalToggler}
           date={selectedDate}
+          addDataHandler={addDataHandler}
         />
       )}
       {modalCard === "chart" && (
@@ -174,7 +222,7 @@ function DailyInfo(props) {
         <DailyDataCard text="income" value={income} />
         <DailyDataCard text="net income" value={netIncome} />
       </div>
-      {dataListContent}
+      {listContent}
     </div>
   );
 }

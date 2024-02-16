@@ -108,6 +108,9 @@ function AddDataForm(props) {
     }
 
     props.addDataFormModalToggler();
+
+    // refetch v1/transaction
+    if (props.addDataHandler) props.addDataHandler();
   }
 
   async function fetchMainCategList() {

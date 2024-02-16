@@ -1,10 +1,9 @@
-import { Fragment, useState, useContext } from "react";
+import { Fragment, useState} from "react";
 import BtnIcon from "../BtnIcon/BtnIcon";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import AddDataForm from "../AddDataForm/AddDateForm";
 import DescriptionModal from "../DescriptionModal/DescriptionModal";
 import MoneyModal from "../MoneyModal/MoneyModal";
-import CategoryContext from "../../../store/category/category--context";
 import useAddDataForm from "../../../Others/Custom/useAddDataForm";
 import formatMoney from "../../../Others/FormatMoney/formatMoney";
 import createEditedDescription from "../../../Others/CreateEditedDescription/createEditedDescription";
@@ -21,23 +20,6 @@ function ExpenseItem(props) {
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const curWidth = useCurWidth();
   const [moneyModal, moneyModalToggler] = useMoneyModal();
-  const { iconObj } = useContext(CategoryContext);
-
-  const oldExpenseData = {
-    id: props.id,
-    type: props.type,
-    mainCategoryArr: [],
-    mainCategory: props.mainCategory,
-    subCategoryArr: [],
-    subCategory: props.subCategory,
-    date: props.time,
-    year: props.year,
-    month: props.month,
-    day: props.day,
-    description: props.description,
-    price: props.price,
-    isValid: true,
-  };
 
   const deletedDataInfo = {
     mainCategory: props.mainCategory,
@@ -58,7 +40,7 @@ function ExpenseItem(props) {
   }
 
   const classMainCategory =
-    props.type === "expense"
+    props.mainCategory.type === "expense"
       ? `${styles["item__category--blue"]}`
       : `${styles["item__category--pink"]}`;
 
@@ -69,27 +51,27 @@ function ExpenseItem(props) {
   if (curWidth <= 600) limitedLength = 10;
 
   const classLongDescription =
-    props.description?.length > limitedLength ? "item__description--long" : "";
+    props.note?.length > limitedLength ? "item__description--long" : "";
   const longIndex = classLongDescription.length > 0;
   let editedDescription =
-    props.description && props.description.length > limitedLength
-      ? createEditedDescription(props.description, limitedLength)
-      : props.description;
+    props.note && props.note.length > limitedLength
+      ? createEditedDescription(props.note, limitedLength)
+      : props.note;
 
   // shorten the description after user clicking the btn(more)
   if (
-    props.description &&
-    props.description?.length > limitedLength - 10 &&
+    props.note &&
+    props.note?.length > limitedLength - 10 &&
     props.btnMoreIndex
   )
     editedDescription = createEditedDescription(
-      props.description,
+      props.note,
       limitedLength - 10
     );
 
-  //////////////////////////////////////////////////////////////////
   let largeMoney = false;
   if (props.price >= 1000000) largeMoney = true;
+
 
   return (
     <Fragment>
@@ -103,20 +85,19 @@ function ExpenseItem(props) {
       )}
       {addDataFormModal && (
         <AddDataForm
-          oldExpenseData={oldExpenseData}
+          // oldExpenseData={oldExpenseData}
           addDataFormModalToggler={addDataFormModalToggler}
           btnMoreToggler={props.btnMoreToggler}
         />
       )}
       {descriptionModal && (
         <DescriptionModal descriptionModalToggler={descriptionModalToggler}>
-          {props.description}
+          {props.note}
         </DescriptionModal>
       )}
       {moneyModal.show && (
         <MoneyModal value={moneyModal.value} onClick={moneyModalToggler} />
       )}
-
       <li
         className={
           props.classItem
@@ -126,18 +107,18 @@ function ExpenseItem(props) {
       >
         <div className={styles["item__info"]}>
           <div
-            title={props.mainCategory}
+            title={props.mainCategory.name}
             className={`${styles["item__category"]} ${classMainCategory} center--flex`}
           >
             <img
-              alt={props.mainCategory}
+              alt={props.mainCategory.name}
               className={`icon`}
-              src={iconObj[props.mainCategory]}
+              src={props.mainCategory.icon.url}
             />
           </div>
           <div>
-            <p className="capitalize">{props.subCategory}</p>
-            <p className={styles["item__time"]}>{props.time}</p>
+            <p className="capitalize">{props.subCategory.name}</p>
+            <p className={styles["item__time"]}>{props.date.substr(0,10)}</p>
           </div>
 
           <p

@@ -1,14 +1,20 @@
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState, useEffect } from "react";
 import CardChartSection from "../../../UI/CardChartSection/CardChartSection";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import CategoryContext from "../../../../store/category/category--context";
 import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--context";
 import createAccountCardPreData from "../../../../Others/CreateAccountCardData/createAccountCardPreData";
 import createSmallChartData from "../../../../Others/CreateAccountCardData/createSmallChartData";
-import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
 import styles from "./WeeklyInfo.module.css";
+import getToken from "../../../../Others/GetToken/getToken";
+import axios from "axios";
 
 function WeeklyInfo(props) {
+  const [accInfo, setAccInfo ] = useState({
+    income: 0,
+    expense: 0,
+    balance: 0,
+  });
   const { expenseData } = useContext(ExpenseDataContext);
   const { categoryExpense } = useContext(CategoryContext);
   const { displayTheme } = useContext(DisplayThemeContext);
@@ -35,10 +41,34 @@ function WeeklyInfo(props) {
     [expenseData, startingDateString]
   );
 
-  const [accIncome, accExpense, accNetIncome] =
-    expenseData.length === 0
-      ? [0, 0, 0]
-      : createAccAmount(expenseData, true, startingDateObj, endingDateObj);
+  async function fetchTransactionInfo(startDate, endDate){
+    try {
+      const resp = await axios.get(`http://localhost:4000/v1/transaction/info?start_date=${startDate}&end_date=${endDate}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": getToken()
+        },
+        withCredentials: false
+      });
+
+      return resp.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchTransactionInfo(startingDateString, endingDateString)
+    .then((data) => {
+      setAccInfo({
+        income: data.total_income,
+        expense: data.total_expense,
+        balance: data.total_balance
+      })
+    }).catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+  }, [startingDateString, endingDateString])
 
   if (configBar && configBar.data) configBar.data.labels = labels;
 
@@ -46,9 +76,9 @@ function WeeklyInfo(props) {
     <div className={styles.weekly}>
       <CardChartSection
         title="Weekly Overview"
-        income={accIncome}
-        expense={accExpense}
-        netIncome={accNetIncome}
+        income={accInfo.income}
+        expense={accInfo.expense}
+        netIncome={accInfo.balance}
         configBar={configBar}
         configPie={configPie}
         startingDateString={startingDateString}

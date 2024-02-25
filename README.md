@@ -12,6 +12,10 @@ To save time, I'll recommend that you read this readme in this order:
 
 &nbsp;
 
+# Update
+
+I'm currently build the backend for this project at [here](https://github.com/OYE0303/expense-tracker-go)
+
 # Overview
 
 1. [About the project](https://github.com/OYE0303/expense-tracker#about-the-project)

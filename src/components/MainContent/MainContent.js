@@ -32,7 +32,7 @@ function MainContent(props) {
       <main className={styles.mainContent}>
         {mainContent}
         {editModal.show && (
-          <EditModal type={editModal.type} value={editModal.value} />
+          <EditModal type={editModal.type} value={editModal.value} status={editModal.status} />
         )}
       </main>
 

@@ -23,6 +23,10 @@
   background-color: var(--pink);
 }
 
+.modal--red {
+  background-color: var(--red);
+}
+
 @keyframes edit {
   0% {
     opacity: 0;

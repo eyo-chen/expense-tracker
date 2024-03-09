@@ -6,6 +6,7 @@ function EditModalProvider(props) {
     show: false,
     type: "",
     value: "",
+    status: "",
   });
 
   return (

@@ -9,6 +9,7 @@ function useEditModal(value) {
         show: false,
         type: "",
         value: "",
+        status: "",
       });
     }, 2000);
 

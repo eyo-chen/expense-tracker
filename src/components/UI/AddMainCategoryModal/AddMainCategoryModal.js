@@ -25,14 +25,14 @@ function reducer(state, action) {
         name: action.value,
         inputValid,
         isDuplicate,
-        isValid: inputValid && state.iconIndex,
+        isValid: inputValid && state.iconID,
       };
     }
 
     case "ICON": {
       return {
         ...state,
-        iconIndex: action.value,
+        iconID: action.value,
         isValid: state.inputValid && action.value,
       };
     }
@@ -50,7 +50,7 @@ function reducer(state, action) {
 function AddMainCategoryModal(props) {
   const [iconList, setIconList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { addMainCategory, iconArr, mainCategoryExpense, mainCategoryIncome } =
+  const { addMainCategory1, iconArr, mainCategoryExpense, mainCategoryIncome } =
     useContext(CategoryContext);
   const [_, setEditModal] = useContext(EditModalContext);
 
@@ -81,6 +81,25 @@ function AddMainCategoryModal(props) {
     });
   }, [])
 
+  async function addMainCategory(name, iconID, type) {
+    try {
+      await axios.post(`http://localhost:4000/v1/main-category`, {
+        name,
+        icon_id: Number(iconID),
+        type
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": getToken()
+        },
+        withCredentials: false
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
 
   // Reference 4
   const categoryNameArr =
@@ -88,7 +107,7 @@ function AddMainCategoryModal(props) {
 
   const [form, formDispatch] = useReducer(reducer, {
     name: "",
-    iconIndex: false,
+    iconID: false,
     isValid: false,
     inputValid: false,
     isDuplicate: false,
@@ -109,17 +128,28 @@ function AddMainCategoryModal(props) {
   }
 
   // Reference 1
-  function formSubmitHandler(e) {
+  async function formSubmitHandler(e) {
     e.preventDefault();
 
-    // omit input e
-    props.addMainCategoryModalToggler(_, form.name, props.type);
-    addMainCategory(form.name, form.iconIndex, props.type);
-    setEditModal({
-      show: true,
-      type: props.type,
-      value: "add",
-    });
+    try {
+      await addMainCategory(form.name, form.iconID, props.type);
+
+      props.addMainCategoryModalToggler();
+      setEditModal({
+        show: true,
+        type: props.type,
+        value: "add",
+        status: "success",
+      });
+    } catch (error) {
+      console.log("Error adding main category:", error);
+      setEditModal({
+        show: true,
+        type: props.type,
+        value: "add",
+        status: "fail",
+      });
+    }
   }
 
   let iconListContent = <LoadingUI />;
@@ -134,7 +164,7 @@ function AddMainCategoryModal(props) {
           name="icon"
           ariaLabel="icon"
           label={iconImg}
-          value={index}
+          value={id}
           classLabel={`${styles.icon} transition--25 ${
             props.type === "expense"
               ? `${styles["icon--expense"]}`
@@ -143,7 +173,7 @@ function AddMainCategoryModal(props) {
           classContainer={styles["radio__container"]}
           classInput={styles["input--icon"]}
           onChange={radioIconChangeHandler}
-          checked={index + "" === form.iconIndex}
+          checked={id + "" === form.iconID}
         />
       );
     });

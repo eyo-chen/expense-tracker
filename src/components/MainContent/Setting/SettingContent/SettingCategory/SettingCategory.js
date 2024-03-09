@@ -249,14 +249,6 @@ function SettingCategory() {
   function addMainCategoryModalToggler(e, value, type) {
     // always toggle the modal
     categoryStateDispatch({ type: "ADD_MAIN_CATEGORY_MODAL" });
-
-    // add the category if having input value(when click the add btn in modal)
-    if (value)
-      categoryStateDispatch({
-        type: "ADD_MAIN_CATEGORY",
-        value,
-        typeCaregory: type,
-      });
   }
 
   function addSubCategoryModalToggler(e, value) {

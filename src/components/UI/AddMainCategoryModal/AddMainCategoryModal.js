@@ -1,4 +1,4 @@
-import { useReducer, useContext } from "react";
+import { useReducer, useContext, useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import Title from "../Title/Title";
 import Button from "../Button/Button";
@@ -9,6 +9,10 @@ import CategoryContext from "../../../store/category/category--context";
 import EditModalContext from "../../../store/editModal/editModal--context";
 import Warning from "../Warning/Warning";
 import styles from "./AddMainCategoryModal.module.css";
+import LoadingUI from "../Loading/Loading";
+import getToken from "../../../Others/GetToken/getToken";
+import axios from "axios";
+
 
 function reducer(state, action) {
   switch (action.type) {
@@ -44,9 +48,41 @@ function reducer(state, action) {
 }
 
 function AddMainCategoryModal(props) {
+  const [iconList, setIconList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { addMainCategory, iconArr, mainCategoryExpense, mainCategoryIncome } =
     useContext(CategoryContext);
   const [_, setEditModal] = useContext(EditModalContext);
+
+  async function fetchIconList(){
+    try {
+      const resp = await axios.get(`http://localhost:4000/v1/icon`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": getToken()
+        },
+        withCredentials: false
+      });
+
+      console.log(resp.data.icons)
+
+      return resp.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchIconList()
+    .then((data) => {
+      setIconList(data.icons)
+    }).catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+  }, [])
+
 
   // Reference 4
   const categoryNameArr =
@@ -88,28 +124,32 @@ function AddMainCategoryModal(props) {
     });
   }
 
-  const iconListContent = iconArr.map((element, index) => {
-    const iconImg = <img alt="icon" className={`icon`} src={element} />;
+  let iconListContent = <LoadingUI />;
 
-    return (
-      <InputRadio
-        key={element}
-        name="icon"
-        ariaLabel="icon"
-        label={iconImg}
-        value={index}
-        classLabel={`${styles.icon} transition--25 ${
-          props.type === "expense"
-            ? `${styles["icon--expense"]}`
-            : `${styles["icon--income"]}`
-        }`}
-        classContainer={styles["radio__container"]}
-        classInput={styles["input--icon"]}
-        onChange={radioIconChangeHandler}
-        checked={index + "" === form.iconIndex}
-      />
-    );
-  });
+  if (!loading) {
+    iconListContent = iconList.map(({ id, url }, index) => {
+      const iconImg = <img alt="icon" className={`icon`} src={url} />;
+
+      return (
+        <InputRadio
+          key={id}
+          name="icon"
+          ariaLabel="icon"
+          label={iconImg}
+          value={index}
+          classLabel={`${styles.icon} transition--25 ${
+            props.type === "expense"
+              ? `${styles["icon--expense"]}`
+              : `${styles["icon--income"]}`
+          }`}
+          classContainer={styles["radio__container"]}
+          classInput={styles["input--icon"]}
+          onChange={radioIconChangeHandler}
+          checked={index + "" === form.iconIndex}
+        />
+      );
+    });
+  }
 
   // Reference 2
   const warnningIndex = form.isDuplicate || (form.isTouch && !form.inputValid);

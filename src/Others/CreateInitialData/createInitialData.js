@@ -164,6 +164,20 @@ const iconObj = {
 };
 
 const iconArr = [
+  <IoFastFoodSharp />,
+  <IoIosShirt />,
+  <GiFamilyHouse />,
+  <AiFillCar />,
+  <ImBook />,
+  <IoLogoGameControllerB />,
+  <FiGift />,
+  <GiHealthNormal />,
+  <RiBillFill />,
+  <BiFile />,
+  <CgUser />,
+  <RiMoneyDollarCircleFill />,
+  <BsTrophy />,
+  <FiAlignCenter />,
   <AiOutlineStock />,
   <RiHandCoinFill />,
   <BsFillHeartFill />,

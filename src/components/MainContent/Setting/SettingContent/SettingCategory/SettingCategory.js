@@ -335,6 +335,7 @@ function SettingCategory() {
       {categoryState.addMainCategoryModal && (
         <AddMainCategoryModal
           curType={curType}
+          mainCategoryList={mainCategoryList}
           type={categoryState.type}
           addMainCategoryModalToggler={addMainCategoryModalToggler}
         />

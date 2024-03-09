@@ -5,7 +5,6 @@ import Button from "../Button/Button";
 import InputText from "../InputText/InputText";
 import InputRadio from "../InputRadio/InputRadio";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
-import CategoryContext from "../../../store/category/category--context";
 import EditModalContext from "../../../store/editModal/editModal--context";
 import Warning from "../Warning/Warning";
 import styles from "./AddMainCategoryModal.module.css";
@@ -17,7 +16,9 @@ import axios from "axios";
 function reducer(state, action) {
   switch (action.type) {
     case "NAME": {
-      const isDuplicate = state.categoryNameArr.includes(action.value);
+      const isDuplicate = state.categoryList.find(
+        (element) => element.name === action.value
+      )
       const inputValid = action.value.trim().length > 0 && !isDuplicate;
 
       return {
@@ -50,8 +51,6 @@ function reducer(state, action) {
 function AddMainCategoryModal(props) {
   const [iconList, setIconList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { addMainCategory1, iconArr, mainCategoryExpense, mainCategoryIncome } =
-    useContext(CategoryContext);
   const [_, setEditModal] = useContext(EditModalContext);
 
   async function fetchIconList(){
@@ -99,12 +98,6 @@ function AddMainCategoryModal(props) {
     }
   }
 
-
-
-  // Reference 4
-  const categoryNameArr =
-    props.type === "expense" ? mainCategoryExpense : mainCategoryIncome;
-
   const [form, formDispatch] = useReducer(reducer, {
     name: "",
     iconID: false,
@@ -112,7 +105,7 @@ function AddMainCategoryModal(props) {
     inputValid: false,
     isDuplicate: false,
     isTouch: false,
-    categoryNameArr,
+    categoryList: props.mainCategoryList,
   });
 
   function inputTextTouchHandler() {

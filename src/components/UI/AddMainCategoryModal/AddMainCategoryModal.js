@@ -64,8 +64,6 @@ function AddMainCategoryModal(props) {
         withCredentials: false
       });
 
-      console.log(resp.data.icons)
-
       return resp.data
     } catch (error) {
       console.error("Error fetching data:", error);

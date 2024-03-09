@@ -179,6 +179,9 @@ function SettingCategory() {
   const [curMainCategory, setCurMainCategory] = useState({});
   const [mainCategoryList, setMainCategoryList] = useState([]);
   const [mainCategoryLoading, setMainCategoryLoading] = useState(true);
+  const [curSubCategory, setCurSubCategory] = useState({});
+  const [subCategoryList, setSubCategoryList] = useState([]);
+  const [subCategoryLoading, setSubCategoryLoading] = useState(true);
 
   const {
     categoryExpense,
@@ -269,6 +272,12 @@ function SettingCategory() {
       setMainCategoryList(data.categories);
       setMainCategoryLoading(false);
       setCurMainCategory(data.categories[0]);
+
+      fetcher(`v1/main-category/${data.categories[0].id}/sub-category`, "GET").then((data) => {
+        setSubCategoryList(data.categories);
+        setSubCategoryLoading(false);
+        setCurSubCategory(data.categories[0]);
+      });
     }
     );
   }, []);
@@ -315,6 +324,10 @@ function SettingCategory() {
           addMainCategoryModalToggler={addMainCategoryModalToggler}
         />
         <SettingSubCategory
+          categoryList={subCategoryList}
+          curSubCategory={curSubCategory}
+          setCurSubCategory={setCurSubCategory}
+          loading={subCategoryLoading}
           categoryState={categoryState}
           categoryStateDispatch={categoryStateDispatch}
           clickEditBtnHandler={clickEditBtnHandler}

@@ -4,29 +4,30 @@ import { AiFillEdit } from "react-icons/ai";
 import styles from "./SettingCategory.module.css";
 
 function SettingSubCategory(props) {
-  const categoryList = props.categoryState.subCategoryArr.map((element) => (
+  function clickSubCategoryHandler(e) {
+    const curCateg = props.categoryList.find(
+      (categ) => categ.id === Number(e.target.dataset.id)
+    );
+
+    props.setCurSubCategory(curCateg);
+  }
+
+  const categoryList = props.categoryList.map(({id, name}) => (
     <div
       className={`${styles.data}  ${
-        element === props.categoryState.subCategory
+        id === props.curSubCategory.id
           ? props.categoryState.type === "expense"
             ? styles["data--active--expense"]
             : styles["data--active--income"]
           : ""
       }  `}
-      key={element}
+      key={id}
     >
-      <span aria-label={element} tabIndex="0" onClick={clickSubCategoryHandler}>
-        {element}
+      <span aria-label={id} tabIndex="0" data-id={id} onClick={clickSubCategoryHandler}>
+        {name}
       </span>
     </div>
   ));
-
-  function clickSubCategoryHandler(e) {
-    props.categoryStateDispatch({
-      type: "CLICK_SUB_CATEGORY",
-      value: e.target.textContent,
-    });
-  }
 
   return (
     <div className={styles.container}>

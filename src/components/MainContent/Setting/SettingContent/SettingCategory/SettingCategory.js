@@ -176,6 +176,7 @@ function reducer(state, action) {
 }
 
 function SettingCategory() {
+  const [curType, setCurType] = useState("expense");
   const [curMainCategory, setCurMainCategory] = useState({});
   const [mainCategoryList, setMainCategoryList] = useState([]);
   const [mainCategoryLoading, setMainCategoryLoading] = useState(true);
@@ -267,26 +268,73 @@ function SettingCategory() {
     if (value) categoryStateDispatch({ type: "ADD_SUB_CATEGORY", value });
   }
 
-  useEffect(() => {
-    fetcher("v1/main-category", "GET").then((data) => {
-      setMainCategoryList(data.categories);
-      setMainCategoryLoading(false);
-      setCurMainCategory(data.categories[0]);
-
-      fetcher(`v1/main-category/${data.categories[0].id}/sub-category`, "GET").then((data) => {
-        setSubCategoryList(data.categories);
-        setSubCategoryLoading(false);
-        setCurSubCategory(data.categories[0]);
-      });
+  async function getMainCategory(type) {
+    try {
+      const data = await fetcher(`v1/main-category?type=${type}`, "GET");
+      return data.categories;
+    } catch (err) {
+      throw err;
     }
-    );
-  }, []);
+  }
+
+  async function getSubCategory(mainCategoryId) {
+    try {
+      const data = await fetcher(
+        `v1/main-category/${mainCategoryId}/sub-category`,
+        "GET"
+      );
+
+      return data.categories;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  useEffect(() => {
+    getMainCategory(curType).then((data) => {
+      setMainCategoryList(data);
+      setMainCategoryLoading(false);
+
+      if (data.length === 0) {
+        setCurMainCategory({});
+        setSubCategoryList([]);
+        setCurSubCategory({});
+        setSubCategoryLoading(false);
+        return;
+      }
+
+      setCurMainCategory(data[0]);
+    });
+  }, [curType]);
+
+  useEffect(() => {
+    if (!curMainCategory.id) {
+      setSubCategoryList([]);
+      setCurSubCategory({});
+      setSubCategoryLoading(false);
+      return;
+    }
+
+    getSubCategory(curMainCategory.id).then((data) => {
+      setSubCategoryList(data);
+      setSubCategoryLoading(false);
+
+      if (!data || data.length === 0) {
+        setCurSubCategory({});
+        return;
+      }
+
+      setCurSubCategory(data[0]);
+    });    
+  }
+  , [curMainCategory]);
 
 
   return (
     <Fragment>
       {categoryState.addMainCategoryModal && (
         <AddMainCategoryModal
+          curType={curType}
           type={categoryState.type}
           addMainCategoryModalToggler={addMainCategoryModalToggler}
         />
@@ -312,6 +360,8 @@ function SettingCategory() {
       )}
       <div className={styles.form}>
         <SettingType
+          curType={curType}
+          setCurType={setCurType}
           type={categoryState.type}
           categoryStateDispatch={categoryStateDispatch}
         />

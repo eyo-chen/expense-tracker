@@ -12,7 +12,7 @@ function SettingSubCategory(props) {
     props.setCurSubCategory(curCateg);
   }
 
-  const categoryList = props.categoryList.map(({id, name}) => (
+  const categoryList = props.categoryList?.map(({id, name}) => (
     <div
       className={`${styles.data}  ${
         id === props.curSubCategory.id

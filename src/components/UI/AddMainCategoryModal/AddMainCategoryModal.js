@@ -132,7 +132,7 @@ function AddMainCategoryModal(props) {
     e.preventDefault();
 
     try {
-      await addMainCategory(form.name, form.iconID, props.type);
+      await addMainCategory(form.name, form.iconID, props.curType);
 
       props.addMainCategoryModalToggler();
       setEditModal({

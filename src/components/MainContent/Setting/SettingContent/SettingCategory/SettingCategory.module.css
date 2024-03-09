@@ -131,3 +131,7 @@
 .btn:hover {
   background-color: var(--btn-hover-bg);
 }
+
+.loading {
+  position: relative;
+}

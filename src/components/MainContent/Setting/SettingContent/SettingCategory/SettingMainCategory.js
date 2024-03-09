@@ -1,45 +1,46 @@
-import { useContext } from "react";
-import CategoryContext from "../../../../../store/category/category--context";
 import BtnIcon from "../../../../UI/BtnIcon/BtnIcon";
 import Button from "../../../../UI/Button/Button";
 import { AiFillEdit } from "react-icons/ai";
 import styles from "./SettingCategory.module.css";
+import Loading from "../../../../UI/Loading/Loading";
 
 function SettingMainCategory(props) {
-  const { iconObj } = useContext(CategoryContext);
-
-  const categoryList = props.categoryState.mainCategoryArr.map((element) => (
-    <div
-      tabIndex="0"
-      aria-label={element}
-      onClick={clickMainCategoryHandler}
-      className={`${styles.data}  ${
-        element === props.categoryState.mainCategory
-          ? props.categoryState.type === "expense"
-            ? styles["data--active--expense"]
-            : styles["data--active--income"]
-          : ""
-      } `}
-      key={element}
-    >
-      {/* Reference 1  */}
-      <div className={styles["data__cover"]} data-id={element}></div>
-      <span className={styles["data__icon"]}>
-        <img
-          alt={element}
-          className={`icon ${styles["img__icon"]}`}
-          src={iconObj[element]}
-        />
-      </span>
-      <span>{element}</span>
-    </div>
-  ));
-
   function clickMainCategoryHandler(e) {
-    props.categoryStateDispatch({
-      type: "CLICK_MAIN_CATEGORY",
-      value: e.target.dataset.id,
-    });
+    const selectedMainCategory = props.categoryList.find(
+      (element) => element.id === Number(e.target.dataset.id)
+    );
+    props.setCurMainCategory(selectedMainCategory);
+  }
+
+  let categList = <Loading className={styles["loading"]} />;
+
+  if (!props.loading) {
+    categList = props?.categoryList?.map(({id, name, type, icon}) => (
+      <div
+        tabIndex="0"
+        aria-label={name}
+        onClick={clickMainCategoryHandler}
+        className={`${styles.data}  ${
+          id === props.curMainCategory.id
+            ? props.categoryState.type === "expense"
+              ? styles["data--active--expense"]
+              : styles["data--active--income"]
+            : ""
+        } `}
+        key={id}
+      >
+        {/* Reference 1  */}
+        <div className={styles["data__cover"]} data-id={id}></div>
+        <span className={styles["data__icon"]}>
+          <img
+            alt={name}
+            className={`icon ${styles["img__icon"]}`}
+            src={icon.url}
+          />
+        </span>
+        <span>{name}</span>
+      </div>
+    ));
   }
 
   return (
@@ -56,7 +57,7 @@ function SettingMainCategory(props) {
           <AiFillEdit />
         </BtnIcon>
       </div>
-      <div className={styles["data__container"]}>{categoryList}</div>
+      <div className={styles["data__container"]}>{categList}</div>
       {props.categoryState.editMainCategory && (
         <div className={styles["btn__container"]}>
           <Button

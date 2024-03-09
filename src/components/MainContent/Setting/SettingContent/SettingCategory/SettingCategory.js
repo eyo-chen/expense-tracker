@@ -1,4 +1,4 @@
-import { useContext, useReducer, Fragment } from "react";
+import { useContext, useReducer, Fragment, useEffect, useState } from "react";
 import CategoryContext from "../../../../../store/category/category--context";
 import AddMainCategoryModal from "../../../../UI/AddMainCategoryModal/AddMainCategoryModal";
 import AddingSubCategoryModal from "../../../../UI/AddingSubCategoryModal/AddingSubCategoryModal";
@@ -7,6 +7,7 @@ import SettingType from "./SettingType";
 import SettingMainCategory from "./SettingMainCategory";
 import SettingSubCategory from "./SettingSubCategory";
 import styles from "./SettingCategory.module.css";
+import fetcher from "../../../../../Others/Fetcher/fetcher";
 
 let expenseObj, incomeObj;
 
@@ -175,6 +176,10 @@ function reducer(state, action) {
 }
 
 function SettingCategory() {
+  const [curMainCategory, setCurMainCategory] = useState({});
+  const [mainCategoryList, setMainCategoryList] = useState([]);
+  const [mainCategoryLoading, setMainCategoryLoading] = useState(true);
+
   const {
     categoryExpense,
     categoryIncome,
@@ -259,6 +264,16 @@ function SettingCategory() {
     if (value) categoryStateDispatch({ type: "ADD_SUB_CATEGORY", value });
   }
 
+  useEffect(() => {
+    fetcher("v1/main-category", "GET").then((data) => {
+      setMainCategoryList(data.categories);
+      setMainCategoryLoading(false);
+      setCurMainCategory(data.categories[0]);
+    }
+    );
+  }, []);
+
+
   return (
     <Fragment>
       {categoryState.addMainCategoryModal && (
@@ -289,6 +304,10 @@ function SettingCategory() {
           categoryStateDispatch={categoryStateDispatch}
         />
         <SettingMainCategory
+          categoryList={mainCategoryList}
+          curMainCategory={curMainCategory}
+          setCurMainCategory={setCurMainCategory}
+          loading={mainCategoryLoading}
           categoryState={categoryState}
           categoryStateDispatch={categoryStateDispatch}
           clickEditBtnHandler={clickEditBtnHandler}

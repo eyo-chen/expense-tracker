@@ -1,47 +1,99 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import Modal from "../Modal/Modal";
 import SubTitle from "../SubTitle/SubTitle";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import Button from "../Button/Button";
 import ExpenseList from "../ExpenseList/ExpenseList";
-import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import EditModalContext from "../../../store/editModal/editModal--context";
 import { AiFillWarning } from "react-icons/ai";
 import styles from "./DeleteCategoryModal.module.css";
+import fetcher from "../../../Others/Fetcher/fetcher";
+import Loading from "../Loading/Loading";
 
 function DeleteCategoryModal(props) {
-  const { expenseData, removeExpenseDataByCategory } =
-    useContext(ExpenseDataContext);
+  const [transactionList, setTransactionList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [, setEditModal] = useContext(EditModalContext);
 
-  const expenseItem =
-    props.deleteMainOrSub === "main"
-      ? expenseData.filter(
-          (element) => element.mainCategory === props.clickingCategoryForDelete
-        )
-      : expenseData.filter(
-          (element) => element.subCategory === props.clickingCategoryForDelete
-        );
+  async function fetchTransactionList(id) {
+    try {
+      setLoading(true);
+      const query = props.mainOrSub === "main" ? "main_category_id" : "sub_category_id";
+      const resp = await fetcher(
+        `v1/transaction?${query}=${id}`,
+        "GET"
+      );
+
+      return resp.transactions;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteCategory(id) {
+    try {
+      // set loading too
+      const endpoint = props.mainOrSub === "main" ? "main-category" : "sub-category";
+      await fetcher(
+        `v1/${endpoint}/${id}`,
+        "DELETE"
+      );
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      // setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchTransactionList(props.curCategory.id).then((data) => {
+      setTransactionList(data);
+    }).catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+  }, [props.curCategory.id]);
+
 
   const subtitleContent =
-    expenseItem.length > 0
-      ? `there ${expenseItem.length === 1 ? "is" : "are"} still ${
-          expenseItem.length
-        } data in your ${props.type} history`
-      : `there's no data in your ${props.type} history`;
+    transactionList.length > 0
+      ? `there ${transactionList.length === 1 ? "is" : "are"} still ${
+        transactionList.length
+        } data in your ${props.curType} history`
+      : `there's no data in your ${props.curType} history`;
 
-  function btnDeleteClickHandler(e) {
-    props.clickDeleteBtnHandler(e, props.type);
-    props.deleteModalToggler(e);
-    removeExpenseDataByCategory(
-      props.deleteMainOrSub,
-      props.clickingCategoryForDelete
-    );
-    setEditModal({
-      show: true,
-      type: props.type,
-      value: "delete",
-    });
+  async function btnDeleteClickHandler(e) {
+    try {
+      await deleteCategory(props.curCategory.id);
+      setEditModal({
+        show: true,
+        type: props.curType,
+        value: "delete",
+        status: "success",
+      });
+
+      props.deleteModalToggler();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+
+      setEditModal({
+        show: true,
+        type: props.curType,
+        value: "delete",
+        status: "fail",
+      });
+    }
+  }
+
+  let categoryList = <Loading className={styles["loading"]} />;
+  if (!loading) {
+    categoryList = <ExpenseList
+                      modal={true}
+                      classItem={styles.list}
+                      dataList={transactionList}
+                      inDeleteSection={true}
+                    />
   }
 
   return (
@@ -50,31 +102,21 @@ function DeleteCategoryModal(props) {
         <SubTitle className={styles.title}>are you sure to delete</SubTitle>
         <SubTitle className={`${styles.title} ${styles["title--icon"]}`}>
           <span className={styles["text__category"]}>
-            {props.clickingCategoryForDelete}
+            {props.curCategory.name}
           </span>
           ?
         </SubTitle>
       </div>
       <HorizontalLine />
       <SubTitle className={styles.subtitle}>{subtitleContent}</SubTitle>
-      {expenseItem.length > 0 && (
+      {transactionList.length > 0 && (
         <p className={`${styles.description}`}>
           <AiFillWarning className={styles.warning} />
           All of these data will be removed if the category is deleted
           <AiFillWarning className={styles.warning} />
         </p>
       )}
-      {
-        /*
-        use inDeleteSection to hide "more" button and functionality
-        */
-        <ExpenseList
-          modal={true}
-          classItem={styles.list}
-          data={expenseItem}
-          inDeleteSection={true}
-        />
-      }
+      {categoryList}
       <div className={styles["btn__container"]}>
         <Button
           type="button"
@@ -84,7 +126,6 @@ function DeleteCategoryModal(props) {
           cancel
         </Button>
         <Button
-          dataID={props.deleteMainOrSub}
           onClick={btnDeleteClickHandler}
           className={`${styles.btn} ${styles["btn--right"]} transition--25`}
         >

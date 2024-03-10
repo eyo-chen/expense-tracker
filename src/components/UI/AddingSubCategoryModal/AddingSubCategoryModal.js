@@ -13,7 +13,7 @@ import fetcher from "../../../Others/Fetcher/fetcher";
 function reducer(state, action) {
   switch (action.type) {
     case "NAME": {
-      const isDuplicate = state.categoryList.find(
+      const isDuplicate = state.categoryList?.find(
         (categ) => categ.name === action.value
       );
       const isValid = action.value.trim().length > 0 && !isDuplicate;
@@ -39,7 +39,7 @@ function AddingSubCategoryModal(props) {
     isDuplicate: false,
     isTouch: false,
     isValid: false,
-    categoryList: props.subCategoryList
+    categoryList: props.state.list
   });
 
   function inputTextTouchHandler() {
@@ -69,17 +69,27 @@ function AddingSubCategoryModal(props) {
     e.preventDefault();
 
     try {
+      // add sub category
       await addSubCategory(form.name, props.curMainCategory.id);
-      props.addSubCategoryModalToggler(null, form.name);
+
+      // close modal
+      props.dispatch({ type: "ADD_MODAL_TOGGLER" });
+
+      // show edit success popup
       setEditModal({
         show: true,
-        type: props.type,
+        type: props.curType,
         value: "add",
+        status: "success",
       });
+
+      // update sub category list
+      const newSubCategoryList = await props.getSubCategory(props.curMainCategory.id);
+      props.dispatch({ type: "ADD", value: newSubCategoryList });
     } catch (error) {
       setEditModal({
         show: true,
-        type: props.type,
+        type: props.curType,
         value: "add",
         status: "fail",
       });
@@ -93,7 +103,7 @@ function AddingSubCategoryModal(props) {
     : "required";
 
   return (
-    <Modal onClick={props.addSubCategoryModalToggler} classModal={styles.modal}>
+    <Modal onClick={() => props.dispatch({ type: "ADD_MODAL_TOGGLER" })} classModal={styles.modal}>
       <Title className={styles.title}>add sub category</Title>
       <HorizontalLine />
       <div className={styles["subtitle__container"]}>
@@ -126,7 +136,7 @@ function AddingSubCategoryModal(props) {
           <Button
             type="button"
             className={`${styles.btn} uppercase btn--valid transition--25`}
-            onClick={props.addSubCategoryModalToggler}
+            onClick={() => props.dispatch({ type: "ADD_MODAL_TOGGLER" })}
           >
             cancel
           </Button>

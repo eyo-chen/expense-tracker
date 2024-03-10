@@ -6,23 +6,26 @@ import Loading from "../../../../UI/Loading/Loading";
 
 function SettingMainCategory(props) {
   function clickMainCategoryHandler(e) {
-    const selectedMainCategory = props.categoryList.find(
+    const selectedMainCategory = props.state.list.find(
       (element) => element.id === Number(e.target.dataset.id)
     );
-    props.setCurMainCategory(selectedMainCategory);
+    props.dispatch({ type: "SET_CUR_DATA", value: selectedMainCategory });
+
+    // close edit modal when user click on main category
+    props.subCategoryDispatch({ type: "CLOSE_EDIT" });
   }
 
   let categList = <Loading className={styles["loading"]} />;
 
-  if (!props.loading) {
-    categList = props?.categoryList?.map(({id, name, type, icon}) => (
+  if (!props.state.loading) {
+    categList = props?.state.list?.map(({id, name, icon}) => (
       <div
         tabIndex="0"
         aria-label={name}
         onClick={clickMainCategoryHandler}
         className={`${styles.data}  ${
-          id === props.curMainCategory.id
-            ? props.categoryState.type === "expense"
+          id === props.state.curData.id
+            ? props.curType === "expense"
               ? styles["data--active--expense"]
               : styles["data--active--income"]
             : ""
@@ -52,24 +55,29 @@ function SettingMainCategory(props) {
           text="edit"
           classBtn={styles["btn--edit"]}
           classText={styles["btn__text"]}
-          onClick={props.clickEditBtnHandler}
+          onClick={() => props.dispatch({ type: "EDIT_TOGGLER" })}
         >
           <AiFillEdit />
         </BtnIcon>
       </div>
       <div className={styles["data__container"]}>{categList}</div>
-      {props.categoryState.editMainCategory && (
+      {props.state.edit && (
         <div className={styles["btn__container"]}>
+          {
+            // only show delete button when there's data
+            props.state.list.length > 0 && (
+              <Button
+                onClick={props.deleteModalToggler}
+                type="button"
+                className={`${styles.btn} transition--25`}
+                dataID="main"
+              >
+                delete
+              </Button>
+            )
+          }
           <Button
-            onClick={props.deleteModalToggler}
-            type="button"
-            className={`${styles.btn} transition--25`}
-            dataID="main"
-          >
-            delete
-          </Button>
-          <Button
-            onClick={props.addMainCategoryModalToggler}
+            onClick={() => props.dispatch({ type: "ADD_MODAL_TOGGLER" })}
             type="button"
             className={`${styles.btn} transition--25`}
             dataID="main"

@@ -4,6 +4,10 @@ import styles from "./SettingCategory.module.css";
 function SettingType(props) {
   function typeChangeHandler(e) {
     props.setCurType(e.target.value);
+
+    // close edit modal when user change type
+    props.mainCategoryDispatch({ type: "CLOSE_EDIT" });
+    props.subCategoryDispatch({ type: "CLOSE_EDIT" });
   }
 
   return (

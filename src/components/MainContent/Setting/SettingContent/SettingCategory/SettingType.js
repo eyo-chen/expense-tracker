@@ -3,7 +3,11 @@ import styles from "./SettingCategory.module.css";
 
 function SettingType(props) {
   function typeChangeHandler(e) {
-    props.categoryStateDispatch({ type: "TYPE", value: e.target.value });
+    props.setCurType(e.target.value);
+
+    // close edit modal when user change type
+    props.mainCategoryDispatch({ type: "CLOSE_EDIT" });
+    props.subCategoryDispatch({ type: "CLOSE_EDIT" });
   }
 
   return (
@@ -17,7 +21,7 @@ function SettingType(props) {
         name="type"
         value="expense"
         label="expense"
-        checked={props.type === "expense"}
+        checked={props.curType === "expense"}
         onChange={typeChangeHandler}
       />
       <InputRadio
@@ -29,7 +33,7 @@ function SettingType(props) {
         name="type"
         value="income"
         label="income"
-        checked={props.type === "income"}
+        checked={props.curType === "income"}
         onChange={typeChangeHandler}
       />
     </div>

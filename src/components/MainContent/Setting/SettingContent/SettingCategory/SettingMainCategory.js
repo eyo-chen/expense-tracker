@@ -1,45 +1,49 @@
-import { useContext } from "react";
-import CategoryContext from "../../../../../store/category/category--context";
 import BtnIcon from "../../../../UI/BtnIcon/BtnIcon";
 import Button from "../../../../UI/Button/Button";
 import { AiFillEdit } from "react-icons/ai";
 import styles from "./SettingCategory.module.css";
+import Loading from "../../../../UI/Loading/Loading";
 
 function SettingMainCategory(props) {
-  const { iconObj } = useContext(CategoryContext);
-
-  const categoryList = props.categoryState.mainCategoryArr.map((element) => (
-    <div
-      tabIndex="0"
-      aria-label={element}
-      onClick={clickMainCategoryHandler}
-      className={`${styles.data}  ${
-        element === props.categoryState.mainCategory
-          ? props.categoryState.type === "expense"
-            ? styles["data--active--expense"]
-            : styles["data--active--income"]
-          : ""
-      } `}
-      key={element}
-    >
-      {/* Reference 1  */}
-      <div className={styles["data__cover"]} data-id={element}></div>
-      <span className={styles["data__icon"]}>
-        <img
-          alt={element}
-          className={`icon ${styles["img__icon"]}`}
-          src={iconObj[element]}
-        />
-      </span>
-      <span>{element}</span>
-    </div>
-  ));
-
   function clickMainCategoryHandler(e) {
-    props.categoryStateDispatch({
-      type: "CLICK_MAIN_CATEGORY",
-      value: e.target.dataset.id,
-    });
+    const selectedMainCategory = props.state.list.find(
+      (element) => element.id === Number(e.target.dataset.id)
+    );
+    props.dispatch({ type: "SET_CUR_DATA", value: selectedMainCategory });
+
+    // close edit modal when user click on main category
+    props.subCategoryDispatch({ type: "CLOSE_EDIT" });
+  }
+
+  let categList = <Loading className={styles["loading"]} />;
+
+  if (!props.state.loading) {
+    categList = props?.state.list?.map(({id, name, icon}) => (
+      <div
+        tabIndex="0"
+        aria-label={name}
+        onClick={clickMainCategoryHandler}
+        className={`${styles.data}  ${
+          id === props.state.curData.id
+            ? props.curType === "expense"
+              ? styles["data--active--expense"]
+              : styles["data--active--income"]
+            : ""
+        } `}
+        key={id}
+      >
+        {/* Reference 1  */}
+        <div className={styles["data__cover"]} data-id={id}></div>
+        <span className={styles["data__icon"]}>
+          <img
+            alt={name}
+            className={`icon ${styles["img__icon"]}`}
+            src={icon.url}
+          />
+        </span>
+        <span>{name}</span>
+      </div>
+    ));
   }
 
   return (
@@ -51,24 +55,29 @@ function SettingMainCategory(props) {
           text="edit"
           classBtn={styles["btn--edit"]}
           classText={styles["btn__text"]}
-          onClick={props.clickEditBtnHandler}
+          onClick={() => props.dispatch({ type: "EDIT_TOGGLER" })}
         >
           <AiFillEdit />
         </BtnIcon>
       </div>
-      <div className={styles["data__container"]}>{categoryList}</div>
-      {props.categoryState.editMainCategory && (
+      <div className={styles["data__container"]}>{categList}</div>
+      {props.state.edit && (
         <div className={styles["btn__container"]}>
+          {
+            // only show delete button when there's data
+            props.state.list.length > 0 && (
+              <Button
+                onClick={props.deleteModalToggler}
+                type="button"
+                className={`${styles.btn} transition--25`}
+                dataID="main"
+              >
+                delete
+              </Button>
+            )
+          }
           <Button
-            onClick={props.deleteModalToggler}
-            type="button"
-            className={`${styles.btn} transition--25`}
-            dataID="main"
-          >
-            delete
-          </Button>
-          <Button
-            onClick={props.addMainCategoryModalToggler}
+            onClick={() => props.dispatch({ type: "ADD_MODAL_TOGGLER" })}
             type="button"
             className={`${styles.btn} transition--25`}
             dataID="main"

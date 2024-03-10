@@ -5,15 +5,17 @@ import SubTitle from "../SubTitle/SubTitle";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import InputText from "../InputText/InputText";
 import Button from "../Button/Button";
-import CategoryContext from "../../../store/category/category--context";
 import Warning from "../Warning/Warning";
 import EditModalContext from "../../../store/editModal/editModal--context";
 import styles from "./AddingSubCategoryModal.module.css";
+import fetcher from "../../../Others/Fetcher/fetcher";
 
 function reducer(state, action) {
   switch (action.type) {
     case "NAME": {
-      const isDuplicate = state.categoryNameArr.includes(action.value);
+      const isDuplicate = state.categoryList?.find(
+        (categ) => categ.name === action.value
+      );
       const isValid = action.value.trim().length > 0 && !isDuplicate;
 
       return { ...state, name: action.value, isValid, isDuplicate };
@@ -30,21 +32,14 @@ function reducer(state, action) {
 }
 
 function AddingSubCategoryModal(props) {
-  const { categoryExpense, categoryIncome, addSubCategory } =
-    useContext(CategoryContext);
   const [, setEditModal] = useContext(EditModalContext);
-
-  const categoryNameArr =
-    props.type === "expense"
-      ? categoryExpense[props.mainCategory]
-      : categoryIncome[props.mainCategory];
 
   const [form, formDispatch] = useReducer(reducer, {
     name: "",
     isDuplicate: false,
     isTouch: false,
     isValid: false,
-    categoryNameArr,
+    categoryList: props.state.list
   });
 
   function inputTextTouchHandler() {
@@ -55,17 +50,50 @@ function AddingSubCategoryModal(props) {
     formDispatch({ type: "NAME", value: e.target.value });
   }
 
-  function submitHandler(e) {
+  async function addSubCategory(name, mainCategoryID) {
+    try {
+      await fetcher(
+        `v1/sub-category`,
+        "POST",
+        {
+          name,
+          main_category_id: Number(mainCategoryID),
+        }
+      );
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async function submitHandler(e) {
     e.preventDefault();
 
-    // the logic here is exactly as same as adding main category
-    addSubCategory(form.name, props.type, props.mainCategory);
-    props.addSubCategoryModalToggler(null, form.name);
-    setEditModal({
-      show: true,
-      type: props.type,
-      value: "add",
-    });
+    try {
+      // add sub category
+      await addSubCategory(form.name, props.curMainCategory.id);
+
+      // close modal
+      props.dispatch({ type: "ADD_MODAL_TOGGLER" });
+
+      // show edit success popup
+      setEditModal({
+        show: true,
+        type: props.curType,
+        value: "add",
+        status: "success",
+      });
+
+      // update sub category list
+      const newSubCategoryList = await props.getSubCategory(props.curMainCategory.id);
+      props.dispatch({ type: "ADD", value: newSubCategoryList });
+    } catch (error) {
+      setEditModal({
+        show: true,
+        type: props.curType,
+        value: "add",
+        status: "fail",
+      });
+    }
   }
 
   const warnningIndex = form.isDuplicate || (form.isTouch && !form.isValid);
@@ -75,11 +103,11 @@ function AddingSubCategoryModal(props) {
     : "required";
 
   return (
-    <Modal onClick={props.addSubCategoryModalToggler} classModal={styles.modal}>
+    <Modal onClick={() => props.dispatch({ type: "ADD_MODAL_TOGGLER" })} classModal={styles.modal}>
       <Title className={styles.title}>add sub category</Title>
       <HorizontalLine />
       <div className={styles["subtitle__container"]}>
-        <SubTitle>you're adding sub category of {props.mainCategory}</SubTitle>
+        <SubTitle>you're adding sub category of {props.curMainCategory?.name}</SubTitle>
       </div>
       <form onSubmit={submitHandler}>
         <div className={styles.container}>
@@ -108,7 +136,7 @@ function AddingSubCategoryModal(props) {
           <Button
             type="button"
             className={`${styles.btn} uppercase btn--valid transition--25`}
-            onClick={props.addSubCategoryModalToggler}
+            onClick={() => props.dispatch({ type: "ADD_MODAL_TOGGLER" })}
           >
             cancel
           </Button>

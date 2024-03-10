@@ -5,19 +5,18 @@ import Button from "../Button/Button";
 import InputText from "../InputText/InputText";
 import InputRadio from "../InputRadio/InputRadio";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
-import CategoryContext from "../../../store/category/category--context";
 import EditModalContext from "../../../store/editModal/editModal--context";
 import Warning from "../Warning/Warning";
 import styles from "./AddMainCategoryModal.module.css";
 import LoadingUI from "../Loading/Loading";
-import getToken from "../../../Others/GetToken/getToken";
-import axios from "axios";
-
+import fetcher from "../../../Others/Fetcher/fetcher";
 
 function reducer(state, action) {
   switch (action.type) {
     case "NAME": {
-      const isDuplicate = state.categoryNameArr.includes(action.value);
+      const isDuplicate = state.categoryList.find(
+        (element) => element.name === action.value
+      )
       const inputValid = action.value.trim().length > 0 && !isDuplicate;
 
       return {
@@ -49,61 +48,8 @@ function reducer(state, action) {
 
 function AddMainCategoryModal(props) {
   const [iconList, setIconList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const { addMainCategory1, iconArr, mainCategoryExpense, mainCategoryIncome } =
-    useContext(CategoryContext);
+  const [loading, setLoading] = useState(false);
   const [_, setEditModal] = useContext(EditModalContext);
-
-  async function fetchIconList(){
-    try {
-      const resp = await axios.get(`http://localhost:4000/v1/icon`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": getToken()
-        },
-        withCredentials: false
-      });
-
-      return resp.data
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    fetchIconList()
-    .then((data) => {
-      setIconList(data.icons)
-    }).catch((error) => {
-      console.error("Error fetching data:", error);
-    });
-  }, [])
-
-  async function addMainCategory(name, iconID, type) {
-    try {
-      await axios.post(`http://localhost:4000/v1/main-category`, {
-        name,
-        icon_id: Number(iconID),
-        type
-      }, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": getToken()
-        },
-        withCredentials: false
-      });
-    } catch (error) {
-      throw error;
-    }
-  }
-
-
-
-  // Reference 4
-  const categoryNameArr =
-    props.type === "expense" ? mainCategoryExpense : mainCategoryIncome;
 
   const [form, formDispatch] = useReducer(reducer, {
     name: "",
@@ -112,7 +58,7 @@ function AddMainCategoryModal(props) {
     inputValid: false,
     isDuplicate: false,
     isTouch: false,
-    categoryNameArr,
+    categoryList: props.state.list,
   });
 
   function inputTextTouchHandler() {
@@ -127,25 +73,74 @@ function AddMainCategoryModal(props) {
     formDispatch({ type: "ICON", value: e.target.value });
   }
 
+  async function fetchIconList() {
+    try {
+      setLoading(true);
+      const data = await fetcher(
+        `v1/icon`,
+        "GET"
+      );
+
+      return data.icons;
+    } catch (err) {
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchIconList()
+    .then((data) => {
+      setIconList(data)
+    }).catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+  }, [])
+
+  async function addMainCategory(name, iconID, type) {
+    try {
+      await fetcher(
+        `v1/main-category`,
+        "POST",
+        {
+          name,
+          icon_id: Number(iconID),
+          type
+        }
+      );
+    } catch (err) {
+      throw err;
+    }
+  }
+
   // Reference 1
   async function formSubmitHandler(e) {
     e.preventDefault();
 
     try {
-      await addMainCategory(form.name, form.iconID, props.type);
+      // add main category
+      await addMainCategory(form.name, form.iconID, props.curType);
 
-      props.addMainCategoryModalToggler();
+      // close modal
+      props.dispatch({ type: "ADD_MODAL_TOGGLER" })
+
+      // show edit success popup
       setEditModal({
         show: true,
-        type: props.type,
+        type: props.curType,
         value: "add",
         status: "success",
       });
+
+      // update main category list
+      const newCategoryList = await props.getMainCategory(props.curType);
+      props.dispatch({ type: "ADD", value: newCategoryList });
     } catch (error) {
       console.log("Error adding main category:", error);
       setEditModal({
         show: true,
-        type: props.type,
+        type: props.curType,
         value: "add",
         status: "fail",
       });
@@ -155,7 +150,7 @@ function AddMainCategoryModal(props) {
   let iconListContent = <LoadingUI />;
 
   if (!loading) {
-    iconListContent = iconList.map(({ id, url }, index) => {
+    iconListContent = iconList.map(({ id, url }) => {
       const iconImg = <img alt="icon" className={`icon`} src={url} />;
 
       return (
@@ -166,7 +161,7 @@ function AddMainCategoryModal(props) {
           label={iconImg}
           value={id}
           classLabel={`${styles.icon} transition--25 ${
-            props.type === "expense"
+            props.curType === "expense"
               ? `${styles["icon--expense"]}`
               : `${styles["icon--income"]}`
           }`}
@@ -189,7 +184,7 @@ function AddMainCategoryModal(props) {
 
   return (
     <Modal
-      onClick={props.addMainCategoryModalToggler}
+      onClick={() => props.dispatch({ type: "ADD_MODAL_TOGGLER" })}
       classModal={styles.modal}
     >
       <Title className={styles.title}>add main category</Title>
@@ -222,7 +217,7 @@ function AddMainCategoryModal(props) {
         </div>
         <div className={styles["btn__container"]}>
           <Button
-            onClick={props.addMainCategoryModalToggler}
+            onClick={() => props.dispatch({ type: "ADD_MODAL_TOGGLER" })}
             className={`${styles.btn} btn--valid transition--25`}
             type="button"
           >

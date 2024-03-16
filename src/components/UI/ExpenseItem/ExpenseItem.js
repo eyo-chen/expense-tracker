@@ -13,6 +13,7 @@ import { MdMoreVert } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import styles from "./ExpenseItem.module.css";
+import formatDate from "../../../Others/FormatDate/formatDate";
 
 function ExpenseItem(props) {
   const [descriptionModal, setDescriptionModal] = useState(false);
@@ -22,11 +23,13 @@ function ExpenseItem(props) {
   const [moneyModal, moneyModalToggler] = useMoneyModal();
 
   const deletedDataInfo = {
-    mainCategory: props.mainCategory,
-    subCategory: props.subCategory,
+    id: props.id,
+    type: props.type,
+    mainCategory: props.mainCategory.name,
+    subCategory: props.subCategory.name,
     price: props.price,
-    time: props.time,
-    description: props.description,
+    date: formatDate(props.date),
+    note: props.note,
   };
 
   function showDeleteModalHandler() {
@@ -72,15 +75,14 @@ function ExpenseItem(props) {
   let largeMoney = false;
   if (props.price >= 1000000) largeMoney = true;
 
-
   return (
     <Fragment>
       {deleteModal && (
         <DeleteModal
-          id={props.id}
           dataInfo={deletedDataInfo}
           setDeleteModal={setDeleteModal}
           btnMoreToggler={props.btnMoreToggler}
+          addNewDataHandler={props.addNewDataHandler}
         />
       )}
       {addDataFormModal && (

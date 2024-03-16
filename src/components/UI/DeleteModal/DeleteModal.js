@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import Modal from "../Modal/Modal";
 import SubTitle from "../SubTitle/SubTitle";
 import Button from "../Button/Button";
-import ExpenseDataContext from "../../../store/expenseData/expenseData--context";
 import SearchListDataContext from "../../../store/searchListData/searchListData--context";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import EditModalContext from "../../../store/editModal/editModal--context";
@@ -10,21 +9,26 @@ import DescriptionModal from "../DescriptionModal/DescriptionModal";
 import createEditedDescription from "../../../Others/CreateEditedDescription/createEditedDescription";
 import { FaRegHandPointRight } from "react-icons/fa";
 import styles from "./DeleteModal.module.css";
+import fetcher from "../../../Others/Fetcher/fetcher"
 
 // Reference 1
 function DeleteModal(props) {
-  const { removeExpenseData } = useContext(ExpenseDataContext);
   const { setFilteredData } = useContext(SearchListDataContext);
   const [, setEditModal] = useContext(EditModalContext);
   const [descriptionModal, setDescriptionModal] = useState(false);
   const dataInfoKey = Object.keys(props.dataInfo);
   const dataInfoValue = Object.values(props.dataInfo);
 
-  const infoItem = dataInfoValue.map((data, index) => {
+  // first filter out the empty note
+  const infoItem = dataInfoValue.filter((data, index) => {
+    if (dataInfoKey[index] !== "note") return true;
+    return data
+  })
+  .map((data, index) => {
     let dataItemName;
     if (dataInfoKey[index] === "mainCate") dataItemName = "main category";
     else if (dataInfoKey[index] === "subCate") dataItemName = "sub category";
-    else if (dataInfoKey[index] === "time") dataItemName = "date";
+    else if (dataInfoKey[index] === "date") dataItemName = "date";
     else dataItemName = dataInfoKey[index];
 
     if (dataItemName === "description" && data.length >= 20) {
@@ -65,23 +69,47 @@ function DeleteModal(props) {
     props.setDeleteModal(false);
   }
 
-  function removeExpenseItemHandler() {
-    props.setDeleteModal(false);
+  async function deleteTransaction(id) {
+    try {
+      await fetcher(
+        `v1/transaction/${id}`,
+        "DELETE"
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
 
-    // remove from expense data provider
-    removeExpenseData(props.id);
+  async function removeExpenseItemHandler() {
+    try {
+      await deleteTransaction(props.dataInfo.id);
+      
+      props.setDeleteModal(false);
+  
+      setEditModal({
+        show: true,
+        type: props.dataInfo.type,
+        value: "delete",
+        status: "success",
+      });
+  
+      // remove from Search List
+      if (setFilteredData) setFilteredData({ type: "DELETE", id: props.id });
+  
+      // close the btn more state after deleting the data
+      if (props.btnMoreToggler) props.btnMoreToggler();
 
-    // remove from Search List
-    if (setFilteredData) setFilteredData({ type: "DELETE", id: props.id });
+      // make sure re-fetching the data after deleting the data
+      props.addNewDataHandler();
+    } catch (error) {
+      setEditModal({
+        show: true,
+        type: props.dataInfo.type,
+        value: "delete",
+        status: "fail",
+      });
+    }
 
-    setEditModal({
-      show: true,
-      type: "data",
-      value: "delete",
-    });
-
-    // close the btn more state after deleting the data
-    if (props.btnMoreToggler) props.btnMoreToggler();
   }
 
   return (

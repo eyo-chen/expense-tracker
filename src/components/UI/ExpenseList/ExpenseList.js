@@ -40,8 +40,6 @@ function ExpenseList(props) {
     }
   }
 
-  console.log("props.modal", props.modal);
-
   // function
   const expenseItem = props.dataList.map((e, i) => (
     <Fragment key={e.id}>
@@ -59,6 +57,7 @@ function ExpenseList(props) {
         index={i}
         btnMoreToggler={btnMoreToggler}
         btnMoreIndex={btnMore[i]}
+        addNewDataHandler={props.addNewDataHandler}
       />
       {i === props.dataList.length - 1 || (
         <hr

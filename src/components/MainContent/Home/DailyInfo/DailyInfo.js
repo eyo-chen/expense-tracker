@@ -140,6 +140,7 @@ function DailyInfo(props) {
         key={selectedDate1}
         dataList={transactionList}
         classItem={styles.item}
+        addNewDataHandler={props.addNewDataHandler}
       />
     );
   } else {

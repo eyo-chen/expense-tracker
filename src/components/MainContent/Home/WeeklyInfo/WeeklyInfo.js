@@ -6,8 +6,7 @@ import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--co
 import createAccountCardPreData from "../../../../Others/CreateAccountCardData/createAccountCardPreData";
 import createSmallChartData from "../../../../Others/CreateAccountCardData/createSmallChartData";
 import styles from "./WeeklyInfo.module.css";
-import getToken from "../../../../Others/GetToken/getToken";
-import axios from "axios";
+import fetcher from "../../../../Others/Fetcher/fetcher";
 
 function WeeklyInfo(props) {
   const [accInfo, setAccInfo ] = useState({
@@ -43,15 +42,8 @@ function WeeklyInfo(props) {
 
   async function fetchTransactionInfo(startDate, endDate){
     try {
-      const resp = await axios.get(`http://localhost:4000/v1/transaction/info?start_date=${startDate}&end_date=${endDate}`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": getToken()
-        },
-        withCredentials: false
-      });
-
-      return resp.data
+      const data = await fetcher(`v1/transaction/info?start_date=${startDate}&end_date=${endDate}`, "GET");
+      return data
     } catch (error) {
       console.error("Error fetching data:", error);
     }

@@ -22,6 +22,8 @@ function useBundleData(type, initialDate, fn = undefined) {
 
   function modalCardToggler(e) {
     if (modalCard) setModalCard(false);
+
+
     else {
       const id = e.target.dataset.id;
 

@@ -109,7 +109,7 @@ function AddDataForm(props) {
 
     props.addDataFormModalToggler();
 
-    if (props.addNewDataHandler) props.addNewDataHandler();
+    if (props.changeDataHandler) props.changeDataHandler();
   }
 
   async function fetchMainCategList() {

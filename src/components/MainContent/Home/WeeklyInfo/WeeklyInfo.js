@@ -60,7 +60,7 @@ function WeeklyInfo(props) {
     }).catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, [startingDateString, endingDateString, props.addNewData])
+  }, [startingDateString, endingDateString, props.changeData])
 
   if (configBar && configBar.data) configBar.data.labels = labels;
 

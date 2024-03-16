@@ -39,34 +39,18 @@ function DailyInfo(props) {
     modalCardToggler,
   ] = useBundleData("daily", props.week);
 
-  async function fetchTransactionList(startDate, endDate) {
-    try {
-      const data = await fetcher(`v1/transaction?start_date=${startDate}&end_date=${endDate}`, "GET");
-      return data.transactions;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  async function fetchTransactionInfo(startDate, endDate) {
-    try {
-      const data = await fetcher(`v1/transaction/info?start_date=${startDate}&end_date=${endDate}`, "GET");
-      return data
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
+  // fetch transaction list
   useEffect(() => {
     fetchTransactionList(selectedDate, selectedDate).then((data) => {
       setTransactionList(data);
     }).catch((error) => {
       console.error("Error fetching data:", error);
+    }).finally(() => {
+      setIsLoading(false);
     });
   }, [selectedDate, props.changeData]);
 
+  // fetch transaction info
   useEffect(() => {
     fetchTransactionInfo(selectedDate, selectedDate).then((data) => {
       setAccInfo({
@@ -226,3 +210,23 @@ function DailyInfo(props) {
 }
 
 export default DailyInfo;
+
+async function fetchTransactionList(startDate, endDate) {
+  try {
+    const data = await fetcher(`v1/transaction?start_date=${startDate}&end_date=${endDate}`, "GET");
+    return data.transactions;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+async function fetchTransactionInfo(startDate, endDate) {
+  try {
+    const data = await fetcher(`v1/transaction/info?start_date=${startDate}&end_date=${endDate}`, "GET");
+    return data
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}

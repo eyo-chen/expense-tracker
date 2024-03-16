@@ -23,7 +23,7 @@ const { TODAY } = timeObj;
 function DailyInfo(props) {
   const [transactionList, setTransactionList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedDate1, setSelectedDate1] = useState(formatDate(TODAY));
+  const [selectedDate, setSelectedDate] = useState(formatDate(TODAY));
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const [accInfo, setAccInfo] = useState({
     income: 0,
@@ -32,9 +32,9 @@ function DailyInfo(props) {
   });
   const [
     weeklyCalendar,
-    expenseDataList,
-    selectedDate,
-    setSelectedDate,
+    _,
+    _1,
+    _2,
     modalCard,
     modalCardToggler,
   ] = useBundleData("daily", props.week);
@@ -60,15 +60,15 @@ function DailyInfo(props) {
   }
 
   useEffect(() => {
-    fetchTransactionList(selectedDate1, selectedDate1).then((data) => {
+    fetchTransactionList(selectedDate, selectedDate).then((data) => {
       setTransactionList(data);
     }).catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, [selectedDate1, props.changeData]);
+  }, [selectedDate, props.changeData]);
 
   useEffect(() => {
-    fetchTransactionInfo(selectedDate1, selectedDate1).then((data) => {
+    fetchTransactionInfo(selectedDate, selectedDate).then((data) => {
       setAccInfo({
         income: data.total_income,
         expense: data.total_expense,
@@ -78,7 +78,7 @@ function DailyInfo(props) {
     ).catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, [selectedDate1, props.changeData]);
+  }, [selectedDate, props.changeData]);
 
   function arrowBtnClickHandler(e) {
     const newDate = new Date(props.week);
@@ -90,7 +90,7 @@ function DailyInfo(props) {
 
     props.setWeek(newDate);
     setSelectedDate(newDate);
-    setSelectedDate1(formatDate(newDate));
+    setSelectedDate(formatDate(newDate));
   }
 
   const weeklyCalendarList = weeklyCalendar.map(
@@ -102,7 +102,7 @@ function DailyInfo(props) {
       const [todayYear, todayMonth, todayDate] = createYearMonthDay(TODAY);
       // check if it's selected day
       const [selectedYear, selectedMonth, selectedDateNum] = createYearMonthDay(
-        new Date(selectedDate1)
+        new Date(selectedDate)
       );
 
       if (year === todayYear && month === todayMonth && monthDay === todayDate)
@@ -126,7 +126,7 @@ function DailyInfo(props) {
           dateObj={dateObj}
           active={active}
           selected={selected}
-          setSelectedDate={setSelectedDate1}
+          setSelectedDate={setSelectedDate}
         />
       );
     }
@@ -137,7 +137,7 @@ function DailyInfo(props) {
   else if (transactionList.length > 0) {
     listContent = (
       <ExpenseList
-        key={selectedDate1}
+        key={selectedDate}
         dataList={transactionList}
         classItem={styles.item}
         changeDataHandler={props.changeDataHandler}
@@ -157,7 +157,7 @@ function DailyInfo(props) {
       {addDataFormModal && (
         <AddDataForm
           addDataFormModalToggler={addDataFormModalToggler}
-          date={selectedDate1}
+          date={selectedDate}
           changeDataHandler={props.changeDataHandler}
         />
       )}

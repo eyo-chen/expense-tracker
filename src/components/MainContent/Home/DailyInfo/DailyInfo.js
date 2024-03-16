@@ -78,7 +78,7 @@ function DailyInfo(props) {
     ).catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, [selectedDate1]);
+  }, [selectedDate1, props.changeData]);
 
   function arrowBtnClickHandler(e) {
     const newDate = new Date(props.week);

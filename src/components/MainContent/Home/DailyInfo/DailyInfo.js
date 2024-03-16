@@ -56,22 +56,13 @@ function DailyInfo(props) {
     }
   }
 
-  async function addDataHandler() {
-    try {
-      const updatedList = await fetchTransactionList();
-      setTransactionList(updatedList);
-    } catch (error) {
-      console.error("Error adding data:", error);
-    }
-  }
-
   useEffect(() => {
     fetchTransactionList().then((data) => {
       setTransactionList(data);
     }).catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, [selectedDate1]);
+  }, [selectedDate1, props.addNewData]);
 
   const [income, expense, netIncome] = mutipleArgsHelper(
     formatMoney,
@@ -104,7 +95,7 @@ function DailyInfo(props) {
       const [todayYear, todayMonth, todayDate] = createYearMonthDay(TODAY);
       // check if it's selected day
       const [selectedYear, selectedMonth, selectedDateNum] = createYearMonthDay(
-        new Date(selectedDate)
+        new Date(selectedDate1)
       );
 
       if (year === todayYear && month === todayMonth && monthDay === todayDate)
@@ -139,7 +130,7 @@ function DailyInfo(props) {
   else if (transactionList.length > 0) {
     listContent = (
       <ExpenseList
-        key={selectedDate}
+        key={selectedDate1}
         dataList={transactionList}
         classItem={styles.item}
       />
@@ -153,14 +144,13 @@ function DailyInfo(props) {
     );
   }
 
-
   return (
     <div className={styles.daily}>
       {addDataFormModal && (
         <AddDataForm
           addDataFormModalToggler={addDataFormModalToggler}
-          date={selectedDate}
-          addDataHandler={addDataHandler}
+          date={selectedDate1}
+          addNewDataHandler={props.addNewDataHandler}
         />
       )}
       {modalCard === "chart" && (

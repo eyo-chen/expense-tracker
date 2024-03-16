@@ -9,11 +9,8 @@ import Title from "../../../UI/Title/Title";
 import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
 import DailyDataCard from "./DailyDataCard";
 import timeObj from "../../../../Others/TimeObj/timeObj";
-import createAccAmount from "../../../../Others/CreateAccountCardData/createAccAmount";
 import createYearMonthDay from "../../../../Others/CreateYearMonthDay/createYearMonthDay";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
-import formatMoney from "../../../../Others/FormatMoney/formatMoney";
-import mutipleArgsHelper from "../../../../Others/MultipleArgsHelper/multipleArgsHelper";
 import useBundleData from "../../../../Others/Custom/useBundleData";
 import { TiPlus } from "react-icons/ti";
 import LoadingData from "../../../UI/LoadingData/LoadingData";
@@ -28,6 +25,11 @@ function DailyInfo(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDate1, setSelectedDate1] = useState(formatDate(TODAY));
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
+  const [accInfo, setAccInfo] = useState({
+    income: 0,
+    expense: 0,
+    balance: 0,
+  });
   const [
     weeklyCalendar,
     expenseDataList,
@@ -48,6 +50,15 @@ function DailyInfo(props) {
     }
   }
 
+  async function fetchTransactionInfo(startDate, endDate) {
+    try {
+      const data = await fetcher(`v1/transaction/info?start_date=${startDate}&end_date=${endDate}`, "GET");
+      return data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
   useEffect(() => {
     fetchTransactionList().then((data) => {
       setTransactionList(data);
@@ -56,14 +67,18 @@ function DailyInfo(props) {
     });
   }, [selectedDate1, props.addNewData]);
 
-  const [income, expense, netIncome] = mutipleArgsHelper(
-    formatMoney,
-    ...createAccAmount(
-      expenseDataList,
-      ...Array(3), // skip three arguments
-      true
-    )
-  );
+  useEffect(() => {
+    fetchTransactionInfo(selectedDate1, selectedDate1).then((data) => {
+      setAccInfo({
+        income: data.total_income,
+        expense: data.total_expense,
+        balance: data.total_balance
+      });
+    }
+    ).catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+  }, [selectedDate1]);
 
   function arrowBtnClickHandler(e) {
     const newDate = new Date(props.week);
@@ -200,9 +215,9 @@ function DailyInfo(props) {
       </div>
 
       <div className={`${styles.card} capitalize`}>
-        <DailyDataCard text="expense" value={expense} />
-        <DailyDataCard text="income" value={income} />
-        <DailyDataCard text="net income" value={netIncome} />
+        <DailyDataCard text="expense" value={accInfo.expense} />
+        <DailyDataCard text="income" value={accInfo.income} />
+        <DailyDataCard text="balance" value={accInfo.balance} />
       </div>
       {listContent}
     </div>

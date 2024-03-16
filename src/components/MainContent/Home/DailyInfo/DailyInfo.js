@@ -18,9 +18,8 @@ import useBundleData from "../../../../Others/Custom/useBundleData";
 import { TiPlus } from "react-icons/ti";
 import LoadingData from "../../../UI/LoadingData/LoadingData";
 import styles from "./DailyInfo.module.css";
-import axios from "axios";
-import getToken from "../../../../Others/GetToken/getToken";
 import formatDate from "../../../../Others/FormatDate/formatDate";
+import fetcher from "../../../../Others/Fetcher/fetcher";
 
 const { TODAY } = timeObj;
 
@@ -40,15 +39,8 @@ function DailyInfo(props) {
 
   async function fetchTransactionList() {
     try {
-      const resp = await axios.get(`http://localhost:4000/v1/transaction?start_date=${selectedDate1}&end_date=${selectedDate1}`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": getToken()
-        },
-        withCredentials: false
-      });
-
-      return resp.data.transactions
+      const data = await fetcher(`v1/transaction?start_date=${selectedDate1}&end_date=${selectedDate1}`, "GET");
+      return data.transactions;
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {

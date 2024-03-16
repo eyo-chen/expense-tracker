@@ -65,7 +65,7 @@ function DailyInfo(props) {
     }).catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, [selectedDate1, props.addNewData]);
+  }, [selectedDate1, props.changeData]);
 
   useEffect(() => {
     fetchTransactionInfo(selectedDate1, selectedDate1).then((data) => {
@@ -140,7 +140,7 @@ function DailyInfo(props) {
         key={selectedDate1}
         dataList={transactionList}
         classItem={styles.item}
-        addNewDataHandler={props.addNewDataHandler}
+        changeDataHandler={props.changeDataHandler}
       />
     );
   } else {
@@ -158,7 +158,7 @@ function DailyInfo(props) {
         <AddDataForm
           addDataFormModalToggler={addDataFormModalToggler}
           date={selectedDate1}
-          addNewDataHandler={props.addNewDataHandler}
+          changeDataHandler={props.changeDataHandler}
         />
       )}
       {modalCard === "chart" && (

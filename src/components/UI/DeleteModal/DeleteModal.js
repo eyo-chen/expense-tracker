@@ -100,7 +100,7 @@ function DeleteModal(props) {
       if (props.btnMoreToggler) props.btnMoreToggler();
 
       // make sure re-fetching the data after deleting the data
-      props.addNewDataHandler();
+      props.changeDataHandler();
     } catch (error) {
       setEditModal({
         show: true,

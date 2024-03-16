@@ -57,7 +57,7 @@ function ExpenseList(props) {
         index={i}
         btnMoreToggler={btnMoreToggler}
         btnMoreIndex={btnMore[i]}
-        addNewDataHandler={props.addNewDataHandler}
+        changeDataHandler={props.changeDataHandler}
       />
       {i === props.dataList.length - 1 || (
         <hr

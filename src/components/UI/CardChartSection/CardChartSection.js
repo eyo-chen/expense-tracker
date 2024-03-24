@@ -14,8 +14,8 @@ function CardChartSection(props) {
       />
       <SmallChart
         startingDateString={props.startingDateString}
-        configBar={props.configBar}
-        configPie={props.configPie}
+        endingDateString={props.endingDateString}
+        changeData={props.changeData}
       />
     </div>
   );

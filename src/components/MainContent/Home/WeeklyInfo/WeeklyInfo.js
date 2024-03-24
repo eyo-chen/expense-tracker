@@ -50,6 +50,7 @@ function WeeklyInfo(props) {
         netIncome={accInfo.balance}
         startingDateString={startingDateString}
         endingDateString={endingDateString}
+        changeData={props.changeData}
       />
     </div>
   );

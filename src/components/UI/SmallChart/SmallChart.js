@@ -44,7 +44,7 @@ function SmallChart(props) {
     return function cleanUp() {
       chart.destroy();
     }
-  }, [props.startingDateString, props.endingDateString, chartState]);
+  }, [props.startingDateString, props.endingDateString, chartState, props.changeData]);
 
   // pie chart need more height
   const classNameChart =

@@ -13,7 +13,6 @@ function Home() {
 
   // it's invoked after adding new transaction
   function changeDataHandler() {
-    console.log("data changed")
     setChangeData((prev) => !prev);
   }
 

@@ -3,19 +3,21 @@ import Select from "../Select/Select";
 import styles from "./AddDataForm.module.css";
 
 function FormSubCategory(props) {
+  console.log("props.subCategory", props.subCategory)
   return (
     <FormContainer>
       <label htmlFor="subCategory" className={`${styles.label} capitalize`}>
         sub category
       </label>
       <Select
-        onChange={props.subCategoryChangeHandler}
-        className={styles.input}
-        name="subCategory"
         id="subCategory"
+        name="subCategory"
+        className={styles.input}
+        onChange={props.subCategoryChangeHandler}
+        value={props.subCategory?.id}
       >
         {props?.list?.map(({id, name}) => (
-          <option value={id} key={name}>
+          <option value={id} key={id}>
             {name}
           </option>
         ))}

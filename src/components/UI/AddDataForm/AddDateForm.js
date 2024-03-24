@@ -2,7 +2,6 @@ import {  useReducer, useEffect } from "react";
 import Modal from "../Modal/Modal";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import createDateStringFormat from "../../../Others/CreateDateStringFormat/CreateDateStringFormat";
-import getToken from "../../../Others/GetToken/getToken";
 import FormBtn from "./FormBtn";
 import FormPrice from "./FormPrice";
 import FormDate from "./FormDate";
@@ -11,26 +10,38 @@ import FormSubCategory from "./FormSubCategory";
 import FormMainCategory from "./FormMainCategory";
 import FormTitle from "./FormTitle";
 import styles from "./AddDataForm.module.css";
-import axios from "axios";
+import fetcher from "../../../Others/Fetcher/fetcher";
 
 function AddDataForm(props) {
-   const initialObj1 = {
-      type: "expense", 
-      mainCategList: [],
-      subCategList: [],
-      mainCateg: {},
-      subCateg: {},
-      date:  props.date === undefined
-      ? createDateStringFormat(new Date())
-      : createDateStringFormat(new Date(props.date)),
-      description: "",
-      price: "",
-      priceTouch: false,
-      isValid: false,
-      isTooLarge: false,
-   }
+  let initialObj = {
+    type: "expense", 
+    mainCategList: [],
+    subCategList: [],
+    mainCateg: {},
+    subCateg: {},
+    date:  props.date === undefined
+    ? createDateStringFormat(new Date())
+    : createDateStringFormat(new Date(props.date)),
+    description: "",
+    price: "",
+    priceTouch: false,
+    isValid: false,
+    isTooLarge: false,
+  };
 
-  const [formData, formDataDispatch] = useReducer(reducer1, initialObj1);
+  if (props.editDataInfo) {
+    initialObj = {
+      ...initialObj,
+      type: props.editDataInfo.type,
+      mainCateg: props.editDataInfo.mainCategory,
+      subCateg: props.editDataInfo.subCategory,
+      price: props.editDataInfo.price,
+      date: createDateStringFormat(new Date(props.editDataInfo.date)),
+      description: props.editDataInfo.note,
+    }
+  }
+
+  const [formData, formDataDispatch] = useReducer(reducer1, initialObj);
 
   function typeChangeHandler(e) {
     formDataDispatch({ type: "TYPE", value: e.target.value });
@@ -60,7 +71,6 @@ function AddDataForm(props) {
   }
 
   function dateChangeHandler(e) {
-    console.log("dateChangeHandler", e.target.value)
     formDataDispatch({
       type: "DATE",
       value: e.target.value,
@@ -81,6 +91,7 @@ function AddDataForm(props) {
     });
   }
 
+
   async function formSubmitHandler(e) {
     e.preventDefault();
 
@@ -93,18 +104,18 @@ function AddDataForm(props) {
       price: Number(formData.price),
     };
 
-    try {
-      const response = await axios.post("http://localhost:4000/v1/transaction", newFormData, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": getToken()
-        },
-        withCredentials: false
-      })
-
-      console.log("response", response);
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    if (props.editDataInfo) {
+      try {
+        await updateTransaction(props.editDataInfo.id, newFormData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    } else {
+      try {
+        await createTransaction(newFormData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     }
 
     props.addDataFormModalToggler();
@@ -112,50 +123,19 @@ function AddDataForm(props) {
     if (props.changeDataHandler) props.changeDataHandler();
   }
 
-  async function fetchMainCategList() {
-    try {
-      const mainCategoryResponse = await axios.get(`http://localhost:4000/v1/main-category?type=${formData.type}`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": getToken()
-        },
-        withCredentials: false
-      });
-      const mainCategList = mainCategoryResponse.data.categories;
-
-      return mainCategList;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
-  async function fetchSubCategList(id) {
-    if (!id) return [];
-
-    try {
-      const subCategoryResponse = await axios.get(`http://localhost:4000/v1/main-category/${id}/sub-category`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": getToken()
-        },
-        withCredentials: false
-      });
-
-      return subCategoryResponse.data.categories;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
 
   useEffect(() => {
-    fetchMainCategList().then((data) => {
+    fetchMainCategList(formData.type).then((data) => {
       formDataDispatch({ type: "MAIN_CATEGORY_LIST", value: data });
-      formDataDispatch({ type: "MAIN_CATEGORY", value: data[0] });
+
+      if (!props.editDataInfo) formDataDispatch({ type: "MAIN_CATEGORY", value: data[0] });
+      
       return data[0];
     }).then((data) => {
       fetchSubCategList(data.id).then((data) => {
         formDataDispatch({ type: "SUB_CATEGORY_LIST", value: data });
-        formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
+
+        if (!props.editDataInfo) formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
       });
     }).catch((error) => {
       console.error("Error fetching data:", error);
@@ -165,12 +145,12 @@ function AddDataForm(props) {
   useEffect(() => {
     fetchSubCategList(formData.mainCateg.id).then((data) => {
       formDataDispatch({ type: "SUB_CATEGORY_LIST", value: data });
-      formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
+
+      if (!props.editDataInfo) formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
     }).catch((error) => {
       console.error("Error fetching data:", error);
     })
   }, [formData.mainCateg]);
-
 
   return (
     <Modal onClick={props.addDataFormModalToggler} classModal={styles.modal}>
@@ -191,6 +171,7 @@ function AddDataForm(props) {
 
           <FormSubCategory
             list={formData.subCategList}
+            subCategory={formData.subCateg}
             subCategoryChangeHandler={subCategoryChangeHandler}
           />
 
@@ -303,3 +284,43 @@ function reducer1(state, action) {
   }
 }
 
+async function fetchMainCategList(type) {
+  try {
+    const data = await fetcher(`v1/main-category?type=${type}`, "GET");
+
+    return data.categories;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+async function fetchSubCategList(id) {
+  if (!id) return [];
+
+  try {
+    const data = await fetcher(`v1/main-category/${id}/sub-category`, "GET");
+    return data.categories;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+async function createTransaction(data) {
+  try {
+    await fetcher("v1/transaction", "POST", data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+async function updateTransaction(id, data) {
+  try {
+    await fetcher(`v1/transaction/${id}`, "PUT", data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}

@@ -5,6 +5,7 @@ function Select(props) {
       name={props.name}
       onChange={props.onChange}
       className={`${props.className} capitalize input`}
+      value={props.value}
     >
       {props.children}
     </select>

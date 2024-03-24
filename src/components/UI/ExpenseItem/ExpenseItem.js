@@ -32,6 +32,16 @@ function ExpenseItem(props) {
     note: props.note,
   };
 
+  const editDataInfo = {
+    id: props.id,
+    type: props.type,
+    mainCategory: props.mainCategory,
+    subCategory: props.subCategory,
+    price: props.price,
+    date: props.date,
+    note: props.note,
+  };
+
   function showDeleteModalHandler() {
     setDeleteModal(true);
   }
@@ -87,7 +97,7 @@ function ExpenseItem(props) {
       )}
       {addDataFormModal && (
         <AddDataForm
-          // oldExpenseData={oldExpenseData}
+          editDataInfo={editDataInfo}
           addDataFormModalToggler={addDataFormModalToggler}
           btnMoreToggler={props.btnMoreToggler}
         />

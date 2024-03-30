@@ -3,7 +3,6 @@ import Select from "../Select/Select";
 import styles from "./AddDataForm.module.css";
 
 function FormSubCategory(props) {
-  console.log("props.subCategory", props.subCategory)
   return (
     <FormContainer>
       <label htmlFor="subCategory" className={`${styles.label} capitalize`}>

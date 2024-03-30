@@ -29,6 +29,7 @@ function AddDataForm(props) {
     isTooLarge: false,
   };
 
+  // if it's updating data
   if (props.editDataInfo) {
     initialObj = {
       ...initialObj,
@@ -41,7 +42,7 @@ function AddDataForm(props) {
     }
   }
 
-  const [formData, formDataDispatch] = useReducer(reducer1, initialObj);
+  const [formData, formDataDispatch] = useReducer(reducer, initialObj);
 
   function typeChangeHandler(e) {
     formDataDispatch({ type: "TYPE", value: e.target.value });
@@ -128,15 +129,8 @@ function AddDataForm(props) {
     fetchMainCategList(formData.type).then((data) => {
       formDataDispatch({ type: "MAIN_CATEGORY_LIST", value: data });
 
+      // only update new main category if it's not updating data
       if (!props.editDataInfo) formDataDispatch({ type: "MAIN_CATEGORY", value: data[0] });
-      
-      return data[0];
-    }).then((data) => {
-      fetchSubCategList(data.id).then((data) => {
-        formDataDispatch({ type: "SUB_CATEGORY_LIST", value: data });
-
-        if (!props.editDataInfo) formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
-      });
     }).catch((error) => {
       console.error("Error fetching data:", error);
     })
@@ -146,6 +140,7 @@ function AddDataForm(props) {
     fetchSubCategList(formData.mainCateg.id).then((data) => {
       formDataDispatch({ type: "SUB_CATEGORY_LIST", value: data });
 
+      // only update new sub category if it's not updating data
       if (!props.editDataInfo) formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
     }).catch((error) => {
       console.error("Error fetching data:", error);
@@ -208,15 +203,8 @@ function AddDataForm(props) {
 
 export default AddDataForm;
 
-/*
-Reference 1
-Note that do NOT directly hard code "food" or "salary"
-because user may add, remove, edit main and sub category
-what we want is showing the first main category, and it's sub category
-*/
 
-
-function reducer1(state, action) {
+function reducer(state, action) {
   switch (action.type) {
     case "TYPE": {
       return {

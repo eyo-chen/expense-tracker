@@ -14,20 +14,6 @@ function SmallChart(props) {
     setChartState(e.target.value);
   }
 
-  async function fetchChartData(startDate, endDate, state) {
-    try {
-      const data = await fetcher(
-        `v1/transaction/${state}-chart?start_date=${startDate}&end_date=${endDate}&type=expense`,
-        "GET"
-      );
-
-      return data.chart_data;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      throw error;
-    }
-  }
-
   useEffect(() => {
     let chart;
 
@@ -83,6 +69,20 @@ function SmallChart(props) {
 }
 
 export default React.memo(SmallChart);
+
+async function fetchChartData(startDate, endDate, state) {
+  try {
+    const data = await fetcher(
+      `v1/transaction/${state}-chart?start_date=${startDate}&end_date=${endDate}&type=expense`,
+      "GET"
+    );
+
+    return data.chart_data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
 
 
 function createChartConfig(labels, data, displayTheme, type) {

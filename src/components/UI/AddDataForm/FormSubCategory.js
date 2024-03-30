@@ -9,13 +9,14 @@ function FormSubCategory(props) {
         sub category
       </label>
       <Select
-        onChange={props.subCategoryChangeHandler}
-        className={styles.input}
-        name="subCategory"
         id="subCategory"
+        name="subCategory"
+        className={styles.input}
+        onChange={props.subCategoryChangeHandler}
+        value={props.subCategory?.id}
       >
         {props?.list?.map(({id, name}) => (
-          <option value={id} key={name}>
+          <option value={id} key={id}>
             {name}
           </option>
         ))}

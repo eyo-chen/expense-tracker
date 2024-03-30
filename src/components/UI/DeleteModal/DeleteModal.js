@@ -16,8 +16,9 @@ function DeleteModal(props) {
   const { setFilteredData } = useContext(SearchListDataContext);
   const [, setEditModal] = useContext(EditModalContext);
   const [descriptionModal, setDescriptionModal] = useState(false);
-  const dataInfoKey = Object.keys(props.dataInfo);
-  const dataInfoValue = Object.values(props.dataInfo);
+  const {id: _, ...filteredDataInfo} = props.dataInfo // filter out the id
+  const dataInfoKey = Object.keys(filteredDataInfo);
+  const dataInfoValue = Object.values(filteredDataInfo);
 
   // first filter out the empty note
   const infoItem = dataInfoValue.filter((data, index) => {

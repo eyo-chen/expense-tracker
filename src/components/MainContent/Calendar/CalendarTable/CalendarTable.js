@@ -8,13 +8,14 @@ import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
 import useBundleData from "../../../../Others/Custom/useBundleData";
+import CreateCalendarTable from "./CreateCalendarTable";
 import styles from "./CalendarTable.module.css";
 
 const dateOptObj = { month: "long" };
 
 function CalendarTable(props) {
   const [
-    calendarTable,
+    _,
     expenseDataList,
     selectedDate,
     setSelectedDate,
@@ -23,10 +24,12 @@ function CalendarTable(props) {
   ] = useBundleData("month", props.month, expenseListModalToggler);
   const [expenseListModal, setExpenseListModal] = useState(false);
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
+  const calendarTable = CreateCalendarTable(props.month, expenseListModalToggler);
 
   function arrowBtnClickHandler(e) {
     // Reference 1
-    const newDate = new Date(props.month);
+    const newDate = new Date(props.month.getFullYear(), props.month.getMonth(), 1);
+
     if (e.target.dataset.id === "increase") {
       newDate.setMonth(newDate.getMonth() + 1);
     } else {

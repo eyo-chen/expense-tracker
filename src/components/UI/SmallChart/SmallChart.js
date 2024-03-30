@@ -28,7 +28,7 @@ function SmallChart(props) {
       });
 
     return function cleanUp() {
-      chart.destroy();
+      chart?.destroy();
     }
   }, [props.startingDateString, props.endingDateString, chartState, props.changeData]);
 

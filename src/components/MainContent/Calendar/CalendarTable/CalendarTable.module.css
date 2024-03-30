@@ -80,3 +80,7 @@
   display: grid; /* fix flex gap */
   gap: 3rem;
 }
+
+.loading {
+  position: relative;
+}

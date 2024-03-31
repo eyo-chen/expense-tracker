@@ -54,6 +54,8 @@ function MonthlyInfo(props) {
         configBar={configBar}
         configPie={configPie}
         startingDateString={startingDateString}
+        endingDateString={endingDateString}
+        barChartTimeRange="one_month"
       />
     </div>
   );

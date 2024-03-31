@@ -19,7 +19,7 @@ function SmallChart(props) {
   useEffect(() => {
     let chart;
 
-    fetchChartData(props.startingDateString, props.endingDateString, chartState)
+    fetchChartData(props.startingDateString, props.endingDateString, chartState, props.barChartTimeRange)
       .then((data) => {
         const config = createChartConfig(data.labels, data.datasets, "dark", chartState);
 
@@ -32,7 +32,7 @@ function SmallChart(props) {
     return function cleanUp() {
       chart?.destroy();
     }
-  }, [props.startingDateString, props.endingDateString, chartState, updateState]);
+  }, [props.startingDateString, props.endingDateString, chartState, props.barChartTimeRange, updateState]);
 
   // pie chart need more height
   const classNameChart =
@@ -72,10 +72,10 @@ function SmallChart(props) {
 
 export default React.memo(SmallChart);
 
-async function fetchChartData(startDate, endDate, state) {
+async function fetchChartData(startDate, endDate, state, timeRange) {
   try {
     const data = await fetcher(
-      `v1/transaction/${state}-chart?start_date=${startDate}&end_date=${endDate}&type=expense`,
+      `v1/transaction/${state}-chart?start_date=${startDate}&end_date=${endDate}&type=expense&time_range=${timeRange}`,
       "GET"
     );
 
@@ -177,7 +177,7 @@ function createBarChartConfig(labels, data, displayTheme) {
             return tooltipItem.tooltip.labelColors[0].borderColor;
           },
         },
-        legend,
+        // legend,
       },
       scales: {
         y: {

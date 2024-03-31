@@ -52,6 +52,7 @@ function WeeklyInfo(props) {
         netIncome={accInfo.balance}
         startingDateString={startingDateString}
         endingDateString={endingDateString}
+        barChartTimeRange="one_week_day"
       />
     </div>
   );

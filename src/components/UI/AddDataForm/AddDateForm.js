@@ -124,8 +124,6 @@ function AddDataForm(props) {
 
     props.addDataFormModalToggler();
     updateStateHandler();
-
-    if (props.changeDataHandler) props.changeDataHandler();
   }
 
 

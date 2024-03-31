@@ -1,10 +1,12 @@
-import {  useState, useEffect } from "react";
+import {  useState, useEffect, useContext } from "react";
+import UpdateStateContext from "../../../../store/updateState/updateState--context";
 import CardChartSection from "../../../UI/CardChartSection/CardChartSection";
 import createAccountCardPreData from "../../../../Others/CreateAccountCardData/createAccountCardPreData";
 import styles from "./WeeklyInfo.module.css";
 import fetcher from "../../../../Others/Fetcher/fetcher";
 
 function WeeklyInfo(props) {
+  const { updateState } = useContext(UpdateStateContext);
   const [accInfo, setAccInfo ] = useState({
     income: 0,
     expense: 0,
@@ -39,7 +41,7 @@ function WeeklyInfo(props) {
     }).catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, [startingDateString, endingDateString, props.changeData])
+  }, [startingDateString, endingDateString, updateState])
 
   return (
     <div className={styles.weekly}>
@@ -50,7 +52,6 @@ function WeeklyInfo(props) {
         netIncome={accInfo.balance}
         startingDateString={startingDateString}
         endingDateString={endingDateString}
-        changeData={props.changeData}
       />
     </div>
   );

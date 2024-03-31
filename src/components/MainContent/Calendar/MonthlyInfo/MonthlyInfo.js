@@ -1,13 +1,13 @@
 import { useContext, useState, useEffect } from "react";
 import CardChartSection from "../../../UI/CardChartSection/CardChartSection";
+import UpdateStateContext from "../../../../store/updateState/updateState--context";
 import ExpenseDataContext from "../../../../store/expenseData/expenseData--context";
 import CategoryContext from "../../../../store/category/category--context";
 import DisplayThemeContext from "../../../../store/displayTheme/displayTheme--context";
 import createAccountCardPreData from "../../../../Others/CreateAccountCardData/createAccountCardPreData";
 import createSmallChartData from "../../../../Others/CreateAccountCardData/createSmallChartData";
 import styles from "./MonthlyInfo.module.css";
-import getToken from "../../../../Others/GetToken/getToken";
-import axios from "axios";
+import fetcher from "../../../../Others/Fetcher/fetcher";
 
 function MonthlyInfo(props) {
   const [accInfo, setAccInfo ] = useState({
@@ -18,26 +18,9 @@ function MonthlyInfo(props) {
   const { expenseData } = useContext(ExpenseDataContext);
   const { categoryExpense } = useContext(CategoryContext);
   const { displayTheme } = useContext(DisplayThemeContext);
+  const { updateState } = useContext(UpdateStateContext);
 
-  const [startingDateObj, endingDateObj, startingDateString, endingDateString] =
-  createAccountCardPreData("month", props.month);
-
-
-  async function fetchTransactionInfo(startDate, endDate){
-    try {
-      const resp = await axios.get(`http://localhost:4000/v1/transaction/info?start_date=${startDate}&end_date=${endDate}`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": getToken()
-        },
-        withCredentials: false
-      });
-
-      return resp.data
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
+  const [startingDateObj, endingDateObj, startingDateString, endingDateString] = createAccountCardPreData("month", props.month);
 
   useEffect(() => {
     fetchTransactionInfo(startingDateString, endingDateString)
@@ -50,9 +33,7 @@ function MonthlyInfo(props) {
     }).catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, [startingDateString, endingDateString])
-
-
+  }, [startingDateString, endingDateString, updateState])
 
   const [configBar, configPie] = createSmallChartData(
     expenseData,
@@ -79,3 +60,15 @@ function MonthlyInfo(props) {
 }
 
 export default MonthlyInfo;
+
+
+async function fetchTransactionInfo(startDate, endDate){
+  try {
+    const resp = await fetcher(`v1/transaction/info?start_date=${startDate}&end_date=${endDate}`, "GET");
+
+    return resp
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}

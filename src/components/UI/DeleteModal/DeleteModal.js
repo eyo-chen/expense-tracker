@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import Modal from "../Modal/Modal";
 import SubTitle from "../SubTitle/SubTitle";
 import Button from "../Button/Button";
-import SearchListDataContext from "../../../store/searchListData/searchListData--context";
+import UpdateStateContext from "../../../store/updateState/updateState--context";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import EditModalContext from "../../../store/editModal/editModal--context";
 import DescriptionModal from "../DescriptionModal/DescriptionModal";
@@ -13,7 +13,7 @@ import fetcher from "../../../Others/Fetcher/fetcher"
 
 // Reference 1
 function DeleteModal(props) {
-  const { setFilteredData } = useContext(SearchListDataContext);
+  const { updateStateHandler } = useContext(UpdateStateContext);
   const [, setEditModal] = useContext(EditModalContext);
   const [descriptionModal, setDescriptionModal] = useState(false);
   const {id: _, ...filteredDataInfo} = props.dataInfo // filter out the id
@@ -86,22 +86,18 @@ function DeleteModal(props) {
       await deleteTransaction(props.dataInfo.id);
       
       props.setDeleteModal(false);
-  
+
       setEditModal({
         show: true,
         type: props.dataInfo.type,
         value: "delete",
         status: "success",
       });
-  
-      // remove from Search List
-      if (setFilteredData) setFilteredData({ type: "DELETE", id: props.id });
-  
+
       // close the btn more state after deleting the data
       if (props.btnMoreToggler) props.btnMoreToggler();
 
-      // make sure re-fetching the data after deleting the data
-      props.changeDataHandler();
+      updateStateHandler();
     } catch (error) {
       setEditModal({
         show: true,
@@ -110,7 +106,6 @@ function DeleteModal(props) {
         status: "fail",
       });
     }
-
   }
 
   return (

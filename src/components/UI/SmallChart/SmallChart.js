@@ -1,5 +1,6 @@
 import React from "react";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
+import UpdateStateContext from "../../../store/updateState/updateState--context";
 import Card from "../Card/Card";
 import Select from "../Select/Select";
 import Chart from "chart.js/auto";
@@ -7,6 +8,7 @@ import styles from "./SmallChart.module.css";
 import fetcher from "../../../Others/Fetcher/fetcher";
 
 function SmallChart(props) {
+  const { updateState } = useContext(UpdateStateContext);
   const [chartState, setChartState] = useState("bar");
   const chartRef = useRef(null);
 
@@ -30,7 +32,7 @@ function SmallChart(props) {
     return function cleanUp() {
       chart?.destroy();
     }
-  }, [props.startingDateString, props.endingDateString, chartState, props.changeData]);
+  }, [props.startingDateString, props.endingDateString, chartState, updateState]);
 
   // pie chart need more height
   const classNameChart =

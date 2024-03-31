@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import UpdateStateContext from "../../../../store/updateState/updateState--context";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
 import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
@@ -21,6 +22,7 @@ import fetcher from "../../../../Others/Fetcher/fetcher";
 const { TODAY } = timeObj;
 
 function DailyInfo(props) {
+  const { updateState } = useContext(UpdateStateContext);
   const [transactionList, setTransactionList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(formatDate(TODAY));
@@ -48,7 +50,7 @@ function DailyInfo(props) {
     }).finally(() => {
       setIsLoading(false);
     });
-  }, [selectedDate, props.changeData]);
+  }, [selectedDate, updateState]);
 
   // fetch transaction info
   useEffect(() => {
@@ -62,7 +64,7 @@ function DailyInfo(props) {
     ).catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, [selectedDate, props.changeData]);
+  }, [selectedDate, updateState]);
 
   function arrowBtnClickHandler(e) {
     const newDate = new Date(props.week);
@@ -124,7 +126,6 @@ function DailyInfo(props) {
         key={selectedDate}
         dataList={transactionList}
         classItem={styles.item}
-        changeDataHandler={props.changeDataHandler}
       />
     );
   } else {
@@ -142,7 +143,6 @@ function DailyInfo(props) {
         <AddDataForm
           addDataFormModalToggler={addDataFormModalToggler}
           date={selectedDate}
-          changeDataHandler={props.changeDataHandler}
         />
       )}
       {modalCard === "chart" && (

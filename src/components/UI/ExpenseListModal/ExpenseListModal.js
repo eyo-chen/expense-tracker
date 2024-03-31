@@ -1,4 +1,5 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect, useContext } from "react";
+import UpdateStateContext from "../../../store/updateState/updateState--context";
 import style from "./ExpenseListModal.module.css";
 import ExpenseList from "../ExpenseList/ExpenseList";
 import SubTitle from "../SubTitle/SubTitle";
@@ -9,6 +10,7 @@ import fetcher from "../../../Others/Fetcher/fetcher";
 import Loading from "../Loading/Loading";
 
 function ExpenseListModal(props) {
+  const { updateState } = useContext(UpdateStateContext);
   const [transactionList, setTransactionList] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +31,7 @@ function ExpenseListModal(props) {
       .finally(() => {
         setLoading(false);
       });
-  }, [props.selectedDate]);
+  }, [props.selectedDate, updateState]);
 
   let scrollClassName = null;
   if (props.expenseDataList.length > 6) scrollClassName = "scroll";

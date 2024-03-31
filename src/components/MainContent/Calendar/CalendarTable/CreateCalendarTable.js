@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import UpdateStateContext from "../../../../store/updateState/updateState--context";
 import timeObj from "../../../../Others/TimeObj/timeObj";
 import createYearMonthDay from "../../../../Others/CreateYearMonthDay/createYearMonthDay";
 import coerceNumber from "../../../../Others/CoerceNumber/coerceNumber";
@@ -12,6 +13,7 @@ const { YEAR: year, MONTH: month, DAY: today } = timeObj;
 const [YEAR, MONTH, TODAY] = coerceNumber(year, month, today);
 
 function CreateCalendarTable(date, showExpenseListModalHandler) {
+  const { updateState } = useContext(UpdateStateContext);
   const [dataYear, dataMonth] = createYearMonthDay(date);
   const [monthlyData, setMonthlyData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -41,7 +43,7 @@ function CreateCalendarTable(date, showExpenseListModalHandler) {
       .finally(() => {
         setLoading(false);
       });
-  }, [firstDayOfCurMonth, lastDayOfCurMonth]);
+  }, [firstDayOfCurMonth, lastDayOfCurMonth, updateState]);
 
   if (loading) {
     return <Loading className={styles["loading"]} />;

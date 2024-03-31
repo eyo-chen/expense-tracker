@@ -1,7 +1,6 @@
 import { useState } from "react";
 import UpdateStateContext from "./updateState--context";
 
-
 function UpdateStateProvider(props) {
   const [updateState, setUpdateState] = useState(false);
 

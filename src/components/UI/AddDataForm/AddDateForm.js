@@ -1,6 +1,7 @@
-import {  useReducer, useEffect } from "react";
+import {  useReducer, useEffect, useContext } from "react";
 import Modal from "../Modal/Modal";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
+import UpdateStateContext from "../../../store/updateState/updateState--context";
 import createDateStringFormat from "../../../Others/CreateDateStringFormat/CreateDateStringFormat";
 import FormBtn from "./FormBtn";
 import FormPrice from "./FormPrice";
@@ -13,6 +14,8 @@ import styles from "./AddDataForm.module.css";
 import fetcher from "../../../Others/Fetcher/fetcher";
 
 function AddDataForm(props) {
+  const { updateStateHandler } = useContext(UpdateStateContext);
+
   let initialObj = {
     type: "expense", 
     mainCategList: [],
@@ -120,6 +123,7 @@ function AddDataForm(props) {
     }
 
     props.addDataFormModalToggler();
+    updateStateHandler();
 
     if (props.changeDataHandler) props.changeDataHandler();
   }

@@ -9,5 +9,5 @@ export default function getCookie() {
 
   // return null;
 
-  return "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiJleW8rMSIsInVzZXJfZW1haWwiOiJleW8rMUBnbWFpbC5jb20iLCJleHAiOjE3MTE4NTAzNzl9.j25oC2QzELG2-pQq1gfYZhtZi4bJGeaOjvqDs-VeTF0"
+  return "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiJleW8rMSIsInVzZXJfZW1haWwiOiJleW8rMUBnbWFpbC5jb20iLCJleHAiOjE3MTE5NDA5NDN9.mlLaf_BUbosB6MRuwlpBuRmJtMflTcTx3Z5JaFMAvIU"
 }

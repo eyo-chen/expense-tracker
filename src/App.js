@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import MainContent from "./components/MainContent/MainContent";
 import SideBar from "./components/SideBar/SideBar";
+import UpdateStateProvider from "./store/updateState/UpdateStateProvider.js";
 import ExpenseDataProvider from "./store/expenseData/ExpenseDataProvider";
 import EditModalProvider from "./store/editModal/EditModalProvider";
 import CategoryProvider from "./store/category/CategoryProvider";
@@ -109,16 +110,18 @@ function App() {
   );
 
   return (
-    <ExpenseDataProvider>
-      <EditModalProvider>
-        <CategoryProvider>
-          <BrowserRouter>
-            {errorModal && <ErrorModal />}
-            {appContent}
-          </BrowserRouter>
-        </CategoryProvider>
-      </EditModalProvider>
-    </ExpenseDataProvider>
+    <UpdateStateProvider>
+      <ExpenseDataProvider>
+        <EditModalProvider>
+          <CategoryProvider>
+            <BrowserRouter>
+              {errorModal && <ErrorModal />}
+              {appContent}
+            </BrowserRouter>
+          </CategoryProvider>
+        </EditModalProvider>
+      </ExpenseDataProvider>
+    </UpdateStateProvider>
   );
 }
 

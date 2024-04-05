@@ -5,9 +5,9 @@ import styles from "./ChartOptionMainCategory.module.css";
 function ChartOptionMainCategory(props) {
   function checkboxChangeHandler(e) {
     props.dispatchChartData({
-      type: "SUB_CATEGORY",
-      value: e.target.value,
-      check: e.target.checked,
+      type: "SELECTED_MAIN_CATEGORY_IDS",
+      value: Number(e.target.value),
+      checked: e.target.checked,
     });
   }
   return (

@@ -1,4 +1,4 @@
-import { useReducer, useContext, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import Title from "../../../UI/Title/Title";
 import Button from "../../../UI/Button/Button";
 import Card from "../../../UI/Card/Card";
@@ -6,16 +6,12 @@ import ChartOptionMainType from "./ChartOptionMainType/ChartOptionMainType";
 import ChartOptionType from "./ChartOptionType/ChartOptionType";
 import ChartOptionMainCategory from "./ChartOptionMainCategory/ChartOptionMainCategory";
 import ChartOptionTime from "./ChartOptionTime/ChartOptionTime";
-import CategoryContext from "../../../../store/category/category--context";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import { RiCloseCircleFill } from "react-icons/ri";
 import styles from "./ChartOption.module.css";
 import fetcher from "../../../../Others/Fetcher/fetcher";
 
 function ChartOption(props) {
-  const { mainCategoryExpense, mainCategoryIncome } =
-    useContext(CategoryContext);
-
   const initialObj = {
     mainType: "time",
     startingDate: "",
@@ -23,9 +19,7 @@ function ChartOption(props) {
     timeDuration: "7",
     type: "",
     mainCategoryList: [],
-    subCategory: "",
-    categoryExpense: mainCategoryExpense,
-    categoryIncome: mainCategoryIncome,
+    selectedMainCategoryIDs: [],
   };
 
   const [chartData, dispatchChartData] = useReducer(reducer, initialObj);
@@ -37,6 +31,13 @@ function ChartOption(props) {
       dispatchChartData({
         type: "MAIN_CATEGORY_LIST",
         value: data,
+      });
+
+      // set default selected main category
+      const defaultSelectedMainCategoryIDs = data.map((category) => category.id);
+      dispatchChartData({
+        type: "DEFAULT_SELECTED_MAIN_CATEGORY_IDS",
+        value: defaultSelectedMainCategoryIDs,
       });
     }).catch((err) => {
       console.log(err);
@@ -161,26 +162,22 @@ function reducer(state, action) {
       return { ...state, mainCategoryList: action.value };
     }
 
-    case "SUB_CATEGORY": {
-      let subCategoryArr;
-      // add
-      if (action.check) {
-        // first check if the items has been in the array(avoid duplicate)
-        if (!state.subCategory.includes(action.value))
-          subCategoryArr = [...state.subCategory, action.value];
-      }
+    case "DEFAULT_SELECTED_MAIN_CATEGORY_IDS": {
+      return { ...state, selectedMainCategoryIDs: action.value };
+    }
 
-      // remove
-      else {
-        subCategoryArr = state.subCategory.filter(
-          (element) => element !== action.value
+    case "SELECTED_MAIN_CATEGORY_IDS": {
+      let selectedMainCategoryIDs;
+
+      if (action.checked) {
+        selectedMainCategoryIDs = [...state.selectedMainCategoryIDs, action.value];
+      } else {
+        selectedMainCategoryIDs = state.selectedMainCategoryIDs.filter(
+          (id) => id !== action.value
         );
       }
 
-      return {
-        ...state,
-        subCategory: subCategoryArr,
-      };
+      return { ...state, selectedMainCategoryIDs: selectedMainCategoryIDs };
     }
 
     default:

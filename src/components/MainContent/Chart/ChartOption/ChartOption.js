@@ -1,15 +1,139 @@
-import { useReducer, useContext } from "react";
+import { useReducer, useContext, useEffect } from "react";
 import Title from "../../../UI/Title/Title";
 import Button from "../../../UI/Button/Button";
 import Card from "../../../UI/Card/Card";
+import ChartOptionMainType from "./ChartOptionMainType/ChartOptionMainType";
 import ChartOptionType from "./ChartOptionType/ChartOptionType";
 import ChartOptionMainCategory from "./ChartOptionMainCategory/ChartOptionMainCategory";
-import ChartOptionSubCategory from "./ChartOptionSubCategory/ChartOptionSubCategory";
 import ChartOptionTime from "./ChartOptionTime/ChartOptionTime";
 import CategoryContext from "../../../../store/category/category--context";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import { RiCloseCircleFill } from "react-icons/ri";
 import styles from "./ChartOption.module.css";
+import fetcher from "../../../../Others/Fetcher/fetcher";
+
+function ChartOption(props) {
+  const { mainCategoryExpense, mainCategoryIncome } =
+    useContext(CategoryContext);
+
+  const initialObj = {
+    mainType: "time",
+    startingDate: "",
+    endingDate: "",
+    timeDuration: "7",
+    type: "",
+    mainCategoryList: [],
+    subCategory: "",
+    categoryExpense: mainCategoryExpense,
+    categoryIncome: mainCategoryIncome,
+  };
+
+  const [chartData, dispatchChartData] = useReducer(reducer, initialObj);
+
+  useEffect(() => {
+    if (chartData.type === "") return;
+
+    fetchMainCategory(chartData.type).then((data) => {
+      dispatchChartData({
+        type: "MAIN_CATEGORY_LIST",
+        value: data,
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
+  }, [chartData.type]);
+
+  function submitFormHandler(e) {
+    e.preventDefault();
+    props.setChartData(chartData);
+
+    // When chartOptionModal is opening, close it after submitting
+    if (props.closeChartOptionModalHandler)
+      props.closeChartOptionModalHandler();
+  }
+
+  let validIndex =
+    chartData.mainType &&
+    chartData.startingDate &&
+    chartData.endingDate &&
+    chartData.mainCategory &&
+    chartData.mainCategory !== "net";
+
+  if (chartData.mainType === "time") {
+    validIndex =
+      chartData.mainType &&
+      chartData.startingDate &&
+      chartData.mainCategory &&
+      (chartData.mainCategory === "net" || chartData.subCategory.length > 0);
+  }
+
+  return (
+    <Card className={styles.card}>
+      <BtnIcon
+        classText={styles["btn__text"]}
+        classBtn={styles.close}
+        onClick={props.closeChartOptionModalHandler}
+        text="close"
+      >
+        <RiCloseCircleFill />
+      </BtnIcon>
+
+      <form onSubmit={submitFormHandler} className={styles.form}>
+        <div>
+          <Title className={styles["form__title"]}>Analyize By</Title>
+
+          <ChartOptionMainType
+            mainType={chartData.mainType}
+            dispatchChartData={dispatchChartData}
+          />
+
+          <div className={styles.scroll}>
+            <ChartOptionTime
+              classColor={chartData.mainType}
+              dispatchChartData={dispatchChartData}
+              valueStarting={chartData.startingDate}
+              valueEnding={chartData.endingDate}
+              mainType={chartData.mainType}
+              optionMainType={chartData.mainType}
+            />
+            <ChartOptionType
+              mainType={chartData.mainType}
+              type={chartData.type}
+              classColor={chartData.mainType}
+              dispatchChartData={dispatchChartData}
+            />
+            {chartData.type !== "net" &&
+              <ChartOptionMainCategory
+                mainCategoryList={chartData.mainCategoryList}
+                dispatchChartData={dispatchChartData}
+              />
+            }
+          </div>
+        </div>
+
+        <Button
+          disabled={!validIndex}
+          className={`${styles.btn} transition--25 ${
+            !validIndex ? `btn--invalid` : `btn--valid`
+          }`}
+        >
+          Show Chart
+        </Button>
+      </form>
+    </Card>
+  );
+}
+
+export default ChartOption;
+
+async function fetchMainCategory(type) {
+  try {
+    const data = await fetcher(`v1/main-category?type=${type}`, "GET");
+    return data.categories;
+  } catch (err) {
+    throw err;
+  }
+}
 
 function reducer(state, action) {
   switch (action.type) {
@@ -29,16 +153,12 @@ function reducer(state, action) {
       return { ...state, timeDuration: action.value };
     }
 
-    case "MAIN_CATEGORY": {
-      let subCategoryArr = [];
-      if (action.value === "income") subCategoryArr = state.categoryIncome;
-      if (action.value === "expense") subCategoryArr = state.categoryExpense;
+    case "TYPE": {
+      return { ...state, type: action.value };
+    }
 
-      return {
-        ...state,
-        mainCategory: action.value,
-        subCategory: subCategoryArr,
-      };
+    case "MAIN_CATEGORY_LIST": {
+      return { ...state, mainCategoryList: action.value };
     }
 
     case "SUB_CATEGORY": {
@@ -67,117 +187,3 @@ function reducer(state, action) {
       return state;
   }
 }
-
-function ChartOption(props) {
-  const { mainCategoryExpense, mainCategoryIncome } =
-    useContext(CategoryContext);
-
-  const initialObj = {
-    mainType: "time",
-    startingDate: "",
-    endingDate: "",
-    timeDuration: "7",
-    mainCategory: "",
-    subCategory: "",
-    categoryExpense: mainCategoryExpense,
-    categoryIncome: mainCategoryIncome,
-  };
-
-  const [chartData, dispatchChartData] = useReducer(reducer, initialObj);
-
-  function submitFormHandler(e) {
-    e.preventDefault();
-    props.setChartData(chartData);
-
-    // When chartOptionModal is opening, close it after submitting
-    if (props.closeChartOptionModalHandler)
-      props.closeChartOptionModalHandler();
-  }
-
-  let validIndex =
-    chartData.mainType &&
-    chartData.startingDate &&
-    chartData.endingDate &&
-    chartData.mainCategory &&
-    chartData.mainCategory !== "net";
-
-  // check box content may vary because different type of chart
-  let checkboxContent = "";
-  if (chartData.mainType === "time") {
-    if (chartData.mainCategory === "income")
-      checkboxContent = (
-        <ChartOptionSubCategory
-          category={chartData.categoryIncome}
-          dispatchChartData={dispatchChartData}
-          type="income"
-        />
-      );
-    if (chartData.mainCategory === "expense")
-      checkboxContent = (
-        <ChartOptionSubCategory
-          category={chartData.categoryExpense}
-          dispatchChartData={dispatchChartData}
-          type="expense"
-        />
-      );
-
-    validIndex =
-      chartData.mainType &&
-      chartData.startingDate &&
-      chartData.mainCategory &&
-      (chartData.mainCategory === "net" || chartData.subCategory.length > 0);
-  }
-
-  return (
-    <Card className={styles.card}>
-      <BtnIcon
-        classText={styles["btn__text"]}
-        classBtn={styles.close}
-        onClick={props.closeChartOptionModalHandler}
-        text="close"
-      >
-        <RiCloseCircleFill />
-      </BtnIcon>
-
-      <form onSubmit={submitFormHandler} className={styles.form}>
-        <div>
-          <Title className={styles["form__title"]}>Analyize By</Title>
-
-          <ChartOptionType
-            mainType={chartData.mainType}
-            dispatchChartData={dispatchChartData}
-          />
-
-          <div className={styles.scroll}>
-            <ChartOptionTime
-              classColor={chartData.mainType}
-              dispatchChartData={dispatchChartData}
-              valueStarting={chartData.startingDate}
-              valueEnding={chartData.endingDate}
-              mainType={chartData.mainType}
-              optionMainType={chartData.mainType}
-            />
-            <ChartOptionMainCategory
-              mainCategory={chartData.mainCategory}
-              mainType={chartData.mainType}
-              classColor={chartData.mainType}
-              dispatchChartData={dispatchChartData}
-            />
-            {checkboxContent}
-          </div>
-        </div>
-
-        <Button
-          disabled={!validIndex}
-          className={`${styles.btn} transition--25 ${
-            !validIndex ? `btn--invalid` : `btn--valid`
-          }`}
-        >
-          Show Chart
-        </Button>
-      </form>
-    </Card>
-  );
-}
-
-export default ChartOption;

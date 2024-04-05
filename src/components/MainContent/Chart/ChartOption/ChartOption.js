@@ -223,6 +223,7 @@ function checkIsValid(mainType, startingDate, endingDate, type, selectedMainCate
   return mainType && startingDate && endingDate && type;
 }
 
+// TODO: Refactor this function with src/components/UI/SmallChart/SmallChart.js
 function createChartConfig(labels, data, displayTheme, type) {
   if (type === "pie") {
     return createPieChartConfig(labels, data, displayTheme);

@@ -53,19 +53,22 @@ function ChartOption(props) {
       props.closeChartOptionModalHandler();
   }
 
-  let validIndex =
-    chartData.mainType &&
-    chartData.startingDate &&
-    chartData.endingDate &&
-    chartData.mainCategory &&
-    chartData.mainCategory !== "net";
-
+  let isValid;
   if (chartData.mainType === "time") {
-    validIndex =
+    // bar chart
+    isValid =
       chartData.mainType &&
       chartData.startingDate &&
-      chartData.mainCategory &&
-      (chartData.mainCategory === "net" || chartData.subCategory.length > 0);
+      chartData.type &&
+      // if type is net, selectedMainCategoryIDs is not required
+      (chartData.type === "net" || chartData.selectedMainCategoryIDs.length > 0);
+  } else { 
+    // pie chart
+    isValid =
+      chartData.mainType &&
+      chartData.startingDate &&
+      chartData.endingDate &&
+      chartData.type
   }
 
   return (
@@ -113,9 +116,9 @@ function ChartOption(props) {
         </div>
 
         <Button
-          disabled={!validIndex}
+          disabled={!isValid}
           className={`${styles.btn} transition--25 ${
-            !validIndex ? `btn--invalid` : `btn--valid`
+            !isValid ? `btn--invalid` : `btn--valid`
           }`}
         >
           Show Chart

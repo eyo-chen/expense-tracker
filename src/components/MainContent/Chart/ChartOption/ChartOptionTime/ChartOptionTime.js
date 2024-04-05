@@ -6,7 +6,7 @@ import styles from "./ChartOptionTime.module.css";
 
 function ChartOptionTime(props) {
   function startingDateChangeHandler(e) {
-    const endDate = getEndDateByStartAndDuration(props.startingDate, e.target.value);
+    const endDate = getEndDateByStartAndDuration(e.target.value, props.timeDuration);
     props.dispatchChartData({ type: "STARTING_DATE", value: e.target.value });
     props.dispatchChartData({ type: "ENDING_DATE", value: endDate });
   }

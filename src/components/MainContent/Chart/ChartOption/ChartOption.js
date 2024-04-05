@@ -102,6 +102,7 @@ function ChartOption(props) {
               chartType={chartData.chartType}
               startingDate={chartData.startingDate}
               endingDate={chartData.endingDate}
+              timeDuration={chartData.timeDuration}
               dispatchChartData={dispatchChartData}
             />
             <ChartOptionType

@@ -53,23 +53,13 @@ function ChartOption(props) {
       props.closeChartOptionModalHandler();
   }
 
-  let isValid;
-  if (chartData.mainType === "time") {
-    // bar chart
-    isValid =
-      chartData.mainType &&
-      chartData.startingDate &&
-      chartData.type &&
-      // if type is net, selectedMainCategoryIDs is not required
-      (chartData.type === "net" || chartData.selectedMainCategoryIDs.length > 0);
-  } else { 
-    // pie chart
-    isValid =
-      chartData.mainType &&
-      chartData.startingDate &&
-      chartData.endingDate &&
-      chartData.type
-  }
+  const isValid = checkIsValid(
+    chartData.mainType,
+    chartData.startingDate,
+    chartData.endingDate,
+    chartData.type,
+    chartData.selectedMainCategoryIDs
+  );
 
   return (
     <Card className={styles.card}>
@@ -186,4 +176,20 @@ function reducer(state, action) {
     default:
       return state;
   }
+}
+
+function checkIsValid(mainType, startingDate, endingDate, type, selectedMainCategoryIDs) {
+  // bar chart
+  if (mainType === "time") {
+    return (
+      mainType &&
+      startingDate &&
+      type &&
+      // if type is net, selectedMainCategoryIDs is not required
+      (type === "net" || selectedMainCategoryIDs.length > 0)
+    );
+  } 
+  
+  // pie chart
+  return mainType && startingDate && endingDate && type;
 }

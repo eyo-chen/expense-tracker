@@ -71,12 +71,12 @@ function ChartOptionTime(props) {
             onChange={timeDurationChangeHandler}
             className={`${styles["time__input"]} ${styles.duration}`}
           >
-            <option value="7">one week(7days)</option>
-            <option value="14">two weeks(14days)</option>
-            <option value="30">one month(30days)</option>
-            <option value="90">three months(90days)</option>
-            <option value="6">six months(6months)</option>
-            <option value="12">one year(12months)</option>
+            <option value="one_week">one week(7days)</option>
+            <option value="two_weeks">two weeks(14days)</option>
+            <option value="one_month">one month(30days)</option>
+            <option value="three_months">three months(90days)</option>
+            <option value="six_months">six months(6months)</option>
+            <option value="one_year">one year(12months)</option>
           </Select>
         </div>
       </>

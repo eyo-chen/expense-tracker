@@ -3,7 +3,7 @@ import styles from "./ChartOptionChartType.module.css";
 
 function ChartOptionChartType(props) {
   function changeRadioHandler(e) {
-    props.dispatchChartData({ type: "MAIN_TYPE", value: e.target.value });
+    props.dispatchChartData({ type: "CHART_TYPE", value: e.target.value });
   }
 
   return (
@@ -15,11 +15,11 @@ function ChartOptionChartType(props) {
         classCheck={styles.check}
         classInside={styles.inside}
         onChange={changeRadioHandler}
-        id="time"
+        id="bar"
         name="chart"
-        value="time"
+        value="bar"
         label="time"
-        checked={props.mainType === "time"}
+        checked={props.chartType === "bar"}
       />
       <InputRadio
         classContainer={styles["radio__container"]}
@@ -27,11 +27,11 @@ function ChartOptionChartType(props) {
         classLabel={`${styles["label--category"]} ${styles.label} transition--25 uppercase`}
         classCheck={styles.check}
         onChange={changeRadioHandler}
-        id="category"
+        id="pie"
         name="chart"
-        value="category"
+        value="pie"
         label="category"
-        checked={props.mainType === "category"}
+        checked={props.chartType === "pie"}
       />
     </div>
   );

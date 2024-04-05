@@ -18,13 +18,13 @@ function ChartOptionTime(props) {
   }
 
   const minDate =
-    props.mainType === "category" && props.valueStarting.length > 1
-      ? changeDate(props.valueStarting, "next")
+    props.chartType === "pie" && props.startingDate.length > 1
+      ? changeDate(props.startingDate, "next")
       : "";
 
   const maxDate =
-    props.mainType === "category" && props.valueEnding.length > 1
-      ? changeDate(props.valueEnding, "last")
+    props.chartType === "pie" && props.endingDate.length > 1
+      ? changeDate(props.endingDate, "last")
       : "";
 
   const startingDate = (
@@ -34,7 +34,7 @@ function ChartOptionTime(props) {
         name="starting date"
         id="starting date"
         max={maxDate}
-        value={props.valueStarting}
+        value={props.startingDate}
         onChange={startingDateChangeHandler}
         classInput={styles["time__input"]}
       />
@@ -42,7 +42,7 @@ function ChartOptionTime(props) {
   );
 
   let timeContent;
-  if (props.optionMainType === "category")
+  if (props.chartType === "pie")
     timeContent = (
       <>
         {startingDate}
@@ -52,7 +52,7 @@ function ChartOptionTime(props) {
             name="ending date"
             id="ending date"
             min={minDate}
-            value={props.valueEnding}
+            value={props.endingDate}
             onChange={endingDateChangeHandler}
             classInput={styles["time__input"]}
           />
@@ -86,7 +86,7 @@ function ChartOptionTime(props) {
     <div>
       <SubTitle
         className={
-          props.classColor === "time"
+          props.chartType === "bar"
             ? `${styles["subtitle--time"]}`
             : `${styles["subtitle--category"]}`
         }

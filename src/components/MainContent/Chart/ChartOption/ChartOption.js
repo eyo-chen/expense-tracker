@@ -13,7 +13,7 @@ import fetcher from "../../../../Others/Fetcher/fetcher";
 
 function ChartOption(props) {
   const initialObj = {
-    mainType: "time",
+    chartType: "bar",
     startingDate: "",
     endingDate: "",
     timeDuration: "7",
@@ -54,12 +54,15 @@ function ChartOption(props) {
   }
 
   const isValid = checkIsValid(
-    chartData.mainType,
+    chartData.chartType,
     chartData.startingDate,
     chartData.endingDate,
     chartData.type,
     chartData.selectedMainCategoryIDs
   );
+
+  // only show main category list when it's bar chart and type is either expense or income
+  const isShowingMainCategoryList = chartData.chartType === "bar" && chartData.type !== "net";
 
   return (
     <Card className={styles.card}>
@@ -77,26 +80,23 @@ function ChartOption(props) {
           <Title className={styles["form__title"]}>Analyize By</Title>
 
           <ChartOptionChartType
-            mainType={chartData.mainType}
+            chartType={chartData.chartType}
             dispatchChartData={dispatchChartData}
           />
 
           <div className={styles.scroll}>
             <ChartOptionTime
-              classColor={chartData.mainType}
+              chartType={chartData.chartType}
+              startingDate={chartData.startingDate}
+              endingDate={chartData.endingDate}
               dispatchChartData={dispatchChartData}
-              valueStarting={chartData.startingDate}
-              valueEnding={chartData.endingDate}
-              mainType={chartData.mainType}
-              optionMainType={chartData.mainType}
             />
             <ChartOptionType
-              mainType={chartData.mainType}
+              chartType={chartData.chartType}
               type={chartData.type}
-              classColor={chartData.mainType}
               dispatchChartData={dispatchChartData}
             />
-            {chartData.type !== "net" &&
+            {isShowingMainCategoryList &&
               <ChartOptionMainCategory
                 mainCategoryList={chartData.mainCategoryList}
                 dispatchChartData={dispatchChartData}
@@ -131,8 +131,8 @@ async function fetchMainCategory(type) {
 
 function reducer(state, action) {
   switch (action.type) {
-    case "MAIN_TYPE": {
-      return { ...state, mainType: action.value };
+    case "CHART_TYPE": {
+      return { ...state, chartType: action.value };
     }
 
     case "STARTING_DATE": {

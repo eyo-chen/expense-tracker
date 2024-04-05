@@ -1,66 +1,35 @@
 import SubTitle from "../../../../UI/SubTitle/SubTitle";
-import InputRadio from "../../../../UI/InputRadio/InputRadio";
+import InputCheckbox from "../../../../UI/InputCheckbox/InputCheckbox";
 import styles from "./ChartOptionMainCategory.module.css";
 
 function ChartOptionMainCategory(props) {
-  function changeRadioHandler(e) {
-    props.dispatchChartData({ type: "MAIN_CATEGORY", value: e.target.value });
+  function checkboxChangeHandler(e) {
+    props.dispatchChartData({
+      type: "SUB_CATEGORY",
+      value: e.target.value,
+      check: e.target.checked,
+    });
   }
-
   return (
-    <div className={styles.container}>
-      <SubTitle
-        className={
-          props.classColor === "time"
-            ? `${styles["subtitle--time"]}`
-            : `${styles["subtitle--category"]}`
-        }
-      >
-        select type
+    <div className={styles.checkbox}>
+      <SubTitle className={styles["subtitle--time"]}>
+        select main category
       </SubTitle>
-      <div className={styles["input__container"]}>
-        <InputRadio
-          classContainer={styles["radio__container"]}
-          classCheck={`${styles.check} center--flex`}
-          classLabel={`${styles.label} capitalize`}
-          classInput={styles.input}
-          classInside={styles.inside}
-          value="income"
-          id="income"
-          name="data"
-          label="income"
-          checked={props.mainCategory === "income"}
-          onChange={changeRadioHandler}
-        />
-        <InputRadio
-          classContainer={styles["radio__container"]}
-          classCheck={`${styles.check} center--flex`}
-          classLabel={`${styles.label} capitalize`}
-          classInput={styles.input}
-          classInside={styles.inside}
-          value="expense"
-          id="expense"
-          name="data"
-          label="expense"
-          checked={props.mainCategory === "expense"}
-          onChange={changeRadioHandler}
-        />
-        {/* Reference 1 */}
-        {props.mainType !== "category" && (
-          <InputRadio
-            classContainer={styles["radio__container"]}
-            classCheck={`${styles.check} center--flex`}
-            classLabel={`${styles.label} capitalize`}
+      <div className={styles["checkbox__container"]}>
+        {props.category.map((element) => (
+          <InputCheckbox
+            classContainer={styles["input__container"]}
+            classCheck={styles.check}
             classInput={styles.input}
-            classInside={styles.inside}
-            value="net"
-            id="net"
-            name="data"
-            label="net income"
-            checked={props.mainCategory === "net"}
-            onChange={changeRadioHandler}
+            classLabel={`${styles.label} transition--25 capitalize`}
+            key={element + props.type} // Reference 1
+            id={element}
+            label={element}
+            value={element}
+            defaultChecked={true}
+            onChange={checkboxChangeHandler}
           />
-        )}
+        ))}
       </div>
     </div>
   );
@@ -68,7 +37,20 @@ function ChartOptionMainCategory(props) {
 
 export default ChartOptionMainCategory;
 /*
-Referecne 1
-When user choose use pie chart to analyze,
-don't need to show net income
+Reference 1
+This is important
+Because both income and expense may have same categoryName
+For example, "others"
+If we simply use categoryName as key
+Now both income and expense both have same state(checked or unchecked)
+
+For example,
+user first uncheked the "others" in expense, and move on to income
+Now user should expect "others" in income is checked
+However,
+"others" in income is unchecked
+because both "others" of income and expense share the same state
+
+In order to avoid that, we use element + props.type as key
+make sure every key is unique
 */

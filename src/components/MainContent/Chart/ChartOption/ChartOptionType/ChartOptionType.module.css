@@ -1,32 +1,62 @@
 .container {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 2rem;
+  margin-top: 3rem;
 }
 
-.radio__container {
-  color: var(--font-low);
+.subtitle--time {
+  color: var(--blue);
+  margin-bottom: 0.2rem;
+}
+
+.subtitle--category {
+  color: var(--green);
+  margin-bottom: 0.2rem;
 }
 
 .radio__container:hover {
-  color: var(--font-normal);
+  color: var(--checkbox-active);
 }
 
-.input:checked ~ .label--time {
-  background-color: var(--blue);
-  color: var(--font-normal);
+.radio__container:hover .check {
+  border: 0.3rem solid var(--checkbox-active);
 }
 
-.input:checked ~ .label--category {
-  background-color: var(--green);
-  color: var(--font-normal);
+.radio__container:hover .label {
+  color: var(--checkbox-active);
+}
+
+.input:checked ~ label {
+  color: var(--checkbox-active);
+}
+
+.input:checked ~ .check {
+  border: 0.3rem solid var(--checkbox-active);
+}
+
+.input:checked ~ .check .inside {
+  background-color: var(--checkbox-active);
+}
+
+.input__container {
+  /* display: flex;
+  flex-direction: column; */
+  display: grid; /* fix flex gap */
+  gap: 1rem;
+}
+
+.radio__container {
+  flex: 1 1 40%;
+}
+
+.check {
+  border: 0.3rem solid var(--checkbox-passive);
+  border-radius: 100%;
+  height: 2.5rem;
+  width: 2.5rem;
+  z-index: 5;
 }
 
 .label {
-  cursor: pointer;
   font-size: 2rem;
   margin-left: 1rem;
-  letter-spacing: 1.2px;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
+  color: var(--checkbox-passive);
 }

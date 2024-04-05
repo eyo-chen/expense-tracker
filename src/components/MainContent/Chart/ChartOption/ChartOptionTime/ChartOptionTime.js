@@ -116,10 +116,6 @@ function changeDate(dateStr, type) {
 function getEndDateByStartAndDuration(startDate, duration) {
   const start = new Date(startDate);
 
-  console.log("sss", start)
-  console.log("start", startDate);
-  console.log("duration", duration);
-
   switch (duration) {
     case "one_week":
       start.setDate(start.getDate() + 6);
@@ -141,8 +137,6 @@ function getEndDateByStartAndDuration(startDate, duration) {
       break;
     default:
   }
-
-  console.log("start", start);
 
   return createDateStringFormat(start);
 }

@@ -6,7 +6,9 @@ import styles from "./ChartOptionTime.module.css";
 
 function ChartOptionTime(props) {
   function startingDateChangeHandler(e) {
+    const endDate = getEndDateByStartAndDuration(props.startingDate, e.target.value);
     props.dispatchChartData({ type: "STARTING_DATE", value: e.target.value });
+    props.dispatchChartData({ type: "ENDING_DATE", value: endDate });
   }
 
   function endingDateChangeHandler(e) {
@@ -14,7 +16,9 @@ function ChartOptionTime(props) {
   }
 
   function timeDurationChangeHandler(e) {
+    const endDate = getEndDateByStartAndDuration(props.startingDate, e.target.value);
     props.dispatchChartData({ type: "TIME_DURATION", value: e.target.value });
+    props.dispatchChartData({ type: "ENDING_DATE", value: endDate });
   }
 
   const minDate =
@@ -107,4 +111,38 @@ function changeDate(dateStr, type) {
   else date.setDate(date.getDate() - 1);
 
   return createDateStringFormat(date);
+}
+
+function getEndDateByStartAndDuration(startDate, duration) {
+  const start = new Date(startDate);
+
+  console.log("sss", start)
+  console.log("start", startDate);
+  console.log("duration", duration);
+
+  switch (duration) {
+    case "one_week":
+      start.setDate(start.getDate() + 6);
+      break;
+    case "two_weeks":
+      start.setDate(start.getDate() + 13);
+      break;
+    case "one_month":
+      start.setDate(start.getDate() + 29);
+      break;
+    case "three_months":
+      start.setDate(start.getDate() + 89);
+      break;
+    case "six_months":
+      start.setMonth(start.getMonth() + 5);
+      break;
+    case "one_year":
+      start.setFullYear(start.getFullYear() + 1);
+      break;
+    default:
+  }
+
+  console.log("start", start);
+
+  return createDateStringFormat(start);
 }

@@ -16,7 +16,7 @@ function ChartOption(props) {
     chartType: "bar",
     startingDate: "",
     endingDate: "",
-    timeDuration: "7",
+    timeDuration: "one_week",
     type: "",
     mainCategoryList: [],
     selectedMainCategoryIDs: [],
@@ -44,13 +44,25 @@ function ChartOption(props) {
     });
   }, [chartData.type]);
 
-  function submitFormHandler(e) {
+  async function submitFormHandler(e) {
     e.preventDefault();
-    props.setChartData(chartData);
+    try {
+      const data = await fetchChartData(
+        chartData.startingDate,
+        chartData.endingDate,
+        chartData.chartType,
+        chartData.timeDuration
+      );
 
-    // When chartOptionModal is opening, close it after submitting
-    if (props.closeChartOptionModalHandler)
-      props.closeChartOptionModalHandler();
+      const config = createChartConfig(data.labels, data.datasets, "dark", chartData.chartType);
+      props.setChartConfig(config);
+    } catch {
+      console.log("error");
+    } finally {
+      // When chartOptionModal is opening, close it after submitting
+      if (props.closeChartOptionModalHandler)
+        props.closeChartOptionModalHandler();
+    }
   }
 
   const isValid = checkIsValid(
@@ -82,6 +94,7 @@ function ChartOption(props) {
           <ChartOptionChartType
             chartType={chartData.chartType}
             dispatchChartData={dispatchChartData}
+            setChartType={props.setChartType}
           />
 
           <div className={styles.scroll}>
@@ -126,6 +139,22 @@ async function fetchMainCategory(type) {
     return data.categories;
   } catch (err) {
     throw err;
+  }
+}
+
+async function fetchChartData(startDate, endDate, chartType, timeRange) {
+  let url = `v1/transaction/${chartType}-chart?start_date=${startDate}&end_date=${endDate}&type=expense`
+
+  // only for bar chart
+  if (timeRange) url += `&time_range=${timeRange}`
+
+  try {
+    const data = await fetcher(url, "GET");
+
+    return data.chart_data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
   }
 }
 
@@ -180,7 +209,7 @@ function reducer(state, action) {
 
 function checkIsValid(mainType, startingDate, endingDate, type, selectedMainCategoryIDs) {
   // bar chart
-  if (mainType === "time") {
+  if (mainType === "bar") {
     return (
       mainType &&
       startingDate &&
@@ -193,3 +222,143 @@ function checkIsValid(mainType, startingDate, endingDate, type, selectedMainCate
   // pie chart
   return mainType && startingDate && endingDate && type;
 }
+
+function createChartConfig(labels, data, displayTheme, type) {
+  if (type === "pie") {
+    return createPieChartConfig(labels, data, displayTheme);
+  }
+
+  return createBarChartConfig(labels, data, displayTheme);
+}
+
+function createPieChartConfig(labels, data, displayTheme) {
+  return {
+    type: "pie",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: data,
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 159, 64)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+            "rgb(153, 102, 255)",
+            "rgb(201, 203, 207)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              size: 14,
+            },
+            color: `${
+              displayTheme === "dark" ? "rgb(190,190,190)" : "rgb(70,70,70)"
+            }`,
+          },
+        },
+      },
+    },
+    plugins: [100],
+  };
+}
+
+function createBarChartConfig(labels, data, displayTheme) {
+  return {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "",
+          data: data,
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+            "rgba(255, 205, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(201, 203, 207, 0.2)",
+          ],
+          borderColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 159, 64)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+            "rgb(153, 102, 255)",
+            "rgb(201, 203, 207)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          yAlign: "bottom",
+          displayColors: false,
+          backgroundColor: (tooltipItem) => {
+            return tooltipItem.tooltip.labelColors[0].borderColor;
+          },
+        },
+        legend,
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: `${
+              displayTheme === "dark" ? "rgb(190,190,190)" : "rgb(70,70,70)"
+            }`,
+          },
+        },
+        x: {
+          ticks: {
+            color: `${
+              displayTheme === "dark" ? "rgb(190,190,190)" : "rgb(70,70,70)"
+            }`,
+          },
+        },
+      },
+    },
+  };
+}
+
+const legend = {
+  onClick: (e, legendItem, legend) => {
+    const index = legend.chart.data.labels.indexOf(legendItem.text);
+    legend.chart.toggleDataVisibility(index);
+    legend.chart.update();
+  },
+  labels: {
+    generateLabels: (chart) => {
+      const colorLength = chart.data.datasets[0].borderColor.length;
+      const visibility = [];
+      for (let i = 0; i < chart.data.labels.length; i++) {
+        if (chart.getDataVisibility(i)) visibility.push(false);
+        else visibility.push(true);
+      }
+      return chart.data.labels.map((label, index) => {
+        const newIndex = index % colorLength;
+        return {
+          text: label,
+          strokeStyle: chart.data.datasets[0].borderColor[newIndex],
+          fillStyle: chart.data.datasets[0].backgroundColor[newIndex],
+          hidden: visibility[index],
+        };
+      });
+    },
+  },
+};

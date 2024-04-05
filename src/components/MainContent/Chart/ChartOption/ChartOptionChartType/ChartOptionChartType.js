@@ -3,6 +3,7 @@ import styles from "./ChartOptionChartType.module.css";
 
 function ChartOptionChartType(props) {
   function changeRadioHandler(e) {
+    props.setChartType(e.target.value);
     props.dispatchChartData({ type: "CHART_TYPE", value: e.target.value });
   }
 

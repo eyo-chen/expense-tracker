@@ -7,7 +7,8 @@ import useCurWidth from "../../../Others/Custom/useCurWidth";
 import styles from "./Chart.module.css";
 
 function Chart() {
-  const [chartData, setChartData] = useState();
+  const [chartConfig, setChartConfig] = useState();
+  const [chartType, setChartType] = useState("bar"); 
   const [chartOptionModal, setChartOptionModal] = useState(false);
   const curWidth = useCurWidth();
 
@@ -25,7 +26,7 @@ function Chart() {
       : `${styles["option__container"]}`;
 
   const classBtn =
-    chartData === undefined
+    chartConfig === undefined
       ? `${styles.btn} capitalize`
       : `${styles.btn} capitalize ${styles["btn--chart"]} `;
 
@@ -41,16 +42,17 @@ function Chart() {
       <div className={classOptionContainer}>
         <ChartOption
           closeChartOptionModalHandler={closeChartOptionModalHandler}
-          setChartData={setChartData}
+          setChartConfig={setChartConfig}
+          setChartType={setChartType}
         />
       </div>
 
-      {chartData === undefined ? (
+      {chartConfig === undefined ? (
         <div className={`${styles["chart__description"]} center--flex`}>
           <p className="capitalize">please input data to create graph</p>
         </div>
       ) : (
-        <ChartPic className={styles["chart__pic"]} chartData={chartData} />
+        <ChartPic className={styles["chart__pic"]} chartConfig={chartConfig} chartType={chartType} />
       )}
 
       {chartOptionModal || (

@@ -11,7 +11,7 @@ function ChartOptionType(props) {
     <div className={styles.container}>
       <SubTitle
         className={
-          props.classColor === "time"
+          props.chartType === "bar"
             ? `${styles["subtitle--time"]}`
             : `${styles["subtitle--category"]}`
         }
@@ -46,7 +46,7 @@ function ChartOptionType(props) {
           onChange={changeRadioHandler}
         />
         {/* Reference 1 */}
-        {props.mainType !== "category" && (
+        {props.chartType !== "pie" && (
           <InputRadio
             classContainer={styles["radio__container"]}
             classCheck={`${styles.check} center--flex`}

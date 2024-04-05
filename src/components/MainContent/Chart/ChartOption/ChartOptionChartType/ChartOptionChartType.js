@@ -1,7 +1,7 @@
 import InputRadio from "../../../../UI/InputRadio/InputRadio";
-import styles from "./ChartOptionMainType.module.css";
+import styles from "./ChartOptionChartType.module.css";
 
-function ChartOptionMainType(props) {
+function ChartOptionChartType(props) {
   function changeRadioHandler(e) {
     props.dispatchChartData({ type: "MAIN_TYPE", value: e.target.value });
   }
@@ -37,4 +37,4 @@ function ChartOptionMainType(props) {
   );
 }
 
-export default ChartOptionMainType;
+export default ChartOptionChartType;

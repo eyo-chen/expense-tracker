@@ -2,7 +2,7 @@ import { useReducer, useEffect } from "react";
 import Title from "../../../UI/Title/Title";
 import Button from "../../../UI/Button/Button";
 import Card from "../../../UI/Card/Card";
-import ChartOptionMainType from "./ChartOptionMainType/ChartOptionMainType";
+import ChartOptionChartType from "./ChartOptionChartType/ChartOptionChartType";
 import ChartOptionType from "./ChartOptionType/ChartOptionType";
 import ChartOptionMainCategory from "./ChartOptionMainCategory/ChartOptionMainCategory";
 import ChartOptionTime from "./ChartOptionTime/ChartOptionTime";
@@ -76,7 +76,7 @@ function ChartOption(props) {
         <div>
           <Title className={styles["form__title"]}>Analyize By</Title>
 
-          <ChartOptionMainType
+          <ChartOptionChartType
             mainType={chartData.mainType}
             dispatchChartData={dispatchChartData}
           />

@@ -51,7 +51,8 @@ function ChartOption(props) {
         chartData.startingDate,
         chartData.endingDate,
         chartData.chartType,
-        chartData.timeDuration
+        chartData.timeDuration,
+        chartData.selectedMainCategoryIDs
       );
 
       const config = createChartConfig(data.labels, data.datasets, "dark", chartData.chartType);
@@ -143,11 +144,14 @@ async function fetchMainCategory(type) {
   }
 }
 
-async function fetchChartData(startDate, endDate, chartType, timeRange) {
+async function fetchChartData(startDate, endDate, chartType, timeRange, selectedMainCategoryIDs) {
   let url = `v1/transaction/${chartType}-chart?start_date=${startDate}&end_date=${endDate}&type=expense`
 
   // only for bar chart
   if (timeRange) url += `&time_range=${timeRange}`
+
+  if (selectedMainCategoryIDs.length > 0)
+    url += `&main_category_ids=${selectedMainCategoryIDs}`
 
   try {
     const data = await fetcher(url, "GET");

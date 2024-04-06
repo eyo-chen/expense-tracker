@@ -47,6 +47,8 @@ function ChartOption(props) {
   async function submitFormHandler(e) {
     e.preventDefault();
     try {
+      props.setLoading(true);
+
       const data = await fetchChartData(
         chartData.startingDate,
         chartData.endingDate,
@@ -63,6 +65,8 @@ function ChartOption(props) {
       // When chartOptionModal is opening, close it after submitting
       if (props.closeChartOptionModalHandler)
         props.closeChartOptionModalHandler();
+
+      props.setLoading(false);
     }
   }
 

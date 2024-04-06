@@ -3,12 +3,14 @@ import ChartPic from "./ChartPic/ChartPic";
 import ChartOption from "./ChartOption/ChartOption";
 import Backdrop from "../../UI/Modal/Backdrop";
 import BtnIcon from "../../UI/BtnIcon/BtnIcon";
+import Loading from "../../UI/Loading/Loading";
 import useCurWidth from "../../../Others/Custom/useCurWidth";
 import styles from "./Chart.module.css";
 
 function Chart() {
   const [chartConfig, setChartConfig] = useState();
-  const [chartType, setChartType] = useState("bar"); 
+  const [chartType, setChartType] = useState("bar");
+  const [loading, setLoading] = useState(false);
   const [chartOptionModal, setChartOptionModal] = useState(false);
   const curWidth = useCurWidth();
 
@@ -29,6 +31,16 @@ function Chart() {
     chartConfig === undefined
       ? `${styles.btn} capitalize`
       : `${styles.btn} capitalize ${styles["btn--chart"]} `;
+  
+  let chartPic = <div className={`${styles["chart__description"]} center--flex`}>
+                      <p className="capitalize">please input data to create graph</p>
+                  </div>
+
+  if (loading) {
+    chartPic = <Loading className={styles["loading"]} />;
+  } else if (chartConfig !== undefined) {
+    chartPic = <ChartPic className={styles["chart__pic"]} chartConfig={chartConfig} chartType={chartType} />;
+  }
 
   return (
     <div className={styles.chart}>
@@ -44,17 +56,10 @@ function Chart() {
           closeChartOptionModalHandler={closeChartOptionModalHandler}
           setChartConfig={setChartConfig}
           setChartType={setChartType}
+          setLoading={setLoading}
         />
       </div>
-
-      {chartConfig === undefined ? (
-        <div className={`${styles["chart__description"]} center--flex`}>
-          <p className="capitalize">please input data to create graph</p>
-        </div>
-      ) : (
-        <ChartPic className={styles["chart__pic"]} chartConfig={chartConfig} chartType={chartType} />
-      )}
-
+      {chartPic}
       {chartOptionModal || (
         <BtnIcon
           onClick={showChartOptionModalHandler}

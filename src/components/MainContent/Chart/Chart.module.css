@@ -40,6 +40,10 @@
   display: none;
 }
 
+.loading {
+  position: relative;
+}
+
 @media screen and (max-width: 900px) {
   .chart {
     display: block;

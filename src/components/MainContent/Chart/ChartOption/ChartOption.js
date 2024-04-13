@@ -54,10 +54,11 @@ function ChartOption(props) {
         chartData.endingDate,
         chartData.chartType,
         chartData.timeDuration,
-        chartData.selectedMainCategoryIDs
+        chartData.selectedMainCategoryIDs,
+        chartData.type
       );
 
-      const config = createChartConfig(data.labels, data.datasets, "dark", chartData.chartType);
+      const config = createChartConfig(data.labels, data.datasets, "dark", chartData.chartType, chartData.type);
       props.setChartConfig(config);
     } catch {
       console.log("error");
@@ -148,11 +149,15 @@ async function fetchMainCategory(type) {
   }
 }
 
-async function fetchChartData(startDate, endDate, chartType, timeRange, selectedMainCategoryIDs) {
-  let url = `v1/transaction/${chartType}-chart?start_date=${startDate}&end_date=${endDate}&type=expense`
-
+async function fetchChartData(startDate, endDate, chartType, timeRange, selectedMainCategoryIDs, type) {
+  // only for pie chart
+  let url = `v1/transaction/pie-chart?start_date=${startDate}&end_date=${endDate}`;
+  
   // only for bar chart
-  if (timeRange) url += `&time_range=${timeRange}`
+  if (timeRange) url = `v1/transaction/bar-chart?start_date=${startDate}&end_date=${endDate}&type=${type}&time_range=${timeRange}`
+
+  // only for line chart
+  if (chartType === "bar" && type === "net") url = `v1/transaction/line-chart?start_date=${startDate}&end_date=${endDate}&type=${type}&time_range=${timeRange}`
 
   if (selectedMainCategoryIDs.length > 0)
     url += `&main_category_ids=${selectedMainCategoryIDs}`
@@ -233,9 +238,13 @@ function checkIsValid(mainType, startingDate, endingDate, type, selectedMainCate
 }
 
 // TODO: Refactor this function with src/components/UI/SmallChart/SmallChart.js
-function createChartConfig(labels, data, displayTheme, type) {
-  if (type === "pie") {
+function createChartConfig(labels, data, displayTheme, chartType, type) {
+  if (chartType === "pie") {
     return createPieChartConfig(labels, data, displayTheme);
+  }
+
+  if (chartType === "bar" && type === "net") {
+    return createLineChartConfig(labels, data, displayTheme);
   }
 
   return createBarChartConfig(labels, data, displayTheme);
@@ -338,6 +347,53 @@ function createBarChartConfig(labels, data, displayTheme) {
           ticks: {
             color: `${
               displayTheme === "dark" ? "rgb(190,190,190)" : "rgb(70,70,70)"
+            }`,
+          },
+        },
+      },
+    },
+  };
+}
+
+function createLineChartConfig(labels, data, displayTheme){
+  return {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          fill: {
+            target: "origin",
+          },
+          label: "",
+          data: data,
+          backgroundColor: ["rgba(54, 162, 235, 0.2)"],
+          borderColor: ["rgb(54, 162, 235)"],
+          borderWidth: 1,
+          pointBackgroundColor: ["rgb(54, 162, 235)"],
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      elements: {
+        line: {
+          tension: 0.5,
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: `${
+              displayTheme === "dark" ? "rgb(210,210,210)" : "rgb(70,70,70)"
+            }`,
+          },
+        },
+        x: {
+          ticks: {
+            color: `${
+              displayTheme === "dark" ? "rgb(210,210,210)" : "rgb(70,70,70)"
             }`,
           },
         },

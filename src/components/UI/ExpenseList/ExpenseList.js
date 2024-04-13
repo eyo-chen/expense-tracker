@@ -73,6 +73,7 @@ function ExpenseList(props) {
   return (
     <div className={`${styles.item} ${props.classItem}`}>
       <ul className={styles["item__container"]}>{expenseItem}</ul>
+      <div className={styles["last-item"]} ref={props.lastTransactionRef} />
     </div>
   );
 }

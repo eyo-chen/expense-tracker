@@ -1,0 +1,39 @@
+.loading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 3rem;
+  width: 90%;
+  height: 5rem;
+}
+
+.info {
+  height: 100%;
+  width: 20rem;
+  border-radius: 5px;
+
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.category {
+  height: 100%;
+  width: 10rem;
+  border-radius: 5px;
+  background-color: var(--card-light-bg);
+}
+
+.name {
+  height: 100%;
+  width: 20rem;
+  border-radius: 5px;
+  background-color: var(--card-light-bg);
+}
+
+.price {
+  height: 100%;
+  width: 10rem;
+  border-radius: 5px;
+  background-color: var(--card-light-bg);
+}

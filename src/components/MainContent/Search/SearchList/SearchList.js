@@ -3,32 +3,38 @@ import SearchListInput from "./SearchListInput/SearchListInput";
 import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
 import styles from "./SearchList.module.css";
 import fetcher from "../../../../Others/Fetcher/fetcher";
+import Loading from "../../../UI/Loading/Loading";
 
 function SearchList(props) {
+  const [initLoading, setInitLoading] = useState(true);
+  const [scrollLoading, setScrollLoading] = useState(false);
   const [transactionList, setTransactionList] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const nextKey = useRef(0);
   const observer = useRef()
-  let mainContent = <p className={styles.empty}>No Data</p>;
 
+  // fetch the initial data
   useEffect(() => {
+    setInitLoading(true);
+
     fetchTransactionList(nextKey, 10).then((data) => {
       setTransactionList(data.transactions);
       nextKey.current = data.cursor.next_key;
-      
     }).catch((error) => {
       console.error("Error fetching data:", error);
+    }).finally(() => {
+      setInitLoading(false);
     });
   }, []);
 
   const lastTransactionRef = useCallback(node => {
-    // if (loading) return
+    if (initLoading || scrollLoading) return
     if (observer.current) observer.current.disconnect()
 
     observer.current = new IntersectionObserver(entries => {
-      console.log("hasMore", hasMore);
-      if (!entries[0].isIntersecting || !hasMore) return;
+      if (!entries[0].isIntersecting || !hasMore || scrollLoading || initLoading) return;
 
+      setScrollLoading(true);
       fetchTransactionList(nextKey, 10).then((data) => {
         setTransactionList(prevTransactionList => {
           return [...prevTransactionList, ...data.transactions]
@@ -37,19 +43,23 @@ function SearchList(props) {
         setHasMore(data.transactions.length === 10)
       }).catch((error) => {
         console.error("Error fetching data:", error);
+      }).finally(() => {
+        setScrollLoading(false);
       });
-
     })
     if (node) observer.current.observe(node)
-  }, [hasMore])
+  }, [hasMore, scrollLoading, initLoading])
 
-  if (transactionList.length !== 0)
+  let mainContent = <p className={styles.empty}>No Data</p>;
+  if (initLoading) mainContent = <Loading className={styles["loading"]} />;
+  else if (transactionList.length !== 0)
     mainContent = (
       <ExpenseList
         classItemSearch={styles["item--inner"]}
         dataList={transactionList}
         classItem={styles.item}
         lastTransactionRef={lastTransactionRef}
+        loading={scrollLoading}
       />
     );
 

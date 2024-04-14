@@ -1,5 +1,6 @@
 import { Fragment, useState } from "react";
 import ExpenseItem from "../ExpenseItem/ExpenseItem";
+import ExpenseListLoading from "../ExpenseListLoading/ExpenseListLoading";
 import styles from "./ExpenseList.module.css";
 
 function ExpenseList(props) {
@@ -40,7 +41,19 @@ function ExpenseList(props) {
     }
   }
 
-  // function
+  const HorizontalLine = <hr 
+                          className={props.classItemSearch
+                            ? `${styles["item__line"]} ${styles["item__line--long"]}`
+                            : `${styles["item__line"]}`}/>
+  
+  const LoadingUI = <>
+                      {HorizontalLine}
+                      <ExpenseListLoading />
+                      {HorizontalLine}
+                      <ExpenseListLoading />
+                    </>
+  const isLoadingUIVisible = (i) => props.loading && i === props.dataList.length - 1
+
   const expenseItem = props.dataList.map((e, i) => (
     <Fragment key={e.id}>
       <ExpenseItem
@@ -58,15 +71,8 @@ function ExpenseList(props) {
         btnMoreToggler={btnMoreToggler}
         btnMoreIndex={btnMore[i]}
       />
-      {i === props.dataList.length - 1 || (
-        <hr
-          className={
-            props.classItemSearch
-              ? `${styles["item__line"]} ${styles["item__line--long"]}`
-              : `${styles["item__line"]}`
-          }
-        />
-      )}
+      {i === props.dataList.length - 1 || HorizontalLine}
+      {isLoadingUIVisible(i) && LoadingUI}
     </Fragment>
   ));
 

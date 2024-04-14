@@ -1,20 +1,55 @@
-import { useContext } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import SearchListInput from "./SearchListInput/SearchListInput";
 import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
-import SearchListDataContext from "../../../../store/searchListData/searchListData--context";
 import styles from "./SearchList.module.css";
+import fetcher from "../../../../Others/Fetcher/fetcher";
 
 function SearchList(props) {
-  const { expenseData } = useContext(SearchListDataContext);
-
+  const [transactionList, setTransactionList] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const nextKey = useRef(0);
+  const observer = useRef()
   let mainContent = <p className={styles.empty}>No Data</p>;
 
-  if (expenseData.length !== 0)
+  useEffect(() => {
+    fetchTransactionList(nextKey, 10).then((data) => {
+      setTransactionList(data.transactions);
+      nextKey.current = data.cursor.next_key;
+      
+    }).catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+  }, []);
+
+  const lastTransactionRef = useCallback(node => {
+    // if (loading) return
+    if (observer.current) observer.current.disconnect()
+
+    observer.current = new IntersectionObserver(entries => {
+      console.log("hasMore", hasMore);
+      if (!entries[0].isIntersecting || !hasMore) return;
+
+      fetchTransactionList(nextKey, 10).then((data) => {
+        setTransactionList(prevTransactionList => {
+          return [...prevTransactionList, ...data.transactions]
+        });
+        nextKey.current = data.cursor.next_key;
+        setHasMore(data.transactions.length === 10)
+      }).catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    })
+    if (node) observer.current.observe(node)
+  }, [hasMore])
+
+  if (transactionList.length !== 0)
     mainContent = (
       <ExpenseList
         classItemSearch={styles["item--inner"]}
-        data={expenseData}
+        dataList={transactionList}
         classItem={styles.item}
+        lastTransactionRef={lastTransactionRef}
       />
     );
 
@@ -29,3 +64,15 @@ function SearchList(props) {
 }
 
 export default SearchList;
+
+async function fetchTransactionList(nextKey, size) {
+  try {
+    const res = await fetcher(
+      `v1/transaction?next_key=${nextKey.current}&size=${size}`,
+    );
+
+    return res;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -21,3 +21,7 @@
 .item__line--long {
   width: 99%;
 }
+
+.last-item {
+  height: 1.5rem;
+}

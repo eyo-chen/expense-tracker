@@ -10,7 +10,7 @@ function SearchList(props) {
   const [scrollLoading, setScrollLoading] = useState(false);
   const [transactionList, setTransactionList] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const nextKey = useRef(0);
+  const nextKey = useRef("");
   const observer = useRef()
 
   // fetch the initial data
@@ -77,9 +77,12 @@ export default SearchList;
 
 async function fetchTransactionList(nextKey, size) {
   try {
-    const res = await fetcher(
-      `v1/transaction?next_key=${nextKey.current}&size=${size}`,
-    );
+    let endpoint = `v1/transaction?size=${size}`;
+    if (nextKey.current) {
+      endpoint = `v1/transaction?next_key=${nextKey.current}&size=${size}`;
+    }
+
+    const res = await fetcher(endpoint);
 
     return res;
   } catch (error) {

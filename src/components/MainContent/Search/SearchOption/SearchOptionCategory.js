@@ -1,31 +1,38 @@
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import SearchOptionUI from "./SearchOptionUI";
-import CategoryContext from "../../../../store/category/category--context";
+import fetcher from "../../../../Others/Fetcher/fetcher";
 
 function SearchOptionCategory() {
-  const { mainCategoryExpense, mainCategoryIncome } =
-    useContext(CategoryContext);
+  const [categoryList, setCategoryList] = useState([]);
 
-  // Reference 1
-  const checkboxItem = [
-    ...new Set(mainCategoryExpense.concat(mainCategoryIncome)),
-  ].map((element) => ({ text: element, value: element }));
+  useEffect(() => {
+    fetchMainCategory()
+      .then((data) => {
+        const list = data.map(({id, name}) => ({text: name, value: id}));
+        setCategoryList(list);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  , []);
 
   return (
     <SearchOptionUI
       dataID="category"
       label="category"
-      checkboxItem={checkboxItem}
+      checkboxItem={categoryList}
     />
   );
 }
 
 export default SearchOptionCategory;
 
-/*
-Reference 1
-Both expense and income may have same category name
-But showing two duplicate category name seems a liitle bit verbose
-Also, each key should be unique
-So use new Set() to remove duplicate element
-*/
+async function fetchMainCategory() {
+  try {
+    const data = await fetcher(`v1/main-category`, "GET");
+    return data.categories;
+  } catch (err) {
+    throw err;
+  }
+}

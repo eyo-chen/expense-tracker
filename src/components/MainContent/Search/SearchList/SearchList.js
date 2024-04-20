@@ -7,7 +7,7 @@ import fetcher from "../../../../Others/Fetcher/fetcher";
 function SearchList(props) {
   const [transactionList, setTransactionList] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const nextKey = useRef(0);
+  const nextKey = useRef("");
   const observer = useRef()
   let mainContent = <p className={styles.empty}>No Data</p>;
 
@@ -67,9 +67,12 @@ export default SearchList;
 
 async function fetchTransactionList(nextKey, size) {
   try {
-    const res = await fetcher(
-      `v1/transaction?next_key=${nextKey.current}&size=${size}`,
-    );
+    let endpoint = `v1/transaction?size=${size}`;
+    if (nextKey.current) {
+      endpoint = `v1/transaction?next_key=${nextKey.current}&size=${size}`;
+    }
+
+    const res = await fetcher(endpoint);
 
     return res;
   } catch (error) {

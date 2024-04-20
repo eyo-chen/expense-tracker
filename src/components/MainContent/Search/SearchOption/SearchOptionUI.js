@@ -1,6 +1,5 @@
-import { useState, useContext } from "react";
+import { useState} from "react";
 import InputCheckbox from "../../../UI/InputCheckbox/InputCheckbox";
-import SearchListDataContext from "../../../../store/searchListData/searchListData--context";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 import styles from "./SearchOptionUI.module.css";
@@ -11,7 +10,6 @@ we have different group of small check boxes
 */
 function SearchOptionUI(props) {
   const [showBoxes, setShowBoxes] = useState(true);
-  const { setFilteredData } = useContext(SearchListDataContext);
 
   /*
   to keep tracking each small check boxes if it's checked or not
@@ -26,26 +24,81 @@ function SearchOptionUI(props) {
   }
 
   function changeChekboxHandler(index, e) {
-    setCheckState(checkState.map((check, i) => (index === i ? !check : check)));
+    // filter by time
+    if (e.target.dataset.id === "time") {
+      if (!e.target.checked) {
+        setCheckState(checkState.map(() => false));
+        props.setSearchOption((prev) => {
+          return {
+            ...prev,
+            time: {},
+          };
+        });
+        return;
+      }
 
-    // setFilteredData is connected with reducer function
-    if (e.target.checked) {
-      // add constraint
-      // addConstraintObj(e.target.value, e.target.dataset.id);
-      setFilteredData({
-        type: "ADD",
-        value: e.target.value,
-        id: e.target.dataset.id,
-      });
-    } else {
-      // remove constraint
-      // removeConstraintObj(e.target.value, e.target.dataset.id);
-      setFilteredData({
-        type: "REMOVE",
-        value: e.target.value,
-        id: e.target.dataset.id,
-      });
+      const [startDate, endDate] = e.target.value.split(",");
+      const dateOpt = {
+        startDate: startDate,
+        endDate: endDate,
+      }
+      props.setSearchOption((prev) => {
+        return {
+          ...prev,
+          time: dateOpt,
+        };
+      })
+      
+      setCheckState(checkState.map((_, i) => index === i));
+      return;
     }
+    
+    // filter by price
+    if (e.target.dataset.id === "price") {
+      if (!e.target.checked) {
+        setCheckState(checkState.map(() => false));
+        props.setSearchOption((prev) => {
+          return {
+            ...prev,
+            price: {},
+          };
+        });
+        return;
+      }
+
+      const [minPrice, maxPrice] = e.target.value.split(",");
+      const priceOpt = {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+      };
+
+      props.setSearchOption((prev) => {
+        return {
+          ...prev,
+          price: priceOpt,
+        };
+      });
+
+      setCheckState(checkState.map((_, i) => index === i));
+      return;
+    }
+
+    // filter by category
+    let categoryList = props.searchOption.categoryList || [];
+    if (!e.target.checked) {
+      categoryList = categoryList.filter((category) => category !== e.target.value);
+    } else {
+      categoryList = [...categoryList, e.target.value];
+    }
+
+    props.setSearchOption((prev) => {
+      return {
+        ...prev,
+        categoryList: categoryList,
+      };
+    });
+
+    setCheckState(checkState.map((check, i) => (index === i ? !check : check)));
   }
 
   const checkboxContent = props.checkboxItem.map((checkbox, i) => (

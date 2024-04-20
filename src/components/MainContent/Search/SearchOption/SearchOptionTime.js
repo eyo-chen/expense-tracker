@@ -94,9 +94,9 @@ const checkboxTime = [
   },
 ];
 
-function SearchOptionTime() {
+function SearchOptionTime(props) {
   return (
-    <SearchOptionUI dataID="time" label="time" checkboxItem={checkboxTime} />
+    <SearchOptionUI dataID="time" label="time" checkboxItem={checkboxTime} setSearchOption={props.setSearchOption} />
   );
 }
 

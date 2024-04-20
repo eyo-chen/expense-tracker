@@ -16,8 +16,9 @@ function SearchList(props) {
   // fetch the initial data
   useEffect(() => {
     setInitLoading(true);
-
-    fetchTransactionList(nextKey, 10).then((data) => {
+    nextKey.current = "";
+    
+    fetchTransactionList(nextKey, 10, props.searchOption).then((data) => {
       setTransactionList(data.transactions);
       nextKey.current = data.cursor.next_key;
     }).catch((error) => {
@@ -25,17 +26,18 @@ function SearchList(props) {
     }).finally(() => {
       setInitLoading(false);
     });
-  }, []);
+  }, [props.searchOption]);
 
   const lastTransactionRef = useCallback(node => {
     if (initLoading || scrollLoading) return
     if (observer.current) observer.current.disconnect()
 
     observer.current = new IntersectionObserver(entries => {
-      if (!entries[0].isIntersecting || !hasMore || scrollLoading || initLoading) return;
+      // transactionList.length < 10 is a workaround to prevent the observer from firing when the initial data is less than 10
+      if (!entries[0].isIntersecting || !hasMore || scrollLoading || initLoading || transactionList.length < 10) return
 
       setScrollLoading(true);
-      fetchTransactionList(nextKey, 10).then((data) => {
+      fetchTransactionList(nextKey, 10, props.searchOption).then((data) => {
         setTransactionList(prevTransactionList => {
           return [...prevTransactionList, ...data.transactions]
         });
@@ -48,7 +50,7 @@ function SearchList(props) {
       });
     })
     if (node) observer.current.observe(node)
-  }, [hasMore, scrollLoading, initLoading])
+  }, [hasMore, scrollLoading, initLoading, props.searchOption])
 
   let mainContent = <p className={styles.empty}>No Data</p>;
   if (initLoading) mainContent = <Loading className={styles["loading"]} />;
@@ -75,11 +77,27 @@ function SearchList(props) {
 
 export default SearchList;
 
-async function fetchTransactionList(nextKey, size) {
+async function fetchTransactionList(nextKey, size, searchOption) {
   try {
     let endpoint = `v1/transaction?size=${size}`;
     if (nextKey.current) {
-      endpoint = `v1/transaction?next_key=${nextKey.current}&size=${size}`;
+      endpoint += `&next_key=${nextKey.current}`;
+    }
+
+    if (searchOption.time?.startDate && searchOption.time?.endDate) {
+      endpoint += `&start_date=${searchOption.time.startDate}&end_date=${searchOption.time.endDate}`;
+    }
+
+    if (searchOption.price?.minPrice && searchOption.price?.maxPrice) {
+      if (searchOption.price.maxPrice === "Infinity") {
+        endpoint += `&min_price=${searchOption.price.minPrice}`;
+      } else {
+        endpoint += `&min_price=${searchOption.price.minPrice}&max_price=${searchOption.price.maxPrice}`;
+      }
+    }
+
+    if (searchOption.categoryList?.length) {
+      endpoint += `&main_category_ids=${searchOption.categoryList}`;
     }
 
     const res = await fetcher(endpoint);

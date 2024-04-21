@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import SearchOptionUI from "./SearchOptionUI";
 import fetcher from "../../../../Others/Fetcher/fetcher";
 
-function SearchOptionCategory() {
+function SearchOptionCategory(props) {
   const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
@@ -22,6 +22,8 @@ function SearchOptionCategory() {
       dataID="category"
       label="category"
       checkboxItem={categoryList}
+      setSearchOption={props.setSearchOption}
+      searchOption={props.searchOption}
     />
   );
 }

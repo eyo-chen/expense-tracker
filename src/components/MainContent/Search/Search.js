@@ -8,6 +8,7 @@ import styles from "./Search.module.css";
 
 function Search() {
   const [searchOptionModal, setSearchOptionModal] = useState(false);
+  const [searchOption, setSearchOption] = useState({});
   const curWidth = useCurWidth();
 
   function searchOptionModalToggler() {
@@ -29,9 +30,9 @@ function Search() {
       )}
       <div className={styles.search}>
         <div className={optionContainerClassName}>
-          <SearchOption searchOptionModalToggler={searchOptionModalToggler} />
+          <SearchOption searchOptionModalToggler={searchOptionModalToggler} setSearchOption={setSearchOption} searchOption={searchOption}/>
         </div>
-        <SearchList searchOptionModalToggler={searchOptionModalToggler} />
+        <SearchList searchOptionModalToggler={searchOptionModalToggler} searchOption={searchOption} />
       </div>
     </SearchListDataProvider>
   );

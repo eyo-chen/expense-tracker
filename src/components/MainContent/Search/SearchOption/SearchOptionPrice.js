@@ -8,9 +8,9 @@ const searchItem = [
   { text: "above $1000", value: [1000, Infinity] },
 ];
 
-function SearchOptionPrice() {
+function SearchOptionPrice(props) {
   return (
-    <SearchOptionUI dataID="price" label="price" checkboxItem={searchItem} />
+    <SearchOptionUI dataID="price" label="price" checkboxItem={searchItem} setSearchOption={props.setSearchOption} searchOption={props.searchOption} />
   );
 }
 

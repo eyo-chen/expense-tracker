@@ -21,9 +21,9 @@ function SearchOption(props) {
 
       <Title>search by</Title>
       <div className={styles["option__container"]}>
-        <SearchOptionTime />
-        <SearchOptionPrice />
-        <SearchOptionCategory />
+        <SearchOptionTime setSearchOption={props.setSearchOption} />
+        <SearchOptionPrice setSearchOption={props.setSearchOption} />
+        <SearchOptionCategory setSearchOption={props.setSearchOption} searchOption={props.searchOption} />
       </div>
     </Card>
   );

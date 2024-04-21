@@ -1,25 +1,24 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { FaSearch } from "react-icons/fa";
 import { MdSort } from "react-icons/md";
 import SearchListDataContext from "../../../../../store/searchListData/searchListData--context";
 import Button from "../../../../UI/Button/Button";
 import styles from "./SearchListInput.module.css";
+import debounce from "../../../../../Others/Debounce/debounce";
 
 let sortTimeIndex = true;
 let sortPriceIndex = true;
 let sortCategoryIndex = true;
 
 function SearchListInput(props) {
-  const [inputValue, setInputValue] = useState("");
   const { setFilteredData, btnState } = useContext(SearchListDataContext);
 
   function inputChangeHandler(e) {
-    setInputValue(e.target.value);
-    setFilteredData({
-      type: "SEARCH",
-      value: e.target.value,
-    });
+    props.setKeyword(e.target.value);
   }
+
+  const throttledInputChangeHandler = debounce(inputChangeHandler, 800);
+
 
   function sortTimeBtnClickHandler() {
     setFilteredData({
@@ -56,10 +55,9 @@ function SearchListInput(props) {
         </label>
         <input
           id="search"
-          value={inputValue}
           type="text"
           className={`${styles.input} transition--25`}
-          onChange={inputChangeHandler}
+          onChange={throttledInputChangeHandler}
           placeholder="Search For Note"
         />
         <FaSearch aria-label="search" className={styles.icon} />

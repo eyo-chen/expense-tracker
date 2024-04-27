@@ -1,18 +1,10 @@
-import { useContext } from "react";
 import { FaSearch } from "react-icons/fa";
-import { MdSort } from "react-icons/md";
-import SearchListDataContext from "../../../../../store/searchListData/searchListData--context";
+import { FaSortAmountDown, FaSortAmountDownAlt } from "react-icons/fa";
 import Button from "../../../../UI/Button/Button";
 import styles from "./SearchListInput.module.css";
 import debounce from "../../../../../Others/Debounce/debounce";
 
-let sortTimeIndex = true;
-let sortPriceIndex = true;
-let sortCategoryIndex = true;
-
 function SearchListInput(props) {
-  const { setFilteredData, btnState } = useContext(SearchListDataContext);
-
   function inputChangeHandler(e) {
     props.setKeyword(e.target.value);
   }
@@ -21,31 +13,73 @@ function SearchListInput(props) {
 
 
   function sortTimeBtnClickHandler() {
-    setFilteredData({
-      type: "SORT_TIME",
-      sort: sortTimeIndex,
-    });
+    if (props.sortState.sortBy === "date" && props.sortState.sortDir === "asc") {
+      props.setSortState(() => ({
+        sortBy: "",
+        sortDir: "",
+      }));
+      return;
+    }
 
-    sortTimeIndex = !sortTimeIndex;
+    let sortDir = "desc";
+    if (props.sortState.sortBy === "date") {
+      sortDir = nextSortState(props.sortState.sortDir);
+    }
+
+    props.setSortState(() => ({
+      sortBy: "date",
+      sortDir,
+    }));
   }
 
   function sortPriceBtnClickHandler() {
-    setFilteredData({
-      type: "SORT_PRICE",
-      sort: sortPriceIndex,
-    });
+    if (props.sortState.sortBy === "price" && props.sortState.sortDir === "asc") {
+      props.setSortState(() => ({
+        sortBy: "",
+        sortDir: "",
+      }));
+      return;
+    }
 
-    sortPriceIndex = !sortPriceIndex;
+    let sortDir = "desc";
+    if (props.sortState.sortBy === "price") {
+      sortDir = nextSortState(props.sortState.sortDir);
+    }
+
+    props.setSortState(() => ({
+      sortBy: "price",
+      sortDir,
+    }));
   }
 
   function sortCategoryBtnClickHandler() {
-    setFilteredData({
-      type: "SORT_CATEGORY",
-      sort: sortCategoryIndex,
-    });
+    if (props.sortState.sortBy === "type" && props.sortState.sortDir === "asc") {
+      props.setSortState(() => ({
+        sortBy: "",
+        sortDir: "",
+      }));
+      return;
+    }
 
-    sortCategoryIndex = !sortCategoryIndex;
+    let sortDir = "desc";
+    if (props.sortState.sortBy === "type") {
+      sortDir = nextSortState(props.sortState.sortDir);
+    }
+
+    props.setSortState(() => ({
+      sortBy: "type",
+      sortDir,
+    }));
   }
+
+  const sortStateToIcon = {
+    asc: <FaSortAmountDownAlt className={styles["btn__icon"]} />,
+    desc: <FaSortAmountDown className={styles["btn__icon"]} />,
+  };
+
+  const isDateActive = props.sortState.sortBy === "date";
+  const isPriceActive = props.sortState.sortBy === "price";
+  const isTypeActive = props.sortState.sortBy === "type";
 
   return (
     <div>
@@ -68,34 +102,34 @@ function SearchListInput(props) {
           onClick={sortTimeBtnClickHandler}
           type="button"
           className={`${styles.btn} capitalize center--flex ${
-            btnState === "time" ? `${styles["btn__clicked"]}` : ""
+            isDateActive ? `${styles["btn__clicked"]}` : ""
           }`}
         >
-          {<MdSort className={styles["btn__icon"]} />}sort by time
+          {isDateActive && sortStateToIcon[props.sortState.sortDir]}sort by date
         </Button>
         <Button
           onClick={sortPriceBtnClickHandler}
           type="button"
           className={`${styles.btn} capitalize center--flex ${
-            btnState === "price" ? `${styles["btn__clicked"]}` : ""
+            isPriceActive ? `${styles["btn__clicked"]}` : ""
           }`}
         >
-          {<MdSort className={styles["btn__icon"]} />}sort by price
+          {isPriceActive && sortStateToIcon[props.sortState.sortDir]}sort by price
         </Button>
         <Button
           onClick={sortCategoryBtnClickHandler}
           type="button"
           className={`${styles.btn} capitalize center--flex ${
-            btnState === "category" ? `${styles["btn__clicked"]}` : ""
+            isTypeActive ? `${styles["btn__clicked"]}` : ""
           }`}
         >
-          {<MdSort className={styles["btn__icon"]} />}sort by type
+          {isTypeActive && sortStateToIcon[props.sortState.sortDir]}sort by type
         </Button>
         <Button
           onClick={props.searchOptionModalToggler}
           className={`${styles.btn} ${styles["btn--filter"]} capitalize center--flex`}
         >
-          {<MdSort className={styles["btn__icon"]} />}filter
+          filter
         </Button>
       </div>
     </div>
@@ -103,3 +137,11 @@ function SearchListInput(props) {
 }
 
 export default SearchListInput;
+
+function nextSortState(prevState) {
+  if (!prevState) return "desc";
+
+  if (prevState === "desc") return "asc";
+
+  return null;
+}

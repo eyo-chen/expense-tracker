@@ -1,17 +1,16 @@
-import { useContext } from "react";
+import { useState} from "react";
 import { FaSearch } from "react-icons/fa";
-import { MdSort } from "react-icons/md";
-import SearchListDataContext from "../../../../../store/searchListData/searchListData--context";
+import { FaSortAmountDown, FaSortAmountDownAlt } from "react-icons/fa";
 import Button from "../../../../UI/Button/Button";
 import styles from "./SearchListInput.module.css";
 import debounce from "../../../../../Others/Debounce/debounce";
 
-let sortTimeIndex = true;
-let sortPriceIndex = true;
-let sortCategoryIndex = true;
-
 function SearchListInput(props) {
-  const { setFilteredData, btnState } = useContext(SearchListDataContext);
+  const [sortState, setSortState] = useState({
+    time: null,
+    price: null,
+    type: null,
+  });
 
   function inputChangeHandler(e) {
     props.setKeyword(e.target.value);
@@ -21,31 +20,33 @@ function SearchListInput(props) {
 
 
   function sortTimeBtnClickHandler() {
-    setFilteredData({
-      type: "SORT_TIME",
-      sort: sortTimeIndex,
-    });
-
-    sortTimeIndex = !sortTimeIndex;
+    setSortState(() => ({
+      time: nextSortState(sortState.time),
+      price: null,
+      type: null,
+    }));
   }
 
   function sortPriceBtnClickHandler() {
-    setFilteredData({
-      type: "SORT_PRICE",
-      sort: sortPriceIndex,
-    });
-
-    sortPriceIndex = !sortPriceIndex;
+    setSortState(() => ({
+      time: null,
+      price: nextSortState(sortState.price),
+      type: null,
+    }));
   }
 
   function sortCategoryBtnClickHandler() {
-    setFilteredData({
-      type: "SORT_CATEGORY",
-      sort: sortCategoryIndex,
-    });
-
-    sortCategoryIndex = !sortCategoryIndex;
+    setSortState(() => ({
+      time: null,
+      price: null,
+      type: nextSortState(sortState.type),
+    }));
   }
+
+  const sortStateToIcon = {
+    asc: <FaSortAmountDownAlt className={styles["btn__icon"]} />,
+    desc: <FaSortAmountDown className={styles["btn__icon"]} />,
+  };
 
   return (
     <div>
@@ -68,34 +69,34 @@ function SearchListInput(props) {
           onClick={sortTimeBtnClickHandler}
           type="button"
           className={`${styles.btn} capitalize center--flex ${
-            btnState === "time" ? `${styles["btn__clicked"]}` : ""
+            sortState.time ? `${styles["btn__clicked"]}` : ""
           }`}
         >
-          {<MdSort className={styles["btn__icon"]} />}sort by time
+          {sortStateToIcon[sortState.time]}sort by time
         </Button>
         <Button
           onClick={sortPriceBtnClickHandler}
           type="button"
           className={`${styles.btn} capitalize center--flex ${
-            btnState === "price" ? `${styles["btn__clicked"]}` : ""
+            sortState.price ? `${styles["btn__clicked"]}` : ""
           }`}
         >
-          {<MdSort className={styles["btn__icon"]} />}sort by price
+          {sortStateToIcon[sortState.price]}sort by price
         </Button>
         <Button
           onClick={sortCategoryBtnClickHandler}
           type="button"
           className={`${styles.btn} capitalize center--flex ${
-            btnState === "category" ? `${styles["btn__clicked"]}` : ""
+            sortState.type ? `${styles["btn__clicked"]}` : ""
           }`}
         >
-          {<MdSort className={styles["btn__icon"]} />}sort by type
+          {sortStateToIcon[sortState.type]}sort by type
         </Button>
         <Button
           onClick={props.searchOptionModalToggler}
           className={`${styles.btn} ${styles["btn--filter"]} capitalize center--flex`}
         >
-          {<MdSort className={styles["btn__icon"]} />}filter
+          filter
         </Button>
       </div>
     </div>
@@ -103,3 +104,11 @@ function SearchListInput(props) {
 }
 
 export default SearchListInput;
+
+function nextSortState(prevState) {
+  if (!prevState) return "desc";
+
+  if (prevState === "desc") return "asc";
+
+  return null;
+}

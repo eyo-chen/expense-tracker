@@ -1,4 +1,3 @@
-import { useState} from "react";
 import { FaSearch } from "react-icons/fa";
 import { FaSortAmountDown, FaSortAmountDownAlt } from "react-icons/fa";
 import Button from "../../../../UI/Button/Button";
@@ -6,12 +5,6 @@ import styles from "./SearchListInput.module.css";
 import debounce from "../../../../../Others/Debounce/debounce";
 
 function SearchListInput(props) {
-  const [sortState, setSortState] = useState({
-    time: null,
-    price: null,
-    type: null,
-  });
-
   function inputChangeHandler(e) {
     props.setKeyword(e.target.value);
   }
@@ -20,26 +13,62 @@ function SearchListInput(props) {
 
 
   function sortTimeBtnClickHandler() {
-    setSortState(() => ({
-      time: nextSortState(sortState.time),
-      price: null,
-      type: null,
+    if (props.sortState.sortBy === "date" && props.sortState.sortDir === "asc") {
+      props.setSortState(() => ({
+        sortBy: "",
+        sortDir: "",
+      }));
+      return;
+    }
+
+    let sortDir = "desc";
+    if (props.sortState.sortBy === "date") {
+      sortDir = nextSortState(props.sortState.sortDir);
+    }
+
+    props.setSortState(() => ({
+      sortBy: "date",
+      sortDir,
     }));
   }
 
   function sortPriceBtnClickHandler() {
-    setSortState(() => ({
-      time: null,
-      price: nextSortState(sortState.price),
-      type: null,
+    if (props.sortState.sortBy === "price" && props.sortState.sortDir === "asc") {
+      props.setSortState(() => ({
+        sortBy: "",
+        sortDir: "",
+      }));
+      return;
+    }
+
+    let sortDir = "desc";
+    if (props.sortState.sortBy === "price") {
+      sortDir = nextSortState(props.sortState.sortDir);
+    }
+
+    props.setSortState(() => ({
+      sortBy: "price",
+      sortDir,
     }));
   }
 
   function sortCategoryBtnClickHandler() {
-    setSortState(() => ({
-      time: null,
-      price: null,
-      type: nextSortState(sortState.type),
+    if (props.sortState.sortBy === "type" && props.sortState.sortDir === "asc") {
+      props.setSortState(() => ({
+        sortBy: "",
+        sortDir: "",
+      }));
+      return;
+    }
+
+    let sortDir = "desc";
+    if (props.sortState.sortBy === "type") {
+      sortDir = nextSortState(props.sortState.sortDir);
+    }
+
+    props.setSortState(() => ({
+      sortBy: "type",
+      sortDir,
     }));
   }
 
@@ -47,6 +76,10 @@ function SearchListInput(props) {
     asc: <FaSortAmountDownAlt className={styles["btn__icon"]} />,
     desc: <FaSortAmountDown className={styles["btn__icon"]} />,
   };
+
+  const isDateActive = props.sortState.sortBy === "date";
+  const isPriceActive = props.sortState.sortBy === "price";
+  const isTypeActive = props.sortState.sortBy === "type";
 
   return (
     <div>
@@ -69,28 +102,28 @@ function SearchListInput(props) {
           onClick={sortTimeBtnClickHandler}
           type="button"
           className={`${styles.btn} capitalize center--flex ${
-            sortState.time ? `${styles["btn__clicked"]}` : ""
+            isDateActive ? `${styles["btn__clicked"]}` : ""
           }`}
         >
-          {sortStateToIcon[sortState.time]}sort by time
+          {isDateActive && sortStateToIcon[props.sortState.sortDir]}sort by date
         </Button>
         <Button
           onClick={sortPriceBtnClickHandler}
           type="button"
           className={`${styles.btn} capitalize center--flex ${
-            sortState.price ? `${styles["btn__clicked"]}` : ""
+            isPriceActive ? `${styles["btn__clicked"]}` : ""
           }`}
         >
-          {sortStateToIcon[sortState.price]}sort by price
+          {isPriceActive && sortStateToIcon[props.sortState.sortDir]}sort by price
         </Button>
         <Button
           onClick={sortCategoryBtnClickHandler}
           type="button"
           className={`${styles.btn} capitalize center--flex ${
-            sortState.type ? `${styles["btn__clicked"]}` : ""
+            isTypeActive ? `${styles["btn__clicked"]}` : ""
           }`}
         >
-          {sortStateToIcon[sortState.type]}sort by type
+          {isTypeActive && sortStateToIcon[props.sortState.sortDir]}sort by type
         </Button>
         <Button
           onClick={props.searchOptionModalToggler}

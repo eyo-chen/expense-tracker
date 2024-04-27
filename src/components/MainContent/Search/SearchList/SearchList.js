@@ -11,6 +11,10 @@ function SearchList(props) {
   const [transactionList, setTransactionList] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [keyword, setKeyword] = useState("");
+  const [sortState, setSortState] = useState({
+    sortBy: "",
+    sortDir: "",
+  });
   const nextKey = useRef("");
   const observer = useRef()
 
@@ -19,7 +23,7 @@ function SearchList(props) {
     setInitLoading(true);
     nextKey.current = "";
     
-    fetchTransactionList(nextKey, 10, props.searchOption, keyword).then((data) => {
+    fetchTransactionList(nextKey, 10, props.searchOption, keyword, sortState).then((data) => {
       setTransactionList(data.transactions);
       nextKey.current = data.cursor.next_key;
     }).catch((error) => {
@@ -28,7 +32,7 @@ function SearchList(props) {
       setHasMore(true);
       setInitLoading(false);
     });
-  }, [props.searchOption, keyword]);
+  }, [props.searchOption, keyword, sortState]);
 
   const lastTransactionRef = useCallback(node => {
     if (initLoading || scrollLoading) return
@@ -39,7 +43,7 @@ function SearchList(props) {
       if (!entries[0].isIntersecting || !hasMore || scrollLoading || initLoading || transactionList.length < 10) return
 
       setScrollLoading(true);
-      fetchTransactionList(nextKey, 10, props.searchOption, keyword).then((data) => {
+      fetchTransactionList(nextKey, 10, props.searchOption, keyword, sortState).then((data) => {
         setTransactionList(prevTransactionList => {
           return [...prevTransactionList, ...data.transactions]
         });
@@ -52,7 +56,7 @@ function SearchList(props) {
       });
     })
     if (node) observer.current.observe(node)
-  }, [hasMore, scrollLoading, initLoading, props.searchOption, keyword, transactionList.length])
+  }, [hasMore, scrollLoading, initLoading, props.searchOption, keyword, transactionList.length, sortState])
 
   let mainContent = <p className={styles.empty}>No Data</p>;
   if (initLoading) mainContent = <Loading className={styles["loading"]} />;
@@ -72,6 +76,8 @@ function SearchList(props) {
       <SearchListInput
         searchOptionModalToggler={props.searchOptionModalToggler}
         setKeyword={setKeyword}
+        sortState={sortState}
+        setSortState={setSortState}
       />
       {mainContent}
     </div>
@@ -80,7 +86,7 @@ function SearchList(props) {
 
 export default SearchList;
 
-async function fetchTransactionList(nextKey, size, searchOption, keyword) {
+async function fetchTransactionList(nextKey, size, searchOption, keyword, sortState) {
   try {
     let endpoint = `v1/transaction?size=${size}`;
     if (nextKey.current) {
@@ -105,6 +111,10 @@ async function fetchTransactionList(nextKey, size, searchOption, keyword) {
 
     if (keyword) {
       endpoint += `&keyword=${keyword}`;
+    }
+
+    if (sortState.sortBy) {
+      endpoint += `&sort_by=${sortState.sortBy}&sort_direction=${sortState.sortDir}`;
     }
 
     const res = await fetcher(endpoint);

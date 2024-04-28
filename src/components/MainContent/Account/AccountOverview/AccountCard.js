@@ -16,9 +16,12 @@ function AccountCard() {
     expense: 0,
     balance: 0,
   });
+  const [loading, setLoading] = useState(false);
   const [moneyModal, moneyModalToggler] = useMoneyModal();
 
   useEffect(() => {
+    setLoading(true);
+
     fetchTransactionInfo(formateDate(TODAY))
     .then((data) => {
       setAccInfo({
@@ -28,7 +31,7 @@ function AccountCard() {
       });
     }).catch((error) => {
       console.error("Error fetching data:", error);
-    });
+    }).finally(() => setLoading(false));
   }
   , []);
 
@@ -38,9 +41,9 @@ function AccountCard() {
         <MoneyModal value={moneyModal.value} onClick={moneyModalToggler} />
       )}
       <div className={styles["card__container"]}>
-        <AccountSmallCard title="income" price={formatMoney(accInfo.income)} />
-        <AccountSmallCard title="expense" price={formatMoney(accInfo.expense)} />
-        <AccountSmallCard title="balance" price={formatMoney(accInfo.balance)} />  
+        <AccountSmallCard title="income" price={formatMoney(accInfo.income)} loading={loading}/>
+        <AccountSmallCard title="expense" price={formatMoney(accInfo.expense)} loading={loading}/>
+        <AccountSmallCard title="balance" price={formatMoney(accInfo.balance)} loading={loading}/>  
       </div>
     </>
   );

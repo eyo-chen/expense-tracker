@@ -151,10 +151,10 @@ async function fetchMainCategory(type) {
 
 async function fetchChartData(startDate, endDate, chartType, timeRange, selectedMainCategoryIDs, type) {
   // only for pie chart
-  let url = `v1/transaction/pie-chart?start_date=${startDate}&end_date=${endDate}`;
+  let url = `v1/transaction/pie-chart?start_date=${startDate}&end_date=${endDate}&type=${type}`;
   
   // only for bar chart
-  if (timeRange) url = `v1/transaction/bar-chart?start_date=${startDate}&end_date=${endDate}&type=${type}&time_range=${timeRange}`
+  if (chartType === "bar") url = `v1/transaction/bar-chart?start_date=${startDate}&end_date=${endDate}&type=${type}&time_range=${timeRange}`
 
   // only for line chart
   if (chartType === "bar" && type === "net") url = `v1/transaction/line-chart?start_date=${startDate}&end_date=${endDate}&type=${type}&time_range=${timeRange}`

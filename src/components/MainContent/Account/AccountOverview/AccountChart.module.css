@@ -44,6 +44,10 @@
   height: 31vw;
 }
 
+.loading {
+  position: relative;
+}
+
 @media screen and (max-width: 1400px) {
   .container {
     margin-top: 7rem;

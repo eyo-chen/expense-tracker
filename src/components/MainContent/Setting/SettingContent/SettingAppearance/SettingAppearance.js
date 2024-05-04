@@ -1,28 +1,21 @@
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import InputRadio from "../../../../UI/InputRadio/InputRadio";
 import DisplayThemeContext from "../../../../../store/displayTheme/displayTheme--context";
-import createUserID from "../../../../../Others/CreateUserID/createUserID";
-import useErrorModal from "../../../../../Others/Custom/useErrorModal";
-import { db } from "../../../../../firebase-config";
-import { doc, updateDoc } from "firebase/firestore";
 import styles from "./SettingAppearance.module.css";
 
 function SettingAppearance() {
-  const [, setErrorModal] = useErrorModal();
-  const { displayTheme } = useContext(DisplayThemeContext);
-  const [, userID] = createUserID();
-
-  const userDocRef = doc(db, "users", userID);
+  const [displayThemeState, setDisplayThemeState] = useState("light");
+  const { displayTheme, setDisplayTheme } = useContext(DisplayThemeContext);
 
   async function changeDisplayThemeHandler(e) {
-    try {
-      await updateDoc(userDocRef, {
-        displayTheme: e.target.value,
-      });
-    } catch (err) {
-      setErrorModal(true);
-    }
+    const newDisplayTheme = e.target.value;
+    setDisplayThemeState(newDisplayTheme);
   }
+
+  useEffect(() => {
+    localStorage.setItem("displayTheme", displayThemeState);
+    setDisplayTheme(displayThemeState);
+  }, [displayThemeState]);
 
   return (
     <div className={styles.container}>

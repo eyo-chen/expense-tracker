@@ -8,7 +8,6 @@ import CategoryProvider from "./store/category/CategoryProvider";
 import DisplayThemeContext from "./store/displayTheme/displayTheme--context";
 import SignInModal from "./components/UI/SignInModal/SignInModal";
 import Loading from "./components/UI/Loading/Loading";
-import createUserID from "./Others/CreateUserID/createUserID";
 import ErrorModal from "./components/UI/ErrorModal/ErrorModal";
 import useErrorModal from "./Others/Custom/useErrorModal";
 import { FiChevronsLeft } from "react-icons/fi";
@@ -16,9 +15,7 @@ import { FiMenu } from "react-icons/fi";
 import timeObj from "./Others/TimeObj/timeObj";
 import style from "./App.module.css";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, onSnapshot } from "firebase/firestore";
 import { db, auth } from "./firebase-config";
-import { Routes, Route } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 
 import Fallback from "./Others/Fallback/Fallback";
@@ -29,11 +26,9 @@ function App() {
   const [signedIn, setSignedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   // const [page, setPage] = useState(0);
-  const [user, userID] = createUserID();
   const [showSidebar, setShowSidebar] = useState(false);
   const [errorModal] = useErrorModal();
-  const { setDisplayTheme } = useContext(DisplayThemeContext);
-  const userDocRef = doc(db, "users", userID);
+  const { displayTheme, setDisplayTheme } = useContext(DisplayThemeContext);
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -46,22 +41,18 @@ function App() {
   });
 
   useEffect(() => {
-    if (!user) return;
-    onSnapshot(userDocRef, (snapshot) => {
-      if (!snapshot["_document"]) return;
+    const theme = localStorage.getItem("displayTheme");
 
-      const { displayTheme } = snapshot.data();
-      if (displayTheme === "dark") {
-        document.body.classList.remove("light");
-        document.body.classList.add("dark");
-      } else {
-        document.body.classList.remove("dark");
-        document.body.classList.add("light");
-      }
+    if (theme === "dark") {
+      document.body.classList.remove("light");
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+      document.body.classList.add("light");
+    }
 
-      setDisplayTheme(displayTheme);
-    });
-  }, [user, userDocRef]);
+    setDisplayTheme(theme);
+  }, [displayTheme]);
 
   useEffect(() => {
     document.body.classList.add("dark");

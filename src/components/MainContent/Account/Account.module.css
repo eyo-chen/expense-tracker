@@ -1,15 +1,7 @@
 .account {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 2rem;
+  display: block;
   padding: 2rem;
   width: 100%;
-}
-
-@media screen and (max-width: 1200px) {
-  .account {
-    display: block;
-  }
 }
 
 @media screen and (max-width: 501px) {

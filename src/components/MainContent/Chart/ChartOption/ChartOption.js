@@ -157,7 +157,7 @@ async function fetchChartData(startDate, endDate, chartType, timeRange, selected
   if (chartType === "bar") url = `v1/transaction/bar-chart?start_date=${startDate}&end_date=${endDate}&type=${type}&time_range=${timeRange}`
 
   // only for line chart
-  if (chartType === "bar" && type === "net") url = `v1/transaction/line-chart?start_date=${startDate}&end_date=${endDate}&type=${type}&time_range=${timeRange}`
+  if (chartType === "bar" && type === "net") url = `v1/transaction/line-chart?start_date=${startDate}&end_date=${endDate}&time_range=${timeRange}`
 
   if (selectedMainCategoryIDs.length > 0)
     url += `&main_category_ids=${selectedMainCategoryIDs}`

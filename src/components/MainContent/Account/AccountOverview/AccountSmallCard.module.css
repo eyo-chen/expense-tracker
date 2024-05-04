@@ -23,6 +23,19 @@
   cursor: pointer;
 }
 
+.loading {
+  position: relative;
+  top: 0%;
+  left: 0%;
+  align-self: end;
+  height: 4rem;
+  width: 4rem;
+}
+
+.loading__container {
+  text-align: end;
+}
+
 @media screen and (max-width: 800px) {
   .card {
     padding: 1rem 1.3rem;

@@ -40,7 +40,7 @@
 }
 
 .chart__container {
-  width: 63vw;
+  width: 90vw;
   height: 31vw;
 }
 
@@ -54,7 +54,6 @@
   }
 
   .chart__container {
-    width: 58vw;
     height: 29vw;
   }
 }

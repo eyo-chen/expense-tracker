@@ -1,5 +1,5 @@
 .overview {
-  grid-column: 1/2;
+  width: 100%;
   padding: 1rem;
   height: 100%;
 }

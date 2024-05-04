@@ -124,6 +124,7 @@ function AddDataForm(props) {
     }
 
     props.addDataFormModalToggler();
+    props.btnMoreToggler();
     updateStateHandler();
   }
 

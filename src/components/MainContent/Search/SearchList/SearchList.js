@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useContext } from "react";
+import UpdateStateContext from "../../../../store/updateState/updateState--context";
 import SearchListInput from "./SearchListInput/SearchListInput";
 import ExpenseList from "../../../UI/ExpenseList/ExpenseList";
 import styles from "./SearchList.module.css";
@@ -17,6 +18,7 @@ function SearchList(props) {
   });
   const nextKey = useRef("");
   const observer = useRef()
+  const { updateState } = useContext(UpdateStateContext);
 
   // fetch the initial data
   useEffect(() => {
@@ -32,7 +34,7 @@ function SearchList(props) {
       setHasMore(true);
       setInitLoading(false);
     });
-  }, [props.searchOption, keyword, sortState]);
+  }, [props.searchOption, keyword, sortState, updateState]);
 
   const lastTransactionRef = useCallback(node => {
     if (initLoading || scrollLoading) return

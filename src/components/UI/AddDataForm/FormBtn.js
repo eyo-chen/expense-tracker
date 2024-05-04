@@ -20,7 +20,7 @@ function FormBtn(props) {
         className={classAddBtn}
         disabled={!props.isValid || props.isTooLarge}
       >
-        {props.oldExpenseData ? "edit" : "add"}
+        {props.editDataInfo ? "edit" : "add"}
       </Button>
     </div>
   );

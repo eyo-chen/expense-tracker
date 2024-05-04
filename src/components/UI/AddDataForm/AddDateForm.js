@@ -42,6 +42,7 @@ function AddDataForm(props) {
       price: props.editDataInfo.price,
       date: createDateStringFormat(new Date(props.editDataInfo.date)),
       description: props.editDataInfo.note,
+      isValid: true,
     }
   }
 
@@ -195,7 +196,7 @@ function AddDataForm(props) {
             addDataFormModalToggler={props.addDataFormModalToggler}
             isValid={formData.isValid}
             isTooLarge={formData.isTooLarge}
-            oldExpenseData={props.oldExpenseData}
+            editDataInfo={props.editDataInfo}
           />
         </div>
       </form>

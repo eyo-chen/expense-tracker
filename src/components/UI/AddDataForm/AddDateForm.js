@@ -1,4 +1,4 @@
-import {  useReducer, useEffect, useContext } from "react";
+import { useState, useReducer, useEffect, useContext } from "react";
 import Modal from "../Modal/Modal";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import UpdateStateContext from "../../../store/updateState/updateState--context";
@@ -14,6 +14,7 @@ import styles from "./AddDataForm.module.css";
 import fetcher from "../../../Others/Fetcher/fetcher";
 
 function AddDataForm(props) {
+  const [isInitialMainCateg, setIsInitialMainCateg] = useState(true);
   const { updateStateHandler } = useContext(UpdateStateContext);
 
   let initialObj = {
@@ -115,6 +116,7 @@ function AddDataForm(props) {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+      props.btnMoreToggler();
     } else {
       try {
         await createTransaction(newFormData);
@@ -124,7 +126,6 @@ function AddDataForm(props) {
     }
 
     props.addDataFormModalToggler();
-    props.btnMoreToggler();
     updateStateHandler();
   }
 
@@ -133,8 +134,9 @@ function AddDataForm(props) {
     fetchMainCategList(formData.type).then((data) => {
       formDataDispatch({ type: "MAIN_CATEGORY_LIST", value: data });
 
-      // only update new main category if it's not updating data
-      if (!props.editDataInfo) formDataDispatch({ type: "MAIN_CATEGORY", value: data[0] });
+      if (!props.editDataInfo) {
+        formDataDispatch({ type: "MAIN_CATEGORY", value: data[0] });
+      }
     }).catch((error) => {
       console.error("Error fetching data:", error);
     })
@@ -144,8 +146,15 @@ function AddDataForm(props) {
     fetchSubCategList(formData.mainCateg.id).then((data) => {
       formDataDispatch({ type: "SUB_CATEGORY_LIST", value: data });
 
-      // only update new sub category if it's not updating data
-      if (!props.editDataInfo) formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
+      // 1. If it's adding new data(!props.editDataInfo), always set the first sub category as default
+      // 2. If it's updating data(props.editDataInfo), and it's not the first time the main category is set, set the first sub category as default
+      // If it's updating data, and it's the first time the main category is set, we don't want to set the first sub category as default
+      // because we want to let the sub category be the same as the previous data(old data)
+      if (!props.editDataInfo || !isInitialMainCateg) {
+        formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
+      }
+
+      setIsInitialMainCateg(false);
     }).catch((error) => {
       console.error("Error fetching data:", error);
     })
@@ -157,8 +166,8 @@ function AddDataForm(props) {
         <FormTitle
           type={formData.type}
           categoryChangeHandler={typeChangeHandler}
+          isEditing={!!props.editDataInfo}
         />
-
         <HorizontalLine />
         <div className={styles["form__container"]}>
           <FormMainCategory

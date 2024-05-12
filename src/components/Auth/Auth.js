@@ -1,7 +1,16 @@
+import { useState } from "react";
 import Welcom from "./Welcom/Welcome";
+import Signup from "./Signup/Signup";
 
 function Auth() {
-  return <Welcom />;
+  const [authState, setAuthState] = useState("welcome");
+
+  const KEY_TO_COMPONENT = {
+    welcome: <Welcom setAuthState={setAuthState} />,
+    signup : <Signup setAuthState={setAuthState} />
+  };
+
+  return KEY_TO_COMPONENT[authState];
 }
 
 

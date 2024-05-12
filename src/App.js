@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import MainContent from "./components/MainContent/MainContent";
 import SideBar from "./components/SideBar/SideBar";
-import Welcome from "./components/Welcome/Welcome";
+import Auth from "./components/Auth/Auth";
 import UpdateStateProvider from "./store/updateState/UpdateStateProvider";
 import ExpenseDataProvider from "./store/expenseData/ExpenseDataProvider";
 import EditModalProvider from "./store/editModal/EditModalProvider";
@@ -93,7 +93,7 @@ function App() {
       />
     </div>
   ) : (
-    <Welcome />
+    <Auth />
   );
 
   return (

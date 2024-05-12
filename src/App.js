@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import MainContent from "./components/MainContent/MainContent";
 import SideBar from "./components/SideBar/SideBar";
+import Welcome from "./components/Welcome/Welcome";
 import UpdateStateProvider from "./store/updateState/UpdateStateProvider";
 import ExpenseDataProvider from "./store/expenseData/ExpenseDataProvider";
 import EditModalProvider from "./store/editModal/EditModalProvider";
 import CategoryProvider from "./store/category/CategoryProvider";
 import DisplayThemeContext from "./store/displayTheme/displayTheme--context";
-import SignInModal from "./components/UI/SignInModal/SignInModal";
 import Loading from "./components/UI/Loading/Loading";
 import ErrorModal from "./components/UI/ErrorModal/ErrorModal";
 import useErrorModal from "./Others/Custom/useErrorModal";
@@ -54,10 +54,6 @@ function App() {
     setDisplayTheme(theme);
   }, [displayTheme]);
 
-  useEffect(() => {
-    document.body.classList.add("dark");
-  }, []);
-
   function menuClickHandler() {
     setShowSidebar((prev) => !prev);
   }
@@ -97,7 +93,7 @@ function App() {
       />
     </div>
   ) : (
-    <SignInModal />
+    <Welcome />
   );
 
   return (

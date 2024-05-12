@@ -1,6 +1,6 @@
-import Title from "./../UI/Title/Title";
-import Modal from "./../UI/Modal/Modal";
-import Button from "./../UI/Button/Button";
+import Title from "./../../UI/Title/Title";
+import Modal from "./../../UI/Modal/Modal";
+import Button from "./../../UI/Button/Button";
 import { SiCashapp } from "react-icons/si";
 import styles from "./WelcomeModel.module.css";
 

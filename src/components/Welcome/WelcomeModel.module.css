@@ -22,9 +22,8 @@
   margin: auto 4px auto 1px;
 }
 
-.description {
-  font-size: 2rem;
-  transform: translateY(3rem);
+.btn--container {
+  width: 40%;
 }
 
 .btn {
@@ -35,6 +34,8 @@
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
+  width: 100%;
+  justify-content: center;
 }
 
 .btn:hover {
@@ -43,11 +44,6 @@
 
 .btn__text {
   display: none;
-}
-
-.icon {
-  margin-right: 1rem;
-  font-size: 3rem;
 }
 
 @media screen and (max-width: 800px) {

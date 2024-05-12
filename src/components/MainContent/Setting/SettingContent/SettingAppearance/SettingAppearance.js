@@ -4,7 +4,7 @@ import DisplayThemeContext from "../../../../../store/displayTheme/displayTheme-
 import styles from "./SettingAppearance.module.css";
 
 function SettingAppearance() {
-  const [displayThemeState, setDisplayThemeState] = useState("light");
+  const [displayThemeState, setDisplayThemeState] = useState("");
   const { displayTheme, setDisplayTheme } = useContext(DisplayThemeContext);
 
   async function changeDisplayThemeHandler(e) {
@@ -13,6 +13,8 @@ function SettingAppearance() {
   }
 
   useEffect(() => {
+    if (displayThemeState === "") return;
+
     localStorage.setItem("displayTheme", displayThemeState);
     setDisplayTheme(displayThemeState);
   }, [displayThemeState]);

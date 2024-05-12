@@ -1,0 +1,49 @@
+.modal {
+  height: 85vh;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.title {
+  font-size: 4rem;
+  text-align: center;
+  letter-spacing: 2px;
+  margin-top: 2rem;
+}
+
+.form {
+  width: 80%;
+  height: 60%;
+}
+
+.btn {
+  padding: 1.5rem;
+  font-size: 2rem;
+  margin-top: 5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn--valid {
+  background-color: var(--btn-bg);
+}
+
+.btn--valid:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+.btn--container {
+  width: 80%;
+  display: flex;
+}
+
+.btn--back {
+  margin-right: 3rem;
+}
+
+.btn--create {
+  margin-left: 3rem;
+}

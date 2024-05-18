@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Modal from "../../UI/Modal/Modal";
 import SubTitle from "../../UI/SubTitle/SubTitle";
+import Button from "../../UI/Button/Button";
 import styles from "./InitialData.module.css";
 import fetcher from "../../../Others/Fetcher/fetcher";
 
@@ -84,11 +85,19 @@ function InitialData(props) {
           <div className={styles["main-category--inner-container"]}>
             {mainCategoryList}
           </div>
+          <div className={styles["btn-container"]}>
+            <Button className={styles.btn}>add</Button>
+            <Button className={styles.btn}>delete</Button>
+          </div>
         </div>
         <div className={styles["sub-category--container"]}>
           <div className={styles["category-title"]}>Sub Category</div>
           <div className={styles["sub-category--inner-container"]}>
             {subCategoryList}
+          </div>
+          <div className={styles["btn-container"]}>
+            <Button className={styles.btn}>add</Button>
+            <Button className={styles.btn}>delete</Button>
           </div>
         </div>
       </div>

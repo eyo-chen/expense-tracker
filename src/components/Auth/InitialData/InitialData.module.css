@@ -97,6 +97,7 @@
 
 .btn-container {
   margin-top: auto;
+  margin-bottom: -10px;
 }
 
 .btn {

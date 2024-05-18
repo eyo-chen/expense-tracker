@@ -76,6 +76,44 @@ function InitialData(props) {
     setCurSubCategoryIndex(index);
   }
 
+  function deleteMainCategoryHandler() {
+    // delete main category
+    const newMainCategoryList = initData.expense.filter((_, i) => i !== curMainCategoryIndex);
+    setInitData((prevData) => {
+      return {
+        ...prevData,
+        expense: newMainCategoryList,
+      };
+    });
+
+    // reset current main category index
+    const newIndex = curMainCategoryIndex === 0 ? 0 : curMainCategoryIndex - 1;
+    setCurMainCategoryIndex(newIndex);
+  }
+
+  function deleteSubCategoryHandler() {
+    // delete sub category
+    const newSubCategoryList = initData.expense[curMainCategoryIndex].sub_categories.filter((_, i) => i !== curSubCategoryIndex);
+    setInitData((prevData) => {
+      return {
+        ...prevData,
+        expense: prevData.expense.map((category, index) => {
+          if (index === curMainCategoryIndex) {
+            return {
+              ...category,
+              sub_categories: newSubCategoryList,
+            };
+          }
+          return category;
+        }),
+      };
+    });
+
+    // reset current sub category index
+    const newIndex = curSubCategoryIndex === 0 ? 0 : curSubCategoryIndex - 1;
+    setCurSubCategoryIndex(newIndex);
+  }
+
   return (
     <Modal classModal={`${styles.modal}`}>
       <SubTitle className={styles.subtitle}>Please customize your initial data</SubTitle>
@@ -87,7 +125,7 @@ function InitialData(props) {
           </div>
           <div className={styles["btn-container"]}>
             <Button className={styles.btn}>add</Button>
-            <Button className={styles.btn}>delete</Button>
+            <Button className={styles.btn} onClick={deleteMainCategoryHandler}>delete</Button>
           </div>
         </div>
         <div className={styles["sub-category--container"]}>
@@ -97,7 +135,7 @@ function InitialData(props) {
           </div>
           <div className={styles["btn-container"]}>
             <Button className={styles.btn}>add</Button>
-            <Button className={styles.btn}>delete</Button>
+            <Button className={styles.btn} onClick={deleteSubCategoryHandler}>delete</Button>
           </div>
         </div>
       </div>

@@ -8,26 +8,15 @@
   font-size: 4rem;
   text-align: center;
   letter-spacing: 2px;
+  margin-top: 2rem;
 }
 
-.title__last {
-  display: flex;
-  justify-content: center;
-  letter-spacing: 3.5px;
-}
-
-.title__icon {
-  color: rgb(66, 66, 245);
-  height: 100%;
-  margin: auto 4px auto 1px;
-}
-
-.btn--container {
-  width: 40%;
+.form {
+  width: 80%;
+  height: 60%;
 }
 
 .btn {
-  background-color: var(--btn-bg);
   padding: 1.5rem;
   font-size: 2rem;
   margin-top: 5rem;
@@ -38,16 +27,23 @@
   justify-content: center;
 }
 
-.btn:hover {
+.btn--valid {
+  background-color: var(--btn-bg);
+}
+
+.btn--valid:hover {
   background-color: var(--btn-hover-bg);
 }
 
-.btn__text {
-  display: none;
+.btn--container {
+  width: 80%;
+  display: flex;
 }
 
-@media screen and (max-width: 800px) {
-  .modal {
-    width: 70vw;
-  }
+.btn--back {
+  margin-right: 3rem;
+}
+
+.btn--create {
+  margin-left: 3rem;
 }

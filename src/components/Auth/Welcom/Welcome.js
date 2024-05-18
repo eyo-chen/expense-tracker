@@ -4,7 +4,15 @@ import Button from "./../../UI/Button/Button";
 import { SiCashapp } from "react-icons/si";
 import styles from "./WelcomeModel.module.css";
 
-function Welcome() {
+function Welcome(props) {
+  const loginHandler = () => {
+    props.setAuthState("login");
+  };
+
+  const signupHandler = () => {
+    props.setAuthState("signup");
+  }
+
   return (
     <Modal classModal={`${styles.modal} center--flex`}>
       <div>
@@ -17,10 +25,10 @@ function Welcome() {
       </div>
 
       <div className={styles["btn--container"]}>
-        <Button className={styles.btn}>
+        <Button className={styles.btn} onClick={loginHandler}>
           Login
         </Button>
-        <Button className={styles.btn}>
+        <Button className={styles.btn} onClick={signupHandler}>
           Signup
         </Button>
       </div>

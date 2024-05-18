@@ -10,6 +10,7 @@ function InitialData(props) {
     income: [],
   });
   const [curMainCategoryIndex, setCurMainCategoryIndex] = useState(0);
+  const [curSubCategoryIndex, setCurSubCategoryIndex] = useState(0);
 
   useEffect(() => {
     fetchInitData()
@@ -48,14 +49,30 @@ function InitialData(props) {
     );
   });
 
-  const subCategoryList = initData.expense[curMainCategoryIndex]?.sub_categories.map((category) => {
+  const subCategoryList = initData.expense[curMainCategoryIndex]?.sub_categories.map((category, index) => {
     return (
-      <div className={styles.item} key={category}>{category}</div>
+      <div 
+        key={category}
+        onClick={() => subCategoryClickHandler(index)}
+        className={`${styles.item}  ${
+          index === curSubCategoryIndex
+          ? props.curType === "expense"
+            ? styles["item--active--expense"]
+            : styles["item--active--income"]
+          : ""
+      }`}
+      >
+        {category}
+      </div>
     );
   });
 
   function mainCategoryClickHandler(index) {
     setCurMainCategoryIndex(index);
+  }
+
+  function subCategoryClickHandler(index) {
+    setCurSubCategoryIndex(index);
   }
 
   return (

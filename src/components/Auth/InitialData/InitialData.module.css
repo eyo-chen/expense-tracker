@@ -94,3 +94,20 @@
   font-size: 1.7rem;
   margin-bottom: 1rem;
 }
+
+.btn-container {
+  margin-top: auto;
+  margin-bottom: -10px;
+}
+
+.btn {
+  font-size: 1.7rem;
+  padding: 1rem 2rem;
+  letter-spacing: 1px;
+  margin-right: 3rem; /* fix flex gap */
+  background-color: var(--btn-bg);
+}
+
+.btn:hover {
+  background-color: var(--btn-hover-bg);
+}

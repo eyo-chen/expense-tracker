@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Modal from "../../UI/Modal/Modal";
 import SubTitle from "../../UI/SubTitle/SubTitle";
+import Button from "../../UI/Button/Button";
 import styles from "./InitialData.module.css";
 import fetcher from "../../../Others/Fetcher/fetcher";
 
@@ -10,6 +11,7 @@ function InitialData(props) {
     income: [],
   });
   const [curMainCategoryIndex, setCurMainCategoryIndex] = useState(0);
+  const [curSubCategoryIndex, setCurSubCategoryIndex] = useState(0);
 
   useEffect(() => {
     fetchInitData()
@@ -48,14 +50,68 @@ function InitialData(props) {
     );
   });
 
-  const subCategoryList = initData.expense[curMainCategoryIndex]?.sub_categories.map((category) => {
+  const subCategoryList = initData.expense[curMainCategoryIndex]?.sub_categories.map((category, index) => {
     return (
-      <div className={styles.item} key={category}>{category}</div>
+      <div 
+        key={category}
+        onClick={() => subCategoryClickHandler(index)}
+        className={`${styles.item}  ${
+          index === curSubCategoryIndex
+          ? props.curType === "expense"
+            ? styles["item--active--expense"]
+            : styles["item--active--income"]
+          : ""
+      }`}
+      >
+        {category}
+      </div>
     );
   });
 
   function mainCategoryClickHandler(index) {
     setCurMainCategoryIndex(index);
+  }
+
+  function subCategoryClickHandler(index) {
+    setCurSubCategoryIndex(index);
+  }
+
+  function deleteMainCategoryHandler() {
+    // delete main category
+    const newMainCategoryList = initData.expense.filter((_, i) => i !== curMainCategoryIndex);
+    setInitData((prevData) => {
+      return {
+        ...prevData,
+        expense: newMainCategoryList,
+      };
+    });
+
+    // reset current main category index
+    const newIndex = curMainCategoryIndex === 0 ? 0 : curMainCategoryIndex - 1;
+    setCurMainCategoryIndex(newIndex);
+  }
+
+  function deleteSubCategoryHandler() {
+    // delete sub category
+    const newSubCategoryList = initData.expense[curMainCategoryIndex].sub_categories.filter((_, i) => i !== curSubCategoryIndex);
+    setInitData((prevData) => {
+      return {
+        ...prevData,
+        expense: prevData.expense.map((category, index) => {
+          if (index === curMainCategoryIndex) {
+            return {
+              ...category,
+              sub_categories: newSubCategoryList,
+            };
+          }
+          return category;
+        }),
+      };
+    });
+
+    // reset current sub category index
+    const newIndex = curSubCategoryIndex === 0 ? 0 : curSubCategoryIndex - 1;
+    setCurSubCategoryIndex(newIndex);
   }
 
   return (
@@ -67,11 +123,19 @@ function InitialData(props) {
           <div className={styles["main-category--inner-container"]}>
             {mainCategoryList}
           </div>
+          <div className={styles["btn-container"]}>
+            <Button className={styles.btn}>add</Button>
+            <Button className={styles.btn} onClick={deleteMainCategoryHandler}>delete</Button>
+          </div>
         </div>
         <div className={styles["sub-category--container"]}>
           <div className={styles["category-title"]}>Sub Category</div>
           <div className={styles["sub-category--inner-container"]}>
             {subCategoryList}
+          </div>
+          <div className={styles["btn-container"]}>
+            <Button className={styles.btn}>add</Button>
+            <Button className={styles.btn} onClick={deleteSubCategoryHandler}>delete</Button>
           </div>
         </div>
       </div>

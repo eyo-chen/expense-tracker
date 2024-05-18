@@ -5,6 +5,7 @@ import Button from "./../../UI/Button/Button";
 import AuthInput from "./../AuthInput/AuthInput";
 import HorizontalLine from "./../../UI/HorizontalLine/HorizontalLine";
 import styles from "./Signup.module.css";
+import isEmailValid from "../../../Others/IsEmailValid/isEmailValid";
 
 function Signup(props){
   const [formData, formDataDispatch] = useReducer(reducer, {
@@ -231,11 +232,3 @@ function reducer(state, action){
       return state;
   }
 }
-
-const isEmailValid = email => {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-};

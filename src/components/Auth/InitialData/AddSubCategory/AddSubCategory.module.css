@@ -1,0 +1,73 @@
+.modal {
+  height: 60%;
+}
+
+.title {
+  text-align: center;
+  margin: 3rem 0 1.5rem 0;
+}
+
+.subtitle__container {
+  margin: 3rem auto 5rem auto;
+  width: 70%;
+  text-align: center;
+}
+
+.container {
+  position: relative;
+}
+
+.input__container {
+  width: 70%;
+  margin: 3rem auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  /* gap: 5px; */
+}
+
+.label {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.input {
+  font-size: 2rem;
+}
+
+.warning {
+  margin-top: 1rem;
+  left: 15%;
+  font-size: 1.5rem;
+}
+
+.btn__container {
+  margin-top: 8rem;
+  display: flex;
+  justify-content: center;
+  /* gap: 4rem; */
+}
+
+.btn {
+  font-size: 2rem;
+  letter-spacing: 1.5px;
+  padding: 1rem 2.5rem;
+  margin-right: 3rem; /* fix flex gap */
+}
+
+@media screen and (max-width: 1000px) {
+  .modal {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .modal {
+    width: 55%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .modal {
+    width: 65%;
+  }
+}

@@ -5,6 +5,7 @@ import Button from "../../UI/Button/Button";
 import styles from "./InitialData.module.css";
 import fetcher from "../../../Others/Fetcher/fetcher";
 import AddMainCategoryModal from "./AddMainCategory/AddMainCategory";
+import AddSubCategoryModal from "./AddSubCategory/AddSubCategory";
 
 function InitialData(props) {
   const [initData, setInitData] = useState({
@@ -14,6 +15,7 @@ function InitialData(props) {
   const [curMainCategoryIndex, setCurMainCategoryIndex] = useState(0);
   const [curSubCategoryIndex, setCurSubCategoryIndex] = useState(0);
   const [isAddingMainCategory, setIsAddingMainCategory] = useState(false);
+  const [isAddingSubCategory, setIsAddingSubCategory] = useState(false);
 
   useEffect(() => {
     fetchInitData()
@@ -72,6 +74,8 @@ function InitialData(props) {
     );
   });
 
+  const subCategoryNameList = initData.expense[curMainCategoryIndex]?.sub_categories
+
   function mainCategoryClickHandler(index) {
     setCurMainCategoryIndex(index);
   }
@@ -82,6 +86,10 @@ function InitialData(props) {
 
   function addMainCategoryModalToggler() {
     setIsAddingMainCategory((prev) => !prev);
+  }
+
+  function addSubCategoryModalToggler() {
+    setIsAddingSubCategory((prev) => !prev);
   }
 
   function addMainCategoryHandler(name, icon) {
@@ -101,6 +109,29 @@ function InitialData(props) {
     // reset current main category index
     const newIndex = initData.expense.length;
     setCurMainCategoryIndex(newIndex);
+  }
+
+  function addSubCategoryHandler(name) {
+    // add sub category
+    const newSubCategoryList = [...initData.expense[curMainCategoryIndex].sub_categories, name];
+    setInitData((prevData) => {
+      return {
+        ...prevData,
+        expense: prevData.expense.map((category, index) => {
+          if (index === curMainCategoryIndex) {
+            return {
+              ...category,
+              sub_categories: newSubCategoryList,
+            };
+          }
+          return category;
+        }),
+      };
+    });
+
+    // reset current sub category index
+    const newIndex = initData.expense[curMainCategoryIndex].sub_categories.length;
+    setCurSubCategoryIndex(newIndex);
   }
 
   function deleteMainCategoryHandler() {
@@ -141,39 +172,47 @@ function InitialData(props) {
     setCurSubCategoryIndex(newIndex);
   }
 
-return <>
-  {isAddingMainCategory && 
-    <AddMainCategoryModal 
-      categoryNameList={mainCategoryNameList}
-      addMainCategoryModalToggler={addMainCategoryModalToggler}
-      addMainCategoryHandler={addMainCategoryHandler}
-    />
-  }
-  <Modal classModal={`${styles.modal}`}>
-      <SubTitle className={styles.subtitle}>Please customize your initial data</SubTitle>
-      <div className={styles.container}>
-        <div className={styles["main-category--container"]}>
-          <div className={styles["category-title"]}>Main Category</div>
-          <div className={styles["main-category--inner-container"]}>
-            {mainCategoryList}
+  return <>
+    {isAddingMainCategory && 
+      <AddMainCategoryModal 
+        categoryNameList={mainCategoryNameList}
+        addMainCategoryModalToggler={addMainCategoryModalToggler}
+        addMainCategoryHandler={addMainCategoryHandler}
+      />
+    }
+    {isAddingSubCategory &&
+      <AddSubCategoryModal
+        categoryNameList={subCategoryNameList}
+        curMainCategory={initData.expense[curMainCategoryIndex]}
+        addSubCategoryModalToggler={addSubCategoryModalToggler}
+        addSubCategoryHandler={addSubCategoryHandler}
+      />
+    }
+    <Modal classModal={`${styles.modal}`}>
+        <SubTitle className={styles.subtitle}>Please customize your initial data</SubTitle>
+        <div className={styles.container}>
+          <div className={styles["main-category--container"]}>
+            <div className={styles["category-title"]}>Main Category</div>
+            <div className={styles["main-category--inner-container"]}>
+              {mainCategoryList}
+            </div>
+            <div className={styles["btn-container"]}>
+              <Button className={styles.btn} onClick={addMainCategoryModalToggler}>add</Button>
+              <Button className={styles.btn} onClick={deleteMainCategoryHandler}>delete</Button>
+            </div>
           </div>
-          <div className={styles["btn-container"]}>
-            <Button className={styles.btn} onClick={addMainCategoryModalToggler}>add</Button>
-            <Button className={styles.btn} onClick={deleteMainCategoryHandler}>delete</Button>
+          <div className={styles["sub-category--container"]}>
+            <div className={styles["category-title"]}>Sub Category</div>
+            <div className={styles["sub-category--inner-container"]}>
+              {subCategoryList}
+            </div>
+            <div className={styles["btn-container"]}>
+              <Button className={styles.btn} onClick={addSubCategoryModalToggler} >add</Button>
+              <Button className={styles.btn} onClick={deleteSubCategoryHandler}>delete</Button>
+            </div>
           </div>
         </div>
-        <div className={styles["sub-category--container"]}>
-          <div className={styles["category-title"]}>Sub Category</div>
-          <div className={styles["sub-category--inner-container"]}>
-            {subCategoryList}
-          </div>
-          <div className={styles["btn-container"]}>
-            <Button className={styles.btn}>add</Button>
-            <Button className={styles.btn} onClick={deleteSubCategoryHandler}>delete</Button>
-          </div>
-        </div>
-      </div>
-    </Modal>
+      </Modal>
   </>
 }
 

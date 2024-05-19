@@ -29,7 +29,7 @@
 .main-category--inner-container {
   display: flex;
   flex-wrap: wrap;
-  max-height: 95%;
+  max-height: 80%;
   overflow: auto;
   border-right: 1px solid var(--line-low);
   padding-top: 1rem;
@@ -48,7 +48,7 @@
 .sub-category--inner-container {
   display: flex;
   flex-wrap: wrap;
-  max-height: 95%;
+  max-height: 80%;
   overflow: auto;
   padding-top: 1rem;
 }

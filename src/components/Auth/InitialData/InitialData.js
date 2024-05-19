@@ -4,6 +4,7 @@ import SubTitle from "../../UI/SubTitle/SubTitle";
 import Button from "../../UI/Button/Button";
 import styles from "./InitialData.module.css";
 import fetcher from "../../../Others/Fetcher/fetcher";
+import AddMainCategoryModal from "./AddMainCategory/AddMainCategory";
 
 function InitialData(props) {
   const [initData, setInitData] = useState({
@@ -12,6 +13,7 @@ function InitialData(props) {
   });
   const [curMainCategoryIndex, setCurMainCategoryIndex] = useState(0);
   const [curSubCategoryIndex, setCurSubCategoryIndex] = useState(0);
+  const [isAddingMainCategory, setIsAddingMainCategory] = useState(false);
 
   useEffect(() => {
     fetchInitData()
@@ -50,6 +52,8 @@ function InitialData(props) {
     );
   });
 
+  const mainCategoryNameList = initData.expense.map(({name}) => name)
+
   const subCategoryList = initData.expense[curMainCategoryIndex]?.sub_categories.map((category, index) => {
     return (
       <div 
@@ -74,6 +78,29 @@ function InitialData(props) {
 
   function subCategoryClickHandler(index) {
     setCurSubCategoryIndex(index);
+  }
+
+  function addMainCategoryModalToggler() {
+    setIsAddingMainCategory((prev) => !prev);
+  }
+
+  function addMainCategoryHandler(name, icon) {
+    // add main category
+    const newMainCategory = {
+      name,
+      icon,
+      sub_categories: [],
+    };
+    setInitData((prevData) => {
+      return {
+        ...prevData,
+        expense: [...prevData.expense, newMainCategory],
+      };
+    });
+
+    // reset current main category index
+    const newIndex = initData.expense.length;
+    setCurMainCategoryIndex(newIndex);
   }
 
   function deleteMainCategoryHandler() {
@@ -114,8 +141,15 @@ function InitialData(props) {
     setCurSubCategoryIndex(newIndex);
   }
 
-  return (
-    <Modal classModal={`${styles.modal}`}>
+return <>
+  {isAddingMainCategory && 
+    <AddMainCategoryModal 
+      categoryNameList={mainCategoryNameList}
+      addMainCategoryModalToggler={addMainCategoryModalToggler}
+      addMainCategoryHandler={addMainCategoryHandler}
+    />
+  }
+  <Modal classModal={`${styles.modal}`}>
       <SubTitle className={styles.subtitle}>Please customize your initial data</SubTitle>
       <div className={styles.container}>
         <div className={styles["main-category--container"]}>
@@ -124,7 +158,7 @@ function InitialData(props) {
             {mainCategoryList}
           </div>
           <div className={styles["btn-container"]}>
-            <Button className={styles.btn}>add</Button>
+            <Button className={styles.btn} onClick={addMainCategoryModalToggler}>add</Button>
             <Button className={styles.btn} onClick={deleteMainCategoryHandler}>delete</Button>
           </div>
         </div>
@@ -139,9 +173,8 @@ function InitialData(props) {
           </div>
         </div>
       </div>
-
     </Modal>
-  );
+  </>
 }
 
 export default InitialData;

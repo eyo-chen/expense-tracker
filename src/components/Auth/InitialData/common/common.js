@@ -35,7 +35,7 @@ function Common(props) {
     props.categoryChangeHandler([...props.mainCategoryList, newMainCategory]);
 
     // reset current main category index
-    const newIndex = props.mainCategoryList.length;
+    const newIndex = props.mainCategoryList?.length;
     setCurMainCategoryIndex(newIndex);
   }
 
@@ -46,7 +46,7 @@ function Common(props) {
       ...props.mainCategoryList[curMainCategoryIndex],
       sub_categories: newSubCategoryList,
     };
-    const newMainCategoryList = props.mainCategoryList.map((category, index) => {
+    const newMainCategoryList = props.mainCategoryList?.map((category, index) => {
       if (index === curMainCategoryIndex) {
         return newMainCategory;
       }
@@ -62,7 +62,7 @@ function Common(props) {
 
   function deleteMainCategoryHandler() {
     // delete main category
-    const newMainCategoryList = props.mainCategoryList.filter((_, i) => i !== curMainCategoryIndex);
+    const newMainCategoryList = props.mainCategoryList?.filter((_, i) => i !== curMainCategoryIndex);
     props.categoryChangeHandler(newMainCategoryList);
 
     // reset current main category index
@@ -77,7 +77,7 @@ function Common(props) {
       ...props.mainCategoryList[curMainCategoryIndex],
       sub_categories: newSubCategoryList,
     };
-    const newMainCategoryList = props.mainCategoryList.map((category, index) => {
+    const newMainCategoryList = props.mainCategoryList?.map((category, index) => {
       if (index === curMainCategoryIndex) {
         return newMainCategory;
       }
@@ -90,7 +90,7 @@ function Common(props) {
     setCurSubCategoryIndex(newIndex);
   }
 
-  const mainCategoryList = props.mainCategoryList.map((data, index) => {
+  const mainCategoryList = props.mainCategoryList?.map((data, index) => {
     return (
       <div 
         key={data.name}
@@ -115,9 +115,11 @@ function Common(props) {
       </div>
     )
   });
-  const mainCategoryNameList = props.mainCategoryList.map(({name}) => name)
+  const mainCategoryNameList = props.mainCategoryList?.map(({name}) => name)
 
-  const subCategoryList = props.mainCategoryList[curMainCategoryIndex]?.sub_categories.map((data, index) => {
+  const subCategoryList = !props.mainCategoryList ? 
+    [] :
+    props.mainCategoryList[curMainCategoryIndex]?.sub_categories?.map((data, index) => {
     return (
       <div
         key={data}
@@ -134,7 +136,8 @@ function Common(props) {
       </div>
     );
   });
-  const subCategoryNameList = props.mainCategoryList[curMainCategoryIndex]?.sub_categories
+  const subCategoryNameList = !props.mainCategoryList ?
+    [] : props.mainCategoryList[curMainCategoryIndex]?.sub_categories
 
   return <>
     {isAddingMainCategory && 
@@ -153,7 +156,7 @@ function Common(props) {
       />
     }
     <Modal classModal={`${styles.modal}`}>
-        <SubTitle className={styles.subtitle}>Please customize your initial data</SubTitle>
+        <SubTitle className={styles.subtitle}>{props.subTitle}</SubTitle>
         <div className={styles.container}>
           <div className={styles["main-category--container"]}>
             <div className={styles["category-title"]}>Main Category</div>
@@ -175,6 +178,10 @@ function Common(props) {
               <Button className={styles.btn} onClick={deleteSubCategoryHandler}>delete</Button>
             </div>
           </div>
+        </div>
+        <div className={styles["state-btn-container"]}>
+          {props.type === "INCOME" && <Button className={styles.btn} onClick={props.prevBtnClickHandler}>Prev</Button>}
+          <Button className={styles.btn} onClick={props.nextBtnClickHandler}>Next</Button>
         </div>
       </Modal>
   </>

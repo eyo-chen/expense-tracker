@@ -1,10 +1,11 @@
 .modal {
   width: 65vw;
   height: 70vh;
+  position: relative;
 }
 
 .subtitle {
-  margin-top: 3rem;
+  padding-top: 3rem;
   margin-left: 3rem
 }
 
@@ -110,4 +111,10 @@
 
 .btn:hover {
   background-color: var(--btn-hover-bg);
+}
+
+.state-btn-container {
+  position: absolute;
+  bottom: 40px;
+  right: 5px;
 }

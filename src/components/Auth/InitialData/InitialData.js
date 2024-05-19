@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import fetcher from "../../../Others/Fetcher/fetcher";
 import Common from "./common/common";
 
-function InitialData(props) {
-  const [type, setType] = useState("expense");
+function InitialData() {
+  const [type, setType] = useState("EXPENSE");
   const [initData, setInitData] = useState({
     expense: [],
     income: [],
@@ -38,10 +38,41 @@ function InitialData(props) {
     });
   }
 
+  function nextBtnClickHandler() {
+    if (type === "EXPENSE") {
+      setType("INCOME");
+      return;
+    }
+
+    // save data to db
+  }
+
+  function prevBtnClickHandler() {
+    if (type === "INCOME") {
+      setType("EXPENSE");
+      return;
+    }
+  }
+
+  const TYPE_TO_INFO = {
+    EXPENSE: {
+      subTitle: "please customize your main category of expense",
+      mainCategoryList: initData.expense,
+    },
+    INCOME: {
+      subTitle: "please customize your main category of income",
+      mainCategoryList: initData.income,
+    },
+  };
+
   return <>
     <Common
-      mainCategoryList={initData.expense}
+      type={type}
+      subTitle={TYPE_TO_INFO[type]?.subTitle}
+      mainCategoryList={TYPE_TO_INFO[type]?.mainCategoryList}
       categoryChangeHandler={categoryChangeHandler}
+      nextBtnClickHandler={nextBtnClickHandler}
+      prevBtnClickHandler={prevBtnClickHandler}
     />
   </>
 

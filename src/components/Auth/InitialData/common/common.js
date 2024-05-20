@@ -90,6 +90,21 @@ function Common(props) {
     setCurSubCategoryIndex(newIndex);
   }
 
+  function resetIndex() {
+    setCurMainCategoryIndex(0);
+    setCurSubCategoryIndex(0);
+  }
+
+  function nextBtnClickHandler() {
+    resetIndex();
+    props.nextBtnClickHandler();
+  }
+
+  function prevBtnClickHandler() {
+    resetIndex();
+    props.prevBtnClickHandler();
+  }
+
   const mainCategoryList = props.mainCategoryList?.map((data, index) => {
     return (
       <div 
@@ -97,7 +112,7 @@ function Common(props) {
         onClick={() => mainCategoryClickHandler(index)}
         className={`${styles.item}  ${
           index === curMainCategoryIndex
-          ? props.curType === "expense"
+          ? props.type === "EXPENSE"
             ? styles["item--active--expense"]
             : styles["item--active--income"]
           : ""
@@ -126,7 +141,7 @@ function Common(props) {
         onClick={() => setCurSubCategoryIndex(index)}
         className={`${styles.item}  ${
           index === curSubCategoryIndex
-          ? props.type === "expense"
+          ? props.type === "EXPENSE"
             ? styles["item--active--expense"]
             : styles["item--active--income"]
           : ""
@@ -141,7 +156,8 @@ function Common(props) {
 
   return <>
     {isAddingMainCategory && 
-      <AddMainCategoryModal 
+      <AddMainCategoryModal
+        type={props.type} 
         categoryNameList={mainCategoryNameList}
         addMainCategoryModalToggler={addMainCategoryModalToggler}
         addMainCategoryHandler={addMainCategoryHandler}
@@ -180,9 +196,10 @@ function Common(props) {
           </div>
         </div>
         <div className={styles["state-btn-container"]}>
-          {props.type === "INCOME" && <Button className={styles.btn} onClick={props.prevBtnClickHandler}>Prev</Button>}
-          <Button className={styles.btn} onClick={props.nextBtnClickHandler}>Next</Button>
+          {props.type === "INCOME" && <Button className={styles.btn} onClick={prevBtnClickHandler}>Prev</Button>}
+          <Button className={styles.btn} onClick={nextBtnClickHandler}>Next</Button>
         </div>
+        <p className={styles.note}>You can still customize your category data later</p>
       </Modal>
   </>
 }

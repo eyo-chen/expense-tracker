@@ -20,7 +20,7 @@ function InitialData() {
   }, []);
 
   function categoryChangeHandler(data) {
-    if (type === "expense") {
+    if (type === "EXPENSE") {
       setInitData((prevData) => {
         return {
           ...prevData,

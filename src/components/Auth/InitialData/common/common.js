@@ -35,7 +35,7 @@ function Common(props) {
     props.categoryChangeHandler([...props.mainCategoryList, newMainCategory]);
 
     // reset current main category index
-    const newIndex = props.mainCategoryList.length;
+    const newIndex = props.mainCategoryList?.length;
     setCurMainCategoryIndex(newIndex);
   }
 
@@ -46,7 +46,7 @@ function Common(props) {
       ...props.mainCategoryList[curMainCategoryIndex],
       sub_categories: newSubCategoryList,
     };
-    const newMainCategoryList = props.mainCategoryList.map((category, index) => {
+    const newMainCategoryList = props.mainCategoryList?.map((category, index) => {
       if (index === curMainCategoryIndex) {
         return newMainCategory;
       }
@@ -62,7 +62,7 @@ function Common(props) {
 
   function deleteMainCategoryHandler() {
     // delete main category
-    const newMainCategoryList = props.mainCategoryList.filter((_, i) => i !== curMainCategoryIndex);
+    const newMainCategoryList = props.mainCategoryList?.filter((_, i) => i !== curMainCategoryIndex);
     props.categoryChangeHandler(newMainCategoryList);
 
     // reset current main category index
@@ -77,7 +77,7 @@ function Common(props) {
       ...props.mainCategoryList[curMainCategoryIndex],
       sub_categories: newSubCategoryList,
     };
-    const newMainCategoryList = props.mainCategoryList.map((category, index) => {
+    const newMainCategoryList = props.mainCategoryList?.map((category, index) => {
       if (index === curMainCategoryIndex) {
         return newMainCategory;
       }
@@ -90,14 +90,29 @@ function Common(props) {
     setCurSubCategoryIndex(newIndex);
   }
 
-  const mainCategoryList = props.mainCategoryList.map((data, index) => {
+  function resetIndex() {
+    setCurMainCategoryIndex(0);
+    setCurSubCategoryIndex(0);
+  }
+
+  function nextBtnClickHandler() {
+    resetIndex();
+    props.nextBtnClickHandler();
+  }
+
+  function prevBtnClickHandler() {
+    resetIndex();
+    props.prevBtnClickHandler();
+  }
+
+  const mainCategoryList = props.mainCategoryList?.map((data, index) => {
     return (
       <div 
         key={data.name}
         onClick={() => mainCategoryClickHandler(index)}
         className={`${styles.item}  ${
           index === curMainCategoryIndex
-          ? props.curType === "expense"
+          ? props.type === "EXPENSE"
             ? styles["item--active--expense"]
             : styles["item--active--income"]
           : ""
@@ -115,16 +130,18 @@ function Common(props) {
       </div>
     )
   });
-  const mainCategoryNameList = props.mainCategoryList.map(({name}) => name)
+  const mainCategoryNameList = props.mainCategoryList?.map(({name}) => name)
 
-  const subCategoryList = props.mainCategoryList[curMainCategoryIndex]?.sub_categories.map((data, index) => {
+  const subCategoryList = !props.mainCategoryList ? 
+    [] :
+    props.mainCategoryList[curMainCategoryIndex]?.sub_categories?.map((data, index) => {
     return (
       <div
         key={data}
         onClick={() => setCurSubCategoryIndex(index)}
         className={`${styles.item}  ${
           index === curSubCategoryIndex
-          ? props.type === "expense"
+          ? props.type === "EXPENSE"
             ? styles["item--active--expense"]
             : styles["item--active--income"]
           : ""
@@ -134,11 +151,13 @@ function Common(props) {
       </div>
     );
   });
-  const subCategoryNameList = props.mainCategoryList[curMainCategoryIndex]?.sub_categories
+  const subCategoryNameList = !props.mainCategoryList ?
+    [] : props.mainCategoryList[curMainCategoryIndex]?.sub_categories
 
   return <>
     {isAddingMainCategory && 
-      <AddMainCategoryModal 
+      <AddMainCategoryModal
+        type={props.type} 
         categoryNameList={mainCategoryNameList}
         addMainCategoryModalToggler={addMainCategoryModalToggler}
         addMainCategoryHandler={addMainCategoryHandler}
@@ -153,7 +172,7 @@ function Common(props) {
       />
     }
     <Modal classModal={`${styles.modal}`}>
-        <SubTitle className={styles.subtitle}>Please customize your initial data</SubTitle>
+        <SubTitle className={styles.subtitle}>{props.subTitle}</SubTitle>
         <div className={styles.container}>
           <div className={styles["main-category--container"]}>
             <div className={styles["category-title"]}>Main Category</div>
@@ -176,6 +195,11 @@ function Common(props) {
             </div>
           </div>
         </div>
+        <div className={styles["state-btn-container"]}>
+          {props.type === "INCOME" && <Button className={styles.btn} onClick={prevBtnClickHandler}>Prev</Button>}
+          <Button className={styles.btn} onClick={nextBtnClickHandler}>Next</Button>
+        </div>
+        <p className={styles.note}>You can still customize your category data later</p>
       </Modal>
   </>
 }

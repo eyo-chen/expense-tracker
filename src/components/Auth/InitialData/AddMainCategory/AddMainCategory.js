@@ -88,7 +88,7 @@ function AddMainCategoryModal(props) {
           label={iconImg}
           value={id}
           classLabel={`${styles.icon} transition--25 ${
-            props.curType === "expense"
+            props.type === "EXPENSE"
               ? `${styles["icon--expense"]}`
               : `${styles["icon--income"]}`
           }`}

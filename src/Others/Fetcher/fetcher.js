@@ -19,8 +19,11 @@ async function fetcher(endpoint, method, data) {
     return resp.data
   }
   catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
+    const errorObj = {
+      status: error.response.status,
+      data: error.response.data,
+    }
+    throw errorObj;
   }
 }
 

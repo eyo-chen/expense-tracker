@@ -10,6 +10,8 @@ import isEmailValid from "../../../Others/IsEmailValid/isEmailValid";
 import setToken from "../../../Others/SetToken/setToken";
 import fetcher from "../../../Others/Fetcher/fetcher";
 
+const EMAIL_EXISTS_ERROR = "email already exists";
+
 function Signup(props){
   const [formData, formDataDispatch] = useReducer(reducer, {
     name: "",
@@ -20,6 +22,8 @@ function Signup(props){
     isNameTouch: false,
     isEmailInValid: true,
     isEmailTouch: false,
+    isEmailExists: false,
+    existEmails: [],
     isPasswordInValid: true,
     isPasswordTouch: false,
     isPasswordNotMatch: true,
@@ -86,14 +90,18 @@ function Signup(props){
       }
     }
     catch (error) {
+      if (error.data.error === EMAIL_EXISTS_ERROR) {
+        formDataDispatch({ type: "email-exists", value: formData.email });
+      }
+
       console.log(error);
     }
     finally {
-      if (isMounted.current) {
-        setLoading(false);
-      }
+      setLoading(false);
     }
   }
+
+  const emailWarningText = formData.isEmailExists ? EMAIL_EXISTS_ERROR : "email format is invalid";
 
   return (
     <Modal classModal={`${styles.modal} center--flex`}>
@@ -118,8 +126,8 @@ function Signup(props){
           label="email" 
           type="email"
           value={formData.email}
-          isInValid={formData.isEmailInValid && formData.isEmailTouch}
-          warningText="email format is invalid"
+          isInValid={(formData.isEmailInValid || formData.isEmailExists) && formData.isEmailTouch}
+          warningText={emailWarningText}
           disabled={loading}
           onChange={emailChangeHandler}
           onBlur={emailTouchHandler}
@@ -182,7 +190,7 @@ function reducer(state, action){
         ...state, 
         name: action.value,
         isNameInValid,
-        isFormInValid: isNameInValid || state.isEmailInValid || state.isPasswordInValid || state.isConfirmPasswordInValid,
+        isFormInValid: isNameInValid || state.isEmailInValid || state.isEmailExists || state.isPasswordInValid || state.isConfirmPasswordInValid,
       };
     }
 
@@ -193,29 +201,41 @@ function reducer(state, action){
         ...state, 
         isNameTouch: true,
         isNameInValid: isNameInValid,
-        isFormInValid: isNameInValid || state.isEmailInValid || state.isPasswordInValid || state.isConfirmPasswordInValid,
+        isFormInValid: isNameInValid || state.isEmailInValid || state.isEmailExists || state.isPasswordInValid || state.isConfirmPasswordInValid,
       };
     }
 
     case "email": {
       const isEmailInValid = !isEmailValid(action.value);
+      const isEmailExists = state.existEmails.includes(action.value);
 
       return { 
         ...state, 
         email: action.value,
         isEmailInValid,
-        isFormInValid: state.isNameInValid || isEmailInValid || state.isPasswordInValid || state.isConfirmPasswordInValid,
+        isEmailExists,
+        isFormInValid: state.isNameInValid || isEmailInValid || isEmailExists || state.isPasswordInValid || state.isConfirmPasswordInValid,
       };
     }
 
     case "email-touch": {
       const isEmailInValid = !isEmailValid(state.email);
+      const isEmailExists = state.existEmails.includes(state.email);
 
       return { 
         ...state, 
         isEmailTouch: true,
         isEmailInValid,
-        isFormInValid: state.isNameInValid || isEmailInValid || state.isPasswordInValid || state.isConfirmPasswordInValid,
+        isFormInValid: state.isNameInValid || isEmailInValid || isEmailExists || state.isPasswordInValid || state.isConfirmPasswordInValid,
+      };
+    }
+
+    case "email-exists": {
+      return { 
+        ...state, 
+        isEmailExists: true,
+        existEmails: [...state.existEmails, action.value],
+        isFormInValid: true,
       };
     }
 
@@ -228,7 +248,7 @@ function reducer(state, action){
         password: action.value,
         isPasswordInValid,
         isConfirmPasswordInValid,
-        isFormInValid: state.isNameInValid || state.isEmailInValid || isPasswordInValid || isConfirmPasswordInValid,
+        isFormInValid: state.isNameInValid || state.isEmailInValid || state.isEmailExists || isPasswordInValid || isConfirmPasswordInValid,
       };
     }
 
@@ -241,7 +261,7 @@ function reducer(state, action){
         isPasswordTouch: true,
         isPasswordInValid,
         isConfirmPasswordInValid: isConfirmPasswordInValid,
-        isFormInValid: state.isNameInValid || state.isEmailInValid || isPasswordInValid || isConfirmPasswordInValid,
+        isFormInValid: state.isNameInValid || state.isEmailInValid || state.isEmailExists || isPasswordInValid || isConfirmPasswordInValid,
       };
     }
 
@@ -252,7 +272,7 @@ function reducer(state, action){
         ...state, 
         confirmPassword: action.value,
         isConfirmPasswordInValid,
-        isFormInValid: state.isNameInValid || state.isEmailInValid || state.isPasswordInValid || isConfirmPasswordInValid,
+        isFormInValid: state.isNameInValid || state.isEmailInValid || state.isEmailExists || state.isPasswordInValid || isConfirmPasswordInValid,
       };
     }
 
@@ -263,7 +283,7 @@ function reducer(state, action){
         ...state, 
         isConfirmPasswordTouch: true,
         isConfirmPasswordInValid,
-        isFormInValid: state.isNameInValid || state.isEmailInValid || state.isPasswordInValid || isConfirmPasswordInValid,
+        isFormInValid: state.isNameInValid || state.isEmailInValid || state.isEmailExists || state.isPasswordInValid || isConfirmPasswordInValid,
       };
     }
 
@@ -279,6 +299,6 @@ async function createUser(name, email, password) {
 
     return res.token;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 }

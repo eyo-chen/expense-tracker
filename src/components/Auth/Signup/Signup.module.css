@@ -16,15 +16,20 @@
   height: 60%;
 }
 
+.btn--container {
+  width: 80%;
+  display: flex;
+  min-height: 8%;
+  justify-content: center;
+}
+
 .btn {
-  padding: 1.5rem;
   font-size: 2rem;
-  margin-top: 5rem;
-  margin-bottom: 1rem;
   display: flex;
   align-items: center;
   width: 100%;
   justify-content: center;
+  height: 90%;
 }
 
 .btn--valid {
@@ -35,15 +40,17 @@
   background-color: var(--btn-hover-bg);
 }
 
-.btn--container {
-  width: 80%;
-  display: flex;
-}
-
 .btn--back {
   margin-right: 3rem;
 }
 
 .btn--create {
   margin-left: 3rem;
+}
+
+.loading {
+  top: 0%;
+  left: 0%;
+  position: relative;
+  transform: translate(0%, 0%);
 }

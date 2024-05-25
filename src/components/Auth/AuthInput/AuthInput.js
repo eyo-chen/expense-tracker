@@ -23,6 +23,7 @@ function AuthInput(props) {
         onBlur={props.onBlur}
         classInput={classInput}
         classLabel={classLabel}
+        disabled={props.disabled}
       />
       <Warning index={props.isInValid} className={styles.warning}>
         {props.warningText}

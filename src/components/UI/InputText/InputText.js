@@ -22,6 +22,7 @@ function InputText(props) {
         className={classNameInput}
         data-id={props.dataID}
         aira-label="text"
+        disabled={props.disabled}
       />
     </>
   );

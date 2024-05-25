@@ -1,11 +1,14 @@
-import { useReducer } from "react";
+import { useState, useReducer, useRef, useEffect } from "react";
 import Modal from "./../../UI/Modal/Modal";
 import Title from "./../../UI/Title/Title";
 import Button from "./../../UI/Button/Button";
 import AuthInput from "./../AuthInput/AuthInput";
 import HorizontalLine from "./../../UI/HorizontalLine/HorizontalLine";
+import Loading from "./../../UI/Loading/Loading";
 import styles from "./Signup.module.css";
 import isEmailValid from "../../../Others/IsEmailValid/isEmailValid";
+import setToken from "../../../Others/SetToken/setToken";
+import fetcher from "../../../Others/Fetcher/fetcher";
 
 function Signup(props){
   const [formData, formDataDispatch] = useReducer(reducer, {
@@ -24,6 +27,14 @@ function Signup(props){
     isConfirmPasswordTouch: false,
     isFormInValid: true,
   });
+  const [loading, setLoading] = useState(false);
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   const buttonClassName = formData.isFormInValid ? `btn--invalid` : `btn--valid ${styles["btn--valid"]}`
 
@@ -63,11 +74,32 @@ function Signup(props){
     props.setAuthState("welcome");
   }
 
+  async function submitFormHandler(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const token = await createUser(formData.name, formData.email, formData.password);
+      if (isMounted.current) {
+        setToken(token);
+        props.setAuthState("initialData");
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+    finally {
+      if (isMounted.current) {
+        setLoading(false);
+      }
+    }
+  }
+
   return (
     <Modal classModal={`${styles.modal} center--flex`}>
       <Title className={styles.title}>signup</Title>
       <HorizontalLine />
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={submitFormHandler}>
         <AuthInput 
           name="username" 
           id="name" 
@@ -75,6 +107,7 @@ function Signup(props){
           value={formData.name}
           isInValid={formData.isNameInValid && formData.isNameTouch}
           warningText="username is required"
+          disabled={loading}
           onChange={nameChangeHandler}
           onBlur={nameTouchHandler}
         />
@@ -87,6 +120,7 @@ function Signup(props){
           value={formData.email}
           isInValid={formData.isEmailInValid && formData.isEmailTouch}
           warningText="email format is invalid"
+          disabled={loading}
           onChange={emailChangeHandler}
           onBlur={emailTouchHandler}
         />
@@ -98,6 +132,7 @@ function Signup(props){
           type="password"
           isInValid={formData.isPasswordInValid && formData.isPasswordTouch}
           warningText="password must be at least 8 characters"
+          disabled={loading}
           value={formData.password}
           onChange={passwordChangeHandler}
           onBlur={passwordTouchHandler}
@@ -111,6 +146,7 @@ function Signup(props){
           value={formData.confirmPassword}
           isInValid={formData.isConfirmPasswordInValid && formData.isConfirmPasswordTouch}
           warningText="password doesn't match"
+          disabled={loading}
           onChange={confirmPasswordChangeHandler}
           onBlur={confirmPasswordTouchHandler}
         />
@@ -118,15 +154,18 @@ function Signup(props){
       </form>
 
       <div className={styles["btn--container"]}>
-        <Button
-          className={`${styles.btn} ${styles["btn--valid"]} ${styles["btn--back"]}`} 
-          onClick={btnBackHandler} 
-        >
-          Back
-        </Button>
-        <Button disabled={formData.isFormInValid} className={`${buttonClassName} ${styles["btn--create"]} ${styles.btn}`}>
-          Create
-        </Button>
+        {loading ? <Loading className={styles.loading} /> : <>
+                <Button
+                className={`${styles.btn} ${styles["btn--valid"]} ${styles["btn--back"]}`} 
+                onClick={btnBackHandler} 
+              >
+                Back
+              </Button>
+              <Button disabled={formData.isFormInValid} className={`${buttonClassName} ${styles["btn--create"]} ${styles.btn}`} type="submit" onClick={submitFormHandler}>
+                Create
+              </Button>
+              </>
+        }
       </div>
     </Modal>
   );
@@ -230,5 +269,16 @@ function reducer(state, action){
 
     default:
       return state;
+  }
+}
+
+async function createUser(name, email, password) {
+  try {
+    const body = {name, email, password};
+    const res = await fetcher("v1/user/signup", "POST", body);
+
+    return res.token;
+  } catch (error) {
+    throw new Error(error);
   }
 }

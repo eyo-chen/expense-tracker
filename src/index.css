@@ -336,6 +336,11 @@ body {
   outline-width: 1.5px;
 }
 
+.input:disabled {
+  color: var(--gray-4);
+  cursor: not-allowed;
+}
+
 .btn--valid {
   color: var(--btn-color);
   background-color: var(--btn-bg);

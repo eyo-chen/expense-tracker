@@ -1,76 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UserInfoContext from "./userInfo--context";
-import { doc, setDoc, getDoc } from "firebase/firestore";
-import { signInWithPopup, onAuthStateChanged } from "firebase/auth";
-import { db, provider, auth } from "../../firebase-config";
-import createInitialData from "../../Others/CreateInitialData/createInitialData";
+import getToken from "../../Others/GetToken/getToken";
+import fetcher from "../../Others/Fetcher/fetcher";
 
-// let userName, displayTheme, userID;
+function UserInfoProvider(props) {
+  const [userInfo, setUserInfo] = useState({});
 
-// onAuthStateChanged(auth, async (user) => {
-//   if (user) {
-//     const { displayName, email } = user;
-//     userID = `${email}${displayName.split(" ").join("")}`;
-//     const userDocSnap = await getDoc(doc(db, "users", userID));
-//     //  { userName, displayTheme } = userDocSnap.data();
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      return;
+    }
 
-//     // setUserInfo({ userName, displayTheme, userID });
-//     // setSignedIn(true);
-//     console.log("signed in");
-//   } else {
-//     // setSignedIn(false);
-//     console.log("signed out");
-//   }
-// });
+    getUserInfo().then((data) => {
+      setUserInfo(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching user info:", error);
+    });
+  }, []);
 
-// function UserInfoProvider(props) {
-//   const [userInfo, setUserInfo] = useState(false);
+  return (
+    <UserInfoContext.Provider value={{ userInfo, setUserInfo }}>
+      {props.children}
+    </UserInfoContext.Provider>
+  );
+}
 
-//   async function signInWithGoogle() {
-//     const res = await signInWithPopup(auth, provider);
-//     const { displayName, email } = res.user;
-//     let userDataObj;
+export default UserInfoProvider;
 
-//     const userID = `${email}${displayName.split(" ").join("")}`;
-
-//     const userDocSnap = await getDoc(doc(db, "users", userID));
-
-//     if (userDocSnap.exists()) {
-//       const { userName, displayTheme } = userDocSnap.data();
-//       userDataObj = {
-//         userName,
-//         displayTheme,
-//         userID,
-//       };
-//       return;
-//     }
-
-//     const [categoryExpense, categoryIncome, iconObj, iconArr] =
-//       createInitialData();
-
-//     await setDoc(doc(db, "users", userID), {
-//       userName: displayName,
-//       email,
-//       categoryExpense,
-//       categoryIncome,
-//       iconObj,
-//       iconArr,
-//       displayTheme: "dark",
-//     });
-
-//     userDataObj = { userName: displayName, userID, displayTheme: "black" };
-//     setUserInfo(userDataObj);
-//   }
-
-//   const contextObj = userInfo
-//     ? { ...userInfo, signInWithGoogle, setUserInfo }
-//     : { userData: false, signInWithGoogle, setUserInfo };
-
-//   return (
-//     <UserInfoContext.Provider value={contextObj}>
-//       {props.children}
-//     </UserInfoContext.Provider>
-//   );
-// }
-
-// export default UserInfoProvider;
+async function getUserInfo() {
+  try {
+    const response = await fetcher("v1/user", "GET", null);
+    return response
+  }
+  catch (error) {
+    throw error;
+  }
+}

@@ -1,4 +1,5 @@
-import { useReducer, useState } from "react";
+import { useReducer, useState, useContext } from "react";
+import UserInfoContext from "../../../store/userInfo/userInfo--context";
 import Modal from "./../../UI/Modal/Modal";
 import Title from "./../../UI/Title/Title";
 import Button from "./../../UI/Button/Button";
@@ -21,6 +22,7 @@ function Login(props){
     isInfoCorrect: true,
   });
   const [loading, setLoading] = useState(false);
+  const { setUserInfo } = useContext(UserInfoContext);
 
   const buttonClassName = formData.isFormInValid ? `btn--invalid` : `btn--valid ${styles["btn--valid"]}`
 
@@ -51,6 +53,9 @@ function Login(props){
     try {
       const token = await login(formData.email, formData.password);
       setToken(token);
+
+      const userInfo = await getUserInfo();
+      setUserInfo(userInfo);
     } catch (error) {
       formDataDispatch({ type: "info-correct", value: false });
     } finally {
@@ -180,6 +185,16 @@ async function login(email, password) {
     return data.token;
   }
   catch (error) {
+    throw error;
+  }
+}
+
+async function getUserInfo() {
+  try {
+    const res = await fetcher("v1/user", "GET", null);
+
+    return res;
+  } catch (error) {
     throw error;
   }
 }

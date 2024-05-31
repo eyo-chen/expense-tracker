@@ -1,4 +1,5 @@
-import { useState, useReducer, useRef, useEffect } from "react";
+import { useState, useReducer, useRef, useEffect, useContext } from "react";
+import UserInfoContext from "../../../store/userInfo/userInfo--context";
 import Modal from "./../../UI/Modal/Modal";
 import Title from "./../../UI/Title/Title";
 import Button from "./../../UI/Button/Button";
@@ -32,6 +33,7 @@ function Signup(props){
     isFormInValid: true,
   });
   const [loading, setLoading] = useState(false);
+  const { setUserInfo } = useContext(UserInfoContext);
   const isMounted = useRef(true);
 
   useEffect(() => {
@@ -87,6 +89,9 @@ function Signup(props){
       if (isMounted.current) {
         setToken(token);
         props.setAuthState("initialData");
+
+        const userInfo = await getUserInfo();
+        setUserInfo(userInfo);
       }
     }
     catch (error) {
@@ -298,6 +303,16 @@ async function createUser(name, email, password) {
     const res = await fetcher("v1/user/signup", "POST", body);
 
     return res.token;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getUserInfo() {
+  try {
+    const res = await fetcher("v1/user", "GET", null);
+
+    return res;
   } catch (error) {
     throw error;
   }

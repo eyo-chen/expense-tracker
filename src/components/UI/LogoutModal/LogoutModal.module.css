@@ -1,5 +1,5 @@
 .modal {
-  height: 60vh;
+  height: 50vh;
 }
 
 .title {
@@ -15,16 +15,11 @@
 
 .info {
   text-align: center;
-  margin-bottom: 8rem;
+  margin-bottom: 10rem;
 }
 
 .name {
   font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.img {
-  border-radius: 20px;
   margin-bottom: 1rem;
 }
 
@@ -44,13 +39,18 @@
 
 .btn__container {
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .btn {
   font-size: 2.5rem;
   padding: 1rem 2rem;
   background-color: var(--btn-bg);
-  margin: 0 4rem;
+}
+
+.btn--cancel {
+  margin-right: 5rem;
 }
 
 .btn:hover {

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import DisplayThemeProvider from "./store/displayTheme/DisplayThemeProvider";
-import UserInfoProvider from "./store/userInfo/UserInfoProvider"
+import UserInfoProvider from "./store/userInfo/userInfoProvider"
 import App from "./App";
 
 ReactDOM.render(

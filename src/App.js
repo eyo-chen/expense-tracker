@@ -22,6 +22,7 @@ import { BrowserRouter } from "react-router-dom";
 const { TODAY } = timeObj;
 
 function App() {
+  const [loading, setLoading] = useState(false);
   const [appContent, setAppContent] = useState(<Loading />);
   const [showSidebar, setShowSidebar] = useState(false);
   const [errorModal] = useErrorModal();
@@ -47,7 +48,11 @@ function App() {
   useEffect(() => {
     let appContent = <Auth />;
 
-    if (!isEmpty(userInfo) && userInfo.is_set_init_category) {
+    if (loading) {
+      appContent = <Loading />;
+    }
+
+    if (!loading && !isEmpty(userInfo) && userInfo.is_set_init_category) {
       appContent =
         <div className={`${style["app__container"]} center`}>
           {showSidebar ? (
@@ -79,12 +84,12 @@ function App() {
       </div>
     }
 
-    if (!isEmpty(userInfo) && !userInfo.is_set_init_category) {
-      appContent = <InitialData />
+    if (!loading && !isEmpty(userInfo) && !userInfo.is_set_init_category) {
+      appContent = <InitialData setLoading={setLoading} />
     }
 
     setAppContent(appContent);
-  }, [userInfo]);
+  }, [userInfo, loading]);
 
   function menuClickHandler() {
     setShowSidebar((prev) => !prev);

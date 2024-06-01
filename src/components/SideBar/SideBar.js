@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { AiOutlineBarChart } from "react-icons/ai";
@@ -6,8 +6,8 @@ import { FaSearch } from "react-icons/fa";
 import { AiFillSetting } from "react-icons/ai";
 import { MdAccountCircle } from "react-icons/md";
 import { SiCashapp } from "react-icons/si";
+import UserInfoContext from "./../../store/userInfo/userInfo--context"
 import SideBarItem from "./SideBarItem";
-import createUserID from "../../Others/CreateUserID/createUserID";
 import LogoutModal from "../UI/LogoutModal/LogoutModal";
 import styles from "./SideBar.module.css";
 
@@ -61,8 +61,8 @@ const dateOptObj1 = { year: "numeric" };
 
 function SideBar(props) {
   const [logoutModal, setLogoutModal] = useState(false);
-  const [user] = createUserID();
-  const { photoURL } = user;
+  const { userInfo } = useContext(UserInfoContext);
+  const userName = userInfo?.name[0].toUpperCase();
 
   // SIDEBAR__ICON is 2D array
   const sidebarItem = SIDEBAR__ICON.map(([title, icon]) => {
@@ -107,24 +107,9 @@ function SideBar(props) {
           <p>
             {new Intl.DateTimeFormat("en-US", dateOptObj1).format(props.today)}
           </p>
-
-          <span className={styles["user__container"]}>
-            {photoURL ? (
-              <img
-                onClick={logoutModalToggler}
-                className={styles.user}
-                src={photoURL}
-                alt="user account"
-              />
-            ) : (
-              <div
-                className={`${styles.user} ${styles.sample} center--flex`}
-                onClick={logoutModalToggler}
-              >
-                S
-              </div>
-            )}
-          </span>
+          <div className={styles["user__container"]} onClick={logoutModalToggler}>
+            {userName}
+          </div>
         </div>
       </aside>
     </>

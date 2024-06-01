@@ -22,8 +22,6 @@
 
 .sidebar__item {
   list-style: none;
-  /* display: flex;
-  flex-direction: column; */
   display: grid;
   gap: 3rem;
 }
@@ -38,6 +36,9 @@
   justify-self: flex-end;
   font-size: 1.5rem;
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .sidebar__info p {
@@ -45,12 +46,15 @@
 }
 
 .user__container {
-  position: relative;
-}
-
-.user {
-  width: 35%;
+  height: 5rem;
+  width: 5rem;
+  border: 2px solid var(--sidebar-active);
   border-radius: 50%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
   cursor: pointer;
 }
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import fetcher from "../../../Others/Fetcher/fetcher";
+import fetcher from "./../../Others/Fetcher/fetcher";
 import Common from "./common/common";
 
 function InitialData() {
@@ -45,6 +45,7 @@ function InitialData() {
     }
 
     // save data to db
+    console.log("Data to save:", initData);
   }
 
   function prevBtnClickHandler() {

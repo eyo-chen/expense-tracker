@@ -1,11 +1,11 @@
 import { useReducer } from "react";
-import Modal from "../../../UI/Modal/Modal";
-import Title from "../../../UI/Title/Title";
-import SubTitle from "../../../UI/SubTitle/SubTitle";
-import HorizontalLine from "../../../UI/HorizontalLine/HorizontalLine";
-import InputText from "../../../UI/InputText/InputText";
-import Button from "../../../UI/Button/Button";
-import Warning from "../../../UI/Warning/Warning";
+import Modal from "./../../../components/UI/Modal/Modal";
+import Title from "./../../../components/UI/Title/Title";
+import SubTitle from "./../../../components/UI/SubTitle/SubTitle";
+import HorizontalLine from "./../../../components/UI/HorizontalLine/HorizontalLine";
+import InputText from "./../../../components/UI/InputText/InputText";
+import Button from "./../../../components/UI/Button/Button";
+import Warning from "./../../../components/UI/Warning/Warning";
 import styles from "./AddSubCategory.module.css"
 
 function AddingSubCategoryModal(props) {

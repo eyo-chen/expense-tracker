@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Modal from "../../../UI/Modal/Modal";
-import SubTitle from "../../../UI/SubTitle/SubTitle";
-import Button from "../../../UI/Button/Button";
+import Modal from "./../../../components/UI/Modal/Modal";
+import SubTitle from "./../../../components/UI/SubTitle/SubTitle";
+import Button from "./../../../components/UI/Button/Button";
 import styles from "./common.module.css";
 import AddMainCategoryModal from "../AddMainCategory/AddMainCategory";
 import AddSubCategoryModal from "../AddSubCategory/AddSubCategory";

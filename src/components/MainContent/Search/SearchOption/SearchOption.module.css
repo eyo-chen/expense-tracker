@@ -1,3 +1,7 @@
+.option {
+  padding: 1rem 2rem;
+}
+
 .option__container {
   overflow-y: scroll;
   height: 85vh;

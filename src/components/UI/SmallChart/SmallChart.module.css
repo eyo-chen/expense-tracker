@@ -1,6 +1,6 @@
 .chart__section {
   margin-top: 8rem;
-  height: 40rem;
+  min-height: 35rem;
 }
 
 .title__section {

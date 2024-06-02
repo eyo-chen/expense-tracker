@@ -1,14 +1,14 @@
 import { useReducer, useEffect, useState } from "react";
-import Modal from "../../../UI/Modal/Modal";
-import Title from "../../../UI/Title/Title";
-import Button from "./../../../UI/Button/Button"
-import InputText from "../../../UI/InputText/InputText";
-import InputRadio from "../../../UI/InputRadio/InputRadio";
-import HorizontalLine from "../../../UI/HorizontalLine/HorizontalLine";
-import Warning from "../../../UI/Warning/Warning";
+import Modal from "./../../../components/UI/Modal/Modal";
+import Title from "./../../../components/UI/Title/Title";
+import Button from "./../../../components/UI/Button/Button"
+import InputText from "./../../../components/UI/InputText/InputText";
+import InputRadio from "./../../../components/UI/InputRadio/InputRadio";
+import HorizontalLine from "./../../../components/UI/HorizontalLine/HorizontalLine";
+import Warning from "./../../../components/UI/Warning/Warning";
 import styles from "./AddMainCategory.module.css"
-import LoadingUI from "../../../UI/Loading/Loading";
-import fetcher from "../../../../Others/Fetcher/fetcher";
+import LoadingUI from "./../../../components/UI/Loading/Loading";
+import fetcher from "./../../../Others/Fetcher/fetcher";
 
 function AddMainCategoryModal(props) {
   const [iconList, setIconList] = useState([]);

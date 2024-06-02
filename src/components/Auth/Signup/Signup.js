@@ -88,7 +88,6 @@ function Signup(props){
       const token = await createUser(formData.name, formData.email, formData.password);
       if (isMounted.current) {
         setToken(token);
-        props.setAuthState("initialData");
 
         const userInfo = await getUserInfo();
         setUserInfo(userInfo);

@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
-import fetcher from "../../../Others/Fetcher/fetcher";
+import { useState, useEffect, useContext } from "react";
+import UserInfoContext from "./../../store/userInfo/userInfo--context";
+import fetcher from "./../../Others/Fetcher/fetcher";
 import Common from "./common/common";
 
-function InitialData() {
+function InitialData(props) {
   const [type, setType] = useState("EXPENSE");
   const [initData, setInitData] = useState({
     expense: [],
     income: [],
   });
+  const { setUserInfo } = useContext(UserInfoContext);
 
   useEffect(() => {
     fetchInitData()
@@ -38,13 +40,27 @@ function InitialData() {
     });
   }
 
-  function nextBtnClickHandler() {
+  async function nextBtnClickHandler() {
     if (type === "EXPENSE") {
       setType("INCOME");
       return;
     }
 
-    // save data to db
+    
+    try {
+      props.setLoading(true);
+      await createInitData(initData);
+      setUserInfo((prevData) => {
+        return {
+          ...prevData,
+          is_set_init_category: true,
+        };
+      });
+    } catch (error) {
+      props.setError(error);
+    } finally {
+      props.setLoading(false);
+    }
   }
 
   function prevBtnClickHandler() {
@@ -84,6 +100,14 @@ async function fetchInitData() {
   try {
     const resp = await fetcher("v1/init-data", "GET");
     return resp.init_data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function createInitData(data) {
+  try {
+    await fetcher("v1/init-data", "POST", data);
   } catch (error) {
     throw error;
   }

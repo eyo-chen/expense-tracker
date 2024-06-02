@@ -12,6 +12,7 @@ import UserInfoContext from "./store/userInfo/userInfo--context";
 import Loading from "./components/UI/Loading/Loading";
 import ErrorModal from "./components/UI/ErrorModal/ErrorModal";
 import useErrorModal from "./Others/Custom/useErrorModal";
+import InitialData from "./components/InitialData/InitialData"
 import { FiChevronsLeft } from "react-icons/fi";
 import { FiMenu } from "react-icons/fi";
 import timeObj from "./Others/TimeObj/timeObj";
@@ -21,6 +22,7 @@ import { BrowserRouter } from "react-router-dom";
 const { TODAY } = timeObj;
 
 function App() {
+  const [loading, setLoading] = useState(false);
   const [appContent, setAppContent] = useState(<Loading />);
   const [showSidebar, setShowSidebar] = useState(false);
   const [errorModal] = useErrorModal();
@@ -45,7 +47,12 @@ function App() {
   // setup app content
   useEffect(() => {
     let appContent = <Auth />;
-    if (!isEmpty(userInfo)) {
+
+    if (loading) {
+      appContent = <Loading />;
+    }
+
+    if (!loading && !isEmpty(userInfo) && userInfo.is_set_init_category) {
       appContent =
         <div className={`${style["app__container"]} center`}>
           {showSidebar ? (
@@ -77,8 +84,12 @@ function App() {
       </div>
     }
 
+    if (!loading && !isEmpty(userInfo) && !userInfo.is_set_init_category) {
+      appContent = <InitialData setLoading={setLoading} />
+    }
+
     setAppContent(appContent);
-  }, [userInfo]);
+  }, [userInfo, loading]);
 
   function menuClickHandler() {
     setShowSidebar((prev) => !prev);

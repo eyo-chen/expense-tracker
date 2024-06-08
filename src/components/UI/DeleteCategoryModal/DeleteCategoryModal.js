@@ -48,9 +48,9 @@ function DeleteCategoryModal(props) {
 
       // update state
       if (props.mainOrSub === "main") {
-        props.setDeleteMainCategory();
+        props.setDeleteMainCategory((prev) => !prev);
       } else {
-        props.setDeleteSubCategory();
+        props.setDeleteSubCategory((prev) => !prev);
       }
     } catch (error) {
       console.error("Error fetching data:", error);

@@ -15,43 +15,14 @@ function DeleteCategoryModal(props) {
   const [loading, setLoading] = useState(false);
   const [, setEditModal] = useContext(EditModalContext);
 
-  async function fetchTransactionList(id) {
-    try {
-      setLoading(true);
-      const query = props.mainOrSub === "main" ? "main_category_id" : "sub_category_id";
-      const resp = await fetcher(
-        `v1/transaction?${query}=${id}`,
-        "GET"
-      );
-
-      return resp.transactions;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function deleteCategory(id) {
-    try {
-      // set loading too
-      const endpoint = props.mainOrSub === "main" ? "main-category" : "sub-category";
-      await fetcher(
-        `v1/${endpoint}/${id}`,
-        "DELETE"
-      );
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      // setLoading(false);
-    }
-  }
-
   useEffect(() => {
-    fetchTransactionList(props.curCategory.id).then((data) => {
+    setLoading(true);
+    fetchTransactionList(props.mainOrSub, props.curCategory.id).then((data) => {
       setTransactionList(data);
     }).catch((error) => {
       console.error("Error fetching data:", error);
+    }).finally(() => {
+      setLoading(false);
     });
   }, [props.curCategory.id]);
 
@@ -65,7 +36,7 @@ function DeleteCategoryModal(props) {
 
   async function btnDeleteClickHandler(e) {
     try {
-      await deleteCategory(props.curCategory.id);
+      await deleteCategory(props.mainOrSub, props.curCategory.id);
       setEditModal({
         show: true,
         type: props.curType,
@@ -74,6 +45,13 @@ function DeleteCategoryModal(props) {
       });
 
       props.deleteModalToggler();
+
+      // update state
+      if (props.mainOrSub === "main") {
+        props.setDeleteMainCategory();
+      } else {
+        props.setDeleteSubCategory();
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
 
@@ -137,3 +115,30 @@ function DeleteCategoryModal(props) {
 }
 
 export default DeleteCategoryModal;
+
+
+async function fetchTransactionList(mainOrSub, id) {
+  try {
+    const query = mainOrSub === "main" ? "main_category_ids" : "sub_category_ids";
+    const resp = await fetcher(
+      `v1/transaction?${query}=${id}`,
+      "GET"
+    );
+
+    return resp.transactions;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
+async function deleteCategory(mainOrSub, id) {
+  try {
+    const endpoint = mainOrSub === "main" ? "main-category" : "sub-category";
+    await fetcher(
+      `v1/${endpoint}/${id}`,
+      "DELETE"
+    );
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}

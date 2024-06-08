@@ -2,8 +2,10 @@ import Button from "../Button/Button";
 import styles from "./AddDataForm.module.css";
 
 function FormBtn(props) {
+  const isDisabled = !props.isValid || props.isTooLarge || !props.isCategValid;
+
   const classAddBtn = `${styles.btn} uppercase transition--25 ${
-    !props.isValid || props.isTooLarge ? `btn--invalid` : `btn--valid`
+    isDisabled ? `btn--invalid` : `btn--valid`
   }`;
 
   return (
@@ -18,7 +20,7 @@ function FormBtn(props) {
       <Button
         type="submit"
         className={classAddBtn}
-        disabled={!props.isValid || props.isTooLarge}
+        disabled={isDisabled}
       >
         {props.editDataInfo ? "edit" : "add"}
       </Button>

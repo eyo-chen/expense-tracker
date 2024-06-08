@@ -129,7 +129,6 @@ function AddDataForm(props) {
     updateStateHandler();
   }
 
-
   useEffect(() => {
     fetchMainCategList(formData.type).then((data) => {
       formDataDispatch({ type: "MAIN_CATEGORY_LIST", value: data });
@@ -143,6 +142,12 @@ function AddDataForm(props) {
   }, [formData.type]);
 
   useEffect(() => {
+    if (!formData?.mainCateg) {
+      formDataDispatch({ type: "SUB_CATEGORY_LIST", value: [] });
+      formDataDispatch({ type: "SUB_CATEGORY", value: {} });
+      return;
+    }
+
     fetchSubCategList(formData.mainCateg.id).then((data) => {
       formDataDispatch({ type: "SUB_CATEGORY_LIST", value: data });
 
@@ -205,6 +210,7 @@ function AddDataForm(props) {
           <FormBtn
             addDataFormModalToggler={props.addDataFormModalToggler}
             isValid={formData.isValid}
+            isCategValid={!!formData.mainCateg?.id && !!formData.subCateg?.id}
             isTooLarge={formData.isTooLarge}
             editDataInfo={props.editDataInfo}
           />
@@ -262,6 +268,7 @@ function reducer(state, action) {
     case "PRICE": {
       let isValid = false,
         isTooLarge = false;
+
       if (
         action.value.trim().length > 0 &&
         !Object.is(-0, Number(action.value)) &&

@@ -7,13 +7,15 @@ function FormMainCategory(props) {
     <FormContainer>
       <label htmlFor="mainCategory" className={`${styles.label} capitalize`}>
         main category
-        <div className={`center--flex ${styles.icon}`}>
-          <img
-            alt={props.mainCateg?.name}
-            className={`icon`}
-            src={props.mainCateg?.icon?.url}
-          />
-        </div>
+        {props.mainCateg && (
+          <div className={`center--flex ${styles.icon}`}>
+            <img
+              alt={props.mainCateg?.name}
+              className={`icon`}
+              src={props.mainCateg?.icon?.url}
+            />
+            </div>
+        )}
       </label>
       <Select
         id="mainCategory"

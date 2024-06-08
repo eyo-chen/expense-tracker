@@ -146,36 +146,10 @@ function SettingCategory() {
     });
   }
 
-  async function getMainCategory(type) {
-    try {
-      mainCategoryDispatch({ type: "START_LOADING" });
-      const data = await fetcher(`v1/main-category?type=${type}`, "GET");
-      return data.categories;
-    } catch (err) {
-      throw err;
-    } finally {
-      mainCategoryDispatch({ type: "FINISH_LOADING" });
-    }
-  }
-
-  async function getSubCategory(mainCategoryId) {
-    try {
-      subCategoryDispatch({ type: "START_LOADING" });
-      const data = await fetcher(
-        `v1/main-category/${mainCategoryId}/sub-category`,
-        "GET"
-      );
-
-      return data.categories;
-    } catch (err) {
-      throw err;
-    } finally {
-      subCategoryDispatch({ type: "FINISH_LOADING" });
-    }
-  }
-
   // get main category when the component is mounted or the type is changed
   useEffect(() => {
+    mainCategoryDispatch({ type: "START_LOADING" });
+
     getMainCategory(curType).then((data) => {
       if (data.length === 0) {
         mainCategoryDispatch({ type: "EMPTY" });
@@ -183,6 +157,10 @@ function SettingCategory() {
       }
 
       mainCategoryDispatch({ type: "ADD", value: data });
+    }).catch((error) => {
+      console.error("Error fetching data:", error);
+    }).finally(() => {
+      mainCategoryDispatch({ type: "FINISH_LOADING" });
     });
   }, [curType]);
 
@@ -192,6 +170,8 @@ function SettingCategory() {
       subCategoryDispatch({ type: "EMPTY" });
       return;
     }
+    
+    subCategoryDispatch({ type: "START_LOADING" });
 
     getSubCategory(mainCategoryState.curData.id).then((data) => {
       if (!data || data.length === 0) {
@@ -200,7 +180,11 @@ function SettingCategory() {
       }
 
       subCategoryDispatch({ type: "ADD", value: data });
-    });    
+    }).catch((error) => {
+      console.error("Error fetching data:", error);
+    }).finally(() => {
+      subCategoryDispatch({ type: "FINISH_LOADING" });
+    });
   }
   , [mainCategoryState.curData]);
 
@@ -258,6 +242,28 @@ function SettingCategory() {
 }
 
 export default SettingCategory;
+
+async function getMainCategory(type) {
+  try {
+    const data = await fetcher(`v1/main-category?type=${type}`, "GET");
+    return data.categories;
+  } catch (err) {
+    throw err;
+  }
+}
+
+async function getSubCategory(mainCategoryId) {
+  try {
+    const data = await fetcher(
+      `v1/main-category/${mainCategoryId}/sub-category`,
+      "GET"
+    );
+
+    return data.categories;
+  } catch (err) {
+    throw err;
+  }
+}
 
 /*
 Reference 1

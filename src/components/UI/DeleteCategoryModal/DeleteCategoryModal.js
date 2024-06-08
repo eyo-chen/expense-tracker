@@ -45,6 +45,13 @@ function DeleteCategoryModal(props) {
       });
 
       props.deleteModalToggler();
+
+      // update state
+      if (props.mainOrSub === "main") {
+        props.setDeleteMainCategory();
+      } else {
+        props.setDeleteSubCategory();
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
 

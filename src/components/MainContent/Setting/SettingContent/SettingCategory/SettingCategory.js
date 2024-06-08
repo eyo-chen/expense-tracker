@@ -117,6 +117,8 @@ function SettingCategory() {
     addModal: false,
     edit: false,
   });
+  const [deleteMainCategory, setDeleteMainCategory] = useState(false);
+  const [deleteSubCategory, setDeleteSubCategory] = useState(false);
 
   function deleteModalToggler(e) {
     // in delete modal, there's no e
@@ -162,7 +164,7 @@ function SettingCategory() {
     }).finally(() => {
       mainCategoryDispatch({ type: "FINISH_LOADING" });
     });
-  }, [curType]);
+  }, [curType, deleteMainCategory]);
 
   // get sub category when the main category is changed
   useEffect(() => {
@@ -186,7 +188,7 @@ function SettingCategory() {
       subCategoryDispatch({ type: "FINISH_LOADING" });
     });
   }
-  , [mainCategoryState.curData]);
+  , [mainCategoryState.curData, deleteSubCategory]);
 
 
   return (
@@ -214,6 +216,8 @@ function SettingCategory() {
           curCategory={deleteModal.curCategory}
           mainOrSub={deleteModal.deleteMainOrSub}
           deleteModalToggler={deleteModalToggler}
+          setDeleteMainCategory={setDeleteMainCategory}
+          setDeleteSubCategory={setDeleteSubCategory}
         />
       )}
       <div className={styles.form}>

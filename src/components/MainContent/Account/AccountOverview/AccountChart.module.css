@@ -4,7 +4,6 @@
 
 .radio__container {
   display: flex;
-  /* gap: 5rem; */
   margin-bottom: 2rem;
   transform: translateX(1rem);
 }
@@ -40,8 +39,8 @@
 }
 
 .chart__container {
-  width: 90vw;
-  height: 31vw;
+  width: 85vw;
+  height: 30vw;
 }
 
 .loading {

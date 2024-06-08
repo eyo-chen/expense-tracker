@@ -106,14 +106,14 @@ function SettingCategory() {
   const [mainCategoryState, mainCategoryDispatch] = useReducer(mainCategoryReducer, {
     list: [],
     curData: {},
-    loading: true,
+    loading: false,
     addModal: false,
     edit: false,
   });
   const [subCategoryState, subCategoryDispatch] = useReducer(subCategoryReducer, {
     list: [],
     curData: {},
-    loading: true,
+    loading: false,
     addModal: false,
     edit: false,
   });

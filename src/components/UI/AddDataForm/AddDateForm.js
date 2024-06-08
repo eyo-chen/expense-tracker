@@ -145,6 +145,7 @@ function AddDataForm(props) {
     if (!formData?.mainCateg) {
       formDataDispatch({ type: "SUB_CATEGORY_LIST", value: [] });
       formDataDispatch({ type: "SUB_CATEGORY", value: {} });
+      setIsInitialMainCateg(false);
       return;
     }
 
@@ -156,7 +157,7 @@ function AddDataForm(props) {
       // If it's updating data, and it's the first time the main category is set, we don't want to set the first sub category as default
       // because we want to let the sub category be the same as the previous data(old data)
       if (!props.editDataInfo || !isInitialMainCateg) {
-        formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
+        formDataDispatch({ type: "SUB_CATEGORY", value: data ? data[0] : null});
       }
 
       setIsInitialMainCateg(false);

@@ -129,7 +129,6 @@ function AddDataForm(props) {
     updateStateHandler();
   }
 
-
   useEffect(() => {
     fetchMainCategList(formData.type).then((data) => {
       formDataDispatch({ type: "MAIN_CATEGORY_LIST", value: data });
@@ -143,6 +142,13 @@ function AddDataForm(props) {
   }, [formData.type]);
 
   useEffect(() => {
+    if (!formData?.mainCateg) {
+      formDataDispatch({ type: "SUB_CATEGORY_LIST", value: [] });
+      formDataDispatch({ type: "SUB_CATEGORY", value: {} });
+      setIsInitialMainCateg(false);
+      return;
+    }
+
     fetchSubCategList(formData.mainCateg.id).then((data) => {
       formDataDispatch({ type: "SUB_CATEGORY_LIST", value: data });
 
@@ -151,7 +157,7 @@ function AddDataForm(props) {
       // If it's updating data, and it's the first time the main category is set, we don't want to set the first sub category as default
       // because we want to let the sub category be the same as the previous data(old data)
       if (!props.editDataInfo || !isInitialMainCateg) {
-        formDataDispatch({ type: "SUB_CATEGORY", value: data[0] });
+        formDataDispatch({ type: "SUB_CATEGORY", value: data ? data[0] : null});
       }
 
       setIsInitialMainCateg(false);
@@ -205,6 +211,7 @@ function AddDataForm(props) {
           <FormBtn
             addDataFormModalToggler={props.addDataFormModalToggler}
             isValid={formData.isValid}
+            isCategValid={!!formData.mainCateg?.id && !!formData.subCateg?.id}
             isTooLarge={formData.isTooLarge}
             editDataInfo={props.editDataInfo}
           />
@@ -262,6 +269,7 @@ function reducer(state, action) {
     case "PRICE": {
       let isValid = false,
         isTooLarge = false;
+
       if (
         action.value.trim().length > 0 &&
         !Object.is(-0, Number(action.value)) &&

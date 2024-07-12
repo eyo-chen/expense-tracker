@@ -2,7 +2,9 @@ import axios from "axios";
 import getToken from "../GetToken/getToken";
 
 async function fetcher(endpoint, method, data) {
-  const url = `http://localhost:4000/${endpoint}`;
+  const host = process.env.REACT_APP_API_HOST || "localhost";
+  const port = process.env.REACT_APP_API_PORT || "4000";
+  const url = `http://${host}:${port}/${endpoint}`;
 
   try {
     const resp = await axios({

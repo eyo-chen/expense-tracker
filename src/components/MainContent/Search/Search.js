@@ -1,7 +1,6 @@
 import { useState } from "react";
 import SearchList from "./SearchList/SearchList";
 import SearchOption from "./SearchOption/SearchOption";
-import SearchListDataProvider from "../../../store/searchListData/SearchListDataProvider";
 import Backdrop from "../../UI/Modal/Backdrop";
 import useCurWidth from "../../../Others/Custom/useCurWidth";
 import styles from "./Search.module.css";
@@ -21,7 +20,7 @@ function Search() {
       : `${styles["option__container"]}`;
 
   return (
-    <SearchListDataProvider>
+    <>
       {curWidth <= 900 && searchOptionModal && (
         <Backdrop
           onClick={searchOptionModalToggler}
@@ -34,7 +33,7 @@ function Search() {
         </div>
         <SearchList searchOptionModalToggler={searchOptionModalToggler} searchOption={searchOption} />
       </div>
-    </SearchListDataProvider>
+    </>
   );
 }
 

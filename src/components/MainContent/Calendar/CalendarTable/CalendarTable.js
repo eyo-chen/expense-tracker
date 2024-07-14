@@ -7,21 +7,15 @@ import SmallChartModal from "../../../UI/SmallChartModal/SmallChartModal";
 import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
 import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
-import useBundleData from "../../../../Others/Custom/useBundleData";
+import useModalCard from "../../../../Others/Custom/useModalCard";
 import CreateCalendarTable from "./CreateCalendarTable";
 import styles from "./CalendarTable.module.css";
 
 const dateOptObj = { month: "long" };
 
 function CalendarTable(props) {
-  const [
-    _,
-    expenseDataList,
-    selectedDate,
-    setSelectedDate,
-    modalCard,
-    modalCardToggler,
-  ] = useBundleData("month", props.month, expenseListModalToggler);
+  const [selectedDate, setSelectedDate] = useState(props.month);
+  const [modalCard, modalCardToggler] = useModalCard();
   const [expenseListModal, setExpenseListModal] = useState(false);
   const [addDataFormModal, addDataFormModalToggler] = useAddDataForm();
   const calendarTable = CreateCalendarTable(props.month, expenseListModalToggler);
@@ -56,7 +50,6 @@ function CalendarTable(props) {
       {expenseListModal && (
         <ExpenseListModal
           selectedDate={selectedDate}
-          expenseDataList={expenseDataList}
           expenseListModalToggler={expenseListModalToggler}
           addDataFormModalToggler={addDataFormModalToggler}
         />

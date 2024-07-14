@@ -34,7 +34,7 @@ function ExpenseListModal(props) {
   }, [props.selectedDate, updateState]);
 
   let scrollClassName = null;
-  if (props.expenseDataList.length > 6) scrollClassName = "scroll";
+  if (transactionList.length > 6) scrollClassName = "scroll";
 
   let mainContent;
   if (loading) {

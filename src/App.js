@@ -4,9 +4,7 @@ import MainContent from "./components/MainContent/MainContent";
 import SideBar from "./components/SideBar/SideBar";
 import Auth from "./components/Auth/Auth";
 import UpdateStateProvider from "./store/updateState/UpdateStateProvider";
-import ExpenseDataProvider from "./store/expenseData/ExpenseDataProvider";
 import EditModalProvider from "./store/editModal/EditModalProvider";
-import CategoryProvider from "./store/category/CategoryProvider";
 import DisplayThemeContext from "./store/displayTheme/displayTheme--context";
 import UserInfoContext from "./store/userInfo/userInfo--context";
 import Loading from "./components/UI/Loading/Loading";
@@ -97,16 +95,12 @@ function App() {
 
   return (
     <UpdateStateProvider>
-      <ExpenseDataProvider>
-        <EditModalProvider>
-          <CategoryProvider>
-            <BrowserRouter>
-              {errorModal && <ErrorModal />}
-              {appContent}
-            </BrowserRouter>
-          </CategoryProvider>
-        </EditModalProvider>
-      </ExpenseDataProvider>
+      <EditModalProvider>
+          <BrowserRouter>
+            {errorModal && <ErrorModal />}
+            {appContent}
+          </BrowserRouter>
+      </EditModalProvider>
     </UpdateStateProvider>
   );
 }

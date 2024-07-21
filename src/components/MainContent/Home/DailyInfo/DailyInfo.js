@@ -12,9 +12,10 @@ import DailyDataCard from "./DailyDataCard";
 import timeObj from "../../../../Others/TimeObj/timeObj";
 import createYearMonthDay from "../../../../Others/CreateYearMonthDay/createYearMonthDay";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
-import useBundleData from "../../../../Others/Custom/useBundleData";
 import { TiPlus } from "react-icons/ti";
 import LoadingData from "../../../UI/LoadingData/LoadingData";
+import createWeeklyData from "../../../../Others/CreateWeeklyData/createWeeklyData";
+import useModalCard from "../../../../Others/Custom/useModalCard"
 import styles from "./DailyInfo.module.css";
 import formatDate from "../../../../Others/FormatDate/formatDate";
 import fetcher from "../../../../Others/Fetcher/fetcher";
@@ -32,14 +33,8 @@ function DailyInfo(props) {
     expense: 0,
     balance: 0,
   });
-  const [
-    weeklyCalendar,
-    _,
-    _1,
-    _2,
-    modalCard,
-    modalCardToggler,
-  ] = useBundleData("daily", props.week);
+  const [modalCard, modalCardToggler] = useModalCard();
+  const weeklyCalendar = createWeeklyData(props.week);
 
   // fetch transaction list
   useEffect(() => {

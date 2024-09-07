@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import UserInfoContext from "./userInfo--context";
-import getToken from "../../Others/GetToken/getToken";
+import { getAccessToken } from "../../Others/GetToken/getToken";
 import fetcher from "../../Others/Fetcher/fetcher";
 
 function UserInfoProvider(props) {
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
-    const token = getToken();
+    const token = getAccessToken();
     if (!token) {
       return;
     }

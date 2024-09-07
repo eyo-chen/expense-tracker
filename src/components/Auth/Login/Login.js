@@ -182,7 +182,7 @@ function reducer(state, action){
 async function login(email, password) {
   try {
     const data = await fetcher("v1/user/login", "POST", { email, password });
-    return data.token;
+    return data;
   }
   catch (error) {
     throw error;

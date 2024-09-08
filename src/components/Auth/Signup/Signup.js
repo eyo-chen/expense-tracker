@@ -301,7 +301,7 @@ async function createUser(name, email, password) {
     const body = {name, email, password};
     const res = await fetcher("v1/user/signup", "POST", body);
 
-    return res.token;
+    return res;
   } catch (error) {
     throw error;
   }

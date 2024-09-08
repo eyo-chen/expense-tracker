@@ -3,6 +3,7 @@ import Modal from "../Modal/Modal";
 import Title from "../Title/Title";
 import Button from "../Button/Button";
 import InputText from "../InputText/InputText";
+import InputFile from "../InputFile/InputFile";
 import InputRadio from "../InputRadio/InputRadio";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import EditModalContext from "../../../store/editModal/editModal--context";
@@ -212,7 +213,16 @@ function AddMainCategoryModal(props) {
           </Warning>
         </div>
         <div className={styles["input__container"]}>
-          <p className={`${styles.label} capitalize`}>icon</p>
+          <div className={styles["upload__container"]}>
+            <p className={`${styles.label} capitalize`}>icon</p>
+            <InputFile
+              name="icon"
+              id="icon"
+              label="upload icon"
+              accept="image/*"
+              onChange={radioIconChangeHandler}
+            />
+          </div>
           <div className={styles["icon__container"]}>{iconListContent}</div>
         </div>
         <div className={styles["btn__container"]}>

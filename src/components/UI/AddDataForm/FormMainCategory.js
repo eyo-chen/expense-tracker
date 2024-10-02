@@ -12,7 +12,7 @@ function FormMainCategory(props) {
             <img
               alt={props.mainCateg?.name}
               className={`icon`}
-              src={props.mainCateg?.icon?.url}
+              src={props.mainCateg?.icon_data}
             />
             </div>
         )}

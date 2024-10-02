@@ -6,13 +6,12 @@ function InputFile(props) {
 
   const handleClick = () => {
     fileInputRef.current.click();
-    console.log(props.color);
   };
 
   const onChangeHandler = (e) => {
     const file = e.target.files[0];
     if (file) {
-      console.log(file.name);  // Log the file name
+      props.onChange(file);
     }
   };
 

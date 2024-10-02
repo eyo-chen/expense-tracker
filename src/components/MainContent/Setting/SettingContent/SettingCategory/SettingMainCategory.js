@@ -18,7 +18,7 @@ function SettingMainCategory(props) {
   let categList = <Loading className={styles["loading"]} />;
 
   if (!props.state.loading) {
-    categList = props?.state.list?.map(({id, name, icon}) => (
+    categList = props?.state.list?.map(({id, name, icon_data}) => (
       <div
         tabIndex="0"
         aria-label={name}
@@ -38,7 +38,7 @@ function SettingMainCategory(props) {
           <img
             alt={name}
             className={`icon ${styles["img__icon"]}`}
-            src={icon.url}
+            src={icon_data}
           />
         </span>
         <span>{name}</span>

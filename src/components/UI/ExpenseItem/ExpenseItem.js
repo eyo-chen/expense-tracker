@@ -124,7 +124,7 @@ function ExpenseItem(props) {
             <img
               alt={props.mainCategory.name}
               className={`icon`}
-              src={props.mainCategory.icon.url}
+              src={props.mainCategory.icon_data}
             />
           </div>
           <div>

@@ -1,0 +1,45 @@
+.container {
+  display: inline-block;
+}
+
+.input {
+  display: none;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the content horizontally */
+  color: var(--font-normal);
+  border: none;
+  border-radius: 25px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button--blue {
+  background-color: var(--blue);
+}
+
+.button--pink {
+  background-color: var(--pink);
+}
+
+.button--blue:hover {
+  background-color: var(--blue-dark);
+}
+
+.button--pink:hover {
+  background-color: var(--pink-dark);
+}
+
+.icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.text {
+  font-weight: bold;
+}

@@ -3,6 +3,7 @@ import Modal from "../Modal/Modal";
 import Title from "../Title/Title";
 import Button from "../Button/Button";
 import InputText from "../InputText/InputText";
+import InputFile from "../InputFile/InputFile";
 import InputRadio from "../InputRadio/InputRadio";
 import HorizontalLine from "../HorizontalLine/HorizontalLine";
 import EditModalContext from "../../../store/editModal/editModal--context";
@@ -11,41 +12,6 @@ import styles from "./AddMainCategoryModal.module.css";
 import LoadingUI from "../Loading/Loading";
 import fetcher from "../../../Others/Fetcher/fetcher";
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "NAME": {
-      const isDuplicate = state.categoryList.find(
-        (element) => element.name === action.value
-      )
-      const inputValid = action.value.trim().length > 0 && !isDuplicate;
-
-      return {
-        ...state,
-        name: action.value,
-        inputValid,
-        isDuplicate,
-        isValid: inputValid && state.iconID,
-      };
-    }
-
-    case "ICON": {
-      return {
-        ...state,
-        iconID: action.value,
-        isValid: state.inputValid && action.value,
-      };
-    }
-
-    case "TOUCH": {
-      return { ...state, isTouch: true };
-    }
-
-    default: {
-      return state;
-    }
-  }
-}
-
 function AddMainCategoryModal(props) {
   const [iconList, setIconList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -53,7 +19,9 @@ function AddMainCategoryModal(props) {
 
   const [form, formDispatch] = useReducer(reducer, {
     name: "",
-    iconID: false,
+    iconIndex: "",
+    iconType: "",
+    iconID: 0,
     isValid: false,
     inputValid: false,
     isDuplicate: false,
@@ -70,17 +38,39 @@ function AddMainCategoryModal(props) {
   }
 
   function radioIconChangeHandler(e) {
-    formDispatch({ type: "ICON", value: e.target.value });
+    const icon = iconList[e.target.value];
+    const value = {
+      index: e.target.value,
+      type: icon.type,
+      id: icon.id,
+    }
+
+    formDispatch({ type: "ICON", value });
+  }
+
+  async function uploadIconChangeHandler(file) {
+    try {
+      const resizedImage = await resizeImage(file, 18.4, 18.4);
+      const binaryData = await readFileAsBinaryString(resizedImage);
+      const presignedUrl = await getPresignedUrl(file.name);
+      await uploadFile(presignedUrl, binaryData);
+      await createUserIcon(file.name);
+
+      const iconList = await fetchIconList();
+      setIconList(iconList);
+    } catch (error) {
+      console.error("Error uploading icon:", error);
+    }
   }
 
   async function fetchIconList() {
     try {
       setLoading(true);
       const data = await fetcher(
-        `v1/icon`,
+        `v1/user-icon`,
         "GET"
       );
-
+      
       return data.icons;
     } catch (err) {
       throw err;
@@ -98,15 +88,16 @@ function AddMainCategoryModal(props) {
     });
   }, [])
 
-  async function addMainCategory(name, iconID, type) {
+  async function addMainCategory(name, type, iconType, iconID) {
     try {
       await fetcher(
         `v1/main-category`,
         "POST",
         {
           name,
-          icon_id: Number(iconID),
-          type
+          type,
+          icon_type: iconType,
+          icon_id: iconID,
         }
       );
     } catch (err) {
@@ -120,7 +111,7 @@ function AddMainCategoryModal(props) {
 
     try {
       // add main category
-      await addMainCategory(form.name, form.iconID, props.curType);
+      await addMainCategory(form.name, props.curType, form.iconType, form.iconID);
 
       // close modal
       props.dispatch({ type: "ADD_MODAL_TOGGLER" })
@@ -150,16 +141,17 @@ function AddMainCategoryModal(props) {
   let iconListContent = <LoadingUI />;
 
   if (!loading) {
-    iconListContent = iconList.map(({ id, url }) => {
+    iconListContent = iconList.map(({ id, url, type }, index) => {
       const iconImg = <img alt="icon" className={`icon`} src={url} />;
+      const key = `${id}-${type}`;
 
       return (
         <InputRadio
-          key={id}
+          key={key}
           name="icon"
           ariaLabel="icon"
           label={iconImg}
-          value={id}
+          value={index}
           classLabel={`${styles.icon} transition--25 ${
             props.curType === "expense"
               ? `${styles["icon--expense"]}`
@@ -168,7 +160,7 @@ function AddMainCategoryModal(props) {
           classContainer={styles["radio__container"]}
           classInput={styles["input--icon"]}
           onChange={radioIconChangeHandler}
-          checked={id + "" === form.iconID}
+          checked={index + "" === form.iconIndex}
         />
       );
     });
@@ -212,7 +204,17 @@ function AddMainCategoryModal(props) {
           </Warning>
         </div>
         <div className={styles["input__container"]}>
-          <p className={`${styles.label} capitalize`}>icon</p>
+          <div className={styles["upload__container"]}>
+            <p className={`${styles.label} capitalize`}>icon</p>
+            <InputFile
+              name="icon"
+              id="icon"
+              label="upload icon"
+              accept=".svg,image/svg+xml"
+              color={props.curType === "expense" ? "blue" : "pink"}
+              onChange={uploadIconChangeHandler}
+            />
+          </div>
           <div className={styles["icon__container"]}>{iconListContent}</div>
         </div>
         <div className={styles["btn__container"]}>
@@ -239,6 +241,116 @@ function AddMainCategoryModal(props) {
 }
 
 export default AddMainCategoryModal;
+
+function readFileAsBinaryString(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+async function getPresignedUrl(fileName) {
+  const data = await fetcher(`v1/user-icon/url`, "POST", {
+    "file_name": fileName
+  });
+
+  return data.url;
+}
+
+async function uploadFile(presignedUrl, binaryData) {
+  const response = await fetch(presignedUrl, {
+    method: 'PUT',
+    body: binaryData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to upload file');
+  }
+}
+
+async function createUserIcon(fileName) {
+  await fetcher(`v1/user-icon`, "POST", {
+    "file_name": fileName
+  });
+}
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "NAME": {
+      const isDuplicate = state.categoryList.find(
+        (element) => element.name === action.value
+      )
+      const inputValid = action.value.trim().length > 0 && !isDuplicate;
+
+      return {
+        ...state,
+        name: action.value,
+        inputValid,
+        isDuplicate,
+        isValid: inputValid && state.iconID,
+      };
+    }
+
+    case "ICON": {
+      return {
+        ...state,
+        iconIndex: action.value.index,
+        iconType: action.value.type,
+        iconID: action.value.id,
+        isValid: state.inputValid && action.value,
+      };
+    }
+
+    case "TOUCH": {
+      return { ...state, isTouch: true };
+    }
+
+    default: {
+      return state;
+    }
+  }
+}
+
+function resizeImage(file, maxWidth, maxHeight) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob((blob) => {
+          resolve(new File([blob], file.name, { type: file.type }));
+        }, file.type);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 
 /*
 Reference 1

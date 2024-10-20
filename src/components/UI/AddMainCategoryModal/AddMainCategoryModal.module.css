@@ -25,6 +25,12 @@
   margin-top: 2rem;
 }
 
+.upload__container {
+  display: flex;
+  margin-bottom: 3rem;
+  align-items: center;
+}
+
 .input {
   width: 80%;
   font-size: 2rem;
@@ -33,7 +39,7 @@
 .label {
   text-align: left;
   font-size: 2rem;
-  margin-bottom: 1rem; /* fix flex gap */
+  margin-right: 3rem;
 }
 
 .warning {

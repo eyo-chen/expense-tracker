@@ -1,7 +1,8 @@
 import {  useState, useEffect, useContext } from "react";
 import UpdateStateContext from "../../../../store/updateState/updateState--context";
 import CardChartSection from "../../../UI/CardChartSection/CardChartSection";
-import createAccountCardPreData from "../../../../Others/CreateAccountCardData/createAccountCardPreData";
+import createDateStringFormat from "../../../../Others/CreateDateStringFormat/CreateDateStringFormat";
+import createWeeklyData from "../../../../Others/CreateWeeklyData/createWeeklyData";
 import styles from "./WeeklyInfo.module.css";
 import fetcher from "../../../../Others/Fetcher/fetcher";
 
@@ -12,14 +13,7 @@ function WeeklyInfo(props) {
     expense: 0,
     balance: 0,
   });
-
-  const [
-    startingDateObj,
-    endingDateObj,
-    startingDateString,
-    endingDateString,
-    labels,
-  ] = createAccountCardPreData("week", props.week);
+  const [startingDateString, endingDateString] = createStartAndEndDate(props.week);
 
   async function fetchTransactionInfo(startDate, endDate){
     try {
@@ -59,3 +53,18 @@ function WeeklyInfo(props) {
 }
 
 export default WeeklyInfo;
+
+
+function createStartAndEndDate(date) {
+  const weeklyDataArr = createWeeklyData(date);
+  const startingDateOfWeek = weeklyDataArr[0];
+  const endingDateOfWeek = weeklyDataArr[weeklyDataArr.length - 1];
+
+  const startingDateOfWeekStr = createDateStringFormat(startingDateOfWeek.dateObj);
+  const endingDateOfWeekStr = createDateStringFormat(endingDateOfWeek.dateObj);
+
+  return [
+    startingDateOfWeekStr,
+    endingDateOfWeekStr,
+  ];
+}

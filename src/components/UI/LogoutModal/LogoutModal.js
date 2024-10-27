@@ -10,7 +10,8 @@ function LogoutModal(props) {
   const { userInfo, setUserInfo } = useContext(userInfoContext);
 
   function signedOut() {
-    localStorage.removeItem("etoken");
+    localStorage.removeItem("eaccessToken");
+    localStorage.removeItem("erefreshToken");
     setUserInfo(null);
   }
 

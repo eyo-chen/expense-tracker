@@ -5,6 +5,7 @@ import fetcher from "../../Others/Fetcher/fetcher";
 
 function UserInfoProvider(props) {
   const [userInfo, setUserInfo] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = getAccessToken();
@@ -12,16 +13,20 @@ function UserInfoProvider(props) {
       return;
     }
 
+    setLoading(true);
     getUserInfo().then((data) => {
       setUserInfo(data);
-    })
-    .catch((error) => {
-      console.error("Error fetching user info:", error);
-    });
+      })
+      .catch((error) => {
+        console.error("Error fetching user info:", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   return (
-    <UserInfoContext.Provider value={{ userInfo, setUserInfo }}>
+    <UserInfoContext.Provider value={{ userInfo, setUserInfo, loading }}>
       {props.children}
     </UserInfoContext.Provider>
   );

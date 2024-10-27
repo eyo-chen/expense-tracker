@@ -1,5 +1,5 @@
 import React from "react";
-import { useRef, useEffect, useState, useContext } from "react";
+import { useRef, useEffect, useState, useContext, useMemo } from "react";
 import UpdateStateContext from "../../../store/updateState/updateState--context";
 import Card from "../Card/Card";
 import Select from "../Select/Select";
@@ -7,19 +7,42 @@ import Chart from "chart.js/auto";
 import styles from "./SmallChart.module.css";
 import fetcher from "../../../Others/Fetcher/fetcher";
 
+const cache = {
+  chartData: new Map(),
+};
+
 function SmallChart(props) {
   const { updateState } = useContext(UpdateStateContext);
   const [chartState, setChartState] = useState("bar");
   const chartRef = useRef(null);
 
+  // Clear cache when updateState changes
+  useEffect(() => {
+    cache.chartData.clear();
+  }, [updateState]);
+
+
   function selectChangeHandler(e) {
     setChartState(e.target.value);
   }
 
+  const cachedFetchChartData = useMemo(() => {
+    return async (startDate, endDate, state, timeRange) => {
+      const cacheKey = `${startDate}-${endDate}-${state}-${timeRange}`;
+      if (cache.chartData.has(cacheKey)) {
+        return cache.chartData.get(cacheKey);
+      }
+
+      const data = await fetchChartData(startDate, endDate, state, timeRange);
+      cache.chartData.set(cacheKey, data);
+      return data;
+    };
+  }, [updateState]); // Recreate when updateState changes
+
   useEffect(() => {
     let chart;
 
-    fetchChartData(props.startingDateString, props.endingDateString, chartState, props.barChartTimeRange)
+    cachedFetchChartData(props.startingDateString, props.endingDateString, chartState, props.barChartTimeRange)
       .then((data) => {
         const config = createChartConfig(data.labels, data.datasets, "dark", chartState);
 
@@ -32,7 +55,7 @@ function SmallChart(props) {
     return function cleanUp() {
       chart?.destroy();
     }
-  }, [props.startingDateString, props.endingDateString, chartState, props.barChartTimeRange, updateState]);
+  }, [props.startingDateString, props.endingDateString, chartState, props.barChartTimeRange, cachedFetchChartData]);
 
   // pie chart need more height
   const classNameChart =
@@ -199,30 +222,3 @@ function createBarChartConfig(labels, data, displayTheme) {
     },
   };
 }
-
-const legend = {
-  onClick: (e, legendItem, legend) => {
-    const index = legend.chart.data.labels.indexOf(legendItem.text);
-    legend.chart.toggleDataVisibility(index);
-    legend.chart.update();
-  },
-  labels: {
-    generateLabels: (chart) => {
-      const colorLength = chart.data.datasets[0].borderColor.length;
-      const visibility = [];
-      for (let i = 0; i < chart.data.labels.length; i++) {
-        if (chart.getDataVisibility(i)) visibility.push(false);
-        else visibility.push(true);
-      }
-      return chart.data.labels.map((label, index) => {
-        const newIndex = index % colorLength;
-        return {
-          text: label,
-          strokeStyle: chart.data.datasets[0].borderColor[newIndex],
-          fillStyle: chart.data.datasets[0].backgroundColor[newIndex],
-          hidden: visibility[index],
-        };
-      });
-    },
-  },
-};

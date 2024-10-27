@@ -1,10 +1,13 @@
-import {  useState, useEffect, useContext } from "react";
+import {  useState, useEffect, useContext, useMemo } from "react";
 import UpdateStateContext from "../../../../store/updateState/updateState--context";
 import CardChartSection from "../../../UI/CardChartSection/CardChartSection";
-import createDateStringFormat from "../../../../Others/CreateDateStringFormat/CreateDateStringFormat";
-import createWeeklyData from "../../../../Others/CreateWeeklyData/createWeeklyData";
 import styles from "./WeeklyInfo.module.css";
 import fetcher from "../../../../Others/Fetcher/fetcher";
+import createWeeklyData from "../../../../Others/CreateWeeklyData/createWeeklyData";
+import createDateStringFormat from "../../../../Others/CreateDateStringFormat/CreateDateStringFormat";
+const cache = {
+  transactionInfo: new Map(),
+};
 
 function WeeklyInfo(props) {
   const { updateState } = useContext(UpdateStateContext);
@@ -15,17 +18,27 @@ function WeeklyInfo(props) {
   });
   const [startingDateString, endingDateString] = createStartAndEndDate(props.week);
 
-  async function fetchTransactionInfo(startDate, endDate){
-    try {
-      const data = await fetcher(`v1/transaction/info?start_date=${startDate}&end_date=${endDate}`, "GET");
-      return data
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
+  useEffect(() => {
+    cache.transactionInfo.clear();
+  }, [updateState]);
+
+  // Add cachedFetchTransactionInfo
+  const cachedFetchTransactionInfo = useMemo(() => {
+    return async (startDate, endDate) => {
+      const cacheKey = `${startDate}-${endDate}`;
+
+      if (cache.transactionInfo.has(cacheKey)) {
+        return cache.transactionInfo.get(cacheKey);
+      }
+
+      const data = await fetchTransactionInfo(startDate, endDate);
+      cache.transactionInfo.set(cacheKey, data);
+      return data;
+    };
+  }, [updateState]); // Recreate when updateState changes
 
   useEffect(() => {
-    fetchTransactionInfo(startingDateString, endingDateString)
+    cachedFetchTransactionInfo(startingDateString, endingDateString)
     .then((data) => {
       setAccInfo({
         income: data.total_income,
@@ -35,7 +48,7 @@ function WeeklyInfo(props) {
     }).catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, [startingDateString, endingDateString, updateState])
+  }, [startingDateString, endingDateString, cachedFetchTransactionInfo])
 
   return (
     <div className={styles.weekly}>
@@ -54,17 +67,22 @@ function WeeklyInfo(props) {
 
 export default WeeklyInfo;
 
+async function fetchTransactionInfo(startDate, endDate){
+  try {
+    const data = await fetcher(`v1/transaction/info?start_date=${startDate}&end_date=${endDate}`, "GET");
+    return data
+  } catch (error) {
+    return error
+  }
+}
 
-function createStartAndEndDate(date) {
-  const weeklyDataArr = createWeeklyData(date);
+function createStartAndEndDate(week) {
+  const weeklyDataArr = createWeeklyData(week);
   const startingDateOfWeek = weeklyDataArr[0];
   const endingDateOfWeek = weeklyDataArr[weeklyDataArr.length - 1];
 
   const startingDateOfWeekStr = createDateStringFormat(startingDateOfWeek.dateObj);
   const endingDateOfWeekStr = createDateStringFormat(endingDateOfWeek.dateObj);
 
-  return [
-    startingDateOfWeekStr,
-    endingDateOfWeekStr,
-  ];
+  return [startingDateOfWeekStr, endingDateOfWeekStr]
 }

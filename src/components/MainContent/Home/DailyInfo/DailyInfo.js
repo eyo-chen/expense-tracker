@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import UpdateStateContext from "../../../../store/updateState/updateState--context";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
 import DataCardModal from "../../../UI/DataCardModal/DataCardModal";
@@ -22,6 +22,12 @@ import fetcher from "../../../../Others/Fetcher/fetcher";
 
 const { TODAY } = timeObj;
 
+// Cache object to store API responses
+const cache = {
+  transactionList: new Map(),
+  transactionInfo: new Map(),
+};
+
 function DailyInfo(props) {
   const { updateState } = useContext(UpdateStateContext);
   const [transactionList, setTransactionList] = useState([]);
@@ -36,30 +42,67 @@ function DailyInfo(props) {
   const [modalCard, modalCardToggler] = useModalCard();
   const weeklyCalendar = createWeeklyData(props.week);
 
-  // fetch transaction list
+  // Clear cache when updateState changes
   useEffect(() => {
-    fetchTransactionList(selectedDate, selectedDate).then((data) => {
-      setTransactionList(data);
-    }).catch((error) => {
-      console.error("Error fetching data:", error);
-    }).finally(() => {
-      setIsLoading(false);
-    });
-  }, [selectedDate, updateState]);
+    cache.transactionList.clear();
+    cache.transactionInfo.clear();
+  }, [updateState]);
 
-  // fetch transaction info
+  // Memoized fetchTransactionList with caching
+  const cachedFetchTransactionList = useMemo(() => {
+    return async (startDate, endDate) => {
+      const cacheKey = `${startDate}-${endDate}`;
+      if (cache.transactionList.has(cacheKey)) {
+        return cache.transactionList.get(cacheKey);
+      }
+      const data = await fetchTransactionList(startDate, endDate);
+      cache.transactionList.set(cacheKey, data);
+      return data;
+    };
+  }, [updateState]); // Recreate when updateState changes
+
+  // Memoized fetchTransactionInfo with caching
+  const cachedFetchTransactionInfo = useMemo(() => {
+    return async (startDate, endDate) => {
+      const cacheKey = `${startDate}-${endDate}`;
+      if (cache.transactionInfo.has(cacheKey)) {
+        return cache.transactionInfo.get(cacheKey);
+      }
+      const data = await fetchTransactionInfo(startDate, endDate);
+      cache.transactionInfo.set(cacheKey, data);
+      return data;
+    };
+  }, [updateState]); // Recreate when updateState changes
+
+  // Use cachedFetchTransactionList in useEffect
   useEffect(() => {
-    fetchTransactionInfo(selectedDate, selectedDate).then((data) => {
-      setAccInfo({
-        income: data.total_income,
-        expense: data.total_expense,
-        balance: data.total_balance
+    setIsLoading(true);
+    cachedFetchTransactionList(selectedDate, selectedDate)
+      .then((data) => {
+        setTransactionList(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-    }
-    ).catch((error) => {
-      console.error("Error fetching data:", error);
-    });
-  }, [selectedDate, updateState]);
+  }, [selectedDate, cachedFetchTransactionList]);
+
+  // Use cachedFetchTransactionInfo in useEffect
+  useEffect(() => {
+    cachedFetchTransactionInfo(selectedDate, selectedDate)
+      .then((data) => {
+        setAccInfo({
+          income: data.total_income,
+          expense: data.total_expense,
+          balance: data.total_balance,
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [selectedDate, cachedFetchTransactionInfo]);
 
   function arrowBtnClickHandler(e) {
     const newDate = new Date(props.week);

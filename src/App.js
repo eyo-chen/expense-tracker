@@ -25,7 +25,7 @@ function App() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [errorModal] = useErrorModal();
   const { displayTheme, setDisplayTheme } = useContext(DisplayThemeContext);
-  const { userInfo } = useContext(UserInfoContext);
+  const { userInfo, loading: userInfoLoading } = useContext(UserInfoContext);
 
   // setup display theme
   useEffect(() => {
@@ -42,15 +42,17 @@ function App() {
     setDisplayTheme(theme);
   }, [displayTheme]);
 
+  const isLoading = loading || userInfoLoading;
+
   // setup app content
   useEffect(() => {
     let appContent = <Auth />;
 
-    if (loading) {
+    if (isLoading) {
       appContent = <Loading />;
     }
 
-    if (!loading && !isEmpty(userInfo) && userInfo.is_set_init_category) {
+    if (!isLoading && !isEmpty(userInfo) && userInfo.is_set_init_category) {
       appContent =
         <div className={`${style["app__container"]} center`}>
           {showSidebar ? (
@@ -82,12 +84,12 @@ function App() {
       </div>
     }
 
-    if (!loading && !isEmpty(userInfo) && !userInfo.is_set_init_category) {
+    if (!isLoading && !isEmpty(userInfo) && !userInfo.is_set_init_category) {
       appContent = <InitialData setLoading={setLoading} />
     }
 
     setAppContent(appContent);
-  }, [userInfo, loading]);
+  }, [userInfo, loading, userInfoLoading]);
 
   function menuClickHandler() {
     setShowSidebar((prev) => !prev);

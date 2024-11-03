@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import UpdateStateContext from "../../../../store/updateState/updateState--context";
 import timeObj from "../../../../Others/TimeObj/timeObj";
 import createYearMonthDay from "../../../../Others/CreateYearMonthDay/createYearMonthDay";
@@ -12,6 +12,10 @@ import styles from "./CalendarTable.module.css";
 const { YEAR: year, MONTH: month, DAY: today } = timeObj;
 const [YEAR, MONTH, TODAY] = coerceNumber(year, month, today);
 
+const cache = {
+  monthlyData: new Map(),
+};
+
 function CreateCalendarTable(date, showExpenseListModalHandler) {
   const { updateState } = useContext(UpdateStateContext);
   const [dataYear, dataMonth] = createYearMonthDay(date);
@@ -20,6 +24,11 @@ function CreateCalendarTable(date, showExpenseListModalHandler) {
   let key = String(dataYear);
   if (dataMonth >= 10) key += `-${String(dataMonth)}`;
   else key += `-0${String(dataMonth)}`;
+
+  // Clear cache when updateState changes
+  useEffect(() => {
+    cache.monthlyData.clear();
+  }, [updateState]);
 
   const [
     lastOfCurMonthDate,
@@ -30,10 +39,24 @@ function CreateCalendarTable(date, showExpenseListModalHandler) {
     lastDayOfCurMonth,
   ] = createCalendarPreData(date);
 
+
+  // Create a memoized cachedFetchMonthlyData function
+  const cachedFetchMonthlyData = useMemo(() => {
+    return async (startDate, endDate, year, month) => {
+      const cacheKey = `${year}-${month}`;
+      if (cache.monthlyData.has(cacheKey)) {
+        return cache.monthlyData.get(cacheKey);
+      }
+      const data = await fetchMonthlyData(startDate, endDate);
+      cache.monthlyData.set(cacheKey, data);
+      return data;
+    };
+  }, [updateState]); // Recreate when updateState changes
+
   useEffect(() => {
     setLoading(true);
 
-    fetchMonthlyData(firstDayOfCurMonth, lastDayOfCurMonth)
+    cachedFetchMonthlyData(firstDayOfCurMonth, lastDayOfCurMonth, date.getFullYear(), date.getMonth() + 1)
       .then((res) => {
         setMonthlyData(res);
       })
@@ -43,7 +66,7 @@ function CreateCalendarTable(date, showExpenseListModalHandler) {
       .finally(() => {
         setLoading(false);
       });
-  }, [firstDayOfCurMonth, lastDayOfCurMonth, updateState]);
+  }, [firstDayOfCurMonth, lastDayOfCurMonth, date, cachedFetchMonthlyData]);
 
   if (loading) {
     return <Loading className={styles["loading"]} />;

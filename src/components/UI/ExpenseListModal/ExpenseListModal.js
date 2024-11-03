@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from "react";
-import UpdateStateContext from "../../../store/updateState/updateState--context";
+import { useState, useEffect, useMemo } from "react";
 import style from "./ExpenseListModal.module.css";
 import ExpenseList from "../ExpenseList/ExpenseList";
 import SubTitle from "../SubTitle/SubTitle";
@@ -10,18 +9,25 @@ import fetcher from "../../../Others/Fetcher/fetcher";
 import Loading from "../Loading/Loading";
 
 function ExpenseListModal(props) {
-  const { updateState } = useContext(UpdateStateContext);
   const [transactionList, setTransactionList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  function addClickHandler() {
-    props.expenseListModalToggler();
-    props.addDataFormModalToggler();
-  }
+  // Create memoized cached fetch function
+  const cachedFetchTransactionList = useMemo(() => {
+    return async (startDate, endDate) => {
+      if (props.cache.transactionList.has(`${startDate}-${endDate}`)) {
+        return props.cache.transactionList.get(`${startDate}-${endDate}`  );
+      }
+      const data = await fetchTransactionList(startDate, endDate);
+      props.cache.transactionList.set(`${startDate}-${endDate}`, data);
+      return data;
+    };
+  }, []);
+
 
   useEffect(() => {
     setLoading(true);
-    fetchTransactionList(props.selectedDate, props.selectedDate)
+    cachedFetchTransactionList(props.selectedDate, props.selectedDate)
       .then((data) => {
         setTransactionList(data);
       })
@@ -31,7 +37,12 @@ function ExpenseListModal(props) {
       .finally(() => {
         setLoading(false);
       });
-  }, [props.selectedDate, updateState]);
+  }, [props.selectedDate, cachedFetchTransactionList]);
+
+  function addClickHandler() {
+    props.expenseListModalToggler();
+    props.addDataFormModalToggler();
+  }
 
   let scrollClassName = null;
   if (transactionList.length > 6) scrollClassName = "scroll";

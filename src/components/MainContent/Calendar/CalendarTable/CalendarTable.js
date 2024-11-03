@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import UpdateStateContext from "../../../../store/updateState/updateState--context";
 import Title from "../../../UI/Title/Title";
 import ExpenseListModal from "../../../UI/ExpenseListModal/ExpenseListModal";
 import AddDataForm from "../../../UI/AddDataForm/AddDateForm";
@@ -9,11 +10,17 @@ import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
 import useModalCard from "../../../../Others/Custom/useModalCard";
 import CreateCalendarTable from "./CreateCalendarTable";
+import fetcher from "../../../../Others/Fetcher/fetcher";
 import styles from "./CalendarTable.module.css";
 
 const dateOptObj = { month: "long" };
 
+const cache = {
+  transactionList: new Map(),
+};
+
 function CalendarTable(props) {
+  const { updateState } = useContext(UpdateStateContext);
   const [selectedDate, setSelectedDate] = useState(props.month);
   const [modalCard, modalCardToggler] = useModalCard();
   const [expenseListModal, setExpenseListModal] = useState(false);
@@ -45,11 +52,16 @@ function CalendarTable(props) {
     }
   }
 
+  useEffect(() => {
+    cache.transactionList.clear();
+  }, [updateState]);
+
   return (
     <>
       {expenseListModal && (
         <ExpenseListModal
           selectedDate={selectedDate}
+          cache={cache}
           expenseListModalToggler={expenseListModalToggler}
           addDataFormModalToggler={addDataFormModalToggler}
         />

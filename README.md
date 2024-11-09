@@ -1,34 +1,38 @@
-[中文版本](Readme-Chinese/READMECHINESE.md)
+# About the project
 
-In this readme file, you will find all the information about this project
+A production-grade expense tracking application built with React and hosted on AWS infrastructure. The application utilizes:
 
-To save time, I'll recommend that you read this readme in this order:
+- **Amazon S3** for static content hosting
+- **CloudFront CDN** for global content delivery and edge caching
+- **GitHub Actions** for automated CI/CD pipeline
 
-(1) watch the [demo video](https://github.com/OYE0303/expense-tracker#demo-video)
+> 🔗 **Backend Repository**: [expense-tracker-go](https://github.com/eyo-chen/expense-tracker-go)
 
-(2) [special technique](https://github.com/OYE0303/expense-tracker#special-technique)
 
-(3) [reflection](https://github.com/OYE0303/expense-tracker#reflection)
+## Features
+
+- Track daily expenses and income
+- Add, edit, and remove transactions
+- Data visualization with charts and graphs
+- Custom icon upload support
+- Customizable categories (add/remove)
+- Generate financial insights and reports
+- Responsive design for desktop and mobile use
+- Dark/light mode support
 
 &nbsp;
 
-# Update
-
-I'm currently build the backend for this project at [here](https://github.com/OYE0303/expense-tracker-go)
-
 # Overview
 
-1. [About the project](https://github.com/OYE0303/expense-tracker#about-the-project)
+1. [The motivation behind the project](https://github.com/OYE0303/expense-tracker#the-motivation-behind-the-project)
 
-2. [The motivation behind the project](https://github.com/OYE0303/expense-tracker#the-motivation-behind-the-project)
+2. [Technologies used](https://github.com/OYE0303/expense-tracker#technologies-used)
 
-3. [Technologies used](https://github.com/OYE0303/expense-tracker#technologies-used)
+3. [Demo Video](https://github.com/OYE0303/expense-tracker#demo-video)
 
-4. [Demo Video](https://github.com/OYE0303/expense-tracker#demo-video)
+4. [Project overview](https://github.com/OYE0303/expense-tracker#project-overview)
 
-5. [Project overview](https://github.com/OYE0303/expense-tracker#project-overview)
-
-6. [Dig into detail](https://github.com/OYE0303/expense-tracker#dig-into-detail)
+5. [Dig into detail](https://github.com/OYE0303/expense-tracker#dig-into-detail)
 
    1. [Format the representation of money](https://github.com/OYE0303/expense-tracker#1-format-the-representation-of-money)
 
@@ -36,7 +40,7 @@ I'm currently build the backend for this project at [here](https://github.com/OY
 
    3. [Prevent users from entering the same category name again](https://github.com/OYE0303/expense-tracker#3-prevent-users-from-entering-the-same-category-name-again)
 
-7. [Special Technique](https://github.com/OYE0303/expense-tracker#special-technique)
+6. [Special Technique](https://github.com/OYE0303/expense-tracker#special-technique)
 
    1. [throttle function and useCurWidth custom hook](https://github.com/OYE0303/expense-tracker#1-throttle-function-and-usecurwidth-custom-hook)
 
@@ -44,19 +48,13 @@ I'm currently build the backend for this project at [here](https://github.com/OY
 
    3. [fetch image when the news image is not provided](https://github.com/OYE0303/expense-tracker#3-fetch-image-when-the-news-image-is-not-provided)
 
-8. [Reflection](https://github.com/OYE0303/expense-tracker#reflection)
+7. [Reflection](https://github.com/OYE0303/expense-tracker#reflection)
 
    - [What’s the main obstacle when building this project?](https://github.com/OYE0303/expense-tracker#whats-the-main-obstacle-when-building-this-project)
 
    - [What have I learned from this project?](https://github.com/OYE0303/expense-tracker#what-have-i-learned-from-this-project)
 
    - [What can be improved in this project?](https://github.com/OYE0303/expense-tracker#what-can-be-improved-in-this-project)
-
-&nbsp;
-
-# About the project
-
-This is a web-based expense tracker application. In the app, users may add, remove, and edit daily expense and income data. With the data users provide, this app may offer a variety of capabilities and assist users in managing their money in an orderly and effective manner.
 
 &nbsp;
 

@@ -13,6 +13,7 @@ function FormDescription(props) {
         onChange={props.descriptionChangeHandler}
         classInput={styles.input}
         classLabel={`${styles.label} capitalize`}
+        disabled={props.disabled}
       />
     </FormContainer>
   );

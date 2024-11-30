@@ -14,6 +14,7 @@ function FormSubCategory(props) {
         className={styles.input}
         onChange={props.subCategoryChangeHandler}
         value={props.subCategory?.id}
+        disabled={props.disabled}
       >
         {props?.list?.map(({id, name}) => (
           <option value={id} key={id}>

@@ -13,6 +13,7 @@ function FormDate(props) {
         onChange={props.dateChangeHandler}
         classInput={styles.input}
         classLabel={`${styles.label} capitalize`}
+        disabled={props.disabled}
       />
     </FormContainer>
   );

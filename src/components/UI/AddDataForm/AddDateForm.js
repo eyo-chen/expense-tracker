@@ -10,10 +10,12 @@ import FormDescription from "./FormDescription";
 import FormSubCategory from "./FormSubCategory";
 import FormMainCategory from "./FormMainCategory";
 import FormTitle from "./FormTitle";
+import Loading from "../Loading/Loading";
 import styles from "./AddDataForm.module.css";
 import fetcher from "../../../Others/Fetcher/fetcher";
 
 function AddDataForm(props) {
+  const [loading, setLoading] = useState(false);
   const [isInitialMainCateg, setIsInitialMainCateg] = useState(true);
   const { updateStateHandler } = useContext(UpdateStateContext);
 
@@ -110,6 +112,8 @@ function AddDataForm(props) {
       price: Number(formData.price),
     };
 
+    setLoading(true);
+
     if (props.editDataInfo) {
       try {
         await updateTransaction(props.editDataInfo.id, newFormData);
@@ -125,8 +129,15 @@ function AddDataForm(props) {
       }
     }
 
-    props.addDataFormModalToggler();
+    addDataFormModalToggler();
     updateStateHandler();
+    setLoading(false);
+  }
+
+  function addDataFormModalToggler() {
+    if (!loading) {
+      props.addDataFormModalToggler();
+    }
   }
 
   useEffect(() => {
@@ -167,12 +178,13 @@ function AddDataForm(props) {
   }, [formData.mainCateg]);
 
   return (
-    <Modal onClick={props.addDataFormModalToggler} classModal={styles.modal}>
+    <Modal onClick={addDataFormModalToggler} classModal={styles.modal}>
       <form onSubmit={formSubmitHandler} className={styles.form}>
         <FormTitle
           type={formData.type}
           categoryChangeHandler={typeChangeHandler}
           isEditing={!!props.editDataInfo}
+          disabled={loading}
         />
         <HorizontalLine />
         <div className={styles["form__container"]}>
@@ -181,21 +193,25 @@ function AddDataForm(props) {
             mainCateg={formData.mainCateg}
             mainCategoryChangeHandler={mainCategoryChangeHandler}
             edit={!(props.oldExpenseData === undefined)}
+            disabled={loading}
           />
 
           <FormSubCategory
             list={formData.subCategList}
             subCategory={formData.subCateg}
+            disabled={loading}
             subCategoryChangeHandler={subCategoryChangeHandler}
           />
 
           <FormDescription
             description={formData.description}
+            disabled={loading}
             descriptionChangeHandler={descriptionChangeHandler}
           />
 
           <FormDate
             date={formData.date}
+            disabled={loading}
             dateChangeHandler={dateChangeHandler}
           />
 
@@ -204,17 +220,23 @@ function AddDataForm(props) {
             priceTouch={formData.priceTouch}
             isValid={formData.isValid}
             isTooLarge={formData.isTooLarge}
+            disabled={loading}
             priceChangeHandler={priceChangeHandler}
             inputPriceTouchHandler={inputPriceTouchHandler}
           />
 
-          <FormBtn
-            addDataFormModalToggler={props.addDataFormModalToggler}
-            isValid={formData.isValid}
-            isCategValid={!!formData.mainCateg?.id && !!formData.subCateg?.id}
-            isTooLarge={formData.isTooLarge}
-            editDataInfo={props.editDataInfo}
-          />
+          {loading 
+            ? <div className={styles["loading__container"]}>
+                <Loading className={styles.loading} />
+              </div>
+            : <FormBtn
+              addDataFormModalToggler={addDataFormModalToggler}
+              isValid={formData.isValid}
+              isCategValid={!!formData.mainCateg?.id && !!formData.subCateg?.id}
+              isTooLarge={formData.isTooLarge}
+              editDataInfo={props.editDataInfo}
+            />
+          }
         </div>
       </form>
     </Modal>

@@ -26,7 +26,9 @@ jobs:
         run: npm install
 
       - name: Build React app
-        run: npm run build
+        run: |
+          cp .env.production .env
+          npm run build
         env:
           CI: false
 
@@ -43,3 +45,7 @@ jobs:
           aws s3 rm s3://${{ secrets.S3_BUCKET }} --recursive
           # Upload new build files
           aws s3 sync build/ s3://${{ secrets.S3_BUCKET }} --delete
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"

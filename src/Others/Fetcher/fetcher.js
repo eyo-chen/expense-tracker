@@ -19,7 +19,7 @@ async function refreshTokenAndRetry(retryOriginalRequest) {
     isRefreshing = true;
     try {
       const refreshToken = getRefreshToken();
-      const url = process.env.REACT_APP_API_URL || "http://localhost:8000";
+      const url = process.env.REACT_APP_API_URL;
       const response = await axios.get(`${url}/v1/user/token?refresh_token=${refreshToken}`);
       const newToken = response.data;
       setToken(newToken);
@@ -39,7 +39,7 @@ async function refreshTokenAndRetry(retryOriginalRequest) {
 }
 
 async function fetcher(endpoint, method, data, retryCount = 0) {
-  const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:8000";
+  const baseUrl = process.env.REACT_APP_API_URL;
   const url = `${baseUrl}/${endpoint}`;
 
   try {

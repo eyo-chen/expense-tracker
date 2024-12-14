@@ -21,10 +21,6 @@ function Welcome(props) {
     props.setAuthState("signup");
   }
 
-  function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   async function demoHandler() {
     setLoading(true);
 

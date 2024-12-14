@@ -27,7 +27,7 @@ jobs:
 
       - name: Build React app
         run: |
-          cp .env.production .env
+          cp .env.example .env
           npm run build
         env:
           CI: false

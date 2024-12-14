@@ -1,5 +1,5 @@
 .modal {
-  height: 70vh;
+  height: 80vh;
   flex-direction: column;
   justify-content: space-around;
 }
@@ -24,18 +24,37 @@
 
 .btn--container {
   width: 40%;
+  height: 45%;
+}
+
+.btn.btn--first {
+  margin-top: 2.5rem;
 }
 
 .btn {
   background-color: var(--btn-bg);
   padding: 1.5rem;
   font-size: 2rem;
-  margin-top: 5rem;
+  margin-top: 4rem;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
   width: 100%;
   justify-content: center;
+}
+
+.loading--container {
+  height: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading {
+  position: relative;
+  top: 0%;
+  left: 0%;
+  transform: translate(0%, 0%);
 }
 
 .btn:hover {

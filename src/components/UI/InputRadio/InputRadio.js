@@ -29,6 +29,7 @@ function InputRadio(props) {
         value={props.value}
         className={classNameInput}
         aria-label={props.ariaLabel}
+        disabled={props.disabled}
       />
       <div className={classNameCheck}>
         <div className={classNameInside}></div>

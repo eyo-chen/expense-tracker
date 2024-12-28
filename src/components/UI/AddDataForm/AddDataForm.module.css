@@ -92,6 +92,16 @@
   font-size: 2rem;
 }
 
+.loading__container {
+  position: relative;
+  width: 90%;
+}
+
+.loading__container .loading {
+  width: 4rem;
+  height: 4rem;
+}
+
 @media screen and (max-width: 1200px) {
   .modal {
     width: 43%;

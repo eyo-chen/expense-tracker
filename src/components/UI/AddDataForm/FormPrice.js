@@ -24,6 +24,7 @@ function FormPrice(props) {
         className={classInput}
         value={props.price}
         id="price"
+        disabled={props.disabled}
       ></input>
       <Warning index={invalid || props.isTooLarge} className={styles.warning}>
         {warningText}

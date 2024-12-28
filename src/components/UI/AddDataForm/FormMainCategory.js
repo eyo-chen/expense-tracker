@@ -23,6 +23,7 @@ function FormMainCategory(props) {
         className={styles.input}
         onChange={props.mainCategoryChangeHandler}
         value={props.mainCateg?.id}
+        disabled={props.disabled}
       >
         {props?.list.map(({id, name}) => (
           <option value={id} key={id}>

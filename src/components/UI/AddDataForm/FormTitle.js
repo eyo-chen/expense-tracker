@@ -13,6 +13,7 @@ function FormTitle(props) {
       id="expense"
       onChange={props.categoryChangeHandler}
       checked={props.type === "expense"}
+      disabled={props.disabled}
     />
   );
 
@@ -27,6 +28,7 @@ function FormTitle(props) {
       id="income"
       onChange={props.categoryChangeHandler}
       checked={props.type === "income"}
+      disabled={props.disabled}
     />
   );
 

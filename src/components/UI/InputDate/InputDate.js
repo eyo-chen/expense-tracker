@@ -19,6 +19,7 @@ function InputDate(props) {
         min={props.min}
         required={true}
         placeholder="mm/dd/yyyy"
+        disabled={props.disabled}
       ></input>
     </>
   );

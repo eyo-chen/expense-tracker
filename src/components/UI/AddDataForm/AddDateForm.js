@@ -129,9 +129,9 @@ function AddDataForm(props) {
       }
     }
 
+    setLoading(false);
     addDataFormModalToggler();
     updateStateHandler();
-    setLoading(false);
   }
 
   function addDataFormModalToggler() {

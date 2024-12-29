@@ -15,15 +15,16 @@ function ExpenseListModal(props) {
   // Create memoized cached fetch function
   const cachedFetchTransactionList = useMemo(() => {
     return async (startDate, endDate) => {
-      if (props.cache.transactionList.has(`${startDate}-${endDate}`)) {
-        return props.cache.transactionList.get(`${startDate}-${endDate}`  );
+      const cacheKey = `${startDate}-${endDate}-${props.updateState}`;
+      if (props.cache.transactionList.has(cacheKey)) {
+        return props.cache.transactionList.get(cacheKey);
       }
       const data = await fetchTransactionList(startDate, endDate);
-      props.cache.transactionList.set(`${startDate}-${endDate}`, data);
+
+      props.cache.transactionList.set(cacheKey, data);
       return data;
     };
-  }, []);
-
+  }, [props.updateState]);
 
   useEffect(() => {
     setLoading(true);
@@ -37,7 +38,7 @@ function ExpenseListModal(props) {
       .finally(() => {
         setLoading(false);
       });
-  }, [props.selectedDate, cachedFetchTransactionList]);
+  }, [props.selectedDate, props.updateState]);
 
   function addClickHandler() {
     props.expenseListModalToggler();

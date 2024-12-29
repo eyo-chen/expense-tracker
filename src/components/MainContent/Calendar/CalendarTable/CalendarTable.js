@@ -61,6 +61,7 @@ function CalendarTable(props) {
         <ExpenseListModal
           selectedDate={selectedDate}
           cache={cache}
+          updateState={updateState}
           expenseListModalToggler={expenseListModalToggler}
           addDataFormModalToggler={addDataFormModalToggler}
         />

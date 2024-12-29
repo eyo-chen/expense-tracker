@@ -10,7 +10,6 @@ import BtnIcon from "../../../UI/BtnIcon/BtnIcon";
 import useAddDataForm from "../../../../Others/Custom/useAddDataForm";
 import useModalCard from "../../../../Others/Custom/useModalCard";
 import CreateCalendarTable from "./CreateCalendarTable";
-import fetcher from "../../../../Others/Fetcher/fetcher";
 import styles from "./CalendarTable.module.css";
 
 const dateOptObj = { month: "long" };
@@ -62,6 +61,7 @@ function CalendarTable(props) {
         <ExpenseListModal
           selectedDate={selectedDate}
           cache={cache}
+          updateState={updateState}
           expenseListModalToggler={expenseListModalToggler}
           addDataFormModalToggler={addDataFormModalToggler}
         />

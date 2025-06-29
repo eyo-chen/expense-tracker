@@ -16,69 +16,84 @@
   margin-top: 1rem;
 }
 
-.input {
-  width: 90%;
-  font-size: 1.8rem;
-  margin-top: 1rem;
-  letter-spacing: 1px;
+.form__container {
+  margin-left: 2rem;
 }
 
-.input:hover ~ .title {
-  color: var(--font-normal);
+.form__field {
+  margin-top: 3rem;
+  position: relative;
 }
 
-.input:checked ~ .title {
-  color: var(--font-normal);
+.form__date {
+  margin-bottom: 8rem;
 }
 
-.input:checked ~ .expense {
-  background-color: var(--blue);
-  width: 80%;
-}
-
-.input:checked ~ .income {
-  background-color: var(--pink);
-  width: 80%;
-}
-
-.check {
-  width: 0%;
-  height: 0.3rem;
-  position: absolute;
-  top: 95%;
-  left: 10%;
-  z-index: 10;
-}
-
-.label {
+.form__label {
   font-size: 1.8rem;
   font-weight: 300;
   display: flex;
   align-items: center;
 }
 
-.icon {
-  margin-left: 1rem;
+.form__input {
+  width: 90%;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
 }
 
-.form__container {
-  margin-left: 2rem;
+.form__input:hover ~ .title {
+  color: var(--font-normal);
 }
 
-.warning {
-  margin-top: 0.5rem;
+.form__input:checked ~ .title {
+  color: var(--font-normal);
+}
+
+.form__input:checked ~ .stock {
+  background-color: var(--blue);
+  width: 80%;
+}
+
+.form__input:checked ~ .transfer {
+  background-color: var(--pink);
+  width: 80%;
+}
+
+.form__select {
+  width: 90%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 1.8rem;
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: var(--input-bg);
+  color: var(--input-ft);
+}
+
+.form__input:focus,
+.form__select:focus {
+  border-color: var(--blue);
+}
+
+.form__input:disabled,
+.form__select:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.form__error {
+  color: #dc3545;
   font-size: 1.4rem;
-}
-
-.price__container {
-  margin-bottom: 4rem;
+  margin: 0;
+  margin-top: 0.5rem;
 }
 
 .btn__container {
   display: flex;
   justify-content: space-around;
-  gap: 3rem;
   margin-left: -1rem;
+  margin-top: 8rem;
 }
 
 .btn__container button {
@@ -100,52 +115,48 @@
   height: 4rem;
 }
 
+.check {
+  width: 0%;
+  height: 0.3rem;
+  position: absolute;
+  top: 95%;
+  left: 10%;
+  z-index: 10;
+}
+
+.warning {
+  margin-top: 0.5rem;
+  font-size: 1.4rem;
+}
+
+
 @media screen and (max-width: 1200px) {
-  .modal {
-    width: 43%;
-  }
-  .title {
+  .title__text {
     font-size: 3.8rem;
   }
 
-  .label {
+  .form__label {
     font-size: 2.3rem;
   }
 
-  .input {
+  .form__input,
+  .form__select {
     font-size: 1.8rem;
   }
 
-  .warning--show {
+  .form__error {
     font-size: 1.3rem;
   }
 }
 
 @media screen and (max-width: 1100px) {
-  .modal {
-    width: 48%;
-  }
-
-  .warning--show {
+  .form__error {
     font-size: 1.5rem;
   }
 }
 
 @media screen and (max-width: 1000px) {
-  .modal {
-    width: 50%;
+  .form {
     height: 80%;
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .modal {
-    width: 60%;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .modal {
-    width: 75%;
   }
 }

@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import StockSmallCard from "./StockSmallCard";
 import formatMoney from "../../../../Others/FormatMoney/formatMoney";
 import styles from "./StockCard.module.css";
 import fetcher from "../../../../Others/Fetcher/fetcher";
+import UpdateStateContext from "../../../../store/updateState/updateState--context";
 
 function StockCard() {
   const [portfolioInfo, setPortfolioInfo] = useState({
@@ -11,6 +12,7 @@ function StockCard() {
     roi: 0,
   });
   const [loading, setLoading] = useState(false);
+  const { updateState } = useContext(UpdateStateContext);
 
   useEffect(() => {
     setLoading(true);
@@ -25,8 +27,7 @@ function StockCard() {
     }).catch((error) => {
       console.error("Error fetching data:", error);
     }).finally(() => setLoading(false));
-  }
-  , []);
+  }, [updateState]);
 
   return (
     <div className={styles["card__container"]}>

@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import StockListSection from "./StockListSection/StockListSection";
 import styles from "./StockList.module.css";
 import fetcher from "../../../../Others/Fetcher/fetcher";
+import UpdateStateContext from "../../../../store/updateState/updateState--context";
 
 function StockList() {
   const [stockList, setStockList] = useState({
@@ -9,6 +10,7 @@ function StockList() {
     stocks: [],
     cash: []
   });
+  const { updateState } = useContext(UpdateStateContext);
 
   useEffect(() => {
     fetchStockPortfolio().then((data) => {
@@ -20,7 +22,7 @@ function StockList() {
     }).catch((error) => {
       console.error("Error fetching data:", error);
     });
-  }, []);
+  }, [updateState]);
 
   return (
     <div className={styles.container}>  

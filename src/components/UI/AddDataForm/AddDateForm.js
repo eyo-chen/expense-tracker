@@ -20,14 +20,14 @@ function AddDataForm(props) {
   const { updateStateHandler } = useContext(UpdateStateContext);
 
   let initialObj = {
-    type: "expense", 
+    type: "expense",
     mainCategList: [],
     subCategList: [],
     mainCateg: {},
     subCateg: {},
-    date:  props.date === undefined
-    ? createDateStringFormat(new Date())
-    : createDateStringFormat(new Date(props.date)),
+    date: props.date === undefined
+      ? createDateStringFormat(new Date())
+      : createDateStringFormat(new Date(props.date)),
     description: "",
     price: "",
     priceTouch: false,
@@ -168,7 +168,7 @@ function AddDataForm(props) {
       // If it's updating data, and it's the first time the main category is set, we don't want to set the first sub category as default
       // because we want to let the sub category be the same as the previous data(old data)
       if (!props.editDataInfo || !isInitialMainCateg) {
-        formDataDispatch({ type: "SUB_CATEGORY", value: data ? data[0] : null});
+        formDataDispatch({ type: "SUB_CATEGORY", value: data ? data[0] : null });
       }
 
       setIsInitialMainCateg(false);
@@ -225,10 +225,10 @@ function AddDataForm(props) {
             inputPriceTouchHandler={inputPriceTouchHandler}
           />
 
-          {loading 
+          {loading
             ? <div className={styles["loading__container"]}>
-                <Loading className={styles.loading} />
-              </div>
+              <Loading className={styles.loading} />
+            </div>
             : <FormBtn
               addDataFormModalToggler={addDataFormModalToggler}
               isValid={formData.isValid}

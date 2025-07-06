@@ -3,7 +3,6 @@ import Warning from "../Warning/Warning";
 import styles from "./AddStockForm.module.css";
 
 function FormSymbol(props) {
-  console.log("props.symbol.trim().length", props.symbol.trim().length)
   const invalid = props.symbolTouch && props.symbol.trim().length === 0;
 
   return (

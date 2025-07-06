@@ -8,11 +8,11 @@ function FormStockTitle(props) {
       classCheck={`${styles.stock} ${styles.check}`}
       classLabel={`${styles.title} uppercase transition--25`}
       label="stock/ETF"
-      name="stockType"
-      value="STOCKS"
+      name="actionType"
+      value="BUY"
       id="stock"
-      onChange={props.stockTypeChangeHandler}
-      checked={props.stockType === "STOCKS" || props.stockType === "ETF"}
+      onChange={props.actionTypeChangeHandler}
+      checked={props.actionType === "BUY" || props.actionType === "SELL"}
       disabled={props.disabled}
     />
   );
@@ -23,11 +23,11 @@ function FormStockTitle(props) {
       classCheck={`${styles.transfer} ${styles.check}`}
       classLabel={`${styles.title} uppercase transition--25`}
       label="transfer"
-      name="stockType"
+      name="actionType"
       value="TRANSFER"
       id="transfer"
-      onChange={props.stockTypeChangeHandler}
-      checked={props.stockType === "TRANSFER"}
+      onChange={props.actionTypeChangeHandler}
+      checked={props.actionType === "TRANSFER"}
       disabled={props.disabled}
     />
   );

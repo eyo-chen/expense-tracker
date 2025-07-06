@@ -124,10 +124,10 @@ function AddStockForm(props) {
   return (
     <Modal onClick={addStockFormModalToggler} classModal={styles.modal}>
       <form onSubmit={formSubmitHandler} className={styles.form}>
-        <FormStockTitle title="Add Stock" stockType={formData.stockType} stockTypeChangeHandler={stockTypeChangeHandler} />
+        <FormStockTitle title="Add Stock" actionType={formData.actionType} actionTypeChangeHandler={actionTypeChangeHandler} />
         <HorizontalLine />
         <div className={styles["form__container"]}>
-          {(formData.stockType === "STOCKS" || formData.stockType === "ETF") && (
+          {formData.actionType !== "TRANSFER" && (
             <FormSymbol
               symbol={formData.symbol}
               symbolTouch={formData.symbolTouch}
@@ -145,7 +145,7 @@ function AddStockForm(props) {
             inputPriceTouchHandler={inputPriceTouchHandler}
           />
 
-          {(formData.stockType === "STOCKS" || formData.stockType === "ETF") && (
+          {formData.actionType !== "TRANSFER" && (
             <FormQuantity
               quantity={formData.quantity}
               quantityTouch={formData.quantityTouch}
@@ -155,7 +155,7 @@ function AddStockForm(props) {
             />
           )}
 
-          {(formData.stockType === "STOCKS" || formData.stockType === "ETF") && (
+          {formData.actionType !== "TRANSFER" && (
             <FormStockType
               stockType={formData.stockType}
               disabled={loading}
@@ -163,7 +163,7 @@ function AddStockForm(props) {
             />
           )}
 
-          {(formData.stockType === "STOCKS" || formData.stockType === "ETF") && (
+          {formData.actionType !== "TRANSFER" && (
             <FormActionType
               actionType={formData.actionType}
               disabled={loading}
@@ -208,19 +208,7 @@ function reducer(state, action) {
     }
 
     case "STOCK_TYPE": {
-      const newState = {
-        symbol: "",
-        stockType: action.value,
-        price: "0",
-        quantity: "1",
-        actionType: "BUY",
-        symbolTouch: false,
-        priceTouch: false,
-        quantityTouch: false,
-        isValid: false,
-      }
-
-      return newState;
+      return { ...state, stockType: action.value }
     }
 
     case "PRICE": {
@@ -243,7 +231,23 @@ function reducer(state, action) {
     }
 
     case "ACTION_TYPE": {
-      return { ...state, actionType: action.value };
+      if (action.value !== "TRANSFER")
+        return { ...state, actionType: action.value };
+
+      const newState = {
+        symbol: "",
+        stockType: "STOCKS",
+        price: "0",
+        quantity: "1",
+        actionType: action.value,
+        symbolTouch: false,
+        priceTouch: false,
+        quantityTouch: false,
+        isValid: false,
+        date: new Date().toISOString().split("T")[0],
+      }
+
+      return newState;
     }
 
     case "DATE": {

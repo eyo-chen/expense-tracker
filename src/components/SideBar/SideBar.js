@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
-import { AiOutlineBarChart } from "react-icons/ai";
+import { AiOutlineBarChart, AiOutlineStock } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
 import { AiFillSetting } from "react-icons/ai";
 import { MdAccountCircle } from "react-icons/md";
@@ -37,6 +37,13 @@ const SIDEBAR__ICON = [
     "Search",
     <FaSearch
       aria-label="search"
+      className={`${styles["sidebar__icon"]} transition--25`}
+    />,
+  ],
+  [
+    "Stock",
+    <AiOutlineStock
+      aria-label="stock"
       className={`${styles["sidebar__icon"]} transition--25`}
     />,
   ],

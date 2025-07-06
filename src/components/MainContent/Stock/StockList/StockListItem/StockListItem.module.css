@@ -1,0 +1,68 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 1rem 0;
+}
+
+.item__info {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 1.8rem;
+}
+
+.item__symbol {
+  min-width: 8rem;
+}
+
+.item__details {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  margin-left: 3rem;
+}
+
+.item__price,
+.item__quantity,
+.item__avgCost,
+.item__percentage {
+  min-width: 10rem;
+  text-align: right;
+}
+
+.item__divider {
+  height: 1px;
+  width: 100%;
+  border: none;
+  background-color: var(--line-list);
+  border-radius: 10px;
+  justify-self: center;
+}
+
+
+@media screen and (max-width: 1300px) {
+  .item {
+    margin: 0 1rem;
+  }
+  
+  .item__info {
+    font-size: 1.6rem;
+  }
+  
+  .item__symbol {
+    min-width: 6rem;
+  }
+  
+  .item__details {
+    margin-left: 1rem;
+  }
+  
+  .item__price,
+  .item__quantity,
+  .item__avgCost,
+  .item__percentage {
+    min-width: 8rem;
+  }
+} 

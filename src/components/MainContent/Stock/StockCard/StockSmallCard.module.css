@@ -1,0 +1,48 @@
+.card {
+  padding: 1rem 2rem;
+  flex: 1 1 15rem;
+  background-color: var(--card-light-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.card__text {
+  justify-self: start;
+  font-weight: 200;
+}
+
+.card__number {
+  text-align: end;
+  letter-spacing: 3px;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.card__number--large {
+  cursor: pointer;
+}
+
+.loading {
+  position: relative;
+  top: 0%;
+  left: 0%;
+  align-self: end;
+  height: 4rem;
+  width: 4rem;
+}
+
+.loading__container {
+  text-align: end;
+}
+
+@media screen and (max-width: 800px) {
+  .card {
+    padding: 1rem 1.3rem;
+  }
+
+  /* fix flex gap */
+  .card__container div + div {
+    margin-left: 3rem;
+  }
+}

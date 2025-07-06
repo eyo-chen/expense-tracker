@@ -1,0 +1,17 @@
+.stock {
+  display: block;
+  padding: 3rem;
+  width: 100%;
+}
+
+@media screen and (max-width: 501px) {
+  .stock {
+    padding: 2rem 0;
+  }
+}
+
+.title {
+  display: flex;
+}
+
+

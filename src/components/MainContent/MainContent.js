@@ -6,6 +6,7 @@ import Calendar from "../MainContent/Calendar/Calendar";
 import Chart from "../MainContent/Chart/Chart";
 import Search from "../MainContent/Search/Search";
 import Account from "./Account/Account";
+import Stock from "./Stock/Stock"
 import Setting from "../MainContent/Setting/Setting";
 import Backdrop from "../UI/Modal/Backdrop";
 import { Routes, Route } from "react-router-dom";
@@ -23,6 +24,7 @@ function MainContent(props) {
       <Route path="search" element={<Search />} />
       <Route path="account" element={<Account />} />
       <Route path="setting" element={<Setting />} />
+      <Route path="stock" element={<Stock />} />
       <Route path="*" element={<Fallback />} />
     </Routes>
   );
@@ -37,9 +39,8 @@ function MainContent(props) {
       </main>
 
       <Backdrop
-        classBackdrop={`${styles.overlay} ${
-          props.showSidebar ? styles["overlay--show"] : ""
-        }`}
+        classBackdrop={`${styles.overlay} ${props.showSidebar ? styles["overlay--show"] : ""
+          }`}
         onClick={props.menuClickHandler}
       />
     </>

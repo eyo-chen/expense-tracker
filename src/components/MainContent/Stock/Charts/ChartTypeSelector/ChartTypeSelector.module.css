@@ -1,0 +1,48 @@
+.chartTypeSelector {
+  margin-bottom: 2rem;
+}
+
+.chartTypes {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.chartType {
+  padding: 1rem 2rem;
+  border: 1px solid var(--line-low);
+  border-radius: 0.6rem;
+  background-color: transparent;
+  color: var(--font-normal);
+  cursor: pointer;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.chartType:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.active {
+  background-color: var(--blue);
+  border-color: var(--blue);
+  color: var(--white);
+}
+
+.active:hover {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+@media screen and (max-width: 600px) {
+  .chartType {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+  }
+  
+  .chartTypes {
+    gap: 0.8rem;
+  }
+}

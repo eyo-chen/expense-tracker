@@ -1,0 +1,39 @@
+.tabNavigation {
+  margin-bottom: 3rem;
+}
+
+.ul {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--line-low);
+}
+
+.ul li {
+  list-style: none;
+}
+
+.tab {
+  font-size: 1.6rem;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--font-normal);
+  border-bottom: 2px solid transparent;
+  position: relative;
+}
+
+.tab:hover {
+  color: var(--white-2);
+}
+
+.active {
+  color: var(--white-2);
+  border-bottom-color: var(--white-2);
+}
+
+@media screen and (max-width: 600px) {
+  .tab {
+    font-size: 1.4rem;
+    padding: 1.2rem 1.5rem;
+  }
+}

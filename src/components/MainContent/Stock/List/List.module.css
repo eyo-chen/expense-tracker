@@ -1,0 +1,21 @@
+.list {
+  padding: 2rem 0;
+}
+
+.placeholder {
+  text-align: center;
+  padding: 4rem 2rem;
+  border: 2px dashed var(--line-low);
+  border-radius: 0.8rem;
+  color: var(--font-light);
+}
+
+.placeholder h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--font-normal);
+}
+
+.placeholder p {
+  font-size: 1.4rem;
+}

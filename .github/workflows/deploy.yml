@@ -3,11 +3,7 @@ name: Deploy React App to S3
 on:
   push:
     branches:
-      - main
-    paths:
-      - 'src/**'            # Only trigger when files in src directory change
-      - 'package.json'      # Only trigger when package.json changes
-      - 'package-lock.json' # Only trigger when package-lock.json changes
+      - develop
 
 jobs:
   deploy:

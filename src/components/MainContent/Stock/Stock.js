@@ -1,14 +1,34 @@
+import { useState } from "react";
 import styles from "./Stock.module.css";
-import StockCard from "./StockCard/StockCard";
-import StockList from "./StockList/StockList";
 import StockTitle from "./StockTitle/StockTitle";
+import TabNavigation from "./TabNavigation/TabNavigation";
+import StockOverview from "./StockOverview/StockOverview";
+import Charts from "./Charts/Charts";
+import List from "./List/List";
 
 function Stock() {
+  const [activeTab, setActiveTab] = useState("0");
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "0":
+        return <StockOverview />;
+      case "1":
+        return <Charts />;
+      case "2":
+        return <List />;
+      default:
+        return <StockOverview />;
+    }
+  };
+
   return (
     <div className={styles.stock}>
       <StockTitle />
-      <StockCard />
-      <StockList />
+      <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className={styles.tabContent}>
+        {renderTabContent()}
+      </div>
     </div>
   );
 }

@@ -1,0 +1,4 @@
+.stockOverview {
+  display: flex;
+  flex-direction: column;
+}

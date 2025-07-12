@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import StockSmallCard from "./StockSmallCard";
-import formatMoney from "../../../../Others/FormatMoney/formatMoney";
+import formatMoney from "../../../../../Others/FormatMoney/formatMoney";
 import styles from "./StockCard.module.css";
-import fetcher from "../../../../Others/Fetcher/fetcher";
-import UpdateStateContext from "../../../../store/updateState/updateState--context";
+import fetcher from "../../../../../Others/Fetcher/fetcher";
+import UpdateStateContext from "../../../../../store/updateState/updateState--context";
 
 function StockCard() {
   const [portfolioInfo, setPortfolioInfo] = useState({

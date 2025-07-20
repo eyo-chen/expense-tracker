@@ -1,0 +1,46 @@
+.stockChart {
+  width: 100%;
+}
+
+.chartContainer {
+  background-color: var(--bg-card);
+  border-radius: 0.8rem;
+  padding: 2rem;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chartPic {
+  width: 100%;
+  height: 100%;
+}
+
+.placeholder {
+  text-align: center;
+  color: var(--font-light);
+  font-size: 1.6rem;
+}
+
+.loading {
+  width: 4rem;
+  height: 4rem;
+}
+
+@media screen and (max-width: 900px) {
+  .chartContainer {
+    height: 60rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .chartContainer {
+    padding: 1.5rem;
+    height: 50rem;
+  }
+
+  .placeholder {
+    font-size: 1.4rem;
+  }
+}

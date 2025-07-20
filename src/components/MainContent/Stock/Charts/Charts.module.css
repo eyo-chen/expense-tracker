@@ -1,21 +1,37 @@
 .charts {
-  padding: 2rem 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.placeholder {
-  text-align: center;
-  padding: 4rem 2rem;
-  border: 2px dashed var(--line-low);
-  border-radius: 0.8rem;
-  color: var(--font-light);
-}
-
-.placeholder h3 {
-  font-size: 2rem;
+.chartsHeader {
   margin-bottom: 1rem;
-  color: var(--font-normal);
 }
 
-.placeholder p {
+.title {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--font-normal);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
   font-size: 1.4rem;
+  color: var(--font-light);
+  margin: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .charts {
+    gap: 1.5rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+  }
 }

@@ -1,12 +1,29 @@
+import { useState } from "react";
+import ChartTypeSelector from "./ChartTypeSelector/ChartTypeSelector";
+import ChartFilters from "./ChartFilters/ChartFilters";
+import StockChart from "./StockChart/StockChart";
 import styles from "./Charts.module.css";
 
 function Charts() {
+  const [activeChartType, setActiveChartType] = useState("portfolio");
+  const [timePeriod, setTimePeriod] = useState("6M");
+
   return (
     <div className={styles.charts}>
-      <div className={styles.placeholder}>
-        <h3>Charts</h3>
-        <p>Chart components will be implemented here</p>
-      </div>
+      <ChartTypeSelector
+        activeChartType={activeChartType}
+        setActiveChartType={setActiveChartType}
+      />
+
+      <ChartFilters
+        timePeriod={timePeriod}
+        setTimePeriod={setTimePeriod}
+      />
+
+      <StockChart
+        activeChartType={activeChartType}
+        timePeriod={timePeriod}
+      />
     </div>
   );
 }
